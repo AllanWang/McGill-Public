@@ -18,7 +18,7 @@
 	So the test code recognizes it.
 
 
-	To use this, put this file in the same drectory as your hw1.ml,
+	To use this, put this file in the same drectory as your practice.ml,
 	launch ocaml, and execute:
 	```
 	#use "practice.ml";;

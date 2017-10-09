@@ -112,10 +112,9 @@ let q7 = casino_balance
 
 (* Q8: Can you sort the results by the amount they made? *)
 (* Reworded: Given a list of bets and a result, return the bets in ascending order of profit 
-There is also more than one way to do this
-I choose to map each bet into a (bet, am) pair so the amount calculation
-is only called once per bet. 
-If the function were to be very intensive, there would be performance increases (at the expense of a little bit of memory) *)
+There is more than one way to do this
+I chose to map each bet to a (bet, am) pair so the amount calculation is only called once per bet. 
+If the function were very intensive, there would be performance increases (at the expense of a little bit of memory) *)
 let sorted_bet_results bets result =
   bets |> List.map (fun bet -> (bet, compute bet result)) |> List.sort (fun (bet1, am1) (bet2, am2) -> am1 - am2) |> List.map (fun (bet, am) -> bet)
 
