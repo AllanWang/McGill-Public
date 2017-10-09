@@ -58,7 +58,7 @@ in class.
  *)
 
 (* Q1:  given a list of bets compute the results *)
-(* Reworded: Given a list of bets and a result, return a list of winners *)
+(* Reworded: Given a list of bets and a result, return a list of money won *)
 let compute_results bets result = 
   bets |> List.map (fun bet -> compute bet result)
 
