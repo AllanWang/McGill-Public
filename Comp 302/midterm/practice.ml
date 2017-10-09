@@ -63,12 +63,14 @@ let compute_results bets result =
   bets |> List.map (fun bet -> compute bet result)
 
 (* This is used to map the function to one that the test code understands *)
+(* bet list -> result -> list = <fun> *)
 let q1 = compute_results
 
 (* Q2: given a list of bets and a result compute a list of winning bets *)
 let winning_bets bets result =
   bets |> List.filter (fun bet -> compute bet result > 0)
 
+(* bet list -> result -> bet list = <fun> *)
 let q2 = winning_bets
 
 (* Q3: given a list of bets and a result compute how much money the casino needs to pay back *)
@@ -76,6 +78,7 @@ let q2 = winning_bets
 let bet_sum bets result =
   bets |> List.fold_left (fun sum bet -> sum + (compute bet result)) 0
 
+(* bet list -> result -> int = <fun> *)
 let q3 = bet_sum
 
 (* Q4: given a list of bets and a result compute if everyone won *)
@@ -83,6 +86,7 @@ let q3 = bet_sum
 let everyone_won bets result =
   bets |> List.for_all (fun bet -> compute bet result > 0)
 
+(* bet list -> result -> bool = <fun> *)
 let q4 = everyone_won
 
 (* Q5: given a list of bets and a result compute if someone won *)
@@ -90,6 +94,7 @@ let q4 = everyone_won
 let someone_won bets result =
   bets |> List.exists (fun bet -> compute bet result > 0)
 
+(* bet list -> result -> bool = <fun> *)
 let q5 = someone_won
 
 (* Q6: given a list of bets return the highest winning *)
@@ -97,6 +102,7 @@ let q5 = someone_won
 let highest_winning bets result =
   bets |> List.fold_left (fun m bet -> max (compute bet result) m) 0
 
+(* bet list -> result -> int = <fun> *)
 let q6 = highest_winning
 
 (* Level-up (a bit more complicated) *)
@@ -106,6 +112,7 @@ let q6 = highest_winning
 let casino_balance bets result =
   bets |> List.fold_left (fun net (am, col as bet) -> net + am - (compute bet result)) 0
 
+(* bets list -> result -> int = <fun> *)
 let q7 = casino_balance
 
 (* Ninja level  *)
@@ -118,4 +125,5 @@ If the function were very intensive, there would be performance increases (at th
 let sorted_bet_results bets result =
   bets |> List.map (fun bet -> (bet, compute bet result)) |> List.sort (fun (bet1, am1) (bet2, am2) -> am1 - am2) |> List.map (fun (bet, am) -> bet)
 
+(* bet list -> result -> bet list = <fun> *)
 let q8 = sorted_bet_results  
