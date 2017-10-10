@@ -60,7 +60,7 @@ in class.
 (* Q1:  given a list of bets compute the results *)
 (* Reworded: Given a list of bets and a result, return a list of money won *)
 let compute_results bets result = 
-  bets |> List.map (fun bet -> compute bet result)
+  List.map (fun bet -> compute bet result) bets
 
 (* This is used to map the function to one that the test code understands *)
 (* bet list -> result -> list = <fun> *)
@@ -68,7 +68,7 @@ let q1 = compute_results
 
 (* Q2: given a list of bets and a result compute a list of winning bets *)
 let winning_bets bets result =
-  bets |> List.filter (fun bet -> compute bet result > 0)
+  List.filter (fun bet -> compute bet result > 0) bets
 
 (* bet list -> result -> bet list = <fun> *)
 let q2 = winning_bets
@@ -76,7 +76,7 @@ let q2 = winning_bets
 (* Q3: given a list of bets and a result compute how much money the casino needs to pay back *)
 
 let bet_sum bets result =
-  bets |> List.fold_left (fun sum bet -> sum + (compute bet result)) 0
+  List.fold_left (fun sum bet -> sum + (compute bet result)) 0 bets
 
 (* bet list -> result -> int = <fun> *)
 let q3 = bet_sum
@@ -84,7 +84,7 @@ let q3 = bet_sum
 (* Q4: given a list of bets and a result compute if everyone won *)
 
 let everyone_won bets result =
-  bets |> List.for_all (fun bet -> compute bet result > 0)
+  List.for_all (fun bet -> compute bet result > 0) bets
 
 (* bet list -> result -> bool = <fun> *)
 let q4 = everyone_won
@@ -92,7 +92,7 @@ let q4 = everyone_won
 (* Q5: given a list of bets and a result compute if someone won *)
 
 let someone_won bets result =
-  bets |> List.exists (fun bet -> compute bet result > 0)
+  List.exists (fun bet -> compute bet result > 0) bets
 
 (* bet list -> result -> bool = <fun> *)
 let q5 = someone_won
@@ -100,7 +100,7 @@ let q5 = someone_won
 (* Q6: given a list of bets return the highest winning *)
 
 let highest_winning bets result =
-  bets |> List.fold_left (fun m bet -> max (compute bet result) m) 0
+  List.fold_left (fun m bet -> max (compute bet result) m) 0 bets
 
 (* bet list -> result -> int = <fun> *)
 let q6 = highest_winning
@@ -110,7 +110,7 @@ let q6 = highest_winning
 (* Q7: given a list of bets and a result compute the balance for the casino, how much it made *)
 
 let casino_balance bets result =
-  bets |> List.fold_left (fun net (am, col as bet) -> net + am - (compute bet result)) 0
+  List.fold_left (fun net (am, col as bet) -> net + am - (compute bet result)) 0 bets
 
 (* bets list -> result -> int = <fun> *)
 let q7 = casino_balance
@@ -121,7 +121,10 @@ let q7 = casino_balance
 (* Reworded: Given a list of bets and a result, return the bets in ascending order of profit 
 There is more than one way to do this
 I chose to map each bet to a (bet, am) pair so the amount calculation is only called once per bet. 
-If the function were very intensive, there would be performance increases (at the expense of a little bit of memory) *)
+If the function were very intensive, there would be performance increases (at the expense of a little bit of memory)
+In this case, I've used the reverse application function (let ( |> ) x f = f x).
+This is not necessary, but more closely represents the notation I am used to (Kotlin & Java 8 streams)
+*)
 let sorted_bet_results bets result =
   bets |> List.map (fun bet -> (bet, compute bet result)) |> List.sort (fun (bet1, am1) (bet2, am2) -> am1 - am2) |> List.map (fun (bet, am) -> bet)
 
