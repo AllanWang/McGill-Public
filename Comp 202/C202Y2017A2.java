@@ -16,6 +16,8 @@ public class MexicoTest {
         canPlay();
         if (errorLess)
             p("Congratulations; no errors found!");
+        else
+            p("An error was found somewhere above");
     }
 
     private static void diceRoll() {
@@ -59,12 +61,12 @@ public class MexicoTest {
         assertPlay(10, 10, true);
         assertPlay(2, 4, false);
         assertPlay(3, 2, false);
-        assertPlay(-4, 2, false);
+        assertPlay(-4, 2, true);
     }
 
     private static void assertPlay(double buy, double bet, boolean exp) {
         assertTrue(exp == Mexico.canPlay(buy, bet),
-                String.format("Expected buy of %f amd bet of %f to result in %b, but failed", buy, bet, exp));
+                String.format("Expected buy of %f amd bet of %f to result in '%b', but failed", buy, bet, exp));
     }
 
     private static void assertScore(int r1, int r2, int score) {
