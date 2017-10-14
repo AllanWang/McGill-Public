@@ -22,7 +22,7 @@ public class MexicoTest {
 
     private static void diceRoll() {
         header("Dice Roll");
-        Set<Integer> data = new HashSet<>();
+        Set<Integer> data = new HashSet<Integer>();
         for (int i = 0; i < 1000; i++) {
             int val = Mexico.diceRoll();
             if (val < 1 || val > 7) {
