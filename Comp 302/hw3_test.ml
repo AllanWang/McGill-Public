@@ -1,0 +1,93 @@
+(* 
+	Test code for hw3 - Comp 302
+	
+	*Warning* - I have no prior experience with OCaml.
+	If you encounter an issue that is not obviously solvable, let me know;
+	I may have made a mistake!
+	To use this, put this file in the same drectory as your hw1.ml,
+	launch ocaml, and execute:
+	```
+	#use "hw3.ml";;
+	#use "hw3_test.ml";;
+	```
+	
+	Allan Wang
+*)
+
+exception Oops of string
+
+let y cond msg =
+	if not cond then begin
+		print_endline "\n\n-----Error-----";
+		raise (Oops msg)
+	end;;
+	
+let eq (a : 'a) (b : 'a) msg =
+	y (a = b) msg;;
+	
+let n cond msg =
+	y (not cond) msg;;
+	
+let neq (a : 'a) (b : 'a) msg =
+	n (a = b) msg;;
+	
+let p msg =
+	print_endline "Success!\n\n--------------------";
+	print_endline msg;
+  print_endline "--------------------";;
+  
+print_endline "--------------------\nTesting Q1\n--------------------";;
+
+eq (evens 3) [0;2] "evens 3 failed";
+eq (evens 8) [0;2;4;6;8] "evens 8 failed";
+
+eq (fib 1) [] "fib 1 failed";
+eq (fib 13) [1;1;2;3;5;8] "fib 13 failed (assuming this does not include 13)";
+eq (fib 100) [1; 1; 2; 3; 5; 8; 13; 21; 34; 55; 89] "fib 100 failed";
+
+eq (pascal 3) [[1]; [1; 1]] "pascal 3 failed";
+eq (pascal 10) [[1]; [1; 1]; [1; 2; 1]; [1; 3; 3; 1]; [1; 4; 6; 4; 1]; 
+[1; 5; 10; 10; 5; 1]; [1; 6; 15; 20; 15; 6; 1]; [1; 7; 21; 35; 35; 21; 7; 1]; 
+[1; 8; 28; 56; 70; 56; 28; 8; 1]] "pascal 10 failed";
+
+p "Testing Q2 - memo_one";;
+
+let time = fun () -> (print_string (string_of_float (Sys.time())));;
+
+let ugly' = memo_one ugly;;
+let fast = (fun v -> let i = Sys.time() in ugly' v; y (Sys.time() -. i < 0.1) "Execution was perhaps too slow");;
+let slow = (fun v -> let i = Sys.time() in ugly' v; y (Sys.time() -. i > 0.1) "Execution was perhaps too fast");;
+
+time();;
+fast 3;;
+slow 9;;
+fast 9;;
+fast 3;;
+slow 9;;
+time();;
+
+p "Testing Q2 - memo_many";;
+
+let ugly' = memo_many 3 ugly;;
+let fast = (fun v -> let i = Sys.time() in ugly' v; y (Sys.time() -. i < 0.1) "Execution was perhaps too slow");;
+let slow = (fun v -> let i = Sys.time() in ugly' v; y (Sys.time() -. i > 0.1) "Execution was perhaps too fast");;
+
+print_endline "Note: I am assuming that when a call is made, it will renew its position in the queue";
+
+slow 9;;
+fast 9;;
+fast 1;;
+fast 9;;
+fast 2;;
+fast 9;;
+fast 3;;
+fast 4;;
+fast 9;;
+fast 1;;
+fast 2;;
+fast 3;;
+slow 9;;
+fast 9;;
+
+
+print_endline "Success!\n\n----------\nEnd of tester; No errors found!\n----------";;
