@@ -10,26 +10,21 @@
 	#use "hw3.ml";;
 	#use "hw3_test.ml";;
 	```
-
-	Note that for this assignment, you will need to reimport
-	the assignment ml with each test as eq is overwritten
 	
 	Allan Wang
 *)
-
-let eq' = eq;; (* extra credit *)
 
 exception Oops of string
 
 let y cond msg = if not cond then (print_endline "\n\n-----Error-----"; raise (Oops msg));;
 
-let eq (a : 'a) (b : 'a) msg = y (a = b) msg;;
+let eq' (a : 'a) (b : 'a) msg = y (a = b) msg;;
 
-let eq_op a b msg = try eq a (b()) msg with Assert_failure _ -> print_endline "Skipping optional check";;
+let eq_op a b msg = try eq' a (b()) msg with Assert_failure _ -> print_endline "Skipping optional check";;
 
 let n cond msg = y (not cond) msg;;
 	
-let neq (a : 'a) (b : 'a) msg = n (a = b) msg;;
+let neq' (a : 'a) (b : 'a) msg = n (a = b) msg;;
 	
 let p msg =
 	print_endline "Success!\n\n--------------------";
@@ -38,15 +33,15 @@ let p msg =
   
 print_endline "--------------------\nTesting Q1\n--------------------";;
 
-eq (evens 3) [0;2] "evens 3 failed";
-eq (evens 8) [0;2;4;6;8] "evens 8 failed";
+eq' (evens 3) [0;2] "evens 3 failed";
+eq' (evens 8) [0;2;4;6;8] "evens 8 failed";
 
-eq (fib 1) [] "fib 1 failed";
-eq (fib 13) [1;1;2;3;5;8] "fib 13 failed (assuming this does not include 13)";
-eq (fib 100) [1; 1; 2; 3; 5; 8; 13; 21; 34; 55; 89] "fib 100 failed";
+eq' (fib 1) [] "fib 1 failed";
+eq' (fib 13) [1;1;2;3;5;8] "fib 13 failed (assuming this does not include 13)";
+eq' (fib 100) [1; 1; 2; 3; 5; 8; 13; 21; 34; 55; 89] "fib 100 failed";
 
-eq (pascal 3) [[1]; [1; 1]] "pascal 3 failed";
-eq (pascal 10) [[1]; [1; 1]; [1; 2; 1]; [1; 3; 3; 1]; [1; 4; 6; 4; 1]; 
+eq' (pascal 3) [[1]; [1; 1]] "pascal 3 failed";
+eq' (pascal 10) [[1]; [1; 1]; [1; 2; 1]; [1; 3; 3; 1]; [1; 4; 6; 4; 1]; 
 [1; 5; 10; 10; 5; 1]; [1; 6; 15; 20; 15; 6; 1]; [1; 7; 21; 35; 35; 21; 7; 1]; 
 [1; 8; 28; 56; 70; 56; 28; 8; 1]] "pascal 10 failed";
 
@@ -122,16 +117,16 @@ p "Testing Q3";;
 let l = [2;3;4;5];;
 let c = cons 2 (cons 3 (cons 4 (singl 5)));;
 
-let eq a b msg = eq (to_list a) (to_list b) msg;;
-let eq_op a b msg = try eq a (b()) msg with Assert_failure _ -> print_endline "Skipping optional check";;
+let eq' a b msg = eq' (to_list a) (to_list b) msg;;
+let eq_op a b msg = try eq' a (b()) msg with Assert_failure _ -> print_endline "Skipping optional check";;
 
-eq (cons 2 None) (singl 2) "Failed for cons w/ None circlist";
+eq' (cons 2 None) (singl 2) "Failed for cons w/ None circlist";
 
-eq c (from_list l) "Failed for sequential cons";
+eq' c (from_list l) "Failed for sequential cons";
 
-eq c (from_list (to_list (from_list l))) "from_list to_list mismatch failed";
+eq' c (from_list (to_list (from_list l))) "from_list to_list mismatch failed";
 
-eq (from_list (List.rev l)) (rev (from_list l)) "rev failed";
+eq' (from_list (List.rev l)) (rev (from_list l)) "rev failed";
 
 p "Testing extra credit map";;
 
@@ -139,8 +134,8 @@ eq_op (from_list [4;5;6;7]) (fun () -> map ((+) 2) (from_list l)) "Failed to add
 
 p "Testing extra credit eq";;
 
-let y l1 l2 = try y (eq' (from_list l1) (from_list l2)) "eq failed" with Assert_failure _ -> print_endline "Skipping optional check";;
-let n l1 l2 = try n (eq' (from_list l1) (from_list l2)) "eq failed" with Assert_failure _ -> print_endline "Skipping optional check";;
+let y l1 l2 = try y (eq (from_list l1) (from_list l2)) "eq failed" with Assert_failure _ -> print_endline "Skipping optional check";;
+let n l1 l2 = try n (eq (from_list l1) (from_list l2)) "eq failed" with Assert_failure _ -> print_endline "Skipping optional check";;
 
 y [1;2;3] [1;2;3];
 y [1;2;3] [2;3;1];
