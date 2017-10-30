@@ -10,8 +10,15 @@
 	#use "hw3.ml";;
 	#use "hw3_test.ml";;
 	```
-	
 	Allan Wang
+
+	************************************************
+
+	Clarification for a3q1
+	"Max is the maximum number that if it is in the list it should be printed.
+	evens 6 should print 6, fib 21 should print 21 while fib 22 should end at 21. And in the pascal case it should be the number of rows that are printed"
+	- Francisco Ferreira
+	
 *)
 
 exception Oops of string
@@ -36,14 +43,14 @@ print_endline "--------------------\nTesting Q1\n--------------------";;
 eq' (evens 3) [0;2] "evens 3 failed";
 eq' (evens 8) [0;2;4;6;8] "evens 8 failed";
 
-eq' (fib 1) [] "fib 1 failed";
-eq' (fib 13) [1;1;2;3;5;8] "fib 13 failed (assuming this does not include 13)";
+eq' (fib 1) [1;1] "fib 1 failed (should include 1s)";
+eq' (fib 13) [1;1;2;3;5;8;13] "fib 13 failed (should include 13)";
 eq' (fib 100) [1; 1; 2; 3; 5; 8; 13; 21; 34; 55; 89] "fib 100 failed";
 
-eq' (pascal 3) [[1]; [1; 1]] "pascal 3 failed";
+eq' (pascal 3) [[1]; [1; 1]; [1; 2; 1]] "pascal 3 failed";
 eq' (pascal 10) [[1]; [1; 1]; [1; 2; 1]; [1; 3; 3; 1]; [1; 4; 6; 4; 1]; 
 [1; 5; 10; 10; 5; 1]; [1; 6; 15; 20; 15; 6; 1]; [1; 7; 21; 35; 35; 21; 7; 1]; 
-[1; 8; 28; 56; 70; 56; 28; 8; 1]] "pascal 10 failed";
+[1; 8; 28; 56; 70; 56; 28; 8; 1]; [1; 9; 36; 84; 126; 126; 84; 36; 9; 1]] "pascal 10 failed";
 
 p "Testing zip (extra)";;
 
@@ -117,20 +124,22 @@ p "Testing Q3";;
 let l = [2;3;4;5];;
 let c = cons 2 (cons 3 (cons 4 (singl 5)));;
 
-let eq' a b msg = eq' (to_list a) (to_list b) msg;;
-let eq_op a b msg = try eq' a (b()) msg with Assert_failure _ -> print_endline "Skipping optional check";;
+let eq'' a b msg = eq' (to_list a) (to_list b) msg;;
+let eq_op'' a b msg = try eq'' a (b()) msg with Assert_failure _ -> print_endline "Skipping optional check";;
 
-eq' (cons 2 None) (singl 2) "Failed for cons w/ None circlist";
+eq'' (cons 2 None) (singl 2) "Failed for cons w/ None circlist";
 
-eq' c (from_list l) "Failed for sequential cons";
+eq'' c (from_list l) "Failed for sequential cons";
 
-eq' c (from_list (to_list (from_list l))) "from_list to_list mismatch failed";
+eq' 4 (length c) "length failed";
 
-eq' (from_list (List.rev l)) (rev (from_list l)) "rev failed";
+eq'' c (from_list (to_list (from_list l))) "from_list to_list mismatch failed";
+
+eq'' (from_list (List.rev l)) (rev (from_list l)) "rev failed";
 
 p "Testing extra credit map";;
 
-eq_op (from_list [4;5;6;7]) (fun () -> map ((+) 2) (from_list l)) "Failed to add 2 to each item in circlist";
+eq_op'' (from_list [4;5;6;7]) (fun () -> map ((+) 2) (from_list l)) "Failed to add 2 to each item in circlist";
 
 p "Testing extra credit eq";;
 
