@@ -16,25 +16,18 @@
 
 exception Oops of string
 
-let y cond msg =
-	if not cond then begin
-		print_endline "\n\n-----Error-----";
-		raise (Oops msg)
-	end;;
+let y cond msg = if not cond then (print_endline "\n\n-----Error-----"; raise (Oops msg));;
+
+let eq (a : 'a) (b : 'a) msg = y (a = b) msg;;
 	
-let eq (a : 'a) (b : 'a) msg =
-	y (a = b) msg;;
+let n cond msg = y (not cond) msg;;
 	
-let n cond msg =
-	y (not cond) msg;;
-	
-let neq (a : 'a) (b : 'a) msg =
-	n (a = b) msg;;
+let neq (a : 'a) (b : 'a) msg = n (a = b) msg;;
 	
 let p msg =
 	print_endline "Success!\n\n--------------------";
 	print_endline msg;
-  print_endline "--------------------";;
+	print_endline "--------------------";;
   
 print_endline "--------------------\nTesting Q1\n--------------------";;
 
@@ -52,19 +45,19 @@ eq (pascal 10) [[1]; [1; 1]; [1; 2; 1]; [1; 3; 3; 1]; [1; 4; 6; 4; 1];
 
 p "Testing Q2 - memo_one";;
 
-let time = fun () -> (print_string (string_of_float (Sys.time())));;
+let time = fun () -> (print_endline (string_of_float (Sys.time())));;
 
 let ugly' = memo_one ugly;;
 let fast = (fun v -> let i = Sys.time() in ugly' v; y (Sys.time() -. i < 0.1) "Execution was perhaps too slow");;
 let slow = (fun v -> let i = Sys.time() in ugly' v; y (Sys.time() -. i > 0.1) "Execution was perhaps too fast");;
 
-time();;
-fast 3;;
-slow 9;;
-fast 9;;
-fast 3;;
-slow 9;;
-time();;
+time();
+fast 3;
+slow 9;
+fast 9;
+fast 3;
+slow 9;
+time();
 
 p "Testing Q2 - memo_many";;
 
@@ -74,20 +67,40 @@ let slow = (fun v -> let i = Sys.time() in ugly' v; y (Sys.time() -. i > 0.1) "E
 
 print_endline "Note: I am assuming that when a call is made, it will renew its position in the queue";
 
-slow 9;;
-fast 9;;
-fast 1;;
-fast 9;;
-fast 2;;
-fast 9;;
-fast 3;;
-fast 4;;
-fast 9;;
-fast 1;;
-fast 2;;
-fast 3;;
-slow 9;;
-fast 9;;
+(* The "cache queue" will be written with the functions *)
+(* For this example, caches enter from the right and exit from the left *)
+
+time();
+(* [] *)
+slow 9; 
+(* [9] *)
+fast 9;
+(* [9] *)
+fast 1;
+(* [9;1] *)
+fast 9;
+(* [1;9] *)
+fast 2;
+(* [1;9;2] *)
+fast 9;
+(* [1;2;9] *)
+fast 3;
+(* [2;9;3] *)
+fast 4;
+(* [9;3;4] *)
+fast 9;
+(* [3;4;9] *)
+fast 1;
+(* [4;9;1] *)
+fast 2;
+(* [9;1;2] *)
+fast 3;
+(* [1;2;3] *)
+slow 9;
+(* [2;3;9] *)
+fast 9;
+(* [2;3;9] *)
+time();
 
 
 print_endline "Success!\n\n----------\nEnd of tester; No errors found!\n----------";;
