@@ -141,6 +141,8 @@ let c = cons 2 (cons 3 (cons 4 (singl 5)));;
 let eq'' a b msg = eq' (to_list a) (to_list b) msg;;
 let eq_op'' a b msg = try eq'' a (b()) msg with Assert_failure _ -> print_endline "Skipping optional check";;
 
+eq' (Some 5) (match c with | Some d -> Some d.data | _ -> None) "cons has incorrect head value";;
+
 eq'' (cons 2 None) (singl 2) "Failed for cons w/ None circlist";
 
 eq'' c (from_list l) "Failed for sequential cons";
