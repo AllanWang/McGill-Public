@@ -47,10 +47,10 @@ eq' (fib 1) [1;1] "fib 1 failed (should include 1s)";
 eq' (fib 13) [1;1;2;3;5;8;13] "fib 13 failed (should include 13)";
 eq' (fib 100) [1; 1; 2; 3; 5; 8; 13; 21; 34; 55; 89] "fib 100 failed";
 
-eq' (pascal 3) [[1]; [1; 1]; [1; 2; 1]] "pascal 3 failed";
+eq' (pascal 3) [[1]; [1; 1]] "pascal 3 failed";
 eq' (pascal 10) [[1]; [1; 1]; [1; 2; 1]; [1; 3; 3; 1]; [1; 4; 6; 4; 1]; 
 [1; 5; 10; 10; 5; 1]; [1; 6; 15; 20; 15; 6; 1]; [1; 7; 21; 35; 35; 21; 7; 1]; 
-[1; 8; 28; 56; 70; 56; 28; 8; 1]; [1; 9; 36; 84; 126; 126; 84; 36; 9; 1]] "pascal 10 failed";
+[1; 8; 28; 56; 70; 56; 28; 8; 1]] "pascal 10 failed";
 
 p "Testing zip (extra)";;
 
@@ -79,13 +79,13 @@ time();
 p "Testing Q2 - memo_many";;
 
 let ugly' = memo_many 3 ugly;;
-let fast = (fun v -> let i = Sys.time() in ugly' v; y (Sys.time() -. i < 0.1) "Execution was perhaps too slow");;
-let slow = (fun v -> let i = Sys.time() in ugly' v; y (Sys.time() -. i > 0.1) "Execution was perhaps too fast");;
+let fast v = let i = Sys.time() in ugly' v; y (Sys.time() -. i < 0.1) ("Execution was perhaps too slow for " ^ (string_of_int v));;
+let slow v = let i = Sys.time() in ugly' v; y (Sys.time() -. i > 0.1) ("Execution was perhaps too fast for " ^ (string_of_int v));;
 
 print_endline "Note: I am assuming that when a call is made, it will renew its position in the queue";
 
 (* The "cache queue" will be written with the functions *)
-(* For this example, caches enter from the right and exit from the left *)
+(* For this example, caches enter from the right and exit from the left 
 
 time();
 (* [] *)
@@ -117,6 +117,20 @@ slow 9;
 (* [2;3;9] *)
 fast 9;
 (* [2;3;9] *)
+time(); *)
+
+(* New test, which only cares that you store values in cache. *)
+(* Does not check when a value is removed *)
+
+time();
+slow 9;
+fast 9;
+slow 10;
+fast 9;
+fast 10;
+fast 2;
+fast 9;
+fast 10;
 time();
 
 p "Testing Q3";;
