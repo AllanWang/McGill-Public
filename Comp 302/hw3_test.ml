@@ -7,8 +7,7 @@
 	To use this, put this file in the same drectory as your hw1.ml,
 	launch ocaml, and execute:
 	```
-	#use "hw3.ml";;
-	#use "hw3_test.ml";;
+	ocaml hw3_test.ml
 	```
 	Allan Wang
 
@@ -20,6 +19,8 @@
 	- Francisco Ferreira
 	
 *)
+
+#use "hw3.ml";;
 
 exception Oops of string
 
@@ -137,11 +138,16 @@ p "Testing Q3";;
 
 let l = [2;3;4;5];;
 let c = cons 2 (cons 3 (cons 4 (singl 5)));;
+let to_list' l = List.rev (to_list l);; (* Because from_list to_list now returns the reverse *)
 
 let eq'' a b msg = eq' (to_list a) (to_list b) msg;;
 let eq_op'' a b msg = try eq'' a (b()) msg with Assert_failure _ -> print_endline "Skipping optional check";;
 
 eq' (Some 5) (match c with | Some d -> Some d.data | _ -> None) "cons has incorrect head value";;
+
+eq' (Some 4) (match next c with | Some d -> Some d.data | _ -> None) "next has incorrect value";;
+
+eq' (Some 2) (match prev c with | Some d -> Some d.data | _ -> None) "prev has incorrect value";;
 
 eq'' (cons 2 None) (singl 2) "Failed for cons w/ None circlist";
 
@@ -149,7 +155,7 @@ eq'' c (from_list l) "Failed for sequential cons";
 
 eq' 4 (length c) "length failed";
 
-eq'' c (from_list (to_list (from_list l))) "from_list to_list mismatch failed";
+eq'' c (from_list (to_list' (from_list l))) "from_list to_list mismatch failed";
 
 eq'' (from_list (List.rev l)) (rev (from_list l)) "rev failed";
 
