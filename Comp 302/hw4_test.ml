@@ -30,7 +30,7 @@ let p msg =
 	print_endline msg;
 	print_endline "--------------------";;
   
-print_endline "--------------------\nTesting Q1\n--------------------";;
+print_endline "--------------------\nTesting Find Functions\n--------------------";;
 
 let example = Node (7, [ Node (1, []); Node (2, [Node (16, [])]); Node (4, []); Node (9, []); Node (11, []); Node (15, [])]) ;; (* Just to be sure *)
 
@@ -44,9 +44,9 @@ eq (find' ((=) 2) example) (Some 2) " Did not find 2 in example with find'";;
 
 let even_act = find_all (fun x -> x mod 2 = 0) example;;
 
-let even_exp = [16;2;4];;
+let even_exp = 16 + 2 + 4;;
 
-y (even_act = even_exp || even_act = List.rev even_exp) "Could not fetch even list through find_all";;
+y (List.fold_left (+) 0 even_act = even_exp) "Could not fetch even list through find_all";;
 
 p "FractionArith";;
 
@@ -60,6 +60,8 @@ f (-3, 4) FractionArith.prod (99, 99) (3, -4) "-3/4 * 99/99 = -3/4";;
 f (2, -3) FractionArith.div (5, -7) (14, 15) "-2/3 / -5/7 = 14/15";;
 f_comp (3, 4) FractionArith.lt (4, 5) "3/4 < 4/5";;
 f_comp (1, 8) FractionArith.ge (97, 8 * 97) "1/8 >= 97/(8 * 97)";;
+f_comp (9999999999, 3) FractionArith.gt (3, 9999999999) "9999999999/3 > 3/9999999999; you may have overflow errors";;
+f_comp (3, 9999999999) FractionArith.lt (9999999999, 3) "3/9999999999 < 9999999999/3; you may have overflow errors";;
 f_comp (3, 1000005) FractionArith.eq (3, 1000005) "3/1000005 = 3/1000005";;
 
 p "Newton-Raphson";;
