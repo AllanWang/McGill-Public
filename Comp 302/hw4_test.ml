@@ -10,6 +10,14 @@
 	ocaml hw4_test.ml
 	```
 	Allan Wang
+
+	-------------------------------------------
+
+	The tests are not varied, but they should cover most of the general cases.
+	Using different numbers typically shouldn't affect the response.
+
+	There are also some additional tests for those who are able to compute operations
+	in O(n) time.
 	
 *)
 
@@ -84,16 +92,67 @@ y (FloatArith.le (FloatArith.abs (FloatArith.minus sqrt2 (FloatArith.from_fracti
 y (FractionArith.le (FractionArith.abs (FractionArith.minus sqrt2_r (FractionArith.from_fraction sqrt2approx))) FractionArith.epsilon) "sqrt(2) for FractionArith did not match actual value within epsilon bound";;
 
 let c = constant 1;;
+let i = real_of_int 7;;
 
 p "nth";;
 
 eq (nth c 23) 1 "nth (constant 1) 23 = 1";;
 
+p "q";;
+
+eq (q c 0) 1 "q (constant 1) 0 = 1";;
+
 eq (q c 10) 89 "q (constant 1) 10 = 89";;
 
 start_timer();;
 eq (q c 34) 9227465 "q (constant 1) 34 = 9227465";;
-get_time();;
+let fast = get_time() < 1.0;;
+
+if not fast then print_endline "q was slow; skipping big tests" else (
+	print_endline "q was fast; testing big tests";
+	eq (q c 400) 4536716983099355453 "q (constant 1) 400 = 4536716983099355453";
+);;
+
+p "r";;
+
+eq (r c 0) 1.0 "r (constant 1) 0 = 1.0";;
+
+eq (r c 8) 1.61764705882352944 "r (constant 1) 8 = 1.61764705882352944";;
+
+start_timer();;
+eq (r c 32) 1.61803398874985871 "r (constant 1) 32 = 1.61803398874985871";;
+let fast = get_time() < 1.0;;
+
+if not fast then print_endline "r was slow; skipping big tests" else (
+	print_endline "r was fast; testing big tests";
+	eq (r c 400) 1.6180339887498949 "r (constant 1) 400 = 1.6180339887498949";
+);;
+
+p "error";;
+
+eq (error c 3) 0.0666666666666666657 "error (constant 1) 3 = 0.0666666666666666657";;
+
+eq (error c 10) 7.8027465667915107e-05 "error (constant 1) 10 = 7.8027465667915107e-05";;
+
+eq (error i 1) infinity "error (real_of_int 7) 1 = infinity";;
+
+p "rat_of_real";;
+
+eq (rat_of_real c 0.000001) 1.61803444782168171 "rat_of_real (constant 1) 0.000001 = 1.61803444782168171";;
+
+eq (rat_of_real i 0.000001) 7.0 "rat_of_real (real_of_int 7) 0.000001 = 7.0";;
+
+p "r2 = real_of_rat (4.0 /. 3.0)"
+
+let r2 = real_of_rat (4.0 /. 3.0);;
+
+eq r2.head 1 "r2.head = 1";;
+
+eq (r2.tail()).head 3 "(r2.tail()).head = 3";;
+
+
+
+
 
 
 
