@@ -24,6 +24,12 @@ let eq (a : 'a) (b : 'a) msg = y (a = b) msg;;
 let n cond msg = y (not cond) msg;;
 	
 let neq (a : 'a) (b : 'a) msg = n (a = b) msg;;
+
+let time_snapshot = ref (0.0);;
+
+let start_timer () = let now = Sys.time() in let _ = print_endline ("Time now: " ^ (string_of_float now)) in time_snapshot := now;;
+
+let get_time () = let diff = Sys.time() -. !time_snapshot in let _ = print_endline ("Time diff: " ^ (string_of_float diff)) in diff;;
 	
 let p msg =
 	print_endline "Success!\n\n--------------------";
@@ -71,9 +77,25 @@ module RationalN = Newton (FractionArith);;
 let sqrt2 = FloatN.square_root (FloatArith.from_fraction (2, 1));;
 let sqrt2_r = RationalN.square_root (FractionArith.from_fraction (2, 1));;
 let sqrt2approx = (768398401, 543339720);;
+(* let sqrttest (m : Arith) (n : Newton(m)) (i : int) (exp : fraction) msg = y (m.le (m.abs (m.minus (n.square_root (m.from_fraction (i, 1))) (m.from_fraction exp))) m.epsilon) msg;; *)
 
 y (FloatArith.le (FloatArith.abs (FloatArith.minus sqrt2 (FloatArith.from_fraction sqrt2approx))) FloatArith.epsilon) "sqrt(2) for FloatArith did not match actual value within epsilon bound";;
 
 y (FractionArith.le (FractionArith.abs (FractionArith.minus sqrt2_r (FractionArith.from_fraction sqrt2approx))) FractionArith.epsilon) "sqrt(2) for FractionArith did not match actual value within epsilon bound";;
+
+let c = constant 1;;
+
+p "nth";;
+
+eq (nth c 23) 1 "nth (constant 1) 23 = 1";;
+
+eq (q c 10) 89 "q (constant 1) 10 = 89";;
+
+start_timer();;
+eq (q c 34) 9227465 "q (constant 1) 34 = 9227465";;
+get_time();;
+
+
+
 
 print_endline "Success!\n\n----------\nEnd of tester; No errors found!\n----------";;
