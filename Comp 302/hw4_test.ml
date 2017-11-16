@@ -77,6 +77,7 @@ p "FractionArith";;
 let f f1 op f2 f3 msg = y (FractionArith.eq (op (FractionArith.from_fraction f1) (FractionArith.from_fraction f2)) (FractionArith.from_fraction f3)) msg;;
 
 let f_comp f1 op f2 msg = y (op (FractionArith.from_fraction f1) (FractionArith.from_fraction f2)) msg;;
+let f_comp_w f1 op f2 msg = w (op (FractionArith.from_fraction f1) (FractionArith.from_fraction f2)) msg;;
 
 f (1, 2) FractionArith.plus (1, 4) (3, 4) "1/2 + 1/4 = 3/4";;
 f (1, 2) FractionArith.minus (2, 1) (-3, 2) "1/2 - 2 = -3/2";;
@@ -84,8 +85,8 @@ f (-3, 4) FractionArith.prod (99, 99) (3, -4) "-3/4 * 99/99 = -3/4";;
 f (2, -3) FractionArith.div (5, -7) (14, 15) "-2/3 / -5/7 = 14/15";;
 f_comp (3, 4) FractionArith.lt (4, 5) "3/4 < 4/5";;
 f_comp (1, 8) FractionArith.ge (97, 8 * 97) "1/8 >= 97/(8 * 97)";;
-f_comp (9999999999, 3) FractionArith.gt (3, 9999999999) "9999999999/3 > 3/9999999999; you may have overflow errors";;
-f_comp (3, 9999999999) FractionArith.lt (9999999999, 3) "3/9999999999 < 9999999999/3; you may have overflow errors";;
+f_comp_w (9999999999, 3) FractionArith.gt (3, 9999999999) "9999999999/3 > 3/9999999999; you may have overflow errors";;
+f_comp_w (3, 9999999999) FractionArith.lt (9999999999, 3) "3/9999999999 < 9999999999/3; you may have overflow errors";;
 f_comp (3, 1000005) FractionArith.eq (3, 1000005) "3/1000005 = 3/1000005";;
 
 p "Newton-Raphson";;
@@ -93,13 +94,54 @@ p "Newton-Raphson";;
 module FloatN = Newton (FloatArith);;
 module RationalN = Newton (FractionArith);;
 
+module type NewtonT =
+sig
+	type t
+	val eps : t
+	val le : t -> t -> bool
+	val minus : t -> t -> t
+	val abs : t -> t
+	val from : fraction -> t
+	val ts : t -> string
+	val sqrt : int -> t
+	val eq : string -> t -> fraction -> (string -> unit) -> unit
+	val sqrt_check : int -> string -> fraction -> (string -> unit) -> unit
+end;;
+
+module NewtonTester (A : Arith) (N : NewtonSolver with type t = A.t) : (NewtonT with type t = A.t) =
+struct
+	type t = A.t
+	let eps = A.epsilon
+	let le = A.le
+	let minus = A.minus
+	let abs = A.abs
+	let from = A.from_fraction
+	let ts = A.to_string
+	let sqrt n = N.square_root (from (n, 1))
+	let eq tag act exp callback =
+		let delta = abs (minus act (from exp)) in
+		if not (le delta eps) then callback (tag ^ " failed; expected " ^ (ts (from exp)) ^ ", actual " ^ (ts act) ^ ", diff" ^ (ts delta))
+	let sqrt_check n tag exp callback =
+		eq ("sqrt" ^ (string_of_int n) ^ ": " ^ tag) (sqrt n) exp callback
+end;;
+
+module FloatT = NewtonTester (FloatArith) (FloatN);;
+module RationalT = NewtonTester (FractionArith) (RationalN);;
+
+(* 
 let sqrtN n = FloatN.square_root (FloatArith.from_fraction (n, 1));;
 let sqrtN_r n = RationalN.square_root (FractionArith.from_fraction (n, 1));;
 
-let yN act exp tag = y (FloatArith.le (FloatArith.abs (FloatArith.minus act (FloatArith.from_fraction exp))) FloatArith.epsilon) (tag ^ " for FloatArith did not match actual value within epsilon bound; expected " ^ (FloatArith.to_string (FloatArith.from_fraction exp)) ^ ", actual " ^ (FloatArith.to_string act));;
-let yN_r act exp tag = y (FractionArith.le (FractionArith.abs (FractionArith.minus act (FractionArith.from_fraction exp))) FractionArith.epsilon) (tag ^ " for FractionArith did not match actual value within epsilon bound; expected " ^ (FractionArith.to_string (FractionArith.from_fraction exp)) ^ ", actual " ^ (FractionArith.to_string act));;
+let arithequality le abs minus from to_string eps tag act exp failaction = 
+	let delta = abs (minus act (from exp)) in
+	if not (le delta abs) then failaction (tag ^ " failed; expected " ^ (to_string (from exp)) ^ ", action " ^ (to_string act) ^ ", diff" ^ (to_string delta))
 
-let sqrt2 = sqrtN 2;;
+let yN act exp = arithequality FloatArith.le FloatArith
+
+let yN act exp tag = y (FloatArith.le (FloatArith.abs (FloatArith.minus act (FloatArith.from_fraction exp))) FloatArith.epsilon) (tag ^ " for FloatArith did not match actual value within epsilon bound; expected " ^ (FloatArith.to_string (FloatArith.from_fraction exp)) ^ ", actual " ^ (FloatArith.to_string act) ^ ", diff " ^ (FloatArith));;
+let yN_r act exp tag = y (FractionArith.le (FractionArith.abs (FractionArith.minus act (FractionArith.from_fraction exp))) FractionArith.epsilon) (tag ^ " for FractionArith did not match actual value within epsilon bound; expected " ^ (FractionArith.to_string (FractionArith.from_fraction exp)) ^ ", actual " ^ (FractionArith.to_string act));; *)
+
+(* let sqrt2 = sqrtN 2;;
 let sqrt2_r = sqrtN_r 2;;
 let sqrt2approx = (768398401, 543339720);;
 let sqrt2tag = "sqrt(2)";;
@@ -110,7 +152,7 @@ yN_r sqrt2_r sqrt2approx sqrt2tag;;
 let sqrt4 = sqrtN 4;;
 let sqrt4_r = sqrtN_r 4;;
 let sqrt4approx = (2, 1);;
-let sqrt4tag = "sqrt(4)";;
+let sqrt4tag = "sqrt(4)";; *)
 
 (* yN sqrt4 sqrt4approx sqrt4tag;; *)
 (* yN_r sqrt4_r sqrt4approx sqrt4tag;; *)
