@@ -120,13 +120,20 @@ struct
 	let sqrt n = N.square_root (from (n, 1))
 	let eq tag act exp callback =
 		let delta = abs (minus act (from exp)) in
-		if not (le delta eps) then callback (tag ^ " failed; expected " ^ (ts (from exp)) ^ ", actual " ^ (ts act) ^ ", diff" ^ (ts delta))
+		if not (le delta eps) then callback (tag ^ " failed; expected " ^ (ts (from exp)) ^ ", actual " ^ (ts act) ^ ", diff " ^ (ts delta))
 	let sqrt_check n tag exp callback =
 		eq ("sqrt" ^ (string_of_int n) ^ ": " ^ tag) (sqrt n) exp callback
 end;;
 
 module FloatT = NewtonTester (FloatArith) (FloatN);;
 module RationalT = NewtonTester (FractionArith) (RationalN);;
+
+let sqrt_check n exp = (
+	FloatT.sqrt_check n "FloatT" exp (fun x -> raise (Oops x));
+	RationalT.sqrt_check n "RationalT" exp (fun x -> raise (Oops x));
+);;
+
+sqrt_check 2 (768398401, 543339720);;
 
 (* 
 let sqrtN n = FloatN.square_root (FloatArith.from_fraction (n, 1));;
