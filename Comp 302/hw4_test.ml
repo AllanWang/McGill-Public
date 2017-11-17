@@ -25,13 +25,23 @@
 
 exception Oops of string
 
+let warned = ref false
+
 let y cond msg = if not cond then (print_endline "\n\n-----Error-----"; raise (Oops msg));;
+
+let w cond msg = if not cond then (print_endline ("\n\n-----Warning-----\n" ^ msg ^ "\n\n"); warned := true);;
 
 let eq (a : 'a) (b : 'a) msg = y (a = b) msg;;
 
 let n cond msg = y (not cond) msg;;
 	
 let neq (a : 'a) (b : 'a) msg = n (a = b) msg;;
+
+let approx_float a b delta = abs_float (a -. b) < delta;;
+
+let eps_float a b = approx_float a b epsilon_float;;
+
+let big_epsilon = 0.00000000000001;;
 
 let time_snapshot = ref (0.0);;
 
@@ -60,6 +70,10 @@ let even_act = find_all (fun x -> x mod 2 = 0) example;;
 
 let even_exp = 16 + 2 + 4;;
 
+let intl_to_string list = match list with
+	| h :: t -> (List.fold_left (fun s l -> s ^ ";" ^ (string_of_int l)) ("[" ^ (string_of_int h)) t) ^ "]"
+	| _ -> "[]";;
+
 y (List.fold_left (+) 0 even_act = even_exp) "Could not fetch even list through find_all";;
 
 p "FractionArith";;
@@ -67,6 +81,7 @@ p "FractionArith";;
 let f f1 op f2 f3 msg = y (FractionArith.eq (op (FractionArith.from_fraction f1) (FractionArith.from_fraction f2)) (FractionArith.from_fraction f3)) msg;;
 
 let f_comp f1 op f2 msg = y (op (FractionArith.from_fraction f1) (FractionArith.from_fraction f2)) msg;;
+let f_comp_w f1 op f2 msg = w (op (FractionArith.from_fraction f1) (FractionArith.from_fraction f2)) msg;;
 
 f (1, 2) FractionArith.plus (1, 4) (3, 4) "1/2 + 1/4 = 3/4";;
 f (1, 2) FractionArith.minus (2, 1) (-3, 2) "1/2 - 2 = -3/2";;
@@ -74,27 +89,82 @@ f (-3, 4) FractionArith.prod (99, 99) (3, -4) "-3/4 * 99/99 = -3/4";;
 f (2, -3) FractionArith.div (5, -7) (14, 15) "-2/3 / -5/7 = 14/15";;
 f_comp (3, 4) FractionArith.lt (4, 5) "3/4 < 4/5";;
 f_comp (1, 8) FractionArith.ge (97, 8 * 97) "1/8 >= 97/(8 * 97)";;
-f_comp (9999999999, 3) FractionArith.gt (3, 9999999999) "9999999999/3 > 3/9999999999; you may have overflow errors";;
-f_comp (3, 9999999999) FractionArith.lt (9999999999, 3) "3/9999999999 < 9999999999/3; you may have overflow errors";;
+f_comp_w (9999999999, 3) FractionArith.gt (3, 9999999999) "9999999999/3 > 3/9999999999; you may have overflow errors";;
+f_comp_w (3, 9999999999) FractionArith.lt (9999999999, 3) "3/9999999999 < 9999999999/3; you may have overflow errors";;
 f_comp (3, 1000005) FractionArith.eq (3, 1000005) "3/1000005 = 3/1000005";;
 
 p "Newton-Raphson";;
 
 module FloatN = Newton (FloatArith);;
 module RationalN = Newton (FractionArith);;
-let sqrt2 = FloatN.square_root (FloatArith.from_fraction (2, 1));;
-let sqrt2_r = RationalN.square_root (FractionArith.from_fraction (2, 1));;
-let sqrt2approx = (768398401, 543339720);;
-(* let sqrttest (m : Arith) (n : Newton(m)) (i : int) (exp : fraction) msg = y (m.le (m.abs (m.minus (n.square_root (m.from_fraction (i, 1))) (m.from_fraction exp))) m.epsilon) msg;; *)
 
-y (FloatArith.le (FloatArith.abs (FloatArith.minus sqrt2 (FloatArith.from_fraction sqrt2approx))) FloatArith.epsilon) "sqrt(2) for FloatArith did not match actual value within epsilon bound";;
+module type NewtonT =
+sig
+	type t
+	val eps : t
+	val le : t -> t -> bool
+	val minus : t -> t -> t
+	val abs : t -> t
+	val from : fraction -> t
+	val ts : t -> string
+	val sqrt : int -> t
+	val eq : string -> t -> fraction -> (string -> unit) -> unit
+	val sqrt_check : int -> string -> fraction -> (string -> unit) -> unit
+	val sqrt_check_f : fraction -> string -> fraction -> (string -> unit) -> unit
+end;;
 
-y (FractionArith.le (FractionArith.abs (FractionArith.minus sqrt2_r (FractionArith.from_fraction sqrt2approx))) FractionArith.epsilon) "sqrt(2) for FractionArith did not match actual value within epsilon bound";;
+module NewtonTester (A : Arith) (N : NewtonSolver with type t = A.t) : (NewtonT with type t = A.t) =
+struct
+	type t = A.t
+	let eps = A.epsilon
+	let le = A.le
+	let minus = A.minus
+	let abs = A.abs
+	let from = A.from_fraction
+	let ts = A.to_string
+	let sqrt n = N.square_root (from (n, 1))
+	let eq tag act exp callback =
+		let delta = abs (minus act (from exp)) in
+		if not (le delta eps) then callback (tag ^ " failed; expected " ^ (ts (from exp)) ^ ", actual " ^ (ts act) ^ ", diff " ^ (ts delta))
+	let sqrt_check n tag exp callback =
+		eq ("sqrt " ^ (string_of_int n) ^ ": " ^ tag) (sqrt n) exp callback
+	let sqrt_check_f f tag exp callback =
+		eq ("sqrt " ^ (ts (from f)) ^ ": " ^ tag) (N.square_root (from f)) exp (fun x -> warned := true; callback(x))
+end;;
+
+module FloatT = NewtonTester (FloatArith) (FloatN);;
+module RationalT = NewtonTester (FractionArith) (RationalN);;
+
+let sqrt_check n exp = (
+	FloatT.sqrt_check n "FloatT" exp (fun x -> raise (Oops x));
+	RationalT.sqrt_check n "RationalT" exp (fun x -> raise (Oops x));
+);;
+
+sqrt_check 2 (768398401, 543339720);;
+sqrt_check 4 (2, 1);;
+sqrt_check 9 (3, 1);;
+sqrt_check 16 (4, 1);;
+sqrt_check 0 (0, 1);;
+
+p "Newton-Raphson Random Checks";;
+
+print_endline "So long as your differences are reasonable, this is okay. You might not always get below epsilon due to overflow";;
+
+let rnd_sqrt_check () = 
+	let n = (Random.int 20) + 1 in
+	let d = (Random.int 3) + 1 in
+	let r = sqrt ((float_of_int n) /. (float_of_int d)) in
+	let exp = (int_of_float (r *. 10000000.0), 10000000) in
+	RationalT.sqrt_check_f (n, d) "RndRationalT" exp print_endline;;
+
+for i = 1 to 10 do
+	rnd_sqrt_check ();
+done;;
+
+p "nth";;
 
 let c = constant 1;;
 let i = real_of_int 7;;
-
-p "nth";;
 
 eq (nth c 23) 1 "nth (constant 1) 23 = 1";;
 
@@ -134,7 +204,7 @@ eq (error c 3) 0.0666666666666666657 "error (constant 1) 3 = 0.06666666666666666
 
 eq (error c 10) 7.8027465667915107e-05 "error (constant 1) 10 = 7.8027465667915107e-05";;
 
-eq (error i 1) infinity "error (real_of_int 7) 1 = infinity";;
+y (let e = error i 1 in (e = infinity) || (e = 0.0)) "error (real_of_int 7) 1 = infinity or 0";;
 
 p "rat_of_real";;
 
@@ -142,19 +212,64 @@ eq (rat_of_real c 0.000001) 1.61803444782168171 "rat_of_real (constant 1) 0.0000
 
 eq (rat_of_real i 0.000001) 7.0 "rat_of_real (real_of_int 7) 0.000001 = 7.0";;
 
-p "r2 = real_of_rat (4.0 /. 3.0)"
+let real_of_rat_test f l =
+	let s = real_of_rat f in
+	let rec ror s' l' i' = match l' with
+		| h::t -> if s'.head = h then ror (s'.tail()) t (i' + 1)
+			else raise (Oops ("real_of_rat failed for " ^ (string_of_float f) ^ "; expected " ^ (intl_to_string l) ^ "; but actually " ^ (intl_to_string (take i' s))))
+		| _ -> ()
+	in
+	ror s l 1;;
 
-let r2 = real_of_rat (4.0 /. 3.0);;
+real_of_rat_test (4.0 /. 3.0) [1;3;0;0;0;0;0];;
 
-eq r2.head 1 "r2.head = 1";;
+real_of_rat_test (-0.75) [-1;4;0;0;0;0];;
 
-eq (r2.tail()).head 3 "(r2.tail()).head = 3";;
+p "r3 = real_of_rat ((4.0 +. epsilon_float) /. 2.0)";;
 
+let r3 = real_of_rat ((4.0 +. epsilon_float) /. 2.0);;
 
+eq r3.head 2 "r3.head = 2";;
 
+let r3t = take 500 (r3.tail());;
 
+y (List.for_all ((=) 0) r3t) "tail elements of r3 are not all 0s";;
 
+p "rat -> real -> rat";;
 
+let roror f e = let f2 = rat_of_real (real_of_rat f) e in y (abs_float (f2 -. f) <= e) ("rat_of_real (real_of_rat (" ^ (string_of_float f) ^ ")) failed; resulted in " ^ (string_of_float f2));;
 
+roror 10.5 1e-8;;
+roror (-10.5) 1e-8;;
+roror 0.2345987698689 1e-8;;
+roror 0.0 1e-8;;
+roror 10.0 1e-8;;
+roror (-10.0) 1e-8;;
 
-print_endline "Success!\n\n----------\nEnd of tester; No errors found!\n----------";;
+p "Example Tests";;
+
+let sqrt2 =
+  {head = 1 ; tail = fun () -> constant 2};;
+let sqrt_2_rat = rat_of_real sqrt2 1.e-5;;
+let golden_ratio_rat = rat_of_real golden_ratio 1.e-5;;
+
+(* To test the representation of rationals we can try this *)
+let to_real_and_back n = rat_of_real (real_of_rat n) 0.0001;;
+
+(* e1 should be very close to 10 (it is exactly 10 in the model solution) *)
+let e1 = to_real_and_back 10.0;;
+
+y (approx_float e1 10.0 big_epsilon) "Example e1 was not close to 10.0";;
+
+(* this is the float approximation of pi, not the real number pi *)
+let not_pi = 2. *. acos 0.;;
+
+y (approx_float not_pi 3.14159265358979323 big_epsilon) "not_pi is not a good approximation of pi";;
+
+(* This should share the same 4 decimals with not_pi *)
+let not_pi' = to_real_and_back not_pi;;
+
+y (approx_float not_pi not_pi' 0.0001) "4 decimals not shared between not_pi & not_pi'";;
+
+if !warned then print_endline "End of tests\n\nSome warnings were issued"
+else print_endline "Success!\n\n----------\nEnd of tester; No errors found!\n----------";;
