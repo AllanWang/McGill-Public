@@ -70,6 +70,10 @@ let even_act = find_all (fun x -> x mod 2 = 0) example;;
 
 let even_exp = 16 + 2 + 4;;
 
+let intl_to_string list = match list with
+	| h :: t -> (List.fold_left (fun s l -> s ^ ";" ^ (string_of_int l)) ("[" ^ (string_of_int h)) t) ^ "]"
+	| _ -> "[]";;
+
 y (List.fold_left (+) 0 even_act = even_exp) "Could not fetch even list through find_all";;
 
 p "FractionArith";;
@@ -106,6 +110,7 @@ sig
 	val sqrt : int -> t
 	val eq : string -> t -> fraction -> (string -> unit) -> unit
 	val sqrt_check : int -> string -> fraction -> (string -> unit) -> unit
+	val sqrt_check_f : fraction -> string -> fraction -> (string -> unit) -> unit
 end;;
 
 module NewtonTester (A : Arith) (N : NewtonSolver with type t = A.t) : (NewtonT with type t = A.t) =
@@ -122,7 +127,9 @@ struct
 		let delta = abs (minus act (from exp)) in
 		if not (le delta eps) then callback (tag ^ " failed; expected " ^ (ts (from exp)) ^ ", actual " ^ (ts act) ^ ", diff " ^ (ts delta))
 	let sqrt_check n tag exp callback =
-		eq ("sqrt" ^ (string_of_int n) ^ ": " ^ tag) (sqrt n) exp callback
+		eq ("sqrt " ^ (string_of_int n) ^ ": " ^ tag) (sqrt n) exp callback
+	let sqrt_check_f f tag exp callback =
+		eq ("sqrt " ^ (ts (from f)) ^ ": " ^ tag) (N.square_root (from f)) exp (fun x -> warned := true; callback(x))
 end;;
 
 module FloatT = NewtonTester (FloatArith) (FloatN);;
@@ -137,47 +144,22 @@ sqrt_check 2 (768398401, 543339720);;
 sqrt_check 4 (2, 1);;
 sqrt_check 9 (3, 1);;
 sqrt_check 16 (4, 1);;
-sqrt_check 0 (0, 0);;
+sqrt_check 0 (0, 1);;
+
+p "Newton-Raphson Random Checks";;
+
+print_endline "So long as your differences are reasonable, this is okay. You might not always get below epsilon due to overflow";;
 
 let rnd_sqrt_check () = 
-		let n = Random.int 1000000 in
-		let r = sqrt (float_of_int n) in
-		let exp = (int_of_float (r *. 10000000), 10000000) in
-		RationalT.sqrt_check n "RndRationalT" exp (fun x -> raise (Oops x));;
+	let n = (Random.int 20) + 1 in
+	let d = (Random.int 3) + 1 in
+	let r = sqrt ((float_of_int n) /. (float_of_int d)) in
+	let exp = (int_of_float (r *. 10000000.0), 10000000) in
+	RationalT.sqrt_check_f (n, d) "RndRationalT" exp print_endline;;
 
-for i = 1 to 100 do
-	rnd_sqrt_check ()
+for i = 1 to 10 do
+	rnd_sqrt_check ();
 done;;
-
-
-(* 
-let sqrtN n = FloatN.square_root (FloatArith.from_fraction (n, 1));;
-let sqrtN_r n = RationalN.square_root (FractionArith.from_fraction (n, 1));;
-
-let arithequality le abs minus from to_string eps tag act exp failaction = 
-	let delta = abs (minus act (from exp)) in
-	if not (le delta abs) then failaction (tag ^ " failed; expected " ^ (to_string (from exp)) ^ ", action " ^ (to_string act) ^ ", diff" ^ (to_string delta))
-
-let yN act exp = arithequality FloatArith.le FloatArith
-
-let yN act exp tag = y (FloatArith.le (FloatArith.abs (FloatArith.minus act (FloatArith.from_fraction exp))) FloatArith.epsilon) (tag ^ " for FloatArith did not match actual value within epsilon bound; expected " ^ (FloatArith.to_string (FloatArith.from_fraction exp)) ^ ", actual " ^ (FloatArith.to_string act) ^ ", diff " ^ (FloatArith));;
-let yN_r act exp tag = y (FractionArith.le (FractionArith.abs (FractionArith.minus act (FractionArith.from_fraction exp))) FractionArith.epsilon) (tag ^ " for FractionArith did not match actual value within epsilon bound; expected " ^ (FractionArith.to_string (FractionArith.from_fraction exp)) ^ ", actual " ^ (FractionArith.to_string act));; *)
-
-(* let sqrt2 = sqrtN 2;;
-let sqrt2_r = sqrtN_r 2;;
-let sqrt2approx = (768398401, 543339720);;
-let sqrt2tag = "sqrt(2)";;
-
-yN sqrt2 sqrt2approx sqrt2tag;;
-yN_r sqrt2_r sqrt2approx sqrt2tag;;
-
-let sqrt4 = sqrtN 4;;
-let sqrt4_r = sqrtN_r 4;;
-let sqrt4approx = (2, 1);;
-let sqrt4tag = "sqrt(4)";; *)
-
-(* yN sqrt4 sqrt4approx sqrt4tag;; *)
-(* yN_r sqrt4_r sqrt4approx sqrt4tag;; *)
 
 p "nth";;
 
@@ -222,7 +204,7 @@ eq (error c 3) 0.0666666666666666657 "error (constant 1) 3 = 0.06666666666666666
 
 eq (error c 10) 7.8027465667915107e-05 "error (constant 1) 10 = 7.8027465667915107e-05";;
 
-eq (error i 1) infinity "error (real_of_int 7) 1 = infinity";;
+y (let e = error i 1 in (e = infinity) || (e = 0.0)) "error (real_of_int 7) 1 = infinity or 0";;
 
 p "rat_of_real";;
 
@@ -230,15 +212,20 @@ eq (rat_of_real c 0.000001) 1.61803444782168171 "rat_of_real (constant 1) 0.0000
 
 eq (rat_of_real i 0.000001) 7.0 "rat_of_real (real_of_int 7) 0.000001 = 7.0";;
 
-p "r2 = real_of_rat (4.0 /. 3.0)"
+let real_of_rat_test f l =
+	let s = real_of_rat f in
+	let rec ror s' l' i' = match l' with
+		| h::t -> if s'.head = h then ror (s'.tail()) t (i' + 1)
+			else raise (Oops ("real_of_rat failed for " ^ (string_of_float f) ^ "; expected " ^ (intl_to_string l) ^ "; but actually " ^ (intl_to_string (take i' s))))
+		| _ -> ()
+	in
+	ror s l 1;;
 
-let r2 = real_of_rat (4.0 /. 3.0);;
+real_of_rat_test (4.0 /. 3.0) [1;3;0;0;0;0;0];;
 
-eq r2.head 1 "r2.head = 1";;
+real_of_rat_test (-0.75) [-1;4;0;0;0;0];;
 
-eq (r2.tail()).head 3 "(r2.tail()).head = 3";;
-
-p "r3 = real_of_rat ((4.0 +. epsilon_float) /. 2.0)"
+p "r3 = real_of_rat ((4.0 +. epsilon_float) /. 2.0)";;
 
 let r3 = real_of_rat ((4.0 +. epsilon_float) /. 2.0);;
 
@@ -248,8 +235,16 @@ let r3t = take 500 (r3.tail());;
 
 y (List.for_all ((=) 0) r3t) "tail elements of r3 are not all 0s";;
 
-(* To print r3 *)
-(* List.iter (Printf.printf "%d ") (take 500 r3);; *)
+p "rat -> real -> rat";;
+
+let roror f e = let f2 = rat_of_real (real_of_rat f) e in y (abs_float (f2 -. f) <= e) ("rat_of_real (real_of_rat (" ^ (string_of_float f) ^ ")) failed; resulted in " ^ (string_of_float f2));;
+
+roror 10.5 1e-8;;
+roror (-10.5) 1e-8;;
+roror 0.2345987698689 1e-8;;
+roror 0.0 1e-8;;
+roror 10.0 1e-8;;
+roror (-10.0) 1e-8;;
 
 p "Example Tests";;
 
@@ -276,5 +271,5 @@ let not_pi' = to_real_and_back not_pi;;
 
 y (approx_float not_pi not_pi' 0.0001) "4 decimals not shared between not_pi & not_pi'";;
 
-if !warned then print_endline "End of tests\n\nSome warning were issued"
+if !warned then print_endline "End of tests\n\nSome warnings were issued"
 else print_endline "Success!\n\n----------\nEnd of tester; No errors found!\n----------";;
