@@ -134,6 +134,21 @@ let sqrt_check n exp = (
 );;
 
 sqrt_check 2 (768398401, 543339720);;
+sqrt_check 4 (2, 1);;
+sqrt_check 9 (3, 1);;
+sqrt_check 16 (4, 1);;
+sqrt_check 0 (0, 0);;
+
+let rnd_sqrt_check () = 
+		let n = Random.int 1000000 in
+		let r = sqrt (float_of_int n) in
+		let exp = (int_of_float (r *. 10000000), 10000000) in
+		RationalT.sqrt_check n "RndRationalT" exp (fun x -> raise (Oops x));;
+
+for i = 1 to 100 do
+	rnd_sqrt_check ()
+done;;
+
 
 (* 
 let sqrtN n = FloatN.square_root (FloatArith.from_fraction (n, 1));;
