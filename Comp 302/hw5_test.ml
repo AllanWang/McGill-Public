@@ -65,5 +65,43 @@ let x2 = let2in "x" "y" (ifelse (le 3 0) (Int 5) (Int 4)) (Bool false) (ifelse (
 
 e' (Int 2) x2 "let (x, y) = (if 3 <= 0 then 5 else 4, false) in if y then x + 2 else x - 2";;
 
+(* Courtesy of Sandrine *)
+let simple1 = E.Let (E.Val (E.Int 7, "x"), E.Int 9);;
+
+e' (Int 9) simple1 "let x = 7 in 9";;
+
+let simple2 = E.Let (E.Val (E.Int 7, "x"), E.Var "x");;
+
+e' (Int 7) simple2 "let x = 7 in x";;
+
+let simple3 = E.Let (E.Match (E.Pair (E.Int 3, E.Bool false), "x", "y"), E.If (E.Var "y", E.Primop (E.Plus, [E.Var "x"; E.Int 1]), E.Int 7));;
+
+e' (Int 7) simple3 "let (x, y) = (3, false) in if y then x + 1 else 7";;
+
+let simple4 = E.Let (E.Match (E.Pair (E.Int 3, E.Bool false), "x", "y"), E.Primop (E.Plus, [E.Var "x"; E.Int 1]));;
+
+e' (Int 4) simple4 "let (x, y) = (3, false) in x + 1";;
+
+let simple5 = E.Let (E.Match (E.Pair (E.Int 3, E.Bool false), "x", "y"), E.If (E.Bool false, E.Int 1, E.Int 2));;
+
+e' (Int 2) simple5 "let (x, y) = (3, false) in if false then 1 else 2";;
+
+let simple6 = E.Let (E.Val (E.Int 3, "z"), E.Let (E.Val (E.Int 7, "x"), E.Let (E.Val (E.Var "x", "y"), E.Var "z")));;
+
+e' (Int 3) simple6 "let z = 3 in let x = 7 in let y = x in z";;
+
+(* let complex1 = E.Pair (E.Int 1, E.Bool true), E.Bool true;; *)
+
+(* e' () complex1 "(1, true) true";; *)
+let complex2 = E.Let (E.Match (E.Pair (E.Int 3, E.Int 2), "x", "y"), E.Primop (E.Plus, [E.Var "x"; E.Var "y"]));;
+
+e' (Int 5) complex2 "let (x, y) = (3, 2) in x + y";;
+let complex3 = E.Let (E.Match (E.Pair (E.Bool false, E.Int 7), "x", "y"), E.If (E.Var "x", E.Int 1, E.Var "y"));;
+
+e' (Int 7) complex3 "let (x, y) = (false, 7) in if x then 1 else y";;
+let complex4 = E.Let( E.Match(E.Pair(E.Int 1, E.Int 2), "x", "y"), E.Let( E.Match(E.Pair(E.Var "x", E.Var "y"), "a", "b"), E.Primop(E.Plus, [E.Var "a"; E.Var "b"])));;
+
+e' (Int 3) complex4 "let (x, y) = (1, 2) in let (a, b) = (x, y) in a + b";;
+
 if !warned then print_endline "End of tests\n\nSome warnings were issued"
 else print_endline "Success!\n\n----------\nEnd of tester; No errors found!\n----------";;
