@@ -51,7 +51,14 @@ end;;
 
 let s' = function | Int x -> string_of_int x | Bool x -> string_of_bool x | _ -> "NA";;
 
-let e' exp act msg = let out = Eval.eval act in if exp <> out then raise (Oops ("Failed " ^ msg ^ "; Expected " ^ (s' exp) ^ "; Actually " ^ (s' out)));;
+let e' exp act msg = match (try Some (Eval.eval act) with | _ -> None) with
+	| Some out -> if exp <> out then 
+		raise (Oops ("Failed " ^ msg ^ "; Expected " ^ (s' exp) ^ "; Actually " ^ (s' out)))
+	| None -> raise (Oops ("Failed " ^ msg ^ "; Expected " ^ (s' exp) ^ "; Actually EXCEPTION"));;
+
+let e_fail' act msg = match (try Some (Eval.eval act) with | _ -> None) with
+	| Some out -> raise (Oops ("Failed " ^ msg ^ "; Expected EXCEPTION; Actually " ^ (s' out)))
+	| None -> ();;
 
 open U;;
 
@@ -96,9 +103,12 @@ e' (Int 3) simple6 "let z = 3 in let x = 7 in let y = x in z";;
 let complex2 = E.Let (E.Match (E.Pair (E.Int 3, E.Int 2), "x", "y"), E.Primop (E.Plus, [E.Var "x"; E.Var "y"]));;
 
 e' (Int 5) complex2 "let (x, y) = (3, 2) in x + y";;
+
 let complex3 = E.Let (E.Match (E.Pair (E.Bool false, E.Int 7), "x", "y"), E.If (E.Var "x", E.Int 1, E.Var "y"));;
 
+
 e' (Int 7) complex3 "let (x, y) = (false, 7) in if x then 1 else y";;
+
 let complex4 = E.Let( E.Match(E.Pair(E.Int 1, E.Int 2), "x", "y"), E.Let( E.Match(E.Pair(E.Var "x", E.Var "y"), "a", "b"), E.Primop(E.Plus, [E.Var "a"; E.Var "b"])));;
 
 e' (Int 3) complex4 "let (x, y) = (1, 2) in let (a, b) = (x, y) in a + b";;
