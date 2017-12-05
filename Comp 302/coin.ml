@@ -22,7 +22,7 @@ struct
             (* skip coin as it is too big *)
             if coin' > amt' then change' cs' amt'
             (* try to include current coin, and skip if fail *)
-            else try coin' :: (change' coins' (amt - coin')) with BackTrack -> change' cs' amt'
+            else try coin' :: (change' coins' (amt' - coin')) with BackTrack -> change' cs' amt'
         )
     in
     try Some (change' coins amt) with BackTrack -> None
