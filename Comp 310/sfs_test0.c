@@ -121,6 +121,8 @@ int read_write() {
 
     sfs_fwrite(fd, data, length);
 
+    sfs_fseek(fd, 0);
+
     char *read = malloc(length);
 
     sfs_fread(fd, read, length);
