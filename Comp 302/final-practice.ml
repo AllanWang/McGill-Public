@@ -12,7 +12,7 @@ type 'a tree
   = Leaf
   | Node of 'a tree * 'a * 'a tree
 
-(* We can write a function that counts how many nodes satisfy the predicat p *)
+(* We can write a function that counts how many nodes satisfy the predicate p *)
 let rec count p = function
   | Leaf -> 0
   | Node (l, x, r) ->
@@ -40,13 +40,13 @@ let rec count_k (p : 'a -> bool) (t : 'a tree) (k : int -> 'b) : 'b =
 
 (* Now you can write count' that behaves like count but it is tail
    recursive (of course, we will use count_k to do it) *)
-let count' p t = assert false
+let count' p t = count_k p t (fun x -> x)
 
 
 (* The very general type affords us many benefits, tail recursion, and
    versatility). Consider we are not interested in how many results we
-   have, but just if there are too many of them (we all now that more
-   thatn 5 results is too many) *)
+   have, but just if there are too many of them (we all know that more
+   than 5 results is too many) *)
 
 
 (* We can implement this function by taking advantage of the
@@ -75,7 +75,7 @@ let rec map_tree_k (f : 'a -> 'b) (t : 'a tree) (k : 'b tree -> 'c) : 'c =
 
 (* Finally, write a map_tree' that behaves like map_tree but it is
    tail recursive and uses map_tree_k *)
-let map_tree' f t = assert false
+let map_tree' f t = map_tree_k f t (fun t' -> t')
 
 (*  Intuitively, fold_right replaces every :: by f and nil
     by e in a list. The function tree_fold for binary trees is analogous to 
@@ -97,7 +97,9 @@ let map_tree' f t = assert false
 
 *)
 
-let rec tree_fold f e t = assert false
+let rec tree_fold f e t = match t with
+  | Leaf -> e
+  | Node (l, c, r) -> f (c, tree_fold f e l, tree_fold f e r)
 
 
 (* The tree_fold function allows us to express many programs which 
@@ -114,9 +116,9 @@ let rec tree_fold f e t = assert false
    returns a list of all entries in order.
 
 *)
-let size    tr = assert false
-let reflect tr = assert false
-let inorder tr = assert false
+let size    tr = tree_fold (fun (c, l, r) -> 1 + l + r) 1 tr
+let reflect tr = tree_fold (fun (c, l, r) -> Node (r, c, l)) Leaf tr
+let inorder tr = tree_fold (fun (c, l, r) -> l @ [c] @ r) [] tr
 
 
 (* More on using failure continuations .... *)
@@ -148,7 +150,8 @@ let change_top coins amt =
 
 
 (* Giving change with continuations *)
-let rec cchange (coins: int list) (amt:int) (fc: unit -> int list) = assert false
+let rec cchange (coins: int list) (amt:int) (fc: unit -> int list) = 
+  try change coins amt with Change -> fc ()
 
 let cchange_top coins amt = 
   try 
@@ -221,7 +224,7 @@ let rec take_str n s = match n with
 (* ------------------------------------------------------- *)
 (* val zip : ('a -> 'b -> 'c) -> 'a str -> 'b str -> 'c str *)
 (* zip two streams togethether using f *)
-let rec zip f s1 s2 =  assert false 
+let rec zip f s1 s2 =  {hd = f s1.hd s2.hd ; tl = delay (fun () -> zip f (force s1.tl) (force s2.tl)) }
 
 
 let rec add_str s1 s2 = zip (fun x1 x2 -> x1 + x2) s1 s2
@@ -234,7 +237,11 @@ let rec add_str s1 s2 = zip (fun x1 x2 -> x1 + x2) s1 s2
 
 *)
 
-let rec psums s =  assert false
+let rec constant c = {hd = c; tl = delay (fun () -> constant c) }
+let rec psums s = let rec psums' s' sum' = let sum = s'.hd + sum' in
+                    {hd = sum  ; tl = delay (fun() -> psums' (force s'.tl) sum)} in
+  psums' s 0
+
 
 (* let pSeq = psums nats *)
 
@@ -255,7 +262,11 @@ exception Error of string
 
 *)
 
-let make_lock  = assert false
+let make_lock  = fun lock action -> match action with
+  | Open -> if !lock = Close then lock := Open else raise (Error "Already opened")
+  | Close -> if !lock = Open then lock := Close else raise (Error "Already closed")
+
+let with_lock = make_lock (ref Open)
 
 (* ---------------------------------------------------- *)
 (* ---------------------------------------------------- *)
