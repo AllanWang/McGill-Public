@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "sfs_api.h"
+#include "disk_emu.h"
 
 /* The maximum file name length. We assume that filenames can contain
  * upper-case letters and periods ('.') characters. Feel free to
@@ -23,13 +24,19 @@
 #define MAX_BYTES 30000 /* Maximum file size I'll try to create */
 #define MIN_BYTES 10000         /* Minimum file size */
 
+/*
+ * Prints use stderr so that it isn't buffered
+ */
+
 #define DEBUG_T0 1 // set to 0 to disable
 #define debug_print(...) \
             do { if (DEBUG_T0) { fprintf(stderr, __VA_ARGS__); fprintf(stderr, "\n"); } } while (0)
-
+#define error_print(...) fprintf(stderr, "ERROR: "); fprintf(stderr, __VA_ARGS__); fprintf(stderr, "\n");
 /* Just a random test string.
  */
 static char test_str[] = "The quick brown fox jumps over the lazy dog.\n";
+
+#define BLOCK_SIZE 1024
 
 /* rand_name() - return a randomly-generated, but legal, file name.
  *
@@ -83,7 +90,11 @@ char *rand_string(size_t size) {
  * Tests
  */
 
-int readwrite();
+int read_write();
+
+int big_read_write();
+
+int big_segment_read_write();
 
 /* The main testing program
  */
@@ -92,15 +103,20 @@ main(int argc, char **argv) {
 
     mksfs(1);                     /* Initialize the file system. */
 
-    readwrite();
+    read_write();
+    big_read_write();
+    big_segment_read_write();
 
+    return close_disk();
 }
 
-int readwrite() {
-    int fd = sfs_fopen(rand_name());
+int read_write() {
+
+    char *name = rand_name();
+    int fd = sfs_fopen(name);
     sfs_fseek(fd, 0);
 
-    size_t length = 20;
+    int length = 20;
     char *data = rand_string(length);
 
     sfs_fwrite(fd, data, length);
@@ -109,14 +125,176 @@ int readwrite() {
 
     sfs_fread(fd, read, length);
 
-    int out = cmp(data, read, length);
-
-    free(data);
-    free(read);
-
-    if (out == 0) {
-        debug_print("Passed read write");
+    debug_print("Verifying read write");
+    if (cmp(data, read, length) != 0) {
+        debug_print("Failed read write");
+        free(data);
+        free(read);
+        free(name);
+        return -1;
     }
 
-    return out;
+
+    debug_print("Write data 2");
+    char *data2 = rand_string(length);
+
+    sfs_fwrite(fd, data2, length);
+
+    sfs_fseek(fd, 0);
+
+    char *read2 = malloc(length * 2);
+
+    sfs_fread(fd, read2, length * 2);
+
+    debug_print("Verifying read write 2");
+    if (cmp(data, read2, length) != 0) {
+        error_print("Failed second rw");
+        free(data);
+        free(data2);
+        free(read);
+        free(read2);
+        free(name);
+        return -1;
+    }
+
+    debug_print("Verifying read write 2.2");
+    if (cmp(data2, read2 + length, length) != 0) {
+        error_print("Failed second rw pt 2");
+        free(data);
+        free(data2);
+        free(read);
+        free(read2);
+        free(name);
+        return -1;
+    }
+
+
+    debug_print("Passed read write tests");
+
+    free(data);
+    free(data2);
+    free(read);
+    free(read2);
+    free(name);
+    return 0;
 }
+
+int big_read_write() {
+    int len = BLOCK_SIZE * 15 + 20;
+    char *data = rand_string(len);
+    char *name = rand_name();
+    int fd = sfs_fopen(name);
+    sfs_fseek(fd, 0);
+    sfs_fwrite(fd, data, len);
+    char *read = malloc(len);
+    sfs_fseek(fd, 0);
+    sfs_fread(fd, read, len);
+    if (cmp(data, read, len) != 0) {
+        error_print("Failed big read write");
+        free(data);
+        free(read);
+        free(name);
+        return -1;
+    }
+
+    debug_print("Passed big read write");
+    free(data);
+    free(read);
+    free(name);
+    return 0;
+}
+
+int big_segment_read_write() {
+
+    int len1 = BLOCK_SIZE * 11 + 20;
+    int len2 = BLOCK_SIZE + 30;
+    int len3 = BLOCK_SIZE * 3 - 20;
+
+    char *data1 = rand_string(len1);
+    char *data2 = rand_string(len2);
+    char *data3 = rand_string(len3);
+
+    char *name = rand_name();
+
+    int fd = sfs_fopen(name);
+    sfs_fseek(fd, 0);
+    sfs_fwrite(fd, data1, len1);
+    sfs_fwrite(fd, data2, len2);
+    sfs_fwrite(fd, data3, len3);
+
+    char *read = malloc(len1 + len2 + len3);
+    sfs_fseek(fd, 0);
+
+    sfs_fread(fd, read, len1 + len2 + len3);
+    if (cmp(data1, read, len1) != 0) {
+        error_print("Failed big seg read write 1");
+        free(data1);
+        free(read);
+        free(name);
+        return -1;
+    }
+
+    free(data1);
+
+    if (cmp(data2, read + len1, len2) != 0) {
+        error_print("Failed big seg read write 2");
+        free(data2);
+        free(read);
+        free(name);
+        return -1;
+    }
+
+    free(data2);
+
+    if (cmp(data3, read + len1 + len2, len3) != 0) {
+        error_print("Failed big seg read write 3");
+        free(data3);
+        free(name);
+        free(read);
+        return -1;
+    }
+
+    debug_print("Passed big segment read write pt 1");
+    free(data3);
+
+    sfs_fseek(fd, 0);
+
+    int size = sfs_getfilesize(name);
+
+    if (size != len1 + len2 + len3) {
+        error_print("Failed filesize; expected %d, actually %d", len1 + len2 + len3, size);
+        free(read);
+        free(name);
+        return -1;
+    }
+
+    debug_print("Size is %d", size);
+
+    int i = 0;
+    int chunk_size = 29;
+    char *chunk = malloc(chunk_size);
+
+    while (i < size) {
+        sfs_fread(fd, chunk, chunk_size);
+        if (cmp(read + i, chunk, size - i > chunk_size ? chunk_size : size - i)) {
+            error_print("Failed chunk read %d", i);
+            free(read);
+            free(chunk);
+            free(name);
+            return -1;
+        }
+        i += chunk_size;
+    }
+
+    debug_print("Passed segment read");
+
+    free(read);
+    free(chunk);
+    free(name);
+    return 0;
+
+}
+
+//REPPGWSTJSXPUPPLUNXLUIZUZZRDO
+
+//REPPGWSTJSXPUPPLUNXLUIZUZZRDOJDHPUWWSOPBIMSCCHPYXMJTXKPWKHCASHHHBFDVVTYEHQGLZYJWKSSJDHGNOKPGRYQUDTPYONCWFLHEJRDVLVFOENDVXUBQSTKVNBUBOYZVJHZUAESNBZEGMJBLEEBYANUNOQQEOQ
