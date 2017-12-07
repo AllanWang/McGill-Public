@@ -1,0 +1,216 @@
+\documentclass[12pt]{article}
+    \usepackage{multicol}
+    \usepackage{ifthen}
+    \usepackage{geometry}
+    \usepackage{listings}
+    \usepackage{color}
+
+    \pdfinfo{
+      /Title (comp302_midterm.pdf)
+      /Author (Allan Wang)
+      /Subject (Comp 302)
+      /Keywords (pdflatex, latex,pdftex,tex)}
+    
+    % This sets page margins to .5 inch if using letter paper, and to 1cm
+    % if using A4 paper. (This probably isn't strictly necessary.)
+    % If using another size paper, use default 1cm margins.
+    \ifthenelse{\lengthtest { \paperwidth = 11in}}
+        { \geometry{top=.5in,left=.5in,right=.5in,bottom=.5in} }
+        {\ifthenelse{ \lengthtest{ \paperwidth = 297mm}}
+            {\geometry{top=1cm,left=1cm,right=1cm,bottom=1cm} }
+            {\geometry{top=1cm,left=1cm,right=1cm,bottom=1cm} }
+        }
+    
+    % Turn off header and footer
+    \pagestyle{empty}
+   
+	\definecolor{header}{rgb}{0.18,0.45,0.71}
+    % Redefine section commands to 	use less space
+    \makeatletter
+    \renewcommand{\section}{\@startsection{section}{1}{0mm}%
+                                    {-1ex plus -.5ex minus -.2ex}%
+                                    {0.5ex plus .2ex}%x
+                                    {\normalfont\large\bfseries\color{header}}}
+    \renewcommand{\subsection}{\@startsection{subsection}{2}{0mm}%
+                                    {-1explus -.5ex minus -.2ex}%
+                                    {0.5ex plus .2ex}%
+                                    {\normalfont\normalsize\bfseries}}
+    \renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{0mm}%
+                                    {-1ex plus -.5ex minus -.2ex}%
+                                    {1ex plus .2ex}%
+                                    {\normalfont\small\bfseries}}
+    \makeatother
+    
+    % Define BibTeX command
+    \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+        T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+    
+    % Don't print section numbers
+    \setcounter{secnumdepth}{0}
+    
+    
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{0pt plus 0.5ex}
+    
+    %My Environments
+    \newtheorem{example}[section]{Example}
+    % -----------------------------------------------------------------------
+    \lstset{language=[Objective]caml,flexiblecolumns=true}
+    \newcommand{\oc}[1]{\lstinline{#1} \\}
+    
+
+\begin{document}
+\raggedright
+\footnotesize
+\begin{multicols}{2}
+
+
+	% multicol parameters
+	% These lengths are set only within the two main columns
+	%\setlength{\columnseprule}{0.25pt}
+	\setlength{\premulticols}{1pt}
+	\setlength{\postmulticols}{1pt}
+	\setlength{\multicolsep}{10pt}
+	\setlength{\columnsep}{2pt}
+
+
+
+	\begin{center}
+		\Large{\underline{Comp 302 Midterm}} \\
+	\end{center}
+
+	\section{Concepts}
+	\begin{lstlisting}
+let curry f = (fun x y -> f (x, y))
+let curry2 f x y = f (x, y)
+let curry3 = fun f -> fun x -> fun y -> f (x, y)
+let uncurry f = (fun (x, y) -> f x y)
+
+(* Functions are right associative *)
+(* Functions are not evaluated until they need to be *)
+let test a b = a * a + b
+test 3 = fun y -> 3 * 3 + y (* Not 9 + y *)
+	\end{lstlisting}
+
+
+	% --------------------------------------------------------------------------
+    \section{Syntax}
+    \textcolor{red}{\textbf{Do not forget about 'rec', 'in', constructors or tuples}}
+	\begin{lstlisting}
+match x with
+  | a -> (* return *)
+  | b -> (* Nested matching *)
+    begin match ... with 
+      | ... ->
+    end
+  | _ -> (* wildcard return *)
+  
+let name arg1 arg2 =
+  let inner' arg1' arg2' = out' in
+  inner' arg1 arg2
+  
+exception Failure of string
+raise (Failure "what a terrible failure")
+
+(* ('a * 'b -> 'c) -> 'a -> 'b -> 'c = <fun> *)
+let cur = fun f -> fun x -> fun y -> f (x,y)
+
+(* 'a list list -> 'a list = <fun> *)
+let first lst = match lst with
+  | [] -> []
+  | x::xs -> x
+
+(* An anonymous 'function' has only one argument,
+and can be matched directly without match ... with
+val is_zero : int -> string = <fun> *)
+let is_zero = function | 0 -> "zero" | _ -> "not zero"
+    \end{lstlisting}
+    
+	% --------------------------------------------------------------------------
+	\section{List Ops}
+	\begin{lstlisting}
+elem :: list        list1 @ list2
+val length : 'a list -> int
+val filter : ('a -> bool) -> 'a list -> 'a option 
+val map : ('a -> 'b) -> 'a list -> 'b list
+val fold_right : ('a -> 'b -> 'b) -> 'a list -> 'b -> 'b
+val for_all : ('a -> bool) -> 'a list -> bool
+val exists : ('a -> bool) -> 'a list -> bool
+val rev : 'a list -> 'a list
+val init : int -> (int -> 'a) -> 'a list (* by index *)
+    \end{lstlisting}
+    
+    \columnbreak
+    % --------------------------------------------------------------------------
+    \section{Types \& Option}
+    \begin{lstlisting}
+(* Base types: bool, int, char, float, 'a list, option *)
+(* 'x denotes a polymorphic type (Java Generics) *)
+type 'a option = None | Some of 'a
+(* Constructors can be used to match within types
+match cases are sufficient once all constructors are matched *)
+type rational = Integer of int
+  | Fraction of rational * rational
+type 'param int_pair = int * 'param
+let x = (3, 3.14) (* val x : int * float = 3, 3.14 *)
+(* Valid specified type *)
+let (x : int_pair) = (3, 3.14) (* val x : int_pair = 3, 3.14 *)
+    \end{lstlisting}
+	
+	% --------------------------------------------------------------------------
+	\section{Higher Order Functions}
+	\begin{lstlisting}
+(* sum : (int -> int) -> int * int -> int *)
+let rec sum f (a, b) =
+  if a > b then 0
+  else f a + sum f (a + 1, b)
+(* sumCubes : int * int -> int = <fun> *)
+let sumCubes (a, b) = sum (fun x -> x * x * x) (a, b)
+	\end{lstlisting}
+
+	% --------------------------------------------------------------------------
+	\section{Induction}
+	\begin{tabular}{l l}
+	$e \Downarrow v$ 		& multi step evaluation from $e$ to $v$ 			\\
+	$e \Rightarrow e'$ 		& single step evaluation from $e$ to $e'$ 			\\
+	$e \Rightarrow^* e'$	& multiple small step evaluations from $e$ to $e'$ 	\\
+    \end{tabular} \\~\\
+    State theory and IH; do base case \\
+    \begin{lstlisting}
+let rec even_parity = function
+  | [] -> false
+  | true::xs -> not (even_parity xs)
+  | false::xs -> even_parity xs
+
+let even_parity_tr l = let rec parity p = function
+  | [] -> p | p'::xs -> parity (p<>p') xs in
+  parity false l
+
+(* IH: For all l, even_parity l = even_parity_tr l *)   
+(* Case for true: *)
+even_parity_tr true::xs
+= parity false true::xs      (* Def of even_parity_tr *)
+= parity (false <> true) xs  (* Def of parity *)
+= parity true xs             (* Def of <> *)
+= not (parity false xs)      (* Prove? *)
+= not (even_parity_tr xs)    (* Def of even_parity_tr *)
+= not (even_parity xs)       (* IH *)
+= even_parity true::xs       (* Def of even_parity *)
+
+    \end{lstlisting}
+	
+	\begin{lstlisting}
+	\end{lstlisting}
+	
+\end{multicols}
+
+\pagebreak
+
+\begin{multicols}{2}
+s
+
+\columnbreak
+
+\end{multicols}
+
+\end{document}

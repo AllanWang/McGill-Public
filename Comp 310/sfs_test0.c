@@ -64,6 +64,14 @@ char *rand_name() {
     return (strdup(fname));
 }
 
+void print_string(const char *str, size_t size) {
+    char *out = malloc(size + 1);
+    out[size] = '\0';
+    memcpy(out, str, size);
+    debug_print("\t%d Str '%s'\n\n", (int) size, str);
+    free(out);
+}
+
 /**
  * Outputs mismatch if existent
  * @return 0 if matched, 1 otherwise
