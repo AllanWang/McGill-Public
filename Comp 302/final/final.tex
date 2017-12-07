@@ -1,9 +1,10 @@
 \documentclass[12pt]{article}
     \usepackage{multicol}
     \usepackage{ifthen}
-    \usepackage{geometry}
+    \usepackage{geometry,amsmath}
     \usepackage{listings}
     \usepackage{color}
+    \usepackage{enumitem}
 
     \pdfinfo{
       /Title (comp302_final.pdf)
@@ -112,13 +113,14 @@ let name arg1 arg2 =
 exception Failure of string
 raise (Failure "what a terrible failure")
 
+let x = 2 and y = 4 (* Initializes both *)
+
 (* ('a * 'b -> 'c) -> 'a -> 'b -> 'c = <fun> *)
 let cur = fun f -> fun x -> fun y -> f (x,y)
 
 (* 'a list list -> 'a list = <fun> *)
 let first lst = match lst with
-  | [] -> []
-  | x::xs -> x
+  | [] -> [] | x::xs -> x
 
 (* An anonymous 'function' has only one argument,
 and can be matched directly without match ... with
@@ -174,7 +176,14 @@ let sumCubes (a, b) = sum (fun x -> x * x * x) (a, b)
 	\end{lstlisting}
 
 	% --------------------------------------------------------------------------
-	\section{Induction}
+    \section{Induction}
+    
+    \begin{itemize}[noitemsep,nosep]
+        \item Mathematical, Structural
+        \item Can generalize theory when proving \\
+        Eg rev (x::t) = rev' (x::t) [] $\Rightarrow$ rev l @ acc = rev' l acc
+    \end{itemize} 
+    \vspace{1mm}
 	\begin{tabular}{l l}
 	$e \Downarrow v$ 		& multi step evaluation from $e$ to $v$ 			\\
 	$e \Rightarrow e'$ 		& single step evaluation from $e$ to $e'$ 			\\
@@ -203,9 +212,15 @@ even_parity_tr true::xs
 = even_parity true::xs       (* Def of even_parity *)
 
     \end{lstlisting}
-	
-	\begin{lstlisting}
-	\end{lstlisting}
+
+    \section{References}
+    \begin{tabular}{l l l}
+        mutable type    & type t = \{ mutable i : int \} \\
+        init        & let x = ref 0 & let y = { i = 5 } \\
+        retrieval   & let val1 = !x & let val2 = y.i \\
+        assignment  & x := 9    & y.i \textless \textendash 1
+
+    \end{tabular}
 	
 \end{multicols}
 
@@ -236,12 +251,10 @@ struct
     let peek = function | [] -> None | h :: _ -> Some h
 end
 
-(* val double : ('a -> 'a) -> 'a -> 'a = <fun> *)
-let double = fun f -> fun x -> f(f(x))
-
 (* Susp *)
 
-type 'a susp = Susp of (unit - 'a)
+type 'a susp = Susp of (unit -> 'a)
+type 'a str = {hd: 'a; tl : ('a str) susp}
 let delay f = Susp(f)     (* (unit -> 'a) -> 'a susp *)
 let force (Susp f) = f()  (* 'a susp -> 'a *)
 
@@ -249,6 +262,28 @@ let force (Susp f) = f()  (* 'a susp -> 'a *)
 let rec zip f s1 s2 = {hd = f s1.hd s2.hd ; 
     tl = delay (fun () -> zip f (force s1.tl) (force s2.tl)) }
 
+(* Sieve of Eratosthenes *)
+
+let rec filter_str (p : 'a -> bool) (s : 'a str) =
+    let h, t = find_hd p s in {hd = h; 
+    tl = delay (fun () -> filter_str p (force t))}
+and find_hd p s = if p s.hd then (s.hd, s.tl)
+    else find_hd p (force s.tl)
+
+let no_divider m n = not (n mod m = 0)    
+let rec sieve s = { hd = s.hd; 
+    tl = delay (fun () -> 
+        sieve (filter_str (no_divider s.hd) (force s.tl) ))}
+
+(* val double : ('a -> 'a) -> 'a -> 'a = <fun> *)
+let double = fun f -> fun x -> f(f(x))
+
+
+\end{lstlisting}
+
+\columnbreak
+
+\begin{lstlisting}
 (* Coin *)
 
 exception BackTrack
@@ -273,12 +308,23 @@ let rec change coins amt success failure =
             else change coins (amt - coin)
                 (fun list -> success (coin :: list))
                 (fun () -> change cs amt success failure)
-
 \end{lstlisting}
 
-\columnbreak
+\section{Syntax \& Semantics}
 
-hi
+\begin{itemize}[noitemsep, nosep]
+    \item Definition \\
+    $FV((e_1, e_2)) = FV(e_1) \cup FV(e_2)$
+    \item Substitution \\
+    $[e'/x'](\text{let pair } (x, y) = e_1 \text{ in } e_2 \text{ end}) = \text{let pair } (x, y) = [e'/x']e_1 \text{ in } [e'/x']e_2 \text{ end}$ \\
+    Provided $x' \ne x \text{ \&\& } x' \ne y \text{ \&\& } (x, y \ne FV(e'))$
+    \item Type \\
+    $\dfrac{\Gamma \vdash (x, y): T \times S \quad \Gamma \cup \{(x: T), (y: S)\} \vdash e_2: U}{\Gamma \vdash \text{let pair } (x, y) = e_1 \text{ in } e_2: U}$ T-LET
+    \item Operation \\
+    $\dfrac{e_1 \Downarrow (v_1, v_2) \quad [v_1/x][v_2/y]e_3 \Downarrow v}{\text{let pair } (x, y) = e_1 \text{ in } e_2 \Downarrow v_3}$ B-LET
+\end{itemize}
+
+
 
 \end{multicols}
 
