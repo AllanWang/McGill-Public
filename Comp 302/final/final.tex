@@ -255,7 +255,7 @@ end
 
 type 'a susp = Susp of (unit -> 'a)
 type 'a str = {hd: 'a; tl : ('a str) susp}
-let delay f = Susp(f)     (* (unit -> 'a) -> 'a susp *)
+let delay f = Susp f      (* (unit -> 'a) -> 'a susp *)
 let force (Susp f) = f()  (* 'a susp -> 'a *)
 
 (* ('a -> 'b -> 'c) -> 'a str -> 'b str -> 'c str *)
@@ -280,6 +280,13 @@ let double = fun f -> fun x -> f(f(x))
 
 
 \end{lstlisting}
+\vspace{1cm}
+\begin{itemize}[noitemsep,nosep]
+    \item $\Gamma \vdash e \Rightarrow T/C$ : Infer type $T$ for expression $e$ in the typing environment $\Gamma$ module the constraints $C$
+    \vspace{1mm}
+    $\dfrac{x : T \in \Gamma}{\Gamma \vdash x \Rightarrow T/\emptyset}$ B-VAR
+    $\dfrac{\Gamma \vdash \Rightarrow T/C \quad \Gamma \vdash e_1 \Rightarrow T_1/C_1 \quad \Gamma \vdash e_2 \Rightarrow T_2/C_2}{\Gamma \vdash \text{if } e \text{ then } e_1 \text{ else } e_2 \Rightarrow T_1/C \cup C_1 \cup C_2 \cup \{T = \text{bool, } T_1 = T_2\}}$ B-IF
+\end{itemize}
 
 \columnbreak
 
@@ -319,12 +326,23 @@ let rec change coins amt success failure =
     $[e'/x'](\text{let pair } (x, y) = e_1 \text{ in } e_2 \text{ end}) = \text{let pair } (x, y) = [e'/x']e_1 \text{ in } [e'/x']e_2 \text{ end}$ \\
     Provided $x' \ne x \text{ \&\& } x' \ne y \text{ \&\& } (x, y \ne FV(e'))$
     \item Type \\
-    $\dfrac{\Gamma \vdash (x, y): T \times S \quad \Gamma \cup \{(x: T), (y: S)\} \vdash e_2: U}{\Gamma \vdash \text{let pair } (x, y) = e_1 \text{ in } e_2: U}$ T-LET
+    Types $t ::= \text{int } \vert \text{ bool } \vert \, T_1 \rightarrow T_2 \vert \, T_1 \times T_2 \vert \, \alpha$ \\
+    $\dfrac{\Gamma \vdash (x, y): T \times S \quad \Gamma \cup \{(x: T), (y: S)\} \vdash e_2: U}{\Gamma \vdash \text{let pair } (x, y) = e_1 \text{ in } e_2: U}$ T-LET \\
+    Provided $x' \ne x, x' \ne y, \& \, x, y \notin FV(e')$ \\~\\
+    My Solution (they don't account for $e_1$) \\
+
+    $\dfrac{\Gamma \vdash e_1: T_1 \times T_2 \quad \Gamma, x: T_1, y: T_2, \vdash e_2: T}{\Gamma \vdash \text{ let } (x, y) = e_1 \text{ in } e_2 \text{ end}: T}$ \, T-LET-MATCH
     \item Operation \\
     $\dfrac{e_1 \Downarrow (v_1, v_2) \quad [v_1/x][v_2/y]e_3 \Downarrow v}{\text{let pair } (x, y) = e_1 \text{ in } e_2 \Downarrow v_3}$ B-LET
+    \item References \\
+    \vspace{1mm}
+    $\dfrac{\Gamma \vdash e_1 : T \text{ ref} \quad \Gamma \vdash e_2 : T}{\Gamma \vdash e_1 := e_2 : \text{ unit}} \quad 
+    \dfrac{\Gamma \vdash e : T \text{ ref}}{\Gamma \vdash !e : T}$ \\~\\
+    $\dfrac{\Gamma \vdash e : T}{\Gamma \vdash \text{ref } e : T \text{ ref}} \quad
+    \dfrac{}{\Gamma \vdash ()  : \text{ unit}}$
+    \item Preservation: If $e \Downarrow v$ and $e : T$ then $v : T$
+    
 \end{itemize}
-
-
 
 \end{multicols}
 
