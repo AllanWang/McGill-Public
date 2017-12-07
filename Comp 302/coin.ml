@@ -47,4 +47,3 @@ struct
     change' coins amt (fun x -> Some x) (fun () -> None)
 end
 
-

@@ -6,7 +6,7 @@
     \usepackage{color}
 
     \pdfinfo{
-      /Title (comp302_midterm.pdf)
+      /Title (comp302_final.pdf)
       /Author (Allan Wang)
       /Subject (Comp 302)
       /Keywords (pdflatex, latex,pdftex,tex)}
@@ -76,7 +76,7 @@
 
 
 	\begin{center}
-		\Large{\underline{Comp 302 Midterm}} \\
+		\Large{\underline{Comp 302 Final}} \\
 	\end{center}
 
 	\section{Concepts}
@@ -95,7 +95,7 @@ test 3 = fun y -> 3 * 3 + y (* Not 9 + y *)
 
 	% --------------------------------------------------------------------------
     \section{Syntax}
-    \textcolor{red}{\textbf{Do not forget about 'rec', 'in', constructors or tuples}}
+    \textcolor{red}{\textbf{Do not forget about 'rec', 'let ... in', brackets, constructors or tuples}}
 	\begin{lstlisting}
 match x with
   | a -> (* return *)
@@ -124,6 +124,11 @@ let first lst = match lst with
 and can be matched directly without match ... with
 val is_zero : int -> string = <fun> *)
 let is_zero = function | 0 -> "zero" | _ -> "not zero"
+
+(* Variable bindings are overshadowed; 
+bindings are valid in their respective scopes *)
+let m = 2;; let m = m * m in m (* is 4 *);; 
+m (* is 2 *);; let f () = m;; let m = 3;; f () (* is 2 *);;
     \end{lstlisting}
     
 	% --------------------------------------------------------------------------
@@ -207,9 +212,73 @@ even_parity_tr true::xs
 \pagebreak
 
 \begin{multicols}{2}
-s
+
+\begin{lstlisting}
+module type STACK =
+sig
+    type stack
+    type t
+    val empty : unit -> stack
+    val push : t -> stack -> stack
+    val size: stack -> int
+    val pop : stack -> stack option
+    val peek : stack -> t option
+end
+
+module IntStack : (STACK with type t = int) =
+struct
+    type stack = int list
+    type t = int
+    let empty () = []
+    let push i s = i :: s
+    let size = List.length
+    let pop = function | [] -> None | _ :: t -> Some t
+    let peek = function | [] -> None | h :: _ -> Some h
+end
+
+(* val double : ('a -> 'a) -> 'a -> 'a = <fun> *)
+let double = fun f -> fun x -> f(f(x))
+
+(* Susp *)
+
+type 'a susp = Susp of (unit - 'a)
+let delay f = Susp(f)     (* (unit -> 'a) -> 'a susp *)
+let force (Susp f) = f()  (* 'a susp -> 'a *)
+
+(* ('a -> 'b -> 'c) -> 'a str -> 'b str -> 'c str *)
+let rec zip f s1 s2 = {hd = f s1.hd s2.hd ; 
+    tl = delay (fun () -> zip f (force s1.tl) (force s2.tl)) }
+
+(* Coin *)
+
+exception BackTrack
+
+(* val change : int list -> int -> int list = <fun> *)
+let rec change coins amt = if amt = 0 then []
+    else (match coins with 
+        | [] -> raise BackTrack
+        | coin :: cs ->
+            if coin > amt then change cs amt
+            else try coin :: (change coins (amt - coin)) 
+                with BackTrack -> change cs amt)
+
+(* val change : int list -> int -> 
+    (int list -> 'a) -> (unit -> 'a) -> 'a = <fun> *)
+let rec change coins amt success failure = 
+    if amt = 0 then success []
+    else match coins with
+        | [] -> failure ()
+        | coin :: cs -> 
+            if coin > amt then change cs amt success failure
+            else change coins (amt - coin)
+                (fun list -> success (coin :: list))
+                (fun () -> change cs amt success failure)
+
+\end{lstlisting}
 
 \columnbreak
+
+hi
 
 \end{multicols}
 
