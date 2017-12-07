@@ -280,13 +280,10 @@ let double = fun f -> fun x -> f(f(x))
 
 
 \end{lstlisting}
-\vspace{1cm}
-\begin{itemize}[noitemsep,nosep]
-    \item $\Gamma \vdash e \Rightarrow T/C$ : Infer type $T$ for expression $e$ in the typing environment $\Gamma$ module the constraints $C$
-    \vspace{1mm}
-    $\dfrac{x : T \in \Gamma}{\Gamma \vdash x \Rightarrow T/\emptyset}$ B-VAR
-    $\dfrac{\Gamma \vdash \Rightarrow T/C \quad \Gamma \vdash e_1 \Rightarrow T_1/C_1 \quad \Gamma \vdash e_2 \Rightarrow T_2/C_2}{\Gamma \vdash \text{if } e \text{ then } e_1 \text{ else } e_2 \Rightarrow T_1/C \cup C_1 \cup C_2 \cup \{T = \text{bool, } T_1 = T_2\}}$ B-IF
-\end{itemize}
+
+\section{Misc}
+
+An effect is an action resulting from evaluation of an expression other than returning a value.
 
 \columnbreak
 
@@ -343,6 +340,11 @@ let rec change coins amt success failure =
     \item Preservation: If $e \Downarrow v$ and $e : T$ then $v : T$
     
 \end{itemize}
+~\\
+$\Gamma \vdash e \Rightarrow T/C$ : Infer type $T$ for expression $e$ in the typing environment $\Gamma$ module the constraints $C$
+\vspace{1mm}
+$\dfrac{x : T \in \Gamma}{\Gamma \vdash x \Rightarrow T/\emptyset}$ B-VAR
+$\dfrac{\Gamma \vdash \Rightarrow T/C \quad \Gamma \vdash e_1 \Rightarrow T_1/C_1 \quad \Gamma \vdash e_2 \Rightarrow T_2/C_2}{\Gamma \vdash \text{if } e \text{ then } e_1 \text{ else } e_2 \Rightarrow T_1/C \cup C_1 \cup C_2 \cup \{T = \text{bool, } T_1 = T_2\}}$ B-IF
 
 \end{multicols}
 
