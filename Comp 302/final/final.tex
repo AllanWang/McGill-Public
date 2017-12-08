@@ -122,9 +122,7 @@ let cur = fun f -> fun x -> fun y -> f (x,y)
 let first lst = match lst with
   | [] -> [] | x::xs -> x
 
-(* An anonymous 'function' has only one argument,
-and can be matched directly without match ... with
-val is_zero : int -> string = <fun> *)
+(* val is_zero : int -> string = <fun> *)
 let is_zero = function | 0 -> "zero" | _ -> "not zero"
 
 (* Variable bindings are overshadowed; 
