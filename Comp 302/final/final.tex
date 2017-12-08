@@ -138,7 +138,8 @@ m (* is 2 *);; let f () = m;; let m = 3;; f () (* is 2 *);;
 	\begin{lstlisting}
 elem :: list        list1 @ list2
 val length : 'a list -> int
-val filter : ('a -> bool) -> 'a list -> 'a option 
+val find_opt : ('a -> bool) -> 'a list -> 'a option
+val filter : ('a -> bool) -> 'a list -> 'a list 
 val map : ('a -> 'b) -> 'a list -> 'b list
 val fold_right : ('a -> 'b -> 'b) -> 'a list -> 'b -> 'b
 val for_all : ('a -> bool) -> 'a list -> bool
