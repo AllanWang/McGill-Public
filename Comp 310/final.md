@@ -16,9 +16,9 @@ OPT     | optimal
 OS      | operating systemt
 PCB     | process control block
 SSTF    | shortest service time first
+TCB     | trusted computing base
 VM      | virtual maching
 VMM     | virtual machine monitor
-TCB     | trusted computing base
 
 ## OS
 
