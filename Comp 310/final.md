@@ -354,7 +354,7 @@ VMM     | virtual machine monitor
     * LRU - least recently used
     * OPT - optimal
     * Random
-* Clock/2nd Change Algorithm
+* Clock/2<sup>nd</sup> Chance Algorithm
     * Have `last` pointer to last change frame
     * When new frame is needed, iterate from `last` to the first frame with a zero used bit using `next` pointer
         * As `next` pointer passes frame, clear used bits
