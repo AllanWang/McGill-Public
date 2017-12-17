@@ -2,15 +2,23 @@
 
 > Some key concepts and bullet points
 
-## Acronyms
-
-* FIFO - first in first out
-* LRU - least recently used
-* MMU - memory management unit
-* OPT - optimal
-* PCB - process control block
-* VM - virtual maching
-* VMM - virtual machine monitor
+| Acronyms | |
+| --- | --- |
+DAG     | directed acyclic graph
+FAT     | file allocation table
+FCFS    | first come first serve (also FIFO)
+FIFO    | first in first out (also FCFS)
+LIFO    | last in first out
+LRU     | least recently used
+MBR     | master boot record
+MMU     | memory management unit
+OPT     | optimal
+OS      | operating systemt
+PCB     | process control block
+SSTF    | shortest service time first
+VM      | virtual maching
+VMM     | virtual machine monitor
+TCB     | trusted computing base
 
 ## OS
 
@@ -36,7 +44,7 @@
 * Layered Kernel - more in kernel mode, programs have a greater chance of affecting other data and crashing the system
 * Microkernel - greater user mode - programs have independent data spaces, and likely won't affect other programs/crash the system if they fail
 
-## Processes
+## Processes & Threads
 
 * Process Creation
     * System initization
@@ -79,6 +87,32 @@
         }
     }
     ```
+
+* File Descriptors - 0 stdin, 1 stdout, 2 stderr
+* Remapping can be done with `dup2(fd, 1)`, which will make stdout go to `fd`
+* Parellelism - performing multiple tasks simultaneously
+* Concurrency - making progress in multiple tasks
+* Amdahl's Law - speedup <= 1 / (S + (1 - S)/N)
+    * N - # of cores
+    * S - serial portion
+    * (1 - S) - parallel portion
+* Threads (compared to processes):
+    * Are lighter
+    * Share memory, but have their own registers and stack
+    * Are less fault tolerant
+    * Can introduce many synchronization issues
+    * Live within processes
+* Thread Levels
+    * User - many user to one kernel
+        * One block blocks all
+    * Kernel - one to one
+        * More concurrency, greater overhead
+    * Hybrid - many to many
+        * Allows enough kernel threads to be created
+* Pthreads are specifications, not implementations
+    * `pthread_create`, `pthread_exit`, `pthread_self`, `pthread_equal`, `pthread_join`, `pthread_detach`
+
+
 ## Deadlocks
 
 *  Deadlock Conditions
@@ -164,6 +198,64 @@
     // act on data
     sem_post(&mutex);
     ```
+
+## Secondary Storage
+
+> Non-volatile repository for data & programs, managed by the file system (part of OS)
+
+* User > File System > Disk System
+* Directory
+    * Single-level - world accessible
+    * Two-level - level per user; should have login
+    * Tree - subtree per user; login required
+* File System Layout
+    * Disk
+        * Partition Table
+            * MBR (master boot record)
+        * Disk Partitions
+            * Boot Block - code to boot system
+            * Super Block - critical info on layout
+            * I-nodes - file attributes, except name; first block points to root
+            * Files & Directories
+* File Operations - create, write, read, delete, seek, truncate (rare)
+* File Access Methods - sequential (ordered), direct (random), indexed (by key)
+* File allocation 
+    * Contiguous <br> (+) simple, few seeks <br> (-) external fragmentations, don't know size
+    * Chained <br> (+) no external fragmentation, easy growth <br> (-) lots of seeking, random access difficult <br> Can be enhanced with FAT (file allocation table)
+    * Index <br> (+) small internal fragmentation, easy sequential & random access <br> (-) lots of seeks for big files
+* Free Space Management
+    * Bit vector - one bit per block, 1 = free, 0 = used
+    * Chains - pointer within block to next free space, starting at block 0
+    * Indexed - index of free regions (sorted by size) stored in block 0
+* UNIX File Access Through
+    * File descriptor table - one per process; keeps track of open files
+    * Open file system - one per system, keeps track of all open files
+    * I-node table - one per system, tracks all files
+
+## Disks
+
+* Components
+    * Spindle
+    * Platter - holds data
+        * Tracks - to read from
+        * Recording area - radial line
+        * Sector - sectino of platter
+    * Arm - has r/w head
+    * Actuator - holds arms
+* Access Time 
+    * Seek - 0-10ms - moves head to right track
+    * Rotation - 0-10ms - moves right sector to head
+    * Data transfer - <1ms - rotation until sector passes head
+* Disk Scheduling Strategies
+    * Random
+    * FIFO - no starvation, approaches random as competing process count increases
+    * Priority - optimizes throughput, not disk usage
+    * LIFO - useful for sequential files, danger of starvation <br><br>
+    * SSTF - better time seeker than FIFO, random tie breaker if needed
+    * SCAN - move in one direction until last track is reached, then reverse
+    * C-SCAN - one way SCAN and fast return
+    * LOOK - move in one direction until no more requests in that direction, then reverse
+    * C-LOOK - one way LOOK and fast return
 
 ## Memory Management
 
@@ -277,3 +369,35 @@
 
 ## Virtual Machines
 
+* Components
+    * Host - underlying hardware
+    * VMM - create interface identical to host
+    * Guest - process provided with virtual copy of host (usually an OS)
+* Benefits
+    * Protection - less likely for virus to spread
+    * Freeze, suspend VMs
+    * Clone, snapshot VMs
+    * Run multiple VMs simultaneously
+    * Live migration
+    * Cloud computing
+* Hypervisor Types
+    * Type 0 - hardware-based solution
+    * Type 1 - OS like software
+    * Type 2 - run on OS but provide VMM features to guest operating systems
+    * Paravirtualization, programming-environment virtualization, emulators, application containment, etc
+* Not safe for guest to run in kernel mode, so there will be a user & privileged mode, both running in the actual user mode
+
+## Protection
+
+* Protection Domain
+    * Specifies resources that can be accessed
+    * Defines set of `<object-name, rights-set>`
+* Sandboxing - restricting access to limited resources
+* Access Matrix - specifies operations D<sub>i</sub> is allowed for each object F<sub>j</sub>
+    * Can be implemented by column (access control list) or by row (capability lists for domains )
+* Trusted System
+    * Needs to be simple, easily understood, and verifiable
+    * Contains minimal TCB, hardware & software to enforce rules
+* TCB - trusted computing base
+    * Should be separate from OS
+    * Contains reference monitor, through which all processes go through
