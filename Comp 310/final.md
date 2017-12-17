@@ -87,7 +87,6 @@ VMM     | virtual machine monitor
         }
     }
     ```
-
 * File Descriptors - 0 stdin, 1 stdout, 2 stderr
 * Remapping can be done with `dup2(fd, 1)`, which will make stdout go to `fd`
 * Parellelism - performing multiple tasks simultaneously
