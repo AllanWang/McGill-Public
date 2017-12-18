@@ -1,3 +1,51 @@
+# Comp 303 Final Notes
+
+For more notes on design patterns, see [here](https://github.com/AllanWang/Design-Patterns/blob/master/java.md)
+
+# UML
+
+> Unified Modeling Language
+
+## Object Diagram
+
+> For class instances
+
+* Cards are labelled with `name:type`
+* Values may be primitives or references pointing to other cards
+
+## Class Diagram
+
+> For static, compile-time view
+
+![Notation](images/class_diagram_notation.png)
+
+<sup>Taken from [prmr/SoftwareDesign](https://github.com/prmr/SoftwareDesign)</sup>
+
+| Label | Basic Meaning |
+| --- | --- |
+Generalization | extend
+Realization | implements
+Dependency | change in one will change another
+Association | general relationship (eg fields); bi-directional if no arrow drawn
+Aggregation | "has a/many" associative relationship
+Composition | physical aggregation (typically, item in composition cannot exist without parent class)
+
+Note that:
+* Diamond is on the side of the container for aggregation/composition
+* Aggregation/composition should indicate cardinality (eg `2`, `0..52`, etc)
+* Elements represented through arrows should not be duplicated within the cards
+
+## State Diagram
+
+> For dynamic, run-time view
+
+* Start denoted by black dot
+* End denoted by black dot with circle
+* States represented by cards
+* Arrows denote transitions
+    * Annotated as `name[condition] | action` (only name is mandatory)
+* Lack of transition means that it is invalid
+
 # Concurrency
 
 ```java

@@ -297,7 +297,7 @@ VMM     | virtual machine monitor
         * Within partition
         * Difference between partition size & process size
         * Severe in static partitioning
-    * Eexternal 
+    * External 
         * Between partitions
         * Scattered noncontiguous free space
         * Severe in dynamic partitioning
@@ -355,8 +355,8 @@ VMM     | virtual machine monitor
     * OPT - optimal
     * Random
 * Clock/2<sup>nd</sup> Chance Algorithm
-    * Have `last` pointer to last change frame
-    * When new frame is needed, iterate from `last` to the first frame with a zero used bit using `next` pointer
+    * Have `last` pointer to last changed frame
+    * When new frame is needed, iterate from `last` to the next frame with a zero used bit using `next` pointer
         * As `next` pointer passes frame, clear used bits
         * Once victim is found, replace frame and mark as used
     * Hardware sets used bit each time address in page is referenced
