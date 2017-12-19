@@ -1,0 +1,66 @@
+<!doctype html>
+<!--https://help.github.com/articles/repository-metadata-on-github-pages/#available-repository-metadata-->
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link rel="shortcut icon" type="image/x-icon" href="https://www.allanwang.ca/favicons/favicon-0097a7.ico">
+
+	{% seo %}
+	
+    <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+
+	{% include mathjax_support %}
+	
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3 d-none d-md-block" style="position:fixed">
+            <a href="{{ site.github.url }}"><img src="https://cdn.rawgit.com/AllanWang/Allan-Website/master/images/aw.svg" alt="AW"/></a><br>
+            <p>{{ site.description | default: site.github.project_tagline }}</p>
+
+            <p class="view"><a href="{{ site.github.repository_url }}">View the Project on GitHub <small>{{ github_name }}</small></a></p>
+
+            {% if site.github.is_user_page %}
+            <p class="view"><a href="{{ site.github.owner_url }}">View My GitHub Profile</a></p>
+            {% endif %}
+
+            <ul>
+                <li><a href="{{ site.github.repository_url }}">View On <strong>GitHub</strong></a></li>
+            </ul>
+        </div>
+        <div class="col-md-9 col-sm-12 offset-md-3">
+
+            {{ content }}
+
+        </div>
+    </div>
+</div>
+
+<script src="{{ '/assets/js/scale.fix.js' | relative_url }}"></script>
+
+<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js"></script> -->
+{% if site.google_analytics %}
+<script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', '{{ site.google_analytics }}', 'auto');
+        ga('send', 'pageview');
+    </script>
+{% endif %}
+
+{% if page.url == '/' %}
+{% include main_js %}
+{% endif %}
+</body>
+</html>

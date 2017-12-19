@@ -1,0 +1,19 @@
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('Injecting Main');
+        var table = document.querySelector('table');
+        if (table == null) return;
+        for (var i = 1; i < table.rows.length; i++) {
+            var course = table.rows[i].cells[0];
+            var courseName = course.innerText;
+            while (course.firstChild)
+                course.removeChild(course.firstChild);
+            var linkedCourse = document.createElement("a");
+            linkedCourse.setAttribute("href", "https://github.com/AllanWang/McGill-Public/tree/master/" + courseName.replace(" ", "-"));
+            linkedCourse.setAttribute("target", "_blank");
+            linkedCourse.textContent = courseName;
+            course.appendChild(linkedCourse);
+
+        }
+    });
+</script>

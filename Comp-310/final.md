@@ -393,7 +393,7 @@ VMM     | virtual machine monitor
     * Defines set of `<object-name, rights-set>`
 * Sandboxing - restricting access to limited resources
 * Access Matrix - specifies operations D<sub>i</sub> is allowed for each object F<sub>j</sub>
-    * Can be implemented by column (access control list) or by row (capability lists for domains )
+    * Can be implemented by column (access control list) or by row (capability lists for domains)
 * Trusted System
     * Needs to be simple, easily understood, and verifiable
     * Contains minimal TCB, hardware & software to enforce rules

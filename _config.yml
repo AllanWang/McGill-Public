@@ -1,0 +1,8 @@
+title: McGill Public
+description: Tester Codes & Public Resources
+show_downloads: false
+theme: jekyll-theme-minimal
+
+gems:
+- jekyll-mentions
+- jekyll-readme-index
