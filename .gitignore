@@ -1,7 +1,12 @@
 .idea/
 cmake-build-debug/
 *.zip
+
+# Jekyll
 _site
+.sass-cache/
+.jekyll-cache/
+.jekyll-metadata
 
 **/answers/*.pdf
 
