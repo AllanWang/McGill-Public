@@ -29,7 +29,7 @@ For convenience, we will also assume that
 1. There is at least one edge incident to every vertex
 
 > A flow is a function $f: E \rightarrow R^+$ such that
-> $R^+ = \{ x \in R \mid x \ge 0 \}$
+> $R^+ = \{ x \in zR \mid x \ge 0 \}$
 
 | | | |
 |---|---|---|
