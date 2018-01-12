@@ -42,9 +42,11 @@ P(A) has the following axioms:
 
 > Non-increasing sequence - sequence of $A_i$ such that $A_j \supseteq A_k$ if $i > k$
 
-<details><summary>Examples</summary><p>
+<!-- <details><summary>Examples</summary><p> -->
 
-### Example 1
+---
+
+Example 1
 
 $$\begin{align}
 \text{Let } A_k & = \braces{x \mid 1 < x \le 2 - \dfrac{1}{k}} \\
@@ -59,7 +61,9 @@ $\limitinfty = \cupinfty = \braces{x \mid 1 < x < 2}$
 
 Note that $x < 2$ is open
 
-### Example 2
+---
+
+Example 2
 
 $A_k = \braces{x \mid 1 < x \le x + \dfrac{1}{k}}$
 
@@ -69,7 +73,7 @@ $\limitinfty = \capinfty = \braces{x \mid 1 < x \le 1} = \emptyset$
 
 Note that $x \le 1$ is still closed.
 
-</p></details>
+<!-- </p></details> -->
 
 ## 1.4 Partition & Inequalities
 
@@ -200,5 +204,3 @@ $P(\Omega \mid B) = \dfrac{P(\Omega \cap B)}{P(B)} = \dfrac{P(B)}{P(B)} = 1$
 Check 3:
 
 see check 3
-
-$\bigcupinfty$
