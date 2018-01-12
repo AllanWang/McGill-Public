@@ -69,7 +69,7 @@ $\limitinfty = \capinfty = \braces{x \mid 1 < x \le 1} = \emptyset$
 
 Note that $x \le 1$ is still closed.
 
-<p></details>
+</p></details>
 
 ## 1.4 Partition & Inequalities
 
