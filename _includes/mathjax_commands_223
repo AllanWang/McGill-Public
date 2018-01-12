@@ -1,0 +1,6 @@
+$\renewcommand{\vec}[1]{\overrightarrow{#1}}$
+$\newcommand{\vectorset}[1]{\\{\vec{#1_1}, \vec{#1_2}, ..., \vec{#1_k}\\}}$
+$\newcommand{\vectorseqtwo}[2]{#1_1\vec{#2_1} + #1_2\vec{#2_2} + ... + #1_k\vec{#2_k}}$
+$\newcommand\m[1]{\begin{bmatrix}#1\end{bmatrix}}$
+$\newcommand\real[0]{\mathbb{R}}$
+$\newcommand\braces[1]{\left\\{#1\right\\}}$

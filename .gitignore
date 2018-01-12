@@ -1,6 +1,7 @@
 .idea/
 cmake-build-debug/
 *.zip
+local.md
 
 # Jekyll
 _site

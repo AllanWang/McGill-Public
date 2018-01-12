@@ -1,0 +1,8 @@
+$\newcommand{\cupinfty}[0]{\cup_{i=1}^{\infty}A_i}$
+$\newcommand{\cupinftyup}[1]{\cup_{i=1}^{#1}A_i}$
+$\newcommand{\capinfty}[0]{\cap_{i=1}^{\infty}A_i}$
+$\newcommand{\capinftyup}[1]{\cap_{i=1}^{#1}A_i}$
+$\newcommand{\limitinfty}[0]{\lim_{n \rightarrow \infty}A_n}$
+$\newcommand\braces[1]{\left\\{#1\right\\}}$
+$\newcommand{\mathcomment}[1]{\qquad\color{blue}{\(#1\)}}$
+$\newcommand{\bigsum}[2]{\sum\limits_{#1}^{#2}}$

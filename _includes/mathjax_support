@@ -2,13 +2,16 @@
   MathJax.Hub.Config({
     TeX: {
       equationNumbers: {
-        autoNumber: "AMS"
+        autoNumber: "none"
       }
     },
     tex2jax: {
       inlineMath: [ ['$','$'] ],
       displayMath: [ ['$$','$$'] ],
       processEscapes: true,
+      "HTML-CSS": {
+        linebreaks: { automatic: true, width: "container" }          
+      } 
     }
   });
 </script>

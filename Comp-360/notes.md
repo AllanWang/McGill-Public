@@ -31,8 +31,6 @@ For convenience, we will also assume that
 > A flow is a function $f: E \rightarrow R^+$ such that
 > $R^+ = \{ x \in zR \mid x \ge 0 \}$
 
-| | | |
-|---|---|---|
 | Capacity Condition | $\forall e \in E$ | $0 \le f(c) \le c_e$ |
 | Conservation | $\forall u \in V \setminus \{s, t\}$ | $\sum\limits_{vu \in E} f(vu) = \sum\limits_{uw \in E} f(uw)$
 
