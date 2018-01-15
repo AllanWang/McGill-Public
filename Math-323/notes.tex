@@ -1,15 +1,14 @@
+
+
 \documentclass[12 pt]{article}
-	\usepackage{hyperref, fancyhdr, setspace, enumerate, amsmath,
-	  lastpage, amssymb, xcolor, parskip}
+	\usepackage{hyperref, fancyhdr, setspace, enumerate, amsmath, array, keycommand, lastpage, amssymb}
 	\usepackage[margin=1 in]{geometry}
 	\allowdisplaybreaks
 	\hypersetup{
 		%colorlinks=true, %set true if you want colored links
-		linktoc=all,     %set to all if you want both sections and subsections linked
-		linkcolor=black,  %choose some color if you want links to stand out
+		linktoc=all, %set to all if you want both sections and subsections linked
+		linkcolor=black, %choose some color if you want links to stand out
 	}
-	\usepackage{graphicx}
-	\graphicspath{{Images/}}
 	\author{Allan Wang}
 	\date{Last updated: \today}
 	\title{MATH 323: Probability}
@@ -20,180 +19,205 @@
 	\cfoot{Page \thepage \ of \pageref{LastPage}}
 	\newcommand{\tab}[1]{\hspace{.2\textwidth}\rlap{#1}}
 	
-	\newcommand{\cupinfty}[0]{\cup_{i=1}^{\infty}A_i}
-	\newcommand{\cupinftyup}[1]{\cup_{i=1}^{#1}A_i}
-	\newcommand{\capinfty}[0]{\cap_{i=1}^{\infty}A_i}
-	\newcommand{\capinftyup}[1]{\cap_{i=1}^{#1}A_i}
-	\newcommand{\limitinfty}[0]{\lim_{n \rightarrow \infty}A_n}
-	\newcommand{\mathcomment}[1]{\qquad\color{blue}{\(#1\)}}
-	\newcommand{\bigsum}[2]{\sum\limits_{#1}^{#2}}
 	\newcommand{\comment}[1]{}
-	\newcommand{\definition}[1]{\textcolor{blue}{#1}}
-	\begin{document}
-		\onehalfspacing
-		\maketitle
-		\tableofcontents
-			\section{2018/01/10}
-			
-			Midterm is on Mar 14th
-			
-			\subsection{Chapter 1 - Probability Introduction}
-			
-			\definition{Experiment - process by which an observation is made}
-			
-			Ex dice tossing is an experiment since we observe the number appearing on the other side
-			
-			Random experiment - TODO
-			
-			\definition{Sample space - S or Ω - collection of every possible outcome}
-			
-			\definition{Event - A, B, C - partial collection of sample space}
-			
-			Let $P(A) = \text{ probability of } A \ \forall A, A \in \Omega P(A)$ has the following axioms:
-			
-			$P(A) \ge 0$
-			$P(S) = 1$ (unit measure / normed)
-			if $i \ne j$ and $A_i \cap A_j = \emptyset$, $P(A_i \cup A_j) = P(A_i) + P(A_j)$
-			
-			\section{2018/01/12}
-			Limit of a sequence of sets
-			
-			Limit of Sequence of Sets
-			Non-decreasing sequence - sequence of $A_i$ such that $A_j \subseteq A_k$ if $i < k$
-			
-			Non-increasing sequence - sequence of $A_i$ such that $A_j \supseteq A_k$ if $i > k$
-			
-			Example 1
-			\comment{
-			\begin{align} \text{Let } A_k & = \braces{x \mid 1 < x \le 2 - \dfrac{1}{k}} \ A_1 & = \braces{x \mid 1 < x \le 2 - \dfrac{1}{1}} \ A_2 & = \braces{x \mid 1 < x \le 2 - \dfrac{1}{2}} \ & ... \end{align}
-			
-			Note that the sequence is non-decreasing.
-			
-			$\limitinfty = \cupinfty = \braces{x \mid 1 < x < 2}$
-			
-			Note that $x < 2$ is open
-			
-			Example 2
-			
-			$A_k = \braces{x \mid 1 < x \le x + \dfrac{1}{k}}$
-			
-			Note that the sequence is non-increasing.
-			
-			$\limitinfty = \capinfty = \braces{x \mid 1 < x \le 1} = \emptyset$
-			
-			Note that $x \le 1$ is still closed.
-			
-			1.4 Partition & Inequalities
-			Partition - sequence of mutually exclusive sets which together form the whole. More formally:
-			
-			Let $\braces{A_i}_{i = 1}^{\infty (k)}$ be a sequence of sets
-			
-			$A_i \le \Omega, \forall i$
-			
-			If $A_i \cap A_j = \emptyset, \forall i \ne j$ and $\cupinftyup{\infty (k)} = \Omega$
-			then $\braces{A_i}_{i=1}^{\infty (k)}$ is a partition of sample space $\Omega$
-			
-			Note - if $B$ is any subset of $\Omega$ & $\braces{A_1, ..., A_k}$ is a partition of $\Omega \Rightarrow B = \cupinftyup{k} (A_i \cap B)$
-			
-			Theorem 1. Kolmogorov Probability Measure
-			Let $F$ be a set that collects possible sets from $\Omega$
-			
-			P: $F \rightarrow R^+$ is called a probability measure if
-			
-			a. $P(A) \ge 0 \quad \forall A \in F \mathcomment{\text{non-negative}}$
-			b. $P(\Omega) = 1$
-			c. $P(\cupinfty) = \Sigma_{i=1}^{\infty} P(A_i), A_i \cap A_j = \emptyset \quad \forall i \ne j$
-		}
-			Some extensions:
-			
-			$P(\phi) = 0$
-			$P(\cupinftyup{k}) = \Sigma_{i=1}^{k} P(A_i), A_i \cap A_j = \emptyset \quad \forall i \ne j$
-			$P(A^C) = 1 - P(A)$
-			$A \subseteq B \Rightarrow P(A) \le P(B)$
-			$P(A \cup B) = P(A) + P(B) - P(A \cap B)$
-			$P(A_1 \cup A_2 \cup A_3) = P(A_1) + P(A_2) + P(A_3) - P(A_1 \cap A_2) - P(A_2 \cap A_3) - P(A_1 \cap A_3) + P(A_1 \cap A_2 \cap A_3)$
-			Proof
-			
-			Claim: $P(\phi) = 0$
-			
-			$\because \Omega = \Omega \cup \phi$
-			
-			$\therefore P(\Omega) = P(\Omega \cup \phi)$
-			
-			$= P(\Omega) + P(\phi) (\therefore \Omega \cap \phi = \phi)$
-			
-			$= 1+ P(\phi)$
-			
-			$\therefore P(\phi) = 0$
-			
-			Claim: $P(A^C) = 1 - P(A)$
-			
-			$\because \Omega = A \cup A^C$
-			
-			$\therefore P(\Omega) = P(A \cup A^C)$
-			
-			$= P(A) + P(A^C) --- (A \cap A^C = \phi)$
-			
-			$\therefore 1 = P(A) + P(A^C)$
-			
-			$\therefore P(A^C) = 1 - P(A)$
-			
-			Claim: $A \subseteq B \Rightarrow P(A) \le P(B)$
-			
-			$P(B) = P(A \cup (A^C \cap B))$
-			
-			$= P(A) + P(A^C \cap B) --- (A \cap (A^C \cap B) = \emptyset)$
-			
-			$\ge P(A)$
-			
-			Claim: $P(A \cup B) = P(A) + P(B) - P(A \cap B)$
-			
-			$\because A \cup B = A \cup (A^C \cap B)$
-			
-			$\therefore P(A \cup B) = P(A \cup (A^C \cap B)) --- (A \cap (A^C \cap B) = \emptyset)$
-			
-			$= P(A) + P(A^C \cap B)$
-			
-			Note: $P(B) = P((A \cap B) \cup (A^C \cap B))$
-			
-			$= P(A \cap B) + P(A^C \cap B)$
-			
-			$\Rightarrow P(A^C \cap B) = P(B) - P(A \cap B)$
-			
-			//todo include other stuff
-			
-			1.5 Conditional Probability and Baye's Rule
-			
-			Def 1 The conditional probability of an event A, given that an event B has occurred, is equal to
-			
-			$P(A \mid B) = \dfrac{P(A \cap B)}{P(B)} if P(B) > 0$
-			
-			Remark 1:
-			
-			Here A is the event whose uncertainty we want to update, and B is the evidence we observe (or want to treat as given
-			
-			We call P(A) the prior probability of A, and P(A | B) the posterior probability of A.)
-			
-			Prior - before updating based on evidence
-			
-			Posterior - after updating based on evidence
-			
-			Remark 2:
-			
-			$P(A \mid B)$ is a probability measure
-			
-			Check 1:
-			
-			$P(A \mid B) = \dfrac{P(A \cap B)}{P(B)} > 0$
-			
-			Since $P(B) > 0$ and $P(A \cap B) > 0$
-			
-			Check 2:
-			
-			$P(\Omega \mid B) = \dfrac{P(\Omega \cap B)}{P(B)} = \dfrac{P(B)}{P(B)} = 1$
-			
-			Check 3:
-			
-			see check 3
-	\end{document}
-	
+
+	\newcommand{\mathcomment}[1]{\qquad\color{blue}{(#1)}}
+	\newcommand{\bigsum}[2]{\sum\limits_{#1}^{#2}}
+
+	\newcommand{\ddef}[1]{\textcolor{blue}{#1}}
+
+	\newkeycommand{\ccup}[sub=i=1,sup=\infty, base=A_i] {
+		\bigcup_{\commandkey{sub}}^{\commandkey{sup}}\commandkey{base}
+	}
+
+	\newkeycommand{\ccap}[sub=i=1,sup=\infty, base=A_i] {
+		\bigcap_{\commandkey{sub}}^{\commandkey{sup}}\commandkey{base}
+	}
+
+	\newkeycommand{\llim}[sub=n \rightarrow \infty, base=A_n] {
+		\lim_{\commandkey{sub}}\commandkey{base}
+	}
+
+\begin{document}
+\onehalfspacing
+\maketitle
+\tableofcontents
+\pagebreak
+\section{2018/01/10}
+
+\ddef{Experiment - process by which an observation is made}
+
+\begin{itemize}
+    \item Ex dice tossing is an experiment since we observe the number appearing on the other side
+\end{itemize}
+
+\section{2018/01/12}
+
+\subsection{Limit of Sequence of Sets}
+
+\ddef{Non-decreasing sequence - sequence of \(A_i\) such that \(A_j \subseteq A_k\) if \(i < k\)}
+
+\ddef{Non-increasing sequence - sequence of \(A_i\) such that \(A_j \supseteq A_k\) if \(i > k\)}
+
+---
+
+Example 1
+
+% \begin{align}
+% \text{Let } A_k & = \{x \mid 1 < x \le 2 - \dfrac{1\}{k}} \\
+% A_1 & = \{x \mid 1 < x \le 2 - \dfrac{1\}{1}} \\
+% A_2 & = \{x \mid 1 < x \le 2 - \dfrac{1\}{2}} \\
+% & ...
+% \end{align}
+
+Note that the sequence is non-decreasing.
+
+\(\llim = \ccup = \{x \mid 1 < x < 2\}\)
+
+Note that \(x < 2\) is open
+
+---
+
+Example 2
+
+\(A_k = \{x \mid 1 < x \le x + \dfrac{1}{k}\}\)
+
+Note that the sequence is non-increasing.
+
+\(\llim = \ccap = \{x \mid 1 < x \le 1\} = \emptyset\)
+
+Note that \(x \le 1\) is still closed.
+
+
+\subsection{1.4 Partition \& Inequalities}
+
+> Partition - sequence of mutually exclusive sets which together form the whole. More formally:
+
+Let \(\{A_i\}_{i = 1}^{\infty (k)}\) be a sequence of sets
+
+\(A_i \le \Omega, \forall i\)
+
+If \(A_i \cap A_j = \emptyset, \forall i \ne j\) and \(\ccup[sup=\infty (k)] = \Omega\)
+
+then \(\{A_i\}_{i=1}^{\infty (k)}\) is a partition of sample space \(\Omega\)
+
+Note - if \(B\) is any subset of \(\Omega\) \& \(\{A_1, ..., A_k\}\) is a partition of \(\Omega \Rightarrow B = \ccup[sup=k] (A_i \cap B)\)
+
+---
+
+\subsubsection{Theorem 1. Kolmogorov Probability Measure}
+
+Let \(F\) be a set that collects possible sets from \(\Omega\)
+
+P: \(F \rightarrow R^+\) is called a probability measure if
+
+a. \(P(A) \ge 0 \quad \forall A \in F \text{non-negative}\)<br>
+b. \(P(\Omega) = 1\)<br>
+c. \(P(\ccup) = \Sigma_{i=1}^{\infty} P(A_i), A_i \cap A_j = \emptyset \quad \forall i \ne j\)
+
+Some extensions:
+
+1. \(P(\phi) = 0\)
+2. \(P(\ccup[sup=k]) = \Sigma_{i=1}^{k} P(A_i), A_i \cap A_j = \emptyset \quad \forall i \ne j\)
+3. \(P(A^C) = 1 - P(A)\)
+4. \(A \subseteq B \Rightarrow P(A) \le P(B)\)
+5. \(P(A \cup B) = P(A) + P(B) - P(A \cap B)\)
+6. \(P(A_1 \cup A_2 \cup A_3) = P(A_1) + P(A_2) + P(A_3) - P(A_1 \cap A_2) - P(A_2 \cap A_3) - P(A_1 \cap A_3) + P(A_1 \cap A_2 \cap A_3)\)
+
+Proof
+
+---
+
+Claim: \(P(\phi) = 0\)
+
+\(\because \Omega = \Omega \cup \phi\)
+
+\(\therefore P(\Omega) = P(\Omega \cup \phi)\)
+
+\(= P(\Omega) + P(\phi) (\therefore \Omega \cap \phi = \phi)\)
+
+\(= 1+ P(\phi)\)
+
+\(\therefore P(\phi) = 0\)
+
+---
+
+Claim: \(P(A^C) = 1 - P(A)\)
+
+\(\because \Omega = A \cup A^C\)
+
+\(\therefore P(\Omega) = P(A \cup A^C)\)
+
+\(= P(A) + P(A^C) --- (A \cap A^C = \phi)\)
+
+\(\therefore 1 = P(A) + P(A^C)\)
+
+\(\therefore P(A^C) = 1 - P(A)\)
+
+---
+
+Claim: \(A \subseteq B \Rightarrow P(A) \le P(B)\)
+
+\(P(B) = P(A \cup (A^C \cap B))\)
+
+\(= P(A) + P(A^C \cap B) --- (A \cap (A^C \cap B) = \emptyset)\)
+
+\(\ge P(A)\)
+
+---
+
+Claim: \(P(A \cup B) = P(A) + P(B) - P(A \cap B)\)
+
+\(\because A \cup B = A \cup (A^C \cap B)\)
+
+\(\therefore P(A \cup B) = P(A \cup (A^C \cap B)) --- (A \cap (A^C \cap B) = \emptyset)\)
+
+\(= P(A) + P(A^C \cap B)\)
+
+Note: \(P(B) = P((A \cap B) \cup (A^C \cap B))\)
+
+\(= P(A \cap B) + P(A^C \cap B)\)
+
+\(\Rightarrow P(A^C \cap B) = P(B) - P(A \cap B)\)
+
+---
+
+//todo include other stuff
+
+1.5 Conditional Probability and Baye's Rule
+
+Def 1 The conditional probability of an event A, given that an event B has occurred, is equal to
+
+\(P(A \mid B) = \dfrac{P(A \cap B)}{P(B)} if P(B) > 0\)
+
+Remark 1:
+
+Here A is the event whose uncertainty we want to update, and B is the evidence we observe (or want to treat as given
+
+We call \(P(A)\) the prior probability of \(A\), and \(P(A \mid B)\) the posterior probability of A.)
+
+> Prior - before updating based on evidence
+
+> Posterior - after updating based on evidence
+
+Remark 2:
+
+\(P(A \mid B)\) is a probability measure
+
+Check 1:
+
+\(P(A \mid B) = \frac{P(A \cap B)}{P(B)} > 0\)
+
+Since \(P(B) > 0\) and \(P(A \cap B) > 0\)
+
+Check 2:
+
+\(P(\Omega \mid B) = \frac{P(\Omega \cap B)}{P(B)} = \frac{P(B)}{P(B)} = 1\)
+
+Check 3:
+
+see check 3
+
+\end{document}
+
+>>>>>>> 6f83ff9b79bef6aa9fe04cd8ffae5030250dfbfe
