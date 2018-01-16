@@ -1,7 +1,7 @@
 
 
 \documentclass[12 pt]{article}
-	\usepackage{hyperref, fancyhdr, setspace, enumerate, amsmath, array, keycommand, lastpage, amssymb}
+	\usepackage{hyperref, fancyhdr, setspace, enumerate, amsmath, array, keycommand, lastpage, amssymb, xcolor}
 	\usepackage[margin=1 in]{geometry}
 	\allowdisplaybreaks
 	\hypersetup{
@@ -9,7 +9,7 @@
 		linktoc=all, %set to all if you want both sections and subsections linked
 		linkcolor=black, %choose some color if you want links to stand out
 	}
-	\author{Allan Wang}
+	\author{Allan Wang} 
 	\date{Last updated: \today}
 	\title{MATH 323: Probability}
 	\pagestyle{fancy}
@@ -17,6 +17,9 @@
 	\chead{\leftmark}
 	\rhead{Allan Wang}
 	\cfoot{Page \thepage \ of \pageref{LastPage}}
+
+	\setlength{\parindent}{0pt}
+
 	\newcommand{\tab}[1]{\hspace{.2\textwidth}\rlap{#1}}
 	
 	\newcommand{\comment}[1]{}
@@ -37,6 +40,10 @@
 	\newkeycommand{\llim}[sub=n \rightarrow \infty, base=A_n] {
 		\lim_{\commandkey{sub}}\commandkey{base}
 	}
+
+	\newcommand{\braces}[1]{\left\{#1\right\}}
+
+	\newcommand{\divider}[0]{\rule{\textwidth}{0.1pt}
 
 \begin{document}
 \onehalfspacing
@@ -59,51 +66,60 @@
 
 \ddef{Non-increasing sequence - sequence of \(A_i\) such that \(A_j \supseteq A_k\) if \(i > k\)}
 
----
+\divider
 
 Example 1
 
-% \begin{align}
-% \text{Let } A_k & = \{x \mid 1 < x \le 2 - \dfrac{1\}{k}} \\
-% A_1 & = \{x \mid 1 < x \le 2 - \dfrac{1\}{1}} \\
-% A_2 & = \{x \mid 1 < x \le 2 - \dfrac{1\}{2}} \\
-% & ...
-% \end{align}
+\begin{equation}
+\begin{split}
+	\text{Let } A_k & = \braces{x \mid 1 < x \le 2 - \frac{1}{k}} \\
+	A_1 & = \braces{x \mid 1 < x \le 2 - \frac{1}{1}} \\
+	A_2 & = \braces{x \mid 1 < x \le 2 - \frac{1}{2}} \\
+	& \vdots \\
+	A_k & = \braces{x \mid 1 < x \le 2 - \frac{1}{k}} \\
+\end{split}
+\end{equation}
 
-Note that the sequence is non-decreasing.
+\(\because\) the sequence is non-decreasing.
 
-\(\llim = \ccup = \{x \mid 1 < x < 2\}\)
+\(\therefore \llim = \ccup = \braces{x \mid 1 < x < 2}\)
 
 Note that \(x < 2\) is open
 
----
+\divider
 
 Example 2
 
-\(A_k = \{x \mid 1 < x \le x + \dfrac{1}{k}\}\)
+\(A_k = \braces{x \mid 1 < x \le x + \dfrac{1}{k}}\)
 
 Note that the sequence is non-increasing.
 
-\(\llim = \ccap = \{x \mid 1 < x \le 1\} = \emptyset\)
+\(\llim = \ccap = \braces{x \mid 1 < x \le 1} = \emptyset\)
 
 Note that \(x \le 1\) is still closed.
 
+\divider
 
 \subsection{1.4 Partition \& Inequalities}
 
-> Partition - sequence of mutually exclusive sets which together form the whole. More formally:
+\ddef{Partition - sequence of mutually exclusive sets which together form the whole. More formally:}
 
-Let \(\{A_i\}_{i = 1}^{\infty (k)}\) be a sequence of sets
+Let \(\braces{A_i}_{i = 1}^{\infty (k)}\) be a sequence of sets
 
 \(A_i \le \Omega, \forall i\)
 
+\begin{tabular}
+	If & a \\
+	then & b
+\end{tabular}
+
 If \(A_i \cap A_j = \emptyset, \forall i \ne j\) and \(\ccup[sup=\infty (k)] = \Omega\)
 
-then \(\{A_i\}_{i=1}^{\infty (k)}\) is a partition of sample space \(\Omega\)
+then \(\braces{A_i}_{i=1}^{\infty (k)}\) is a partition of sample space \(\Omega\)
 
-Note - if \(B\) is any subset of \(\Omega\) \& \(\{A_1, ..., A_k\}\) is a partition of \(\Omega \Rightarrow B = \ccup[sup=k] (A_i \cap B)\)
+Note - if \(B\) is any subset of \(\Omega\) \& \(\braces{A_1, ..., A_k}\) is a partition of \(\Omega \Rightarrow B = \ccup[sup=k] (A_i \cap B)\)
 
----
+\divider
 
 \subsubsection{Theorem 1. Kolmogorov Probability Measure}
 
@@ -126,7 +142,7 @@ Some extensions:
 
 Proof
 
----
+\divider
 
 Claim: \(P(\phi) = 0\)
 
@@ -140,7 +156,7 @@ Claim: \(P(\phi) = 0\)
 
 \(\therefore P(\phi) = 0\)
 
----
+\divider
 
 Claim: \(P(A^C) = 1 - P(A)\)
 
@@ -154,7 +170,7 @@ Claim: \(P(A^C) = 1 - P(A)\)
 
 \(\therefore P(A^C) = 1 - P(A)\)
 
----
+\divider
 
 Claim: \(A \subseteq B \Rightarrow P(A) \le P(B)\)
 
@@ -164,7 +180,7 @@ Claim: \(A \subseteq B \Rightarrow P(A) \le P(B)\)
 
 \(\ge P(A)\)
 
----
+\divider
 
 Claim: \(P(A \cup B) = P(A) + P(B) - P(A \cap B)\)
 
@@ -180,7 +196,7 @@ Note: \(P(B) = P((A \cap B) \cup (A^C \cap B))\)
 
 \(\Rightarrow P(A^C \cap B) = P(B) - P(A \cap B)\)
 
----
+\divider
 
 //todo include other stuff
 
