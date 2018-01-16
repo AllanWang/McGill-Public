@@ -1,0 +1,108 @@
+\documentclass[12pt]{article}
+	\usepackage{hyperref, fancyhdr, setspace, enumerate, amsmath, array, keycommand, lastpage, amssymb, xcolor}
+	\usepackage[margin=1 in]{geometry}
+	\allowdisplaybreaks
+	\hypersetup{
+		%colorlinks=true, %set true if you want colored links
+		linktoc=all, %set to all if you want both sections and subsections linked
+		linkcolor=black, %choose some color if you want links to stand out
+	}
+	\author{Allan Wang} 
+	\date{Last updated: \today}
+	\title{MATH 223: Linear Algebra 2}
+	\pagestyle{fancy}
+	\lhead{MATH 223}
+	\chead{\leftmark}
+	\rhead{Allan Wang}
+	\cfoot{Page \thepage \ of \pageref{LastPage}}
+
+	\setlength{\parindent}{0pt}
+
+	\newcommand{\tab}[1]{\hspace{.2\textwidth}\rlap{#1}}
+	
+	\newcommand{\comment}[1]{}
+
+	\newcommand{\mathcomment}[1]{\qquad\color{blue}{(#1)}}
+	\newcommand{\bigsum}[2]{\sum\limits_{#1}^{#2}}
+
+	\newcommand{\ddef}[1]{\textcolor{blue}{#1}}
+
+	\newkeycommand{\ccup}[sub=i=1,sup=\infty, base=A_i] {
+		\bigcup_{\commandkey{sub}}^{\commandkey{sup}}\commandkey{base}
+	}
+
+	\newkeycommand{\ccap}[sub=i=1,sup=\infty, base=A_i] {
+		\bigcap_{\commandkey{sub}}^{\commandkey{sup}}\commandkey{base}
+	}
+
+	\newkeycommand{\llim}[sub=n \rightarrow \infty, base=A_n] {
+		\lim_{\commandkey{sub}}\commandkey{base}
+	}
+
+	\newcommand{\braces}[1]{\left\{#1\right\}}
+
+	\newcommand{\divider}[0]{\rule{\textwidth}{0.1pt}}
+
+\begin{document}
+\onehalfspacing
+\maketitle
+\tableofcontents
+\pagebreak
+\section{2018/01/9}
+\section{2018/01/11}
+\section{2018/01/16}
+
+Diagonalization
+
+$T: R^2 \rightarrow R^2$
+
+projection onto the line
+
+$A = \frac{1}{2} \matrix 2 2 [1 -1 -1 1]
+
+x + y = 0
+
+A is diagonalizable, ie $A + P \dot D \dot P^{-1}$
+
+where D = \matrix 1 0 0 0, P = matrix 1 1 -1 1
+
+Let $\vec{u_1} = \m21[1 -1] and \vec{v_1} = \m21[1 1]$
+
+The canonical basis of $\real^2$ is $B = \braces{ \m21[1 0] = \vec{i}, \m21[0 1] = \vec{j}}
+
+Note that $B_1 = \braces{\vec{u_1}. \vec{v_1}}$ is also a basis of $\real^2$
+
+A is the standard matrix of $T$, it is in fact the matrix of $T$ through the canonical basis of $B$
+
+a vector $\vec{u} \in \vec{\real^2}$ has coordinates $\m21[x y]$ with respect to $B$.
+
+The coordinates of $T(\vec{u})$ with respect to $B$ is $A \m21[x y] = A(P \m21[x_1 y_1])$ 
+% TODO change to big parentheses
+
+Let $\m21{x_1 y_1}$ be the coordinates of $\vec{u}$ with respect to $B_1$
+
+$\vec{us} = \vec{x_i} + \vec{y_j} = x_1 \vec{u_1} + y_1 \vec{v_1} \\
+\Rightarrow \m21[x y] = P \m21[x_1 y_1]$
+
+$P^{-1}AP \m21[x_1 y_1] = D \m21[x_1 y_1] = \m21[x_1 0]$
+
+$D$ is the matrix of the linear transformation $T$ through the basis $B_1$
+
+\divider
+
+\subsection{Vector Spaces}
+
+Let $K$ be a field $\parentheses{K = \real, K = \complex}$
+Let $V$ be a nonempty set
+$V$ is equipped with 2 operations
+
+Additiona - 
+
+\begin{tabular}[@{} l l]
+	Additions	& if $\vec{u} \in \vec{v}, \vec{v} \in V$, then sum $\vec{u} + \vec{v}$ is defined \\
+	Scalar Multiplication & $if \vec{u} \in V, \alpha \in \real, \alpha \vec{u}$ is defined
+	
+\end{tabular}
+
+
+\end{document}
