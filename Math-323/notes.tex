@@ -1,5 +1,6 @@
 \documentclass[12pt]{article}
 	\usepackage{hyperref, fancyhdr, setspace, enumerate, enumitem, amsmath, amsthm, amssymb, array, keycommand, lastpage, amssymb, xcolor}
+	\usepackage{multiaudience}
 	\usepackage[margin=1 in]{geometry}
 	\allowdisplaybreaks
 	\hypersetup{
@@ -18,8 +19,13 @@
 	
 	% Only number for sections
 	\setcounter{secnumdepth}{1}
+	
+	\newcommand\mm[1]{\begin{pmatrix}#1\end{pmatrix}}
 
 	\setlength{\parindent}{0pt}
+	
+	\SetNewAudience{notes}
+	\SetNewAudience{full}
 
 	\newcommand{\tab}[1]{\hspace{.2\textwidth}\rlap{#1}}
 	
@@ -53,6 +59,12 @@
 	
 	\newenvironment{claim}{\textit{Claim:}}{\hfill $\square$}
 	
+	\newenvironment{remarks}{\underline{Remarks}\par}{}
+	
+	\newenvironment{example}{\underline{Example}\par\shownto{-,notes}}{\newline\divider\endshownto}
+	
+	\newenvironment{eqn}{\equation\alignedat{3}}{\endalignedat\endequation}
+	
 	\newcommand{\todo}[0]{\textcolor{red}{\textbackslash\textbackslash TODO}}
 
 \begin{document}
@@ -78,17 +90,14 @@
 
 \divider
 
-Example 1
-
-\begin{equation}
-\begin{split}
+\underline{Example 1}
+\begin{eqn}
 	\text{Let } A_k & = \braces{x \mid 1 < x \le 2 - \frac{1}{k}} \\
 	A_1 & = \braces{x \mid 1 < x \le 2 - \frac{1}{1}} \\
 	A_2 & = \braces{x \mid 1 < x \le 2 - \frac{1}{2}} \\
 	& \vdots \\
 	A_k & = \braces{x \mid 1 < x \le 2 - \frac{1}{k}} \\
-\end{split}
-\end{equation}
+\end{eqn}
 
 \(\because\) the sequence is non-decreasing.
 
@@ -98,7 +107,7 @@ Note that \(x < 2\) is open
 
 \divider
 
-Example 2
+\underline{Example 2} \\
 
 \(A_k = \braces{x \mid 1 < x \le x + \dfrac{1}{k}}\)
 
@@ -152,45 +161,38 @@ Some extensions:
 \end{enumerate}
 
 \begin{claim}
-\begin{equation}
-	\begin{alignedat}{3}
+\begin{eqn}
 		&& P(\phi) &= 0 &\\
 		\because \ && \Omega & = \Omega \cup \phi &\\
 		\therefore \ && P(\Omega) & = P(\Omega \cup \phi) &\\
 		&& & = P(\Omega) + P(\phi) & \mathcomment (\therefore \Omega \cap \phi = \phi) \\
 		&& & = 1+ P(\phi) &\\
 		\therefore \ && P(\phi) &= 0 &
-	\end{alignedat}
-\end{equation}
+\end{eqn}
 \end{claim}
 
 \begin{claim}
-	\begin{equation}
-		\begin{alignedat}{3}
+	\begin{eqn}
 		&& P(A^C) &= 1 - P(A) &\\
 		\because \ && \Omega & = A \cup A^C &\\
 		\therefore \ && P(\Omega) &= P(A \cup A^C) &\\
 		&& &	= P(A) + P(A^C) & \mathcomment (A \cap A^C = \phi) \\
 		\therefore \ && 1 &= P(A) + P(A^C) &\\
 		\therefore \ && P(A^C) &= 1 - P(A) &
-		\end{alignedat}
-	\end{equation}
+	\end{eqn}
 \end{claim}
 
 \begin{claim}
-	\begin{equation}
-		\begin{alignedat}{2}
+	\begin{eqn}
 			A \subseteq B & \Rightarrow P(A) \le P(B) &\\
 			P(B) & = P(A \cup (A^C \cap B)) &\\
 			& = P(A) + P(A^C \cap B) & \mathcomment (A \cap (A^C \cap B) = \emptyset) \\
 			& \ge P(A) &
-		\end{alignedat}
-	\end{equation}
+	\end{eqn}
 \end{claim}
 
 \begin{claim}
-	\begin{equation}
-		\begin{alignedat}{3}
+	\begin{eqn}
 		&& P(A \cup B) &= P(A) + P(B) - P(A \cap B) &\\
 		\because \ && A \cup B &= A \cup (A^C \cap B) &\\
 		\therefore \ && P(A \cup B) &= P(A \cup (A^C \cap B)) & \mathcomment (A \cap (A^C \cap B) = \emptyset) \\
@@ -198,8 +200,7 @@ Some extensions:
 		\textit{Note} && P(B) &= P((A \cap B) \cup (A^C \cap B)) &\\
 		&&&= P(A \cap B) + P(A^C \cap B) &\\
 		\Rightarrow \ && P(A^C \cap B) &= P(B) - P(A \cap B) &
-		\end{alignedat}
-	\end{equation}
+	\end{eqn}
 \end{claim}
 
 //todo include other stuff
@@ -265,5 +266,80 @@ $\Rightarrow P(\ccup) \le \ssum[sup=n] P(A_i)$
 		\end{alignedat}
 	\end{equation}
 \end{proof}
+
+\section{2018/01/17}
+
+/todo
+
+\section{2018/01/19}
+
+\begin{remarks}
+	\begin{enumerate}
+		\item Before flipping the coin, we thought we were equally likely to have picked the fair coin as the biased coin, ie $P(A) = P(A^C) = 0.5$ \\
+		However, upon observing three heads, it becomes more likely that we have chosen the biased coin, as $P(A^C \mid B) = 1 - 0.23 = 0.77$
+		
+		\item It is incorrect to say that $P(A) = 1$, as $P(A)$ is the probability prior to the observation, and we have merely observed that $P(A \mid A) = 1$
+	\end{enumerate}
+\end{remarks}
+
+\begin{example}
+	\begin{itemize}
+		\item Bowl $A_1$: 3 red \& 7 blue chips
+		\item Bowl $A_2$: 8 red \& 2 blue chips
+	\end{itemize}
+
+	Tossing a die, bowl $A_1$ is selected if a 5 or a 6 is rolled. Otherwise, $A_2$ is selected. \\
+	Find the probability that the chip is from $A_1$ given that it is red ($P(A_1 \mid \text{Red})$)
+	
+	\begin{equation}
+		\begin{alignedat}{2}
+			& P(A_1) &&= \frac{n(5 \text{ or } 6)}{n(\Omega)} = \frac{2}{6} \\
+			& P(A_2) &&= \frac{4}{6} \\
+			& P(\text{Red} \mid A_1) &&= \frac{3}{10} \\
+			& P(\text{Red} \mid A_2) &&= \frac{8}{10} \\
+			& P(A_1 \mid \text{Red}) &&= \frac{P(A_1 \cap A)}{P(A)} \\
+			& &&= \frac{P(A_1) \cdot P(A \mid A_1)}{P(A_1) \cdot P(A \mid A_1) + P(A_2) \cdot P(A \mid A_2)} \\
+			& &&= \frac{\frac{2}{6} \cdot \frac{3}{10}}{\frac{2}{6} \cdot \frac{3}{10} + \frac{4}{6} \cdot \frac{8}{10}} \\
+			& &&= \frac{3}{19}
+		\end{alignedat}
+	\end{equation}
+\end{example}
+
+\subsection{Permutation \& Combination}
+
+\begin{example}
+	What's the probabiltiy that 20 people have different birthdays? Assume that the year has 365 days
+	
+	\begin{eqn}
+		& P(A) &&= \frac{n(A)}{n(\Omega)} \\
+		& n(\Omega) &&= 365 \times 365 \times 365 ... \times 365 \\
+		& n(A) &&= 365 \times 364 \times 363 \times ... 346 \\
+		\therefore \ & P(A) &&= \frac{365 \times 364 \times ... \times 346}{365^{20}}
+	\end{eqn}
+\end{example}
+
+\ddef{Permutation - An ordered arrangement of $r$ distinct objects from a set of $n$, denoted as $P^n_r$}
+
+% Begin theorem
+
+\begin{eqn}
+	P^n_r = \frac{n!}{(n - r)!}
+\end{eqn}
+
+\begin{example} 
+	There are 6 people on the bus, and 10 stops remaining. What's the probability that each person gets off at a different stop?
+\end{example}
+
+% Begin theorem
+
+\ddef{Combination - An unordered arrangement of $r$ distinct objects from a set of $n$, denoted as $\mm{n \\ r} = C^n_r =\frac{n!}{r! (n - r)!}$} \\
+
+\begin{example}
+	How many different choices of drawing 5 cards from a standard deck of 52 playing cards?
+\end{example}
+
+\begin{example}
+	How many different permutations are there of the letters in the word "book"?
+\end{example}
 
 \end{document}

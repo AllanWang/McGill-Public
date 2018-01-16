@@ -1,5 +1,7 @@
 \documentclass[12pt]{article}
-	\usepackage{hyperref, fancyhdr, setspace, enumerate, amsmath, array, keycommand, lastpage, amssymb, xcolor}
+	\usepackage{hyperref, fancyhdr, setspace, array, keycommand, lastpage, xcolor}
+	\usepackage{enumerate, enumitem}
+	\usepackage{amsmath, amssymb, amsfonts}
 	\usepackage[margin=1 in]{geometry}
 	\allowdisplaybreaks
 	\hypersetup{
@@ -20,19 +22,26 @@
 
 	\newcommand{\tab}[1]{\hspace{.2\textwidth}\rlap{#1}}
 	
+	\newcommand{\mathcomment}[0]{\quad\color{blue}} 
+	
 	\newcommand{\comment}[1]{}
 
-	\newcommand{\mathcomment}[1]{\qquad\color{blue}{(#1)}}
-	\newcommand{\bigsum}[2]{\sum\limits_{#1}^{#2}}
-
-	\renewcommand{\vec}[1]{\overrightarrow{#1}}
-	\newcommand{\vectorset}[1]{\\{\vec{#1_1}, \vec{#1_2}, ..., \vec{#1_k}\\}}
-	\newcommand{\vectorseqtwo}[2]{#1_1\vec{#2_1} + #1_2\vec{#2_2} + ... + #1_k\vec{#2_k}}
+	\renewcommand{\v}[1]{\overrightarrow{#1}}
+	\newcommand{\vectorset}[1]{\{\v{#1_1}, \v{#1_2}, ..., \v{#1_k}\}}
+	\newcommand{\vectorseqtwo}[2]{#1_1\v{#2_1} + #1_2\v{#2_2} + ... + #1_k\v{#2_k}}
 	\newcommand\m[1]{\begin{bmatrix}#1\end{bmatrix}}
-	\newcommand\real[0]{\mathbb{R}}
-	\newcommand\braces[1]{\left\\{#1\right\\}}
+	\newcommand\mm[1]{\begin{pmatrix}#1\end{pmatrix}}
 
-	\newcommand{\divider}[0]{\rule{\textwidth}{0.1pt}}
+	\newcommand{\real}[0]{\mathbb{R}}
+	\newcommand{\complex}[0]{\mathbb{C}}
+	\renewcommand{\natural}[0]{\mathbb{N}}
+	
+	\newenvironment{examples}{\underline{Examples}\begin{enumerate}}{\end{enumerate}}
+
+	\newcommand{\bb}[1]{\left\{#1\right\}}
+	\newcommand{\pp}[1]{\left(#1\right)}
+
+	\newcommand{\divider}[0]{\textcolor{lightgray}{\rule{\textwidth}{0.1pt}}}
 
 \begin{document}
 \onehalfspacing
@@ -43,90 +52,224 @@
 \section{2018/01/11}
 \section{2018/01/16}
 
-Diagonalization
+\subsection{Diagonalization}
 
-$T: R^2 \rightarrow R^2$
+\(T: R^2 \rightarrow R^2\)
 
 projection onto the line
 
-$A = \frac{1}{2} \m{1 & -1 \\ -1 & 1}$
+\(A = \frac{1}{2} \m{1 & -1 \\ -1 & 1}\)
 
 x + y = 0
 
-A is diagonalizable, ie $A + P \dot D \dot P^{-1}$
+A is diagonalizable, ie \(A + P \cdot D \cdot P^{-1}\)
 
-where $D = \m{1 & 0 \\ 0 & 0}, P = \m{1 & 1 \\ -1 & 1}$
+where \(D = \m{1 & 0 \\ 0 & 0}, P = \m{1 & 1 \\ -1 & 1}\)
 
-Let $\vec{u_1} = \m{1 \\ -1} and \vec{v_1} = \m{1 \\ 1}$
+Let \(\v{u_1} = \m{1 \\ -1}\) and \(\v{v_1} = \m{1 \\ 1}\)
 
-The canonical basis of $\real^2$ is $B = \braces{ \m{1 \\ 0} = \vec{i}, \m{0 \\ 1} = \vec{j} }$
+The canonical basis of \(\real^2\) is \(B = \bb{\m{1 \\ 0} = \v{i}, \m{0 \\ 1} = \v{j}}\)
 
-Note that $B_1 = \braces{\vec{u_1}, \vec{v_1}}$ is also a basis of $\real^2$
+Note that \(B_1 = \bb{\v{u_1}, \v{v_1}}\) is also a basis of \(\real^2\)
 
-A is the standard matrix of $T$, it is in fact the matrix of $T$ through the canonical basis of $B$
+A is the standard matrix of \(T\), it is in fact the matrix of \(T\) through the canonical basis of \(B\)
 
-a vector $\vec{u} \in \vec{\real^2}$ has coordinates $\m21[x y]$ with respect to $B$.
+a vector \(\v{u} \in \v{\real^2}\) has coordinates \(\m{x \\ y}\) with respect to \(B\).
 
-The coordinates of $T(\vec{u})$ with respect to $B$ is $A \m21[x y] = A(P \m21[x_1 y_1])$ 
+The coordinates of \(T(\v{u})\) with respect to \(B\) is \(A \m{x \\ y} = A\pp{P \m{x_1 \\ y_1}}\) 
 % TODO change to big parentheses
 
-Let $\m21{x_1 y_1}$ be the coordinates of $\vec{u}$ with respect to $B_1$
+Let \(\m21{x_1 y_1}\) be the coordinates of \(\v{u}\) with respect to \(B_1\)
 
-$\vec{us} = \vec{x_i} + \vec{y_j} = x_1 \vec{u_1} + y_1 \vec{v_1} \\
-\Rightarrow \m21[x y] = P \m21[x_1 y_1]$
+\(\v{us} = \v{x_i} + \v{y_j} = x_1 \v{u_1} + y_1 \v{v_1}\) \\
+\(\Rightarrow \m{x \\ y} = P \m{x_1 \\ y_1}\)
 
-$P^{-1}AP \m21[x_1 y_1] = D \m21[x_1 y_1] = \m21[x_1 0]$
+\(P^{-1}AP \m{x_1 \\ y_1} = D \m{x_1 \\ y_1} = \m{x_1 \\ 0}\)
 
-$D$ is the matrix of the linear transformation $T$ through the basis $B_1$
+\(D\) is the matrix of the linear transformation \(T\) through the basis \(B_1\)
 
 \divider
 
 \subsection{Vector Spaces}
 
-Let $K$ be a field $\parentheses{K = \real, K = \complex}$
-Let $V$ be a nonempty set
-$V$ is equipped with 2 operations
-
-Additiona - 
+Let \(K\) be a field \(\pp{K = \real, K = \complex}\)
+Let \(V\) be a nonempty set
+\(V\) is equipped with 2 operations
 
 \begin{tabular}{@{} l l}
-	Additions	& if $\vec{u} \in \vec{v}, \vec{v} \in V$, then sum $\vec{u} + \vec{v}$ is defined \\
-	Scalar Multiplication & $if \vec{u} \in V, \alpha \in \real, \alpha \vec{u}$ is defined
+	Additions	& if \(\v{u} \in \v{v}, \v{v} \in V\), then sum \(\v{u} + \v{v}\) is defined \\
+	Scalar Multiplication & if \(\v{u} \in V, \alpha \in \real, \alpha \v{u}\) is defined
 \end{tabular}
 
-$V$ is called a vector space (over $K$) if the following properties hold:
+\(V\) is called a vector space (over \(K\)) if the following properties hold:
 
-% TODO enumerate with A_1, A_2, A_3 ...
-\begin{itemize}
-	\item whenever $\vec{u}, \vec{v} \in V, \vec{u} + \vec{v} \in V$
-	\item whenever $\vec{u}, \vec{v} \in V, \vec{u} + \vec{v} = \vec{v} + \vec{u}$
-	\item whenever $\vec{u}, \vec{v}, \vec{w} \in V, \parentheses{\vec{u} + \vec{v}} + \vec{w} = \vec{u} + \parentheses{\vec{v} + \vec{w}}$
-	\item there exists a special vector in $V$ called the zero vector, denoted by $\vec{0}$ such that whenever $\vec{u} \in V$, $\vec{u} + \vec{0} = \vec{0} + \vec{u} = \vec{u}$
-	\item Given $\vec{u} \in V$, there exists $\vec{w} \in V$ such that $\vec{u} + \vec{w} = \vec{w} + \vec{u} = \vec{0}$ \\
-	$\vec{w}$ is denoted by $-\vec{u}$
-\end{itemize}
+\begin{enumerate}[label=\(A_{\arabic*}\)]
+	\item whenever \(\v{u}, \v{v} \in V, \v{u} + \v{v} \in V\)
+	\item whenever \(\v{u}, \v{v} \in V, \v{u} + \v{v} = \v{v} + \v{u}\)
+	\item whenever \(\v{u}, \v{v}, \v{w} \in V, \pp{\v{u} + \v{v}} + \v{w} = \v{u} + \pp{\v{v} + \v{w}}\)
+	\item there exists a special vector in \(V\) called the zero vector, denoted by \(\v{0}\) such that whenever \(\v{u} \in V\), \(\v{u} + \v{0} = \v{0} + \v{u} = \v{u}\)
+	\item Given \(\v{u} \in V\), there exists \(\v{w} \in V\) such that \(\v{u} + \v{w} = \v{w} + \v{u} = \v{0}\) \\
+	\(\v{w}\) is denoted by \(-\v{u}\)
+\end{enumerate}
 
-% TODO enumerate with S_1, S_2, ...
-\begin{itemize}
-	\item $\forall \alpha \in K, \forall \vec{u} \in V, \alpha vec{u} \in V$
-	\item $1 \dot \vec{u} = \vec{u}, 1 \in K(K = \real), \vec{u} \in V$
-	\item whenever $\alpha, \beta \in K, \vec{u} \in V, \alpha \parentheses{\beta \vec{u}} = \parentheses{\alpha \beta} \vec{u}$
-	\item whenever $\alpha, \beta \in K, \vec{u} \in V, \parentheses{\alpha + \beta}\vec{u} = \alpha \vec{u} + \beta \vec{u}
-	\item whenever $\alpha \in K, \vec{u}, \vec{v} \in V$, $\alpha \parentheses{\vec{u} + \vec{v}} = \alpha \vec{u} + \alpha \vec{v}$
-\end{itemize}
+\divider
+
+\begin{enumerate}[label=\(S_{\arabic*}\)]
+	\item \(\forall \alpha \in K, \forall \v{u} \in V, \alpha vec{u} \in V\)
+	\item \(1 \cdot \v{u} = \v{u}, 1 \in K(K = \real), \v{u} \in V\)
+	\item whenever \(\alpha, \beta \in K, \v{u} \in V, \alpha \pp{\beta \v{u}} = \pp{\alpha \beta} \v{u}\)
+	\item whenever \(\alpha, \beta \in K, \v{u} \in V, \pp{\alpha + \beta}\v{u} = \alpha \v{u} + \beta \v{u}\)
+	\item whenever \(\alpha \in K, \v{u}, \v{v} \in V\), \(\alpha \pp{\v{u} + \v{v}} = \alpha \v{u} + \alpha \v{v}\)
+\end{enumerate}
 
 \divider
 
 \subsubsection{Examples}
 
 \begin{enumerate}
-	\item $V = \real^n$ is a vector space over $K = \real$
-	\item let $M_{p \times q}$ be the set of all $p \times q$ matrices \\
-	$M_{p \times q}$ is a vector space over $\real$
-	\item Let $P$ be the set of all polynomials over $\real$ \\
-	$P_1, P_2 \in P$, $\parentheses{P_1 + P_2}(x) = P_1(x) + P_2(x) \forall x \in \real$ \\
-	If $\alpha \in \real \in K, \parentheses{\alpha P}(x) = alpha P(x) \forall x \in \real$
-	\item Let $0$ be the function such that $0(x) = 0 \forall x$ 
+	\item \(V = \real^n\) is a vector space over \(K = \real\)
+	\item let \(M_{p \times q}\) be the set of all \(p \times q\) matrices \\
+	\(M_{p \times q}\) is a vector space over \(\real\)
+	\item Let \(P\) be the set of all polynomials over \(\real\) \\
+	\(P_1, P_2 \in P\), \(\pp{P_1 + P_2}(x) = P_1(x) + P_2(x) \ \forall x \in \real\) \\
+	If \(\alpha \in \real \in K, \pp{\alpha P}(x) = \alpha P(x) \ \forall x \in \real\)
+	\item Let \(0\) be the function such that \(0(x) = 0 \ \forall x\) 
 \end{enumerate}
+
+\section{2018/01/18}
+
+\subsection{Vector Spaces}
+
+Examples \\
+Let $D$ be a subset of $\real$ ($D$ can be an interval for example) \\
+Let $F(D)$ be the set of all real valued functions defined on $D$ \\
+For $f, g \in F(D)$, $\alpha, \beta \in \real$, $0 : D \rightarrow \real$
+
+% TODO use big zero for function
+
+\begin{itemize}
+	\item $f + g : D \rightarrow \real$
+	\item $(f + g)(x) = f(x) + g(x)$
+	\item $(\alpha f)(x) = \alpha \cdot f(x)$
+	\item $f + g = g + f$
+	\item $(f + g) + h = f + (g + h)$
+	\item $0(x) = 0$
+	\item $f + 0 = f$
+	\item $f + (-f) = 0$
+	\item $1 \cdot f = f$
+	\item $(\alpha + \beta) f(x) = \alpha f(x) + \beta f(x) = (\alpha f + \beta f)(x)$
+\end{itemize}
+
+Note that if we set $D = \natural$
+
+$F(\natural) =$ set of all real-valued sequences
+
+\subsection{Proposition}
+
+Let $(V, +, \cdot)$ be a vector space over $K$
+
+
+\begin{enumerate}
+	\item The zero vector $\v{0}$ in $V$ is unique
+	\item Given $\v{u} \in V$, the vector $\v{-u}$ is unique
+	\item If $\alpha \v{u} = 0$ then $\alpha = 0$ or $\v{u} = \v{0}$
+	\item $\v{-u} = (-1) \v{u}$
+\end{enumerate}
+
+% \begin{proof}
+
+\begin{enumerate}
+	\item Let $\v{0_1}$ and $\v{0_2}$ be two vectors such that
+	
+	% add left brace
+	
+	\begin{equation}
+	\begin{cases}
+		\v{u} + \v{0_1} = \v{0_1} + \v{u} = \v{u} \quad \forall \v{u} \\
+		\v{u} + \v{0_2} = \v{0_2} + \v{u} = \v{u} \quad \forall \v{u}
+	\end{cases}
+	\end{equation}
+	
+	It follows that \\
+	$\v{0_1} = \v{0_1} + \v{0_2} = \v{0_2}$
+	
+	\item Let $\v{u} \in V$ and let $\v{w_1}$ and $\v{w_2}$ be two vectors such that \\
+	$\v{u} + \v{w_1} = \v{0}$ \\
+	$\v{u} + \v{w_2} = \v{0}$
+	
+	\begin{equation}
+		\begin{alignedat}{2}
+			\v{u} + \v{w_1} &= \v{0} &\\
+			\v{w_2} + (\v{u} + \v{w_1}) &= \v{w_2} + \v{0} &\\
+			(\v{w_2} + \v{u}) + \v{w_1} &= \v{w_2} & \mathcomment \text{associativity}\\
+			0 + \v{w_1} &= \v{w_2} &\\
+			\v{w_1} &= \v{w_2} &
+		\end{alignedat}
+	\end{equation}
+	
+	\item Suppose $\alpha \v{u} = 0$ 
+	If $\alpha \ne 0$ \\
+	
+	\begin{equation}
+		\begin{alignedat}{2}
+			\frac{1}{\alpha} \in K \quad K = \real \\
+			\frac{1}{\alpha} (\alpha \v{u}) = \frac{1}{\alpha} \v{0} = \v{0} \\
+			(\frac{1}{\alpha} \alpha) \v{u} = \v{0} \text{\quad ie} 1 \cdot \v{u} = \v{u} = 0
+		\end{alignedat}
+	\end{equation}
+	
+	\item $-\v{u} = (-1) \v{u}$
+	
+	\begin{equation}
+		\begin{alignedat}{2}
+			&& 1 + (-1) &= 0 \\
+			&& (1 + (-1)) \v{u} &= 0 \v{u} = \v{u} \\
+			&& 1 \v{u} + (-1) \v{u} &= \v{0} \\
+			&& \v{u} + (-1) \v{u} &= \v{0} \\
+			\therefore && (-1) \v{u} &= \v{-u}
+		\end{alignedat}
+	\end{equation}
+	
+\end{enumerate}
+
+% \end{proof}
+
+\subsection{Subspaces}
+
+Let $(V, + \cdot)$ be a vector space over $K$ \\
+Let $E$ be a subset of $V (E \subseteq V)$ \\
+$(E, + \cdot)$ is called a subspace of $(V, +, \cdot)$ \\
+if $(E, +, \cdot)$ is a vector space over $K$.
+	
+% Begin proposition
+
+$E$ is a subspace of $V$ if the following properties hold:
+
+\begin{enumerate}
+	\item $\v{0} \in E$ 
+	\item Whenever $\v{u}, \v{v} \in E \qquad \v{u} + \v{v} \in E$
+	\item Whenever $\v{u} \in E, \alpha \in K \qquad \alpha \v{u} \in E$
+\end{enumerate}
+
+% End proposition
+
+Notice that $E \subseteq V$ is a subspace of $V$ iff $E$ is nonempty and $\alpha \v{u} + \beta \v{v} \in E$ whenever $\v{u}, \v{v} \in E, \alpha, \beta \in K$
+
+\begin{examples}
+	\item Let $C([0, 1])$ be the set of all continuous functions on $[0, 1]$ \\
+	$C([0, 1]) \subseteq F([0, 1])  \leftarrow \text{vector space}$ \\
+	The function $f: [0, 1] \rightarrow \real$ \\
+	$f \in C([0, 1]) \text{(nonemptiness)}$ \\
+	If $f$ and $g$ are continuous on $[0, 1]$, so if $f + g$, as well as $\alpha f \ \forall \alpha$ \\
+	$C[0, 1]$ is a subspace of $F([0, 1])$
+	
+	\item Let $E = \bb{A \in M_{2 \times 2} \mid A = A^T}$ \\
+	Note that $I_2 = \mm{1 & 0 \\ 0 & 1} \in E$ \\
+	whenever $A, B \in E$, $(A + B)^T = A^T + B^T = A + B$ \\
+	$A + B \in E$ \\
+	Also $(\alpha A)^T = \alpha A^T = \alpha A$ \\
+	ie $\alpha A \in E$ \\
+	$E$ is a subspace of $M_{2 \times 2}$
+\end{examples}
 
 \end{document}
