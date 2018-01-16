@@ -25,21 +25,12 @@
 	\newcommand{\mathcomment}[1]{\qquad\color{blue}{(#1)}}
 	\newcommand{\bigsum}[2]{\sum\limits_{#1}^{#2}}
 
-	\newcommand{\ddef}[1]{\textcolor{blue}{#1}}
-
-	\newkeycommand{\ccup}[sub=i=1,sup=\infty, base=A_i] {
-		\bigcup_{\commandkey{sub}}^{\commandkey{sup}}\commandkey{base}
-	}
-
-	\newkeycommand{\ccap}[sub=i=1,sup=\infty, base=A_i] {
-		\bigcap_{\commandkey{sub}}^{\commandkey{sup}}\commandkey{base}
-	}
-
-	\newkeycommand{\llim}[sub=n \rightarrow \infty, base=A_n] {
-		\lim_{\commandkey{sub}}\commandkey{base}
-	}
-
-	\newcommand{\braces}[1]{\left\{#1\right\}}
+	\renewcommand{\vec}[1]{\overrightarrow{#1}}
+	\newcommand{\vectorset}[1]{\\{\vec{#1_1}, \vec{#1_2}, ..., \vec{#1_k}\\}}
+	\newcommand{\vectorseqtwo}[2]{#1_1\vec{#2_1} + #1_2\vec{#2_2} + ... + #1_k\vec{#2_k}}
+	\newcommand\m[1]{\begin{bmatrix}#1\end{bmatrix}}
+	\newcommand\real[0]{\mathbb{R}}
+	\newcommand\braces[1]{\left\\{#1\right\\}}
 
 	\newcommand{\divider}[0]{\rule{\textwidth}{0.1pt}}
 
@@ -58,19 +49,19 @@ $T: R^2 \rightarrow R^2$
 
 projection onto the line
 
-$A = \frac{1}{2} \matrix 2 2 [1 -1 -1 1]
+$A = \frac{1}{2} \m{1 & -1 \\ -1 & 1}$
 
 x + y = 0
 
 A is diagonalizable, ie $A + P \dot D \dot P^{-1}$
 
-where D = \matrix 1 0 0 0, P = matrix 1 1 -1 1
+where $D = \m{1 & 0 \\ 0 & 0}, P = \m{1 & 1 \\ -1 & 1}$
 
-Let $\vec{u_1} = \m21[1 -1] and \vec{v_1} = \m21[1 1]$
+Let $\vec{u_1} = \m{1 \\ -1} and \vec{v_1} = \m{1 \\ 1}$
 
-The canonical basis of $\real^2$ is $B = \braces{ \m21[1 0] = \vec{i}, \m21[0 1] = \vec{j}}
+The canonical basis of $\real^2$ is $B = \braces{ \m{1 \\ 0} = \vec{i}, \m{0 \\ 1} = \vec{j} }$
 
-Note that $B_1 = \braces{\vec{u_1}. \vec{v_1}}$ is also a basis of $\real^2$
+Note that $B_1 = \braces{\vec{u_1}, \vec{v_1}}$ is also a basis of $\real^2$
 
 A is the standard matrix of $T$, it is in fact the matrix of $T$ through the canonical basis of $B$
 
@@ -98,11 +89,44 @@ $V$ is equipped with 2 operations
 
 Additiona - 
 
-\begin{tabular}[@{} l l]
+\begin{tabular}{@{} l l}
 	Additions	& if $\vec{u} \in \vec{v}, \vec{v} \in V$, then sum $\vec{u} + \vec{v}$ is defined \\
 	Scalar Multiplication & $if \vec{u} \in V, \alpha \in \real, \alpha \vec{u}$ is defined
-	
 \end{tabular}
 
+$V$ is called a vector space (over $K$) if the following properties hold:
+
+% TODO enumerate with A_1, A_2, A_3 ...
+\begin{itemize}
+	\item whenever $\vec{u}, \vec{v} \in V, \vec{u} + \vec{v} \in V$
+	\item whenever $\vec{u}, \vec{v} \in V, \vec{u} + \vec{v} = \vec{v} + \vec{u}$
+	\item whenever $\vec{u}, \vec{v}, \vec{w} \in V, \parentheses{\vec{u} + \vec{v}} + \vec{w} = \vec{u} + \parentheses{\vec{v} + \vec{w}}$
+	\item there exists a special vector in $V$ called the zero vector, denoted by $\vec{0}$ such that whenever $\vec{u} \in V$, $\vec{u} + \vec{0} = \vec{0} + \vec{u} = \vec{u}$
+	\item Given $\vec{u} \in V$, there exists $\vec{w} \in V$ such that $\vec{u} + \vec{w} = \vec{w} + \vec{u} = \vec{0}$ \\
+	$\vec{w}$ is denoted by $-\vec{u}$
+\end{itemize}
+
+% TODO enumerate with S_1, S_2, ...
+\begin{itemize}
+	\item $\forall \alpha \in K, \forall \vec{u} \in V, \alpha vec{u} \in V$
+	\item $1 \dot \vec{u} = \vec{u}, 1 \in K(K = \real), \vec{u} \in V$
+	\item whenever $\alpha, \beta \in K, \vec{u} \in V, \alpha \parentheses{\beta \vec{u}} = \parentheses{\alpha \beta} \vec{u}$
+	\item whenever $\alpha, \beta \in K, \vec{u} \in V, \parentheses{\alpha + \beta}\vec{u} = \alpha \vec{u} + \beta \vec{u}
+	\item whenever $\alpha \in K, \vec{u}, \vec{v} \in V$, $\alpha \parentheses{\vec{u} + \vec{v}} = \alpha \vec{u} + \alpha \vec{v}$
+\end{itemize}
+
+\divider
+
+\subsubsection{Examples}
+
+\begin{enumerate}
+	\item $V = \real^n$ is a vector space over $K = \real$
+	\item let $M_{p \times q}$ be the set of all $p \times q$ matrices \\
+	$M_{p \times q}$ is a vector space over $\real$
+	\item Let $P$ be the set of all polynomials over $\real$ \\
+	$P_1, P_2 \in P$, $\parentheses{P_1 + P_2}(x) = P_1(x) + P_2(x) \forall x \in \real$ \\
+	If $\alpha \in \real \in K, \parentheses{\alpha P}(x) = alpha P(x) \forall x \in \real$
+	\item Let $0$ be the function such that $0(x) = 0 \forall x$ 
+\end{enumerate}
 
 \end{document}
