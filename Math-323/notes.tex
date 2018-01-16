@@ -1,5 +1,5 @@
 \documentclass[12pt]{article}
-	\usepackage{hyperref, fancyhdr, setspace, enumerate, amsmath, array, keycommand, lastpage, amssymb, xcolor}
+	\usepackage{hyperref, fancyhdr, setspace, enumerate, enumitem, amsmath, amsthm, amssymb, array, keycommand, lastpage, amssymb, xcolor}
 	\usepackage[margin=1 in]{geometry}
 	\allowdisplaybreaks
 	\hypersetup{
@@ -15,6 +15,9 @@
 	\chead{\leftmark}
 	\rhead{Allan Wang}
 	\cfoot{Page \thepage \ of \pageref{LastPage}}
+	
+	% Only number for sections
+	\setcounter{secnumdepth}{1}
 
 	\setlength{\parindent}{0pt}
 
@@ -22,16 +25,17 @@
 	
 	\newcommand{\comment}[1]{}
 
-	\newcommand{\mathcomment}[1]{\qquad\color{blue}{(#1)}}
+	\newcommand{\mathcomment}[0]{\quad\color{blue}}
+
 	\newcommand{\bigsum}[2]{\sum\limits_{#1}^{#2}}
 
 	\newcommand{\ddef}[1]{\textcolor{blue}{#1}}
 
-	\newkeycommand{\ccup}[sub=i=1,sup=\infty, base=A_i] {
+	\newkeycommand{\ccup}[sub=i=1, sup=\infty, base=A_i] {
 		\bigcup_{\commandkey{sub}}^{\commandkey{sup}}\commandkey{base}
 	}
 
-	\newkeycommand{\ccap}[sub=i=1,sup=\infty, base=A_i] {
+	\newkeycommand{\ccap}[sub=i=1, sup=\infty, base=A_i] {
 		\bigcap_{\commandkey{sub}}^{\commandkey{sup}}\commandkey{base}
 	}
 
@@ -39,9 +43,17 @@
 		\lim_{\commandkey{sub}}\commandkey{base}
 	}
 
+	\newkeycommand{\ssum}[sub=i=i, sup=k] {
+		\sum_{\commandkey{sub}}^{\commandkey{sup}}	
+	}
+
 	\newcommand{\braces}[1]{\left\{#1\right\}}
 
 	\newcommand{\divider}[0]{\rule{\textwidth}{0.1pt}}
+	
+	\newenvironment{claim}{\textit{Claim:}}{\hfill $\square$}
+	
+	\newcommand{\todo}[0]{\textcolor{red}{\textbackslash\textbackslash TODO}}
 
 \begin{document}
 \onehalfspacing
@@ -98,7 +110,7 @@ Note that \(x \le 1\) is still closed.
 
 \divider
 
-\subsection{1.4 Partition \& Inequalities}
+\subsection{Partition \& Inequalities}
 
 \ddef{Partition - sequence of mutually exclusive sets which together form the whole. More formally:}
 
@@ -106,16 +118,13 @@ Let \(\braces{A_i}_{i = 1}^{\infty (k)}\) be a sequence of sets
 
 \(A_i \le \Omega, \forall i\)
 
-% \begin{tabular}
-% 	If & a \\
-% 	then & b
-% \end{tabular}
+\begin{tabular}{@{} l l}
+If		& (a) \(A_i \cap A_j = \emptyset, \forall i \ne j\) \\
+		& (b) \(\ccup[sup=\infty (k)] = \Omega \) \\
+Then 	& $\braces{A_i}_{i=1}^{\infty(k)}$ is a partition of sample space $\Omega$
+\end{tabular}
 
-If \(A_i \cap A_j = \emptyset, \forall i \ne j\) and \(\ccup[sup=\infty (k)] = \Omega\)
-
-then \(\braces{A_i}_{i=1}^{\infty (k)}\) is a partition of sample space \(\Omega\)
-
-Note - if \(B\) is any subset of \(\Omega\) \& \(\braces{A_1, ..., A_k}\) is a partition of \(\Omega \Rightarrow B = \ccup[sup=k] (A_i \cap B)\)
+Note that if $B$ is any subset of $\Omega$ \& $\braces{A_i, ..., A_k}$ is a partition of $\Omega \Rightarrow B = \ccup[sup=k, base=(A_i \cap B)]$.
 
 \divider
 
@@ -125,94 +134,89 @@ Let \(F\) be a set that collects possible sets from \(\Omega\)
 
 P: \(F \rightarrow R^+\) is called a probability measure if
 
-a. \(P(A) \ge 0 \quad \forall A \in F \text{non-negative}\)<br>
-b. \(P(\Omega) = 1\)<br>
-c. \(P(\ccup) = \Sigma_{i=1}^{\infty} P(A_i), A_i \cap A_j = \emptyset \quad \forall i \ne j\)
+\begin{enumerate}[label=(\alph*)]
+	\item \(P(A) \ge 0 \quad \forall A \in F \text{non-negative}\)
+	\item \(P(\Omega) = 1\)<br>
+	\item \(P(\ccup) = \Sigma_{i=1}^{\infty} P(A_i), A_i \cap A_j = \emptyset \quad \forall i \ne j\)
+\end{enumerate}
 
 Some extensions:
 
-1. \(P(\phi) = 0\)
-2. \(P(\ccup[sup=k]) = \Sigma_{i=1}^{k} P(A_i), A_i \cap A_j = \emptyset \quad \forall i \ne j\)
-3. \(P(A^C) = 1 - P(A)\)
-4. \(A \subseteq B \Rightarrow P(A) \le P(B)\)
-5. \(P(A \cup B) = P(A) + P(B) - P(A \cap B)\)
-6. \(P(A_1 \cup A_2 \cup A_3) = P(A_1) + P(A_2) + P(A_3) - P(A_1 \cap A_2) - P(A_2 \cap A_3) - P(A_1 \cap A_3) + P(A_1 \cap A_2 \cap A_3)\)
+\begin{enumerate}
+	\item \(P(\phi) = 0\)
+	\item \(P(\ccup[sup=k]) = \Sigma_{i=1}^{k} P(A_i), A_i \cap A_j = \emptyset \quad \forall i \ne j\)
+	\item \(P(A^C) = 1 - P(A)\)
+	\item \(A \subseteq B \Rightarrow P(A) \le P(B)\)
+	\item \(P(A \cup B) = P(A) + P(B) - P(A \cap B)\)
+	\item \(P(A_1 \cup A_2 \cup A_3) = P(A_1) + P(A_2) + P(A_3) - P(A_1 \cap A_2) - P(A_2 \cap A_3) - P(A_1 \cap A_3) + P(A_1 \cap A_2 \cap A_3)\)
+\end{enumerate}
 
-Proof
+\begin{claim}
+\begin{equation}
+	\begin{alignedat}{3}
+		&& P(\phi) &= 0 &\\
+		\because \ && \Omega & = \Omega \cup \phi &\\
+		\therefore \ && P(\Omega) & = P(\Omega \cup \phi) &\\
+		&& & = P(\Omega) + P(\phi) & \mathcomment (\therefore \Omega \cap \phi = \phi) \\
+		&& & = 1+ P(\phi) &\\
+		\therefore \ && P(\phi) &= 0 &
+	\end{alignedat}
+\end{equation}
+\end{claim}
 
-\divider
+\begin{claim}
+	\begin{equation}
+		\begin{alignedat}{3}
+		&& P(A^C) &= 1 - P(A) &\\
+		\because \ && \Omega & = A \cup A^C &\\
+		\therefore \ && P(\Omega) &= P(A \cup A^C) &\\
+		&& &	= P(A) + P(A^C) & \mathcomment (A \cap A^C = \phi) \\
+		\therefore \ && 1 &= P(A) + P(A^C) &\\
+		\therefore \ && P(A^C) &= 1 - P(A) &
+		\end{alignedat}
+	\end{equation}
+\end{claim}
 
-Claim: \(P(\phi) = 0\)
+\begin{claim}
+	\begin{equation}
+		\begin{alignedat}{2}
+			A \subseteq B & \Rightarrow P(A) \le P(B) &\\
+			P(B) & = P(A \cup (A^C \cap B)) &\\
+			& = P(A) + P(A^C \cap B) & \mathcomment (A \cap (A^C \cap B) = \emptyset) \\
+			& \ge P(A) &
+		\end{alignedat}
+	\end{equation}
+\end{claim}
 
-\(\because \Omega = \Omega \cup \phi\)
-
-\(\therefore P(\Omega) = P(\Omega \cup \phi)\)
-
-\(= P(\Omega) + P(\phi) (\therefore \Omega \cap \phi = \phi)\)
-
-\(= 1+ P(\phi)\)
-
-\(\therefore P(\phi) = 0\)
-
-\divider
-
-Claim: \(P(A^C) = 1 - P(A)\)
-
-\(\because \Omega = A \cup A^C\)
-
-\(\therefore P(\Omega) = P(A \cup A^C)\)
-
-\(= P(A) + P(A^C) --- (A \cap A^C = \phi)\)
-
-\(\therefore 1 = P(A) + P(A^C)\)
-
-\(\therefore P(A^C) = 1 - P(A)\)
-
-\divider
-
-Claim: \(A \subseteq B \Rightarrow P(A) \le P(B)\)
-
-\(P(B) = P(A \cup (A^C \cap B))\)
-
-\(= P(A) + P(A^C \cap B) --- (A \cap (A^C \cap B) = \emptyset)\)
-
-\(\ge P(A)\)
-
-\divider
-
-Claim: \(P(A \cup B) = P(A) + P(B) - P(A \cap B)\)
-
-\(\because A \cup B = A \cup (A^C \cap B)\)
-
-\(\therefore P(A \cup B) = P(A \cup (A^C \cap B)) --- (A \cap (A^C \cap B) = \emptyset)\)
-
-\(= P(A) + P(A^C \cap B)\)
-
-Note: \(P(B) = P((A \cap B) \cup (A^C \cap B))\)
-
-\(= P(A \cap B) + P(A^C \cap B)\)
-
-\(\Rightarrow P(A^C \cap B) = P(B) - P(A \cap B)\)
-
-\divider
+\begin{claim}
+	\begin{equation}
+		\begin{alignedat}{3}
+		&& P(A \cup B) &= P(A) + P(B) - P(A \cap B) &\\
+		\because \ && A \cup B &= A \cup (A^C \cap B) &\\
+		\therefore \ && P(A \cup B) &= P(A \cup (A^C \cap B)) & \mathcomment (A \cap (A^C \cap B) = \emptyset) \\
+		&&&= P(A) + P(A^C \cap B) &\\
+		\textit{Note} && P(B) &= P((A \cap B) \cup (A^C \cap B)) &\\
+		&&&= P(A \cap B) + P(A^C \cap B) &\\
+		\Rightarrow \ && P(A^C \cap B) &= P(B) - P(A \cap B) &
+		\end{alignedat}
+	\end{equation}
+\end{claim}
 
 //todo include other stuff
 
-1.5 Conditional Probability and Baye's Rule
+\subsection{Conditional Probability and Baye's Rule}
 
-Def 1 The conditional probability of an event A, given that an event B has occurred, is equal to
-
-\(P(A \mid B) = \dfrac{P(A \cap B)}{P(B)} if P(B) > 0\)
+\ddef{The conditional probability of an event A, given that an event B has occurred, is equal to $P(A \mid B) = \frac{P(A \cap B)}{P(B)}$ if $P(B) > 0$}
 
 Remark 1:
 
-Here A is the event whose uncertainty we want to update, and B is the evidence we observe (or want to treat as given
+Here A is the event whose uncertainty we want to update, and B is the evidence we observe (or want to treat as given)
 
 We call \(P(A)\) the prior probability of \(A\), and \(P(A \mid B)\) the posterior probability of A.)
 
-> Prior - before updating based on evidence
+\ddef{Prior - before updating based on evidence}
 
-> Posterior - after updating based on evidence
+\ddef{Posterior - after updating based on evidence}
 
 Remark 2:
 
@@ -231,5 +235,35 @@ Check 2:
 Check 3:
 
 see check 3
+
+\subsection{Bonferroni Inequalities}
+Let $A_1, A_2, ..., \in F$ \\
+$\Rightarrow P(\ccup) \le \ssum[sup=n] P(A_i)$
+
+\todo
+
+\begin{proof} \textit{1.}
+	\begin{equation}
+		\begin{alignedat}{2}
+			&& \ccup[sup=k] &= A_i \cup (A^C_1 \cap A_2) \cup (A^C_1 \cap A^C_2 \cap A_3) \cup ... \cup (A^C_1 \cap ... \cap A^C_{k-1} \cap A_k) \\
+			\Rightarrow \ && P(\ccup[sup=k]) &= P(A_1) + P(A^C_1 \cap A_2) + P(A^C_1 \cap A^C_2 \cap A_3) + ... \\
+			&&& \le P(A_1) + P(A_2) + P(A_3) + ... P(A_k) \\
+			&&&= \ssum P(A_i)
+		\end{alignedat}
+	\end{equation}
+\end{proof}
+
+\begin{proof}
+	\begin{equation}
+		\begin{alignedat}{3}
+		\textit{Let } && B^C_i &= A_i &\\
+		&& P(\ccap) &= P(\ccap[base=B^C_i]) &\\
+		&& &= P((\ccup[base=B_i])^C) & \mathcomment \text{by DeMorgan} \\
+		&& &= 1 - P(\ccup[base=B_i]) &\\
+		&& & \ge 1 - \ssum[sup=\infty] P(B_i) & \mathcomment \text{by Boole's Inequality} \\
+		&& &= 1 - \ssum[sup=\infty]P(A^C_i)
+		\end{alignedat}
+	\end{equation}
+\end{proof}
 
 \end{document}
