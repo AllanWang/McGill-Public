@@ -25,10 +25,20 @@ The following aims to be a short summary of the topics learned in Comp 360, Wint
 * Ford-Fulkerson
     * Repeatedly find a valid path from source to sink and draw the residual graph, until no path can be found. The resulting flow will be the max flow.
     * See [Comp 251 Ref](https://www.allanwang.ca/notes/mcgill/comp251/3.php?scroll_to=lecture-13)
-    * Running time is $O(Km^2)$, where $K$ is the largest capacity, $n$ is the number of vertices, and $m$ is the number of edges
+    * Running time is $O(Km^2)$, where $K$ is the largest capacity, $m$ is the number of edges. We are assuming that the graph connected.
+    * Max flow = min cut
 
 > A cut in a flow network is a partition (A, B) of the vertices such that $s \in A$, $t \in B$
 
 > Capacity of this cut is the sum of the capacities of edges going from A to B
 
-//todo
+* Faster Ford Fulkerson
+    * Pick shortest path (use BFS instead of DFS)
+        * Easy to implement, hard to analyze
+    * Pick fattest path (augmenting path with largest bottleneck)
+        * Hard to implement, easy to analyze
+    * Scaling Ford Fulkerson
+        * Set some $\Delta = 2^{\lceil log_2 K \rceil}$
+        * While there exists an augmenting path with bottleneck $\ge \Delta$, augment with that path - runtime $3 * O(m)$ for checking, augmenting, updating
+            * To find such a path, simply ignore all paths whose capacity $< \Delta$
+        * If no such path exists, set $\Delta \leftarrow \frac{\Delta}{2}$ and repeat; end when $\Delta < 1$ - runtime $O(logK)$
