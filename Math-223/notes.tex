@@ -127,7 +127,7 @@ Let \(V\) be a nonempty set
 	\item \(1 \cdot \v{u} = \v{u}, 1 \in K(K = \real), \v{u} \in V\)
 	\item whenever \(\alpha, \beta \in K, \v{u} \in V, \alpha \pp{\beta \v{u}} = \pp{\alpha \beta} \v{u}\)
 	\item whenever \(\alpha, \beta \in K, \v{u} \in V, \pp{\alpha + \beta}\v{u} = \alpha \v{u} + \beta \v{u}\)
-	\item whenever \(\alpha \in K, \v{u}, \v{v} \in V\), \(\alpha \pp{\v{u} + \v{v}} = \alpha \v{u} + \alpha \v{v}\)
+	\item whenever \(\alpha \in K, \v{u}, \v{v} \in V\), \(\alpha \pp{\v{u} + \v{v}} = \alpha \v{u} + \alpha \v{v}\)s
 \end{enumerate}
 
 \divider
@@ -186,8 +186,6 @@ Let $(V, +, \cdot)$ be a vector space over $K$
 	\begin{enumerate}
 		\item Let $\v{0_1}$ and $\v{0_2}$ be two vectors such that
 		
-		% add left brace
-		
 		\begin{equation}
 		\begin{cases}
 		\v{u} + \v{0_1} = \v{0_1} + \v{u} = \v{u} \quad \forall \v{u} \\
@@ -202,38 +200,32 @@ Let $(V, +, \cdot)$ be a vector space over $K$
 		$\v{u} + \v{w_1} = \v{0}$ \\
 		$\v{u} + \v{w_2} = \v{0}$
 		
-		\begin{equation}
-		\begin{alignedat}{2}
+		\begin{eqn}
 		\v{u} + \v{w_1} &= \v{0} &\\
 		\v{w_2} + (\v{u} + \v{w_1}) &= \v{w_2} + \v{0} &\\
 		(\v{w_2} + \v{u}) + \v{w_1} &= \v{w_2} & \mathcomment \text{associativity}\\
 		0 + \v{w_1} &= \v{w_2} &\\
 		\v{w_1} &= \v{w_2} &
-		\end{alignedat}
-		\end{equation}
+		\end{eqn}
 		
 		\item Suppose $\alpha \v{u} = 0$ 
 		If $\alpha \ne 0$ \\
 		
-		\begin{equation}
-		\begin{alignedat}{2}
+		\begin{eqn}
 		\frac{1}{\alpha} \in K \quad K = \real \\
 		\frac{1}{\alpha} (\alpha \v{u}) = \frac{1}{\alpha} \v{0} = \v{0} \\
 		(\frac{1}{\alpha} \alpha) \v{u} = \v{0} \text{\quad ie} 1 \cdot \v{u} = \v{u} = 0
-		\end{alignedat}
-		\end{equation}
+		\end{eqn}
 		
 		\item $-\v{u} = (-1) \v{u}$
 		
-		\begin{equation}
-		\begin{alignedat}{2}
+		\begin{eqn}
 		&& 1 + (-1) &= 0 \\
 		&& (1 + (-1)) \v{u} &= 0 \v{u} = \v{u} \\
 		&& 1 \v{u} + (-1) \v{u} &= \v{0} \\
 		&& \v{u} + (-1) \v{u} &= \v{0} \\
 		\therefore && (-1) \v{u} &= \v{-u}
-		\end{alignedat}
-		\end{equation}
+		\end{eqn}
 		
 	\end{enumerate}
 \end{proof}
@@ -300,38 +292,36 @@ Notice that $E \subseteq V$ is a subspace of $V$ iff $E$ is nonempty and $\alpha
 	\item If A is a $n \times m$ matrix \\
 	$\text{Null}(A) = \bb{x \in \real^m \mid AX = 0}$ \\
 	$\text{Null}(A)$ is a subspace of $\real^m$ \\
-	% \begin{proof}
+	\begin{proof}
 		$X = 0 \in \text{Null}(A) \text{ since } A0 = 0$
 		Let $X_1, X_2 \in \text{Null}(A)$ \\
 		$A(X_1 + X_2) = AX_1 + AX_2 = 0 + 0 = 0$ \\
 		If $X \in \text{Null}(A), \alpha \in \real$ \\
 		$\alpha X \in \text{Null}(A)$ bc \\
 		$A(\alpha X) = \alpha (AX) = \alpha 0 = 0$
-	% \end{proof}
+	\end{proof}
 \end{examples}
 
 	Let $(V, +, \cdot)$ be a vector space on $\real$. \\
 	Let $\v{u_1}, \v{u_2}, ..., \v{u_n}$ be $n$ vector in $V$ 
 	
-	% todo proposition
-	
-	The subset $E \subseteq V$ of all linear combinations $(lc)$ of $\v{u_1}, \v{u_2}, ..., \v{u_n}$ is a subspace of $V$, and is denoted \\
-	$E = \sspan{\v{u_1}, \v{u_2}, ..., \v{u_n}}$
-	
-	% Proof
-	\begin{enumerate}
-		\item $\v{0} \in E$ bc $\v{0} = 0 \v{u_1} + 0 \v{u_2} + ... + 0 \v{u_n}$
-		\item $E$ is stable under addition \\
-		Let $\v{v} = \sum_{i=1}^n \alpha_i \v{u_i} \in E$ \\
-		$\v{w} = \sum_{i=1}^n \beta_i \v{u_1} \in E$ \\
-		$\v{v} + \v{w} = \sum_{i=1}^n (\alpha_i + \beta_i) \v{u_i} \in E$
-		\item $E$ is stable under scalar multiplication \\
-		$\v{u} =  \ssum \alpha_i \v{u_i} \in E$ and $\beta \in \real$ \\
-		$\beta \v{u} = \beta(\ssum \alpha_i \v{u_i}) = \sum_{i=1}^n (\beta \alpha_i) \v{u_i} \in E$
-	\end{enumerate}
-	% end proof
-	
-	% end proposition
+	\begin{proposition}
+		The subset $E \subseteq V$ of all linear combinations $(lc)$ of $\v{u_1}, \v{u_2}, ..., \v{u_n}$ is a subspace of $V$, and is denoted \\
+		$E = \sspan{\v{u_1}, \v{u_2}, ..., \v{u_n}}$
+		
+		\begin{proof}
+			\begin{enumerate}
+				\item $\v{0} \in E$ bc $\v{0} = 0 \v{u_1} + 0 \v{u_2} + ... + 0 \v{u_n}$
+				\item $E$ is stable under addition \\
+				Let $\v{v} = \sum_{i=1}^n \alpha_i \v{u_i} \in E$ \\
+				$\v{w} = \sum_{i=1}^n \beta_i \v{u_1} \in E$ \\
+				$\v{v} + \v{w} = \sum_{i=1}^n (\alpha_i + \beta_i) \v{u_i} \in E$
+				\item $E$ is stable under scalar multiplication \\
+				$\v{u} =  \ssum \alpha_i \v{u_i} \in E$ and $\beta \in \real$ \\
+				$\beta \v{u} = \beta(\ssum \alpha_i \v{u_i}) = \sum_{i=1}^n (\beta \alpha_i) \v{u_i} \in E$
+			\end{enumerate}
+		\end{proof}
+	\end{proposition}
 	
 	\begin{examples}
 		\item Let $A$ be a $n \times m$ matrix and $C_1, C_2, ..., C_m$ are the columns of $A$ (each column $\in \real^n$). \\
@@ -355,13 +345,11 @@ Notice that $E \subseteq V$ is a subspace of $V$ iff $E$ is nonempty and $\alpha
 		\end{eqn}
 	\end{examples}
 	
-	% proposition`	
-	
-	Let $E$ be a subspace of $V$ \\
-	Let $F_1 = \bb{\v{u_1}, \v{u_2}, ..., \v{u_n}}$ be a subset of vectors in $V$ \\
-	$F_2 = \bb{\v{v_1}, \v{v_2}, ..., \v{v_n}}$ be a subset of vectors in $V$ \\
-	$F_1$ and $F_2$ are both spanning sets of the same subspace $E$ of $V$ iff every vector in $F_1$ is a $lc$ of vectors in $F_2$ and every vector in $F_2$ is a $lc$ of vectors in $F_1$.
-	
-	% end proposition 
+	\begin{proposition}
+		Let $E$ be a subspace of $V$ \\
+		Let $F_1 = \bb{\v{u_1}, \v{u_2}, ..., \v{u_n}}$ be a subset of vectors in $V$ \\
+		$F_2 = \bb{\v{v_1}, \v{v_2}, ..., \v{v_n}}$ be a subset of vectors in $V$ \\
+		$F_1$ and $F_2$ are both spanning sets of the same subspace $E$ of $V$ iff every vector in $F_1$ is a $lc$ of vectors in $F_2$ and every vector in $F_2$ is a $lc$ of vectors in $F_1$.
+	\end{proposition}	
 
 \end{document}
