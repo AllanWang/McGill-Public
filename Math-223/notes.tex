@@ -1,13 +1,13 @@
 \documentclass[12pt]{article}
 	\usepackage{hyperref, fancyhdr, setspace, array, keycommand, lastpage, xcolor}
 	\usepackage{enumerate, enumitem}
+	\usepackage{multiaudience}
 	\usepackage{amsmath, amssymb, amsfonts}
 	\usepackage[margin=1 in]{geometry}
 	\allowdisplaybreaks
 	\hypersetup{
-		%colorlinks=true, %set true if you want colored links
-		linktoc=all, %set to all if you want both sections and subsections linked
-		linkcolor=black, %choose some color if you want links to stand out
+		linktoc=all,
+		linkcolor=black,
 	}
 	\author{Allan Wang} 
 	\date{Last updated: \today}
@@ -17,6 +17,9 @@
 	\chead{\leftmark}
 	\rhead{Allan Wang}
 	\cfoot{Page \thepage \ of \pageref{LastPage}}
+	
+	\SetNewAudience{notes}
+	\SetNewAudience{full}
 
 	\setlength{\parindent}{0pt}
 
@@ -39,7 +42,7 @@
 	\newenvironment{block}[1][Label]{\underline{#1}\par}{}
 	\newenvironment{proof}{\block[Proof]}{\endblock}
 	\newenvironment{proposition}{\block[Proposition]}{\endblock}
-	\newenvironment{examples}{\underline{Examples}\begin{enumerate}}{\end{enumerate}}
+	\newenvironment{examples}{\shownto{-,notes}\underline{Examples}\par\enumerate}{\endenumerate\divider\endshownto}
 
 	\newcommand{\bb}[1]{\left\{#1\right\}}
 	\newcommand{\pp}[1]{\left(#1\right)}
@@ -59,6 +62,35 @@
 \pagebreak
 \section{2018/01/9}
 \section{2018/01/11}
+
+$v \subseteq \real^n$ is a subspace of $\real^n$ if \\
+
+\begin{tabular}{@{}l l l}
+	1. & $\vec{O} \in V$ & ie $V$ is non empty \\
+	2. & $\vec{u} + \vec{v} \in V$ & whenever $\vec{u} \in V + \vec{\alpha} \in V$ \\
+	3. & $\alpha \vec{u} \in V$ & whenever $\vec{u} \in V, \vec{\alpha} \in \real$	
+\end{tabular} \\
+
+A subspace $V$ of $\real$ has a basis
+
+ie a family $\vectorset{u}$ of vectors in $V$ such that $\vectorset{u}$ is a spanning set of $V$
+
+A spanning set of $V$ is a set such that every vector in $V$ is a linear combination of that set
+
+ie whenever $\vectorseqtwo{\alpha}{u} = \vec{0}$ then $\alpha_1 = \alpha_2 = ... = \alpha_k = 0$
+
+if $A\alpha = 0$, rank of $A$ is $k (\le n)$, where $k =$ dimension of $V$
+
+\begin{examples}
+	\item $E = \bb{\v{u} = \m{t \\ 2t + s \\ 1}, t \in \real, s \in \real} \subseteq R^3$
+	* $E$ is not a subspace of $R^3$ as the 0 matrix is not included
+	\item $F = \bb{\v{u} = \m{t + s \\ 2t + s' \\ 1}, t, s' \in \real} \subseteq R^3$ \\
+	$\v{u} \in F \Rightarrow \m{t + s \\ 2t = s' \\ 0} = t\m{1 \\ 2 \\ 0} + s'\m{1 \\ -1 \\ 0}$ \\
+	$F =$ span $\bb{\m{1 \\ 2 \\ 0}, \m{1 \\ -1 \\ 0}}$ (linearly independent)
+	\item let $A = \m{1, 1 \\ 2, -1 \\ 0, 0} \rightarrow \m{1, 0 \\ 0, 1 \\ 0, 0}$ \\
+	Rank$(A) = 2$: therefore $\bb{\m{1, 1 \\ 2, -1 \\ 0, 0} \m{1, 0 \\ 0, 1 \\ 0, 0}}$ is linearly independent.
+\end{examples}
+
 \section{2018/01/16}
 
 \subsection{Diagonalization}
@@ -151,8 +183,6 @@ Let $D$ be a subset of $\real$ ($D$ can be an interval for example) \\
 Let $F(D)$ be the set of all real valued functions defined on $D$ \\
 For $f, g \in F(D)$, $\alpha, \beta \in \real$, $0 : D \rightarrow \real$
 
-% TODO use big zero for function
-
 \begin{itemize}
 	\item $f + g : D \rightarrow \real$
 	\item $(f + g)(x) = f(x) + g(x)$
@@ -230,8 +260,6 @@ Let $(V, +, \cdot)$ be a vector space over $K$
 	\end{enumerate}
 \end{proof}
 
-% \end{proof}
-
 \subsection{Subspaces}
 
 Let $(V, + \cdot)$ be a vector space over $K$ \\
@@ -239,17 +267,15 @@ Let $E$ be a subset of $V (E \subseteq V)$ \\
 $(E, + \cdot)$ is called a subspace of $(V, +, \cdot)$ \\
 if $(E, +, \cdot)$ is a vector space over $K$.
 	
-% Begin proposition
-
-$E$ is a subspace of $V$ if the following properties hold:
-
-\begin{enumerate}
-	\item $\v{0} \in E$ 
-	\item Whenever $\v{u}, \v{v} \in E \qquad \v{u} + \v{v} \in E$
-	\item Whenever $\v{u} \in E, \alpha \in K \qquad \alpha \v{u} \in E$
-\end{enumerate}
-
-% End proposition
+\begin{proposition}
+	$E$ is a subspace of $V$ if the following properties hold:
+	
+	\begin{enumerate}
+		\item $\v{0} \in E$ 
+		\item Whenever $\v{u}, \v{v} \in E \qquad \v{u} + \v{v} \in E$
+		\item Whenever $\v{u} \in E, \alpha \in K \qquad \alpha \v{u} \in E$
+	\end{enumerate}
+\end{proposition}
 
 Notice that $E \subseteq V$ is a subspace of $V$ iff $E$ is nonempty and $\alpha \v{u} + \beta \v{v} \in E$ whenever $\v{u}, \v{v} \in E, \alpha, \beta \in K$
 
@@ -288,7 +314,6 @@ Notice that $E \subseteq V$ is a subspace of $V$ iff $E$ is nonempty and $\alpha
 	Ex $p(x) = x + 1 \in E \leftarrow p(0) = 1 \ge 0$ \\
 	if $\alpha < 0$, then $\alpha p(0) = \alpha < 0 \rightarrow \alpha p \notin E$
 	
-	% TODO n x m below A
 	\item If A is a $n \times m$ matrix \\
 	$\text{Null}(A) = \bb{x \in \real^m \mid AX = 0}$ \\
 	$\text{Null}(A)$ is a subspace of $\real^m$ \\
