@@ -36,12 +36,21 @@
 	\newcommand{\complex}[0]{\mathbb{C}}
 	\renewcommand{\natural}[0]{\mathbb{N}}
 	
+	\newenvironment{block}[1][Label]{\underline{#1}\par}{}
+	\newenvironment{proof}{\block[Proof]}{\endblock}
+	\newenvironment{proposition}{\block[Proposition]}{\endblock}
 	\newenvironment{examples}{\underline{Examples}\begin{enumerate}}{\end{enumerate}}
 
 	\newcommand{\bb}[1]{\left\{#1\right\}}
 	\newcommand{\pp}[1]{\left(#1\right)}
 
 	\newcommand{\divider}[0]{\textcolor{lightgray}{\rule{\textwidth}{0.1pt}}}
+	
+	\newcommand{\ssum}[0]{\sum_{i=1}^n}
+	
+	\newcommand{\sspan}[1]{\text{span}\bb{#1}}
+	
+	\newenvironment{eqn}{\equation\alignedat{3}}{\endalignedat\endequation}
 
 \begin{document}
 \onehalfspacing
@@ -77,9 +86,8 @@ A is the standard matrix of \(T\), it is in fact the matrix of \(T\) through the
 a vector \(\v{u} \in \v{\real^2}\) has coordinates \(\m{x \\ y}\) with respect to \(B\).
 
 The coordinates of \(T(\v{u})\) with respect to \(B\) is \(A \m{x \\ y} = A\pp{P \m{x_1 \\ y_1}}\) 
-% TODO change to big parentheses
 
-Let \(\m21{x_1 y_1}\) be the coordinates of \(\v{u}\) with respect to \(B_1\)
+Let \(\m{x_1 \\ y_1}\) be the coordinates of \(\v{u}\) with respect to \(B_1\)
 
 \(\v{us} = \v{x_i} + \v{y_j} = x_1 \v{u_1} + y_1 \v{v_1}\) \\
 \(\Rightarrow \m{x \\ y} = P \m{x_1 \\ y_1}\)
@@ -124,9 +132,7 @@ Let \(V\) be a nonempty set
 
 \divider
 
-\subsubsection{Examples}
-
-\begin{enumerate}
+\begin{examples}
 	\item \(V = \real^n\) is a vector space over \(K = \real\)
 	\item let \(M_{p \times q}\) be the set of all \(p \times q\) matrices \\
 	\(M_{p \times q}\) is a vector space over \(\real\)
@@ -134,7 +140,7 @@ Let \(V\) be a nonempty set
 	\(P_1, P_2 \in P\), \(\pp{P_1 + P_2}(x) = P_1(x) + P_2(x) \ \forall x \in \real\) \\
 	If \(\alpha \in \real \in K, \pp{\alpha P}(x) = \alpha P(x) \ \forall x \in \real\)
 	\item Let \(0\) be the function such that \(0(x) = 0 \ \forall x\) 
-\end{enumerate}
+\end{examples}
 
 \section{2018/01/18}
 
@@ -176,61 +182,61 @@ Let $(V, +, \cdot)$ be a vector space over $K$
 	\item $\v{-u} = (-1) \v{u}$
 \end{enumerate}
 
-% \begin{proof}
-
-\begin{enumerate}
-	\item Let $\v{0_1}$ and $\v{0_2}$ be two vectors such that
-	
-	% add left brace
-	
-	\begin{equation}
-	\begin{cases}
+\begin{proof}
+	\begin{enumerate}
+		\item Let $\v{0_1}$ and $\v{0_2}$ be two vectors such that
+		
+		% add left brace
+		
+		\begin{equation}
+		\begin{cases}
 		\v{u} + \v{0_1} = \v{0_1} + \v{u} = \v{u} \quad \forall \v{u} \\
 		\v{u} + \v{0_2} = \v{0_2} + \v{u} = \v{u} \quad \forall \v{u}
-	\end{cases}
-	\end{equation}
-	
-	It follows that \\
-	$\v{0_1} = \v{0_1} + \v{0_2} = \v{0_2}$
-	
-	\item Let $\v{u} \in V$ and let $\v{w_1}$ and $\v{w_2}$ be two vectors such that \\
-	$\v{u} + \v{w_1} = \v{0}$ \\
-	$\v{u} + \v{w_2} = \v{0}$
-	
-	\begin{equation}
+		\end{cases}
+		\end{equation}
+		
+		It follows that \\
+		$\v{0_1} = \v{0_1} + \v{0_2} = \v{0_2}$
+		
+		\item Let $\v{u} \in V$ and let $\v{w_1}$ and $\v{w_2}$ be two vectors such that \\
+		$\v{u} + \v{w_1} = \v{0}$ \\
+		$\v{u} + \v{w_2} = \v{0}$
+		
+		\begin{equation}
 		\begin{alignedat}{2}
-			\v{u} + \v{w_1} &= \v{0} &\\
-			\v{w_2} + (\v{u} + \v{w_1}) &= \v{w_2} + \v{0} &\\
-			(\v{w_2} + \v{u}) + \v{w_1} &= \v{w_2} & \mathcomment \text{associativity}\\
-			0 + \v{w_1} &= \v{w_2} &\\
-			\v{w_1} &= \v{w_2} &
+		\v{u} + \v{w_1} &= \v{0} &\\
+		\v{w_2} + (\v{u} + \v{w_1}) &= \v{w_2} + \v{0} &\\
+		(\v{w_2} + \v{u}) + \v{w_1} &= \v{w_2} & \mathcomment \text{associativity}\\
+		0 + \v{w_1} &= \v{w_2} &\\
+		\v{w_1} &= \v{w_2} &
 		\end{alignedat}
-	\end{equation}
-	
-	\item Suppose $\alpha \v{u} = 0$ 
-	If $\alpha \ne 0$ \\
-	
-	\begin{equation}
+		\end{equation}
+		
+		\item Suppose $\alpha \v{u} = 0$ 
+		If $\alpha \ne 0$ \\
+		
+		\begin{equation}
 		\begin{alignedat}{2}
-			\frac{1}{\alpha} \in K \quad K = \real \\
-			\frac{1}{\alpha} (\alpha \v{u}) = \frac{1}{\alpha} \v{0} = \v{0} \\
-			(\frac{1}{\alpha} \alpha) \v{u} = \v{0} \text{\quad ie} 1 \cdot \v{u} = \v{u} = 0
+		\frac{1}{\alpha} \in K \quad K = \real \\
+		\frac{1}{\alpha} (\alpha \v{u}) = \frac{1}{\alpha} \v{0} = \v{0} \\
+		(\frac{1}{\alpha} \alpha) \v{u} = \v{0} \text{\quad ie} 1 \cdot \v{u} = \v{u} = 0
 		\end{alignedat}
-	\end{equation}
-	
-	\item $-\v{u} = (-1) \v{u}$
-	
-	\begin{equation}
+		\end{equation}
+		
+		\item $-\v{u} = (-1) \v{u}$
+		
+		\begin{equation}
 		\begin{alignedat}{2}
-			&& 1 + (-1) &= 0 \\
-			&& (1 + (-1)) \v{u} &= 0 \v{u} = \v{u} \\
-			&& 1 \v{u} + (-1) \v{u} &= \v{0} \\
-			&& \v{u} + (-1) \v{u} &= \v{0} \\
-			\therefore && (-1) \v{u} &= \v{-u}
+		&& 1 + (-1) &= 0 \\
+		&& (1 + (-1)) \v{u} &= 0 \v{u} = \v{u} \\
+		&& 1 \v{u} + (-1) \v{u} &= \v{0} \\
+		&& \v{u} + (-1) \v{u} &= \v{0} \\
+		\therefore && (-1) \v{u} &= \v{-u}
 		\end{alignedat}
-	\end{equation}
-	
-\end{enumerate}
+		\end{equation}
+		
+	\end{enumerate}
+\end{proof}
 
 % \end{proof}
 
@@ -271,5 +277,91 @@ Notice that $E \subseteq V$ is a subspace of $V$ iff $E$ is nonempty and $\alpha
 	ie $\alpha A \in E$ \\
 	$E$ is a subspace of $M_{2 \times 2}$
 \end{examples}
+
+\section{2018/01/23}
+
+\subsection{Subspaces}
+
+\begin{examples}
+	\item Let $E = \bb{p = P_3, \text{ such that } p(1) = 2}$ \\
+	$E$ is a nonempty subset of $P_3 (p(x) = 2x \in E)$. But $E$ is neither stable under addition nor stable under scalar multiplication. \\\\
+	Ex $p_1(x) = 2x \in E$, but $(4p_1)(x) = 8x \notin E$. \\
+	$\therefore E$ is not a subspace 
+	
+	\item Let $E = \bb{p \in P_3 \mid p(0) \ge 0}$ \\
+	The zero polynomial $(0) \in E$ \\
+	let $p_1 \in E, p_2 \in E, (p_1 + _2)(0) = p_1(0) + p_2(0) \ge 0$ \\
+	$p1 + p_2 \in E$ \\
+	However, $E$ is not stable under scalar muliplication. \\
+	Ex $p(x) = x + 1 \in E \leftarrow p(0) = 1 \ge 0$ \\
+	if $\alpha < 0$, then $\alpha p(0) = \alpha < 0 \rightarrow \alpha p \notin E$
+	
+	% TODO n x m below A
+	\item If A is a $n \times m$ matrix \\
+	$\text{Null}(A) = \bb{x \in \real^m \mid AX = 0}$ \\
+	$\text{Null}(A)$ is a subspace of $\real^m$ \\
+	% \begin{proof}
+		$X = 0 \in \text{Null}(A) \text{ since } A0 = 0$
+		Let $X_1, X_2 \in \text{Null}(A)$ \\
+		$A(X_1 + X_2) = AX_1 + AX_2 = 0 + 0 = 0$ \\
+		If $X \in \text{Null}(A), \alpha \in \real$ \\
+		$\alpha X \in \text{Null}(A)$ bc \\
+		$A(\alpha X) = \alpha (AX) = \alpha 0 = 0$
+	% \end{proof}
+\end{examples}
+
+	Let $(V, +, \cdot)$ be a vector space on $\real$. \\
+	Let $\v{u_1}, \v{u_2}, ..., \v{u_n}$ be $n$ vector in $V$ 
+	
+	% todo proposition
+	
+	The subset $E \subseteq V$ of all linear combinations $(lc)$ of $\v{u_1}, \v{u_2}, ..., \v{u_n}$ is a subspace of $V$, and is denoted \\
+	$E = \sspan{\v{u_1}, \v{u_2}, ..., \v{u_n}}$
+	
+	% Proof
+	\begin{enumerate}
+		\item $\v{0} \in E$ bc $\v{0} = 0 \v{u_1} + 0 \v{u_2} + ... + 0 \v{u_n}$
+		\item $E$ is stable under addition \\
+		Let $\v{v} = \sum_{i=1}^n \alpha_i \v{u_i} \in E$ \\
+		$\v{w} = \sum_{i=1}^n \beta_i \v{u_1} \in E$ \\
+		$\v{v} + \v{w} = \sum_{i=1}^n (\alpha_i + \beta_i) \v{u_i} \in E$
+		\item $E$ is stable under scalar multiplication \\
+		$\v{u} =  \ssum \alpha_i \v{u_i} \in E$ and $\beta \in \real$ \\
+		$\beta \v{u} = \beta(\ssum \alpha_i \v{u_i}) = \sum_{i=1}^n (\beta \alpha_i) \v{u_i} \in E$
+	\end{enumerate}
+	% end proof
+	
+	% end proposition
+	
+	\begin{examples}
+		\item Let $A$ be a $n \times m$ matrix and $C_1, C_2, ..., C_m$ are the columns of $A$ (each column $\in \real^n$). \\
+		$\sspan{C_1, C_2, ..., C_m}$ is a vector subspace of $\real^n$, called the column space of $A$ and denoted $\text{Col}(A) n$. \\
+		Similarly, the row space of $A$ is $\text{Row}(A) = \text{Col}(A^T)$ is a subspace of $\real^m$.
+		
+		\item $E = P_3$ \\
+		$p \in P_3), p(x) = ax^3 + bx^2 + cx + d$ \\
+		$P_3 = \sspan{x^3, x^2, x, 1}$		
+		
+		\item $E = \bb{p \in P_3 \mid p(2) = 0}$ is a subspace of $P_3$ \\
+		If $p \in E, p(x) = 0$ \\
+		ie $p(x) = (x - 2)q(x)$ where $q(x) \in P_2$ \\
+		$p(x) = (x - 2)(ax^2 + bx + c) = ax^2(x - 2) + bx(x - 2) + c(x - 2) \quad a, b, c \in \real$ \\
+		$E = \sspan{x^2(x - 2), x(x - 2), x - 2}$ \\
+		$p \in P_3, p(x) = sum_{k=0}^3 \frac{f^{(k)}(2)}{k!} (x - 2)^k$ \\
+		if $p \in E, p(2) = 0$ \\
+		\begin{eqn}
+			p(x) &= \sum_{k=0}^3 \frac{p^{(k)}(2)}{k!} (x - 2)^k \\
+			&= \frac{p^{(1)}(2)}{1!}(x - 2) + \frac{p^{(2)}(2)}{2!}(x-2)^2 + \frac{p^{(3)}(2)}{3!}(x-2)^3
+		\end{eqn}
+	\end{examples}
+	
+	% proposition`	
+	
+	Let $E$ be a subspace of $V$ \\
+	Let $F_1 = \bb{\v{u_1}, \v{u_2}, ..., \v{u_n}}$ be a subset of vectors in $V$ \\
+	$F_2 = \bb{\v{v_1}, \v{v_2}, ..., \v{v_n}}$ be a subset of vectors in $V$ \\
+	$F_1$ and $F_2$ are both spanning sets of the same subspace $E$ of $V$ iff every vector in $F_1$ is a $lc$ of vectors in $F_2$ and every vector in $F_2$ is a $lc$ of vectors in $F_1$.
+	
+	% end proposition 
 
 \end{document}

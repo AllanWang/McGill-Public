@@ -389,3 +389,101 @@ Better if integrated into language
 * Threads may also sleep, which goes to a waiting mode, or be woken up
 * Threads may be terminated, leading to a stopped mode
 
+# Lecture 4 &mdash; 2018/01/23
+
+## Java's Thread Model
+
+* Priority based
+* Nominatively priority-preemptive
+* Threads at highest level is executed in preference
+* For threads of same priority, should run with round robin time slices (but not guaranteed)
+
+| Thread API | |
+---|---
+`sleep(millis)` | Lower bound idle time
+`yield()` | Give up time slice
+`Thread.currentThread()` | Get reference to current thread
+`isAlive()` | returns `true` if thread could be scheduled. Always true if called on self (as it wouldn't be callable otherwise). If called on another thread, returns stale information on live state
+`join()` | Wait for another thread to finish before continuing
+
+Asynchronous termination is bad. `stop()` and `destroy()` are such methods and are deprecated.
+
+### Basic synchronization
+
+* Every object has a lock, for which only 1 thread can acquire at a time
+
+```java
+synchronized(lock) {
+    // begin lock
+    ...
+    // end lock
+}
+```
+
+Threads that attempt to access an already locked object will wait until it unlocks.
+
+In Java, you can relock locks you own, on the condition that you unlock for the same number of times.
+
+## Volatile Keyword
+
+* Used for variables to indicate that it may change arbitrarily/asynchronously
+* Helps avoid accidental optimization (eg when a thread checks for a flag and loops, and the thread itself never changes the flag)
+
+## PThreads
+
+* POSIX library
+* `pthread.create(&threadHandle, attributes, startRoutine, args)`
+* Detached (daemon)
+    * May not be joined
+    * Act as services
+* Joinable (non-daemon)
+    * Must join with them
+
+| Scheduling | |
+---|---
+SCHED_RR | round-robin, time sliced, priority preemptive
+SCHED_FIFO | run to completion, no time slice
+SCHED_OTHER | offered by OS
+
+## Mutual Exclusion
+
+* Mutex objects
+    * `acquire()` and `release()`
+    * Up ot developer to
+        * Acquire before release
+        * Release in same thread
+    * By default, no recursive acquire allowed
+
+---
+
+* Filter Lock
+    * Generalization of the Peterson's 2-process tie breaker
+    * n - stages, n threads, 1 thread "wins"
+    * At each stage, ensure that at least one thread trying to get in is successful (ensure progress)
+    * If more than 1 thread is trying to enter, at least one is blocked
+
+```java
+init:
+    stage: id -> stage
+    int stage[n]
+    waiting stage ->id 
+    initiation[n]
+    stage 1 -> not trying to set n?
+
+enter id:
+    for s in 0 until n:
+        stage[id] = s
+        waiting[s] = id
+        do:
+            spin = false
+            for j in 0 until n:
+                if j == id continue
+                if stage[j] >= s && waiting[s] == id:
+                    spin = true
+                    break // from for loop
+        while spin
+
+
+
+exit id:
+    stage[id] = 0
