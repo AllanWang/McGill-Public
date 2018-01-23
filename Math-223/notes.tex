@@ -1,7 +1,7 @@
 \documentclass[12pt]{article}
 	\usepackage{hyperref, fancyhdr, setspace, array, keycommand, lastpage, xcolor}
 	\usepackage{enumerate, enumitem}
-	\usepackage{multiaudience}
+	\usepackage{multiaudience, environ}
 	\usepackage{amsmath, amssymb, amsfonts}
 	\usepackage[margin=1 in]{geometry}
 	\allowdisplaybreaks
@@ -18,8 +18,9 @@
 	\rhead{Allan Wang}
 	\cfoot{Page \thepage \ of \pageref{LastPage}}
 	
-	\SetNewAudience{notes}
+	\SetNewAudience{compact}
 	\SetNewAudience{full}
+	\def\CurrentAudience{compact}
 
 	\setlength{\parindent}{0pt}
 
@@ -42,7 +43,19 @@
 	\newenvironment{block}[1][Label]{\underline{#1}\par}{}
 	\newenvironment{proof}{\block[Proof]}{\endblock}
 	\newenvironment{proposition}{\block[Proposition]}{\endblock}
-	\newenvironment{examples}{\shownto{-,notes}\underline{Examples}\par\enumerate}{\endenumerate\divider\endshownto}
+
+	% \NewEnviron{examples}{
+	% 	\begin{shownto}{-,compact}
+	% 		\underline{Examples}
+	% 		\begin{enumerate}
+	% 			\BODY
+	% 		\end{enumerate}
+	% 	\end{shownto}
+	% }
+	% \newenvironment{examples}{\underline{Examples}\enumerate}{\endenumerate\divider}
+	\newenvironment{examples}{\shownto{-,compact}\underline{Examples}\enumerate}{\endenumerate\divider\endshownto}
+
+	\newenvironment{test}{\shownto{-,compact}\enumerate}{\endenumerate\endshownto}
 
 	\newcommand{\bb}[1]{\left\{#1\right\}}
 	\newcommand{\pp}[1]{\left(#1\right)}
@@ -56,6 +69,17 @@
 	\newenvironment{eqn}{\equation\alignedat{3}}{\endalignedat\endequation}
 
 \begin{document}
+
+\begin{shownto}{-,compact}
+	\begin{enumerate}
+		\item test
+	\end{enumerate}
+\end{shownto}
+
+\begin{example}
+	\item Test
+\end{example}
+
 \onehalfspacing
 \maketitle
 \tableofcontents
