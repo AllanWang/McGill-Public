@@ -1,6 +1,7 @@
 \documentclass[12pt]{article}
-	\usepackage{hyperref, fancyhdr, setspace, enumerate, enumitem, amsmath, amsthm, amssymb, array, keycommand, lastpage, amssymb, xcolor}
+	\usepackage{hyperref, fancyhdr, setspace, enumerate, amsmath, amsthm, amssymb, array, keycommand, lastpage, amssymb, xcolor}
 	\usepackage{multiaudience}
+	\usepackage{enumitem}
 	\usepackage[margin=1 in]{geometry}
 	\allowdisplaybreaks
 	\hypersetup{
@@ -49,11 +50,12 @@
 		\lim_{\commandkey{sub}}\commandkey{base}
 	}
 
-	\newkeycommand{\ssum}[sub=i=i, sup=k] {
+	\newkeycommand{\ssum}[sub=i=1, sup=k] {
 		\sum_{\commandkey{sub}}^{\commandkey{sup}}	
 	}
 
-	\newcommand{\braces}[1]{\left\{#1\right\}}
+	\newcommand{\bb}[1]{\left\{#1\right\}}
+	\newcommand{\pp}[1]{\left(#1\right)}
 
 	\newcommand{\divider}[0]{\rule{\textwidth}{0.1pt}}
 	
@@ -61,11 +63,18 @@
 	
 	\newenvironment{remarks}{\underline{Remarks}\par}{}
 	
-	\newenvironment{example}{\underline{Example}\par\shownto{-,notes}}{\newline\divider\endshownto}
+	\newenvironment{example}{\shownto{-,notes}\underline{Example}\par}{\newline\divider\endshownto}
 	
 	\newenvironment{eqn}{\equation\alignedat{3}}{\endalignedat\endequation}
 	
 	\newcommand{\todo}[0]{\textcolor{red}{\textbackslash\textbackslash TODO}}
+	
+	\newcounter{theorem}
+	\newcommand{\theorem}[1]{\refstepcounter{theorem}\par\medskip
+		\underline{Theorem~\thetheorem. #1}}
+	
+	\let\oldperp\perp
+	\renewcommand{\perp}[0]{\oldperp\!\!\!\oldperp}
 
 \begin{document}
 \onehalfspacing
@@ -76,9 +85,28 @@
 
 \ddef{Experiment - process by which an observation is made}
 
+\ddef{Random Experiment - experiment where:}
+
+\begin{itemize}
+	\item A collection of every possible outcome can be observed prior to its performance
+	\item It can be repeated under the same condition
+\end{itemize}
+
+\ddef{Samples Space $(S, \Omega)$ - collection of every possible outcome in an experiment}
+
 \begin{itemize}
     \item Ex dice tossing is an experiment since we observe the number appearing on the other side
 \end{itemize}
+
+\ddef{Kolmogorov Axioms - for every event $A$ in $\Omega$, the probability of an event $P(A)$ satisfied}
+
+\begin{enumerate}
+	\item $P(A) \ge 0$
+	\item $P(\Omega) = 1$
+	\item $P(\ccup) = \ssum[sup=\infty] P(A_i)$ when $A_i \cap A_j = \emptyset \ \forall i \ne j$
+\end{enumerate}
+
+$$P(A) = \frac{n(A)}{n(\Omega)}$$
 
 \section{2018/01/12}
 
@@ -92,16 +120,16 @@
 
 \underline{Example 1}
 \begin{eqn}
-	\text{Let } A_k & = \braces{x \mid 1 < x \le 2 - \frac{1}{k}} \\
-	A_1 & = \braces{x \mid 1 < x \le 2 - \frac{1}{1}} \\
-	A_2 & = \braces{x \mid 1 < x \le 2 - \frac{1}{2}} \\
+	\text{Let } A_k & = \bb{x \mid 1 < x \le 2 - \frac{1}{k}} \\
+	A_1 & = \bb{x \mid 1 < x \le 2 - \frac{1}{1}} \\
+	A_2 & = \bb{x \mid 1 < x \le 2 - \frac{1}{2}} \\
 	& \vdots \\
-	A_k & = \braces{x \mid 1 < x \le 2 - \frac{1}{k}} \\
+	A_k & = \bb{x \mid 1 < x \le 2 - \frac{1}{k}} \\
 \end{eqn}
 
 \(\because\) the sequence is non-decreasing.
 
-\(\therefore \llim = \ccup = \braces{x \mid 1 < x < 2}\)
+\(\therefore \llim = \ccup = \bb{x \mid 1 < x < 2}\)
 
 Note that \(x < 2\) is open
 
@@ -109,11 +137,11 @@ Note that \(x < 2\) is open
 
 \underline{Example 2} \\
 
-\(A_k = \braces{x \mid 1 < x \le x + \dfrac{1}{k}}\)
+\(A_k = \bb{x \mid 1 < x \le x + \dfrac{1}{k}}\)
 
 Note that the sequence is non-increasing.
 
-\(\llim = \ccap = \braces{x \mid 1 < x \le 1} = \emptyset\)
+\(\llim = \ccap = \bb{x \mid 1 < x \le 1} = \emptyset\)
 
 Note that \(x \le 1\) is still closed.
 
@@ -123,22 +151,22 @@ Note that \(x \le 1\) is still closed.
 
 \ddef{Partition - sequence of mutually exclusive sets which together form the whole. More formally:}
 
-Let \(\braces{A_i}_{i = 1}^{\infty (k)}\) be a sequence of sets
+Let \(\bb{A_i}_{i = 1}^{\infty (k)}\) be a sequence of sets
 
 \(A_i \le \Omega, \forall i\)
 
 \begin{tabular}{@{} l l}
 If		& (a) \(A_i \cap A_j = \emptyset, \forall i \ne j\) \\
 		& (b) \(\ccup[sup=\infty (k)] = \Omega \) \\
-Then 	& $\braces{A_i}_{i=1}^{\infty(k)}$ is a partition of sample space $\Omega$
+Then 	& $\bb{A_i}_{i=1}^{\infty(k)}$ is a partition of sample space $\Omega$
 \end{tabular}
 
-Note that if $B$ is any subset of $\Omega$ \& $\braces{A_i, ..., A_k}$ is a partition of $\Omega \Rightarrow B = \ccup[sup=k, base=(A_i \cap B)]$.
+Note that if $B$ is any subset of $\Omega$ \& $\bb{A_i, ..., A_k}$ is a partition of $\Omega \Rightarrow B = \ccup[sup=k, base=(A_i \cap B)]$.
 
 \divider
 
-\subsubsection{Theorem 1. Kolmogorov Probability Measure}
-
+\theorem{Kolmogorov Probability Measure}
+	
 Let \(F\) be a set that collects possible sets from \(\Omega\)
 
 P: \(F \rightarrow R^+\) is called a probability measure if
@@ -203,8 +231,6 @@ Some extensions:
 	\end{eqn}
 \end{claim}
 
-//todo include other stuff
-
 \subsection{Conditional Probability and Baye's Rule}
 
 \ddef{The conditional probability of an event A, given that an event B has occurred, is equal to $P(A \mid B) = \frac{P(A \cap B)}{P(B)}$ if $P(B) > 0$}
@@ -241,8 +267,6 @@ see check 3
 Let $A_1, A_2, ..., \in F$ \\
 $\Rightarrow P(\ccup) \le \ssum[sup=n] P(A_i)$
 
-\todo
-
 \begin{proof} \textit{1.}
 	\begin{equation}
 		\begin{alignedat}{2}
@@ -269,7 +293,60 @@ $\Rightarrow P(\ccup) \le \ssum[sup=n] P(A_i)$
 
 \section{2018/01/17}
 
-/todo
+\ddef{Independence between two events $A$ and $B$, denoted as $A \perp B$, is when:}
+
+\begin{itemize}
+	\item $P(A \mid B) = P(A)$
+	\item $P(B \mid A) = P(B)$
+	\item $P(A \cap B) = P(A) P(B)$
+\end{itemize}
+
+The following statements are equivalent
+
+\begin{enumerate}
+	\item $A \perp B \Leftrightarrow A^C \perp B$
+	\item $A \perp B \Leftrightarrow A^C \perp B^C$
+	\item $A \perp B \Leftrightarrow A \perp B^C$
+\end{enumerate}
+
+\theorem{Baye's Rule}
+
+Assume $\bb{A_1, A_2, ..., A_k}$ is a partition of $\Omega$ such that $P(A_i) > 0 \ \forall i$. For $B \subseteq \Omega$, we have
+
+\begin{enumerate}[label=(\alph*)]
+	\item Law of total probability 
+	\begin{eqn}
+		P(B) &= P \pp{\ccup[sup=k, base=(A_i \cap B)]} \\
+		&= \ssum P(A_i \cap B) \\
+		&= \ssum P(B \mid A_i) P(A_i)
+	\end{eqn}
+
+	\item \begin{eqn}
+		P(A_i \mid B) &= \frac{A_i \cap B}{P(B)} \\
+		&= \frac{P(B \mid A_i) P(A_i)}{\ssum P(B \mid A_i) P(A_i)}
+	\end{eqn}
+\end{enumerate}
+
+\begin{example} 
+	(Baye's Rule) \\
+	You have two coins, one fair and one biased with a $\frac{3}{4}$ probability of landing on heads. You pick a coin at random and flip it three times, resulting in three heads. What is the probability that the coin is fair? \\
+	
+	\underline{Solution}
+	
+	\begin{itemize}
+		\item Let $A_1 = P(\text{fair coin})$
+		\item Let $A_2 = P(\text{biased coin})$
+		\item Let $B = P(\text{fair coin \& three heads})$
+	\end{itemize}
+	
+	\begin{eqn}
+		P(A_1 \mid B) &= \frac{P(A_1 \cap B)}{P(B)} \\
+		&= \frac{P(A_1) P(B \mid A_1)}{P(B)} \\
+		&= \frac{P(A_1) P(B \mid A_1)}{P(A_1) P(B \mid A_1) + P(A_2) P(B \mid A_2)} \\
+		&= \frac{\frac{1}{2} \cdot \pp{\frac{1}{2}}^3}{\frac{1}{2} \cdot \pp{\frac{1}{2}}^3 + \frac{1}{2} \cdot \pp{\frac{3}{4}}^3} \\
+		&\approx 0.23		
+	\end{eqn}
+\end{example}
 
 \section{2018/01/19}
 
@@ -320,8 +397,6 @@ $\Rightarrow P(\ccup) \le \ssum[sup=n] P(A_i)$
 
 \ddef{Permutation - An ordered arrangement of $r$ distinct objects from a set of $n$, denoted as $P^n_r$}
 
-% Begin theorem
-
 \begin{eqn}
 	P^n_r = \frac{n!}{(n - r)!}
 \end{eqn}
@@ -329,8 +404,6 @@ $\Rightarrow P(\ccup) \le \ssum[sup=n] P(A_i)$
 \begin{example} 
 	There are 6 people on the bus, and 10 stops remaining. What's the probability that each person gets off at a different stop?
 \end{example}
-
-% Begin theorem
 
 \ddef{Combination - An unordered arrangement of $r$ distinct objects from a set of $n$, denoted as $\mm{n \\ r} = C^n_r =\frac{n!}{r! (n - r)!}$} \\
 
