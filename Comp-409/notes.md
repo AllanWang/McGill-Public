@@ -21,8 +21,11 @@ SMT | Simultaneous Multi Threaded
 IPC | Instructions Per Cycle
 AMO | At Most One
 ME | Mutual Exclusion
+FA | Fetch and Add
+CAS | Compare and Swap
+TS | Test and Set
 
-# Lecture 1 &mdash; 2018/01/09
+# Lecture 1. 2018/01/09
 
 * Parallelism
     * Control the ways things happen at the same time
@@ -83,7 +86,7 @@ ME | Mutual Exclusion
         However, if we did both conversions in parallel and ignore the middle transition, we will be able to transition to `abab`
     * Example 2 &mdash; consider 5 items spaced evenly in a circle, with equal distance from the center point. Our goal is to rotate them all at the same time. If we were to do it sequentially, there will be a speed for which an item will cross over another. However, if we were to do it all in parallel, which would not be an issue.
 
-# Lecture 2 &mdash; 2018/01/16
+# Lecture 2. 2018/01/16
 
 ## Hardware
 
@@ -213,7 +216,7 @@ In Java
     * Includes aspects like x = y + z
 * 64-types (long, double, etc) are not necessarily atomic; can be declared as volatile
 
-# Lecture 3 &mdash; 2018/01/18
+# Lecture 3. 2018/01/18
 
 For word sized `x = y + z`, assignment is atomic, but computation of `y + z` may not be.
 Note that if no other thread writes to `y` or `z`, then the computation will appear to be atomic
@@ -389,7 +392,7 @@ Better if integrated into language
 * Threads may also sleep, which goes to a waiting mode, or be woken up
 * Threads may be terminated, leading to a stopped mode
 
-# Lecture 4 &mdash; 2018/01/23
+# Lecture 4. 2018/01/23
 
 ## Java's Thread Model
 
@@ -483,7 +486,161 @@ enter id:
                     break // from for loop
         while spin
 
-
-
 exit id:
     stage[id] = 0
+```
+
+# Lecture 5. 2018/01/25
+
+From last class, part of the proof was by contradiction (at least one thread left behind)
+
+Let $t_A% be the last thread at level stage to write init
+Waiting stage = $t_A$
+
+Another thread is in $t_X$
+We know that waiting[stage] = $t_X$ &rarr; waiting[stage] = $t_A$
+We know $t_A$ writes into stage[t_X] = stage before writing init writing.
+
+stage[tx] = tx &rarr; waiting[stage] = tx &rarr; waiting[stage] = ta
+
+We know $t_A$ checks stage[j] after writing to wait
+
+
+---
+
+* filter lock &rarr; locking &rarr; doorway piece (finite # instructions), spinning piece
+* fairness &rarr; FCFS
+    * If $t_A$ finished doorway before thread $t_B$, then $t_A$ gets in CS before $t_B$
+* filter lock
+    * not FCFS
+    * starvation free
+
+---
+
+### Ticket Algorithm
+
+* classic locks
+    * take next #
+    * wait for # to be called
+
+```java
+init:
+    next = 0
+    int turn[n] = 0
+    number = 0
+
+enter id:
+    turn[id] = next++        // needs to be atomic
+    while turn[id] != number // spin
+
+exit:
+    number++
+```
+---
+
+### Bakery Algorithm
+
+* Broken ticket dispenser
+
+```kotlin
+init:
+    turn[id] = 0
+
+enter id:
+    turn[id] = (0 until n).map { turn[it] }.max() + 1 // needs to be atomic
+    (0 until n).filter { it != id }.forEach {
+        while (turn[it] != 0 && turn[id] > turn[it])  // spin
+    }
+```
+
+* be careful about wrap-arounds, as there is eventual overflow
+* hardware primitive - special instructions
+
+---
+
+Test and set
+
+```java
+TS x y:           // all atomic
+    temp = x
+    x = y
+    temp
+
+init:
+    lock = 0
+
+enter:
+    while (TS(lock, 1) == 1) // spin
+
+exit:
+    lock = 0
+```
+
+---
+
+```java
+enter:
+    while(lock == 1)
+    while (TS(lock, 1) == 1)
+        while(lock == 1)
+```
+
+* Not FCFS
+* Not necessarily starvation free
+
+---
+
+Fetch and Add
+
+```java
+FA x c:             // all atomic
+    temp = x
+    x += c
+    temp
+```
+
+---
+
+Compare and Swap
+
+```java
+CAS x a b       // all atomic, return type indicates success/fail
+    if x != a
+        false
+    else
+        x = b
+        true
+```
+
+---
+
+## Queue Locks
+
+MCS
+
+* Works for arbitrary # of threads
+* Maintains explicit queue
+    ```java
+    class Node {
+        Node next
+        boolean locked
+    }
+    ```
+    * Each thread has node and a static tail
+```java
+enter:
+    me.next = null
+    pred: Node = TS(tail, me)
+    if pred != null
+        me.locked = true
+        pred.next = me
+        while me.locked         // spin
+
+exit:
+    if me.next == null
+        if CAS(tail, me, null)
+            return
+        while me.next == null   // spin
+    me.next.lock = false
+    me.next = null
+```
