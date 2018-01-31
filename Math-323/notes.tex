@@ -27,6 +27,9 @@
 	
 	\SetNewAudience{notes}
 	\SetNewAudience{full}
+	
+	\setlist[enumerate]{itemsep=0mm}
+	\setlist[itemize]{itemsep=0mm}
 
 	\newcommand{\tab}[1]{\hspace{.2\textwidth}\rlap{#1}}
 	
@@ -37,6 +40,8 @@
 	\newcommand{\bigsum}[2]{\sum\limits_{#1}^{#2}}
 
 	\newcommand{\ddef}[1]{\textcolor{blue}{#1}}
+	
+	\newcommand{\real}[0]{\mathbb{R}}
 
 	\newkeycommand{\ccup}[sub=i=1, sup=\infty, base=A_i] {
 		\bigcup_{\commandkey{sub}}^{\commandkey{sup}}\commandkey{base}
@@ -57,17 +62,17 @@
 	\newcommand{\bb}[1]{\left\{#1\right\}}
 	\newcommand{\pp}[1]{\left(#1\right)}
 
-	\newcommand{\divider}[0]{\rule{\textwidth}{0.1pt}}
+	\newcommand{\divider}[0]{\textcolor{lightgray}{\rule{\textwidth}{0.1pt}}}
 	
 	\newenvironment{claim}{\textit{Claim:}}{\hfill $\square$}
 	
 	\newenvironment{remarks}{\underline{Remarks}\par}{}
 	
-	\newenvironment{example}{\shownto{-,notes}\underline{Example}\par}{\newline\divider\endshownto}
+	\newenvironment{example}{\shownto{-,notes}\underline{Example}\par}{\par\divider\endshownto}
 	
 	\newenvironment{eqn}{\equation\alignedat{3}}{\endalignedat\endequation}
 	
-	\newcommand{\todo}[0]{\textcolor{red}{\textbackslash\textbackslash TODO}}
+	\newcommand{\todo}[0]{\textcolor{red}{\textbackslash\textbackslash TODO \ }}
 	
 	\newcounter{theorem}
 	\newcommand{\theorem}[1]{\refstepcounter{theorem}\par\medskip
@@ -414,5 +419,197 @@ Assume $\bb{A_1, A_2, ..., A_k}$ is a partition of $\Omega$ such that $P(A_i) > 
 \begin{example}
 	How many different permutations are there of the letters in the word "book"?
 \end{example}
+
+\section{2018/01/24}
+
+To find the permutation of $n$ elements, compute $\frac{n!}{a! b! c! ...}$, where $a, b, c$ are the number of repeating elements for each distinct element.
+
+\begin{example}
+	Permutation of the word "STATISTICS" ~\\ 
+	3 S's, 3 T's, 2 I's, 1 A, 1 C \\
+	$$\frac{10!}{3! 3! 2! 1! 1!} = 50400$$
+\end{example}
+
+To find the permutation of unique items in a round table, simply anchor one item and permute the rest.
+
+\begin{example}
+	How many permutations are there of four people playing bridge on a round table? \\
+	$$P^3_3 = 3!$$
+\end{example}
+
+\begin{example}
+	How many ways can four married couples seat themselves around a circular table such that no couple sits next to each other?
+	
+	Let $A_i$ be the event that the $i^{th}$ couple sits next to each other. Our goal is to find:
+	$$P\pp{\pp{\ccup[sup=4]}^C} = 1 - P\pp{\ccup[sup=4]}$$
+	
+	Note that when finding the probability that a couple is seated next to each other, we may simply treat the couple as one entity, and multiple the result by 2 as person $A$ may be to the left or to the right of person $B$.
+	
+	\begin{enumerate}
+		\item The probability of couple $i$ sitting together is:
+		$$\frac{\text{Permutation for 7 people (1 couple) around a round table}}{\text{Permutation for 8 people around a round table}} \cdot 2$$
+		
+		$$P(A_1) = \frac{6! \cdot 2}{8!}$$
+		
+		\item Consequently, the probability of couple $i$ and $j$ ($i \ne j$)sitting together is:
+		
+		$$\frac{5! \cdot 2^2}{7!}$$
+		
+		\item Probability of $k$ chosen couples sitting together is
+		
+		$$\frac{(7 - k)! \cdot 2^k}{7!}$$
+	\end{enumerate}
+
+	$$\therefore P\pp{\ccup[sup=4]} = C^4_1 \cdot \frac{6! \cdot 2}{7!} - C^4_2 \cdot \frac{5! \cdot 2^2}{7!} + C^4_3 \cdot \frac{4! \cdot 2^3}{7!} - C^4_4 \cdot \frac{3! \cdot 2^4}{7!} = \frac{74}{105}$$
+	
+	$$\therefore P\pp{\pp{\ccup[sup=4]}^C} = 1 - \frac{74}{105} = \frac{31}{105}$$
+\end{example}
+
+\begin{example}
+	What are the odds of getting a full house? (5 card hand containing 3 cards of the same rank and 2 cards or another rank, in any order) \\
+	
+	Solution: We are taking 3 cards of one of the 13 suits, ignoring the order, then taking 2 cards of one of the 12 remaining suits ,ignoring the order. Note that $n(\Omega) = C^{52}_5$, as we are picking 5 unique cards out of 52 possibilities.
+	
+	$$P(\text{Full House}) = \frac{C^{13}_1 \cdot C^4_3 \cdot C^{12}_1 \cdot C^4_2}{C^{52}_5}$$
+\end{example}
+
+\begin{example}
+	What's the probability for 
+	
+	\begin{enumerate}[label=\Alph*:]
+		\item At least one 6 appears when 6 fair dice are rolled
+		\item At least two 6's appear when 12 fair dice are rolled
+	\end{enumerate}
+
+	\underline{Solution}
+	\begin{enumerate}[label=\Alph*:]
+		\item \begin{eqn}
+			P(A) &= 1 - P(A^C) \\
+			&= 1 - \frac{5^6}{6^6} \\
+			&\approx 0.67
+		\end{eqn}
+		\item \begin{eqn}
+			P(B) &= 1 - P(B^C) \\
+			&= 1 - \pp{P(\text{no 6}) + P(\text{one 6})} \\
+			&= 1 - \pp{\frac{5^{12}}{6^{12}} + \frac{5^{11} \cdot C^{12}_1}{6^{12}}} \\
+			&\approx 1 - 0.38 \\
+			&= 0.62
+		\end{eqn}
+	\end{enumerate}
+
+\end{example}
+
+\begin{example}
+	The following three problems are isomorphic.
+	
+	\begin{enumerate}
+		\item How many ways are there to choose $k$ items from a set of $n$ with replacement if order does not matter?
+		\item How many ways can we put $k$ indistinguishable balls into $n$ distinguishable boxes?
+		\item How many solutions are there for:
+		$$x_1 + x_2 + ... + x_n = r$$
+		where $x_i$ is a non-negative integer for all $i$ in $0$ until $n$
+	\end{enumerate}
+\end{example}
+
+\section{2018/01/26}
+
+\begin{example}
+	You have four identical cups and seven identical balls. How many ways can you put the balls in the cups? The order of the cups matter; ie $\mid \ \therefore \ \mid \ \therefore \ \mid \ \cdot \ \mid \quad \mid$ differs from $\mid \ \therefore \ \mid \ \cdot \ \mid \ \therefore \ \mid \quad \mid$. \\
+	
+	In this example, we may treat the question like so: \\
+	We have seven identical balls, and three dividers. The dividers may be placed in any way, and will result in four sections, which may or may not be empty. This is equivalent to finding the number of permutations for 0000000111, which is $\frac{10!}{3! * 7!}$
+	
+	
+	This is denoted as $H^n_r$
+\end{example}
+
+\begin{example}
+	Let $x_1 + x_2 + x_3 + x_4 = 15$, where \\
+	$x_1 \ge 1, x_2 \ge 2, x_3 \ge 3, x_4 \ge 4$ \\
+	How non-negative integer solution are there for the equation? \\\\
+	\underline{Solution}
+	\begin{eqn}
+		\text{Let } y_1 &= x_1 - 1 \ge 0 \\
+		y_2 &= x_2 - 2 \ge 0 \\
+		y_3 &= x_3 - 3 \ge 0 \\
+		y_4 &= x_4 - 4 \ge 0 \\
+		x_1 &+ x_2 + x_3 + x_4 = 15 \\
+		&\Rightarrow (y_1 + 1) + (y_2 + 2) + (y_3 + 3) + (y_4 + 4) = 15 \\
+		&\Rightarrow y_1 + y_2 + y_3 + y_4 = 5, y \ge 0 \\
+		&\Rightarrow \frac{(4 + 5 - 1)!}{5! 31}
+	\end{eqn}
+\end{example}
+
+\subsection{Random Variables \& Probability Distributions}
+
+\ddef{Random Variable (R.V.) - $x : \Omega \rightarrow \real$ - a real valued function whose domain is a sample space}
+
+\begin{example}
+	Tossing a fair coin twice. \\
+	Let $x$ be the number of $H$s observed within 2 trials: \\
+	\begin{eqn}
+		& \Omega &&= \bb{HH, HT, TH, TT} \\
+		& X(HH) &&= 2 \\
+		& X(HT) &&= 1 \\
+		& X(TH) &&= 1 \\
+		& X(TT) &&= 0
+	\end{eqn}
+\end{example}
+
+A random variable may be:
+
+\begin{enumerate}
+	\item Discrete if the range of $x, R_x$ is a countable set
+	\item Continuous if the range of $x, R_x$ is an uncountable set (ie an interval of real numbers)
+\end{enumerate}
+
+\subsubsection{Discrete R.V.}
+
+We can always compute the probability that a random variable $X$ has a specific value by adding the probability of all sample events which result in $X$.
+
+\begin{example}
+	Let $x$ be the number of heads after tossing a coin three times
+	
+	\begin{itemize}
+		\item \todo
+	\end{itemize}
+\end{example}
+
+\ddef{PMF - probability mass function (for discrete R.V.) - $P(x) = P(X = x)$} \\
+Where $X$ is the R.V. and $x$ is the variate 
+
+PMF Properties
+\begin{enumerate}
+	\item $0 \le P(x) \le 1, \forall x$
+	\item $\sum_x P(x) = 1$
+\end{enumerate}
+
+\todo maybe add pmf table?
+
+\begin{example}
+	$P(X = x) = \frac{\theta}{x} P(X = x - 1), x = 1, 2, 3, ...$ \\
+	Find $P(X = x)$ \\\\
+	\underline{Solution}
+	\todo review; summation may be wrong
+	\begin{eqn}
+		P(X = x) &= \frac{\theta}{x} P(X = x - 1) \\
+		&= \frac{\theta}{x} \cdot \frac{\theta}{x - 1} \cdot P(X = x - 2) \\
+		&= \frac{\theta}{x} \cdot \frac{\theta}{x - 1} \cdot \frac{\theta}{x - 2} \cdot P(X = x - 3) \\
+		& ... \\
+		&= \frac{\theta^x}{x!} P(X = 0) \\
+		&\therefore \sum_{x=1}^\infty P(X = x) \\
+		&= \sum_{x=1}^\infty \frac{\theta^x}{x!} P(X = 0) \\
+		&= 1
+	\end{eqn}	
+\end{example}
+
+\begin{eqn}
+	e^a &= \frac{a^0}{0!} + \frac{a^1}{1!} + \frac{a^2}{2!} + ... \\
+	&= \sum_{x=0}^\infty \frac{a^x}{x!}
+\end{eqn}
+
+Another function that describes the distribution of an R.V. is the cumulative distribution function (CDF). Unlike the PMF, the CDF is defined for all R.V., not just discrete ones. \\
+
+\ddef{Cumulative Distribution Function - the function $F_x$ given by $F_x(x) = P(X \le x), x \in \real$}
 
 \end{document}

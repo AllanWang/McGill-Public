@@ -3,6 +3,7 @@
 	\usepackage{enumerate, enumitem}
 	\usepackage{multiaudience, environ}
 	\usepackage{amsmath, amssymb, amsfonts}
+	\usepackage{mathtools}
 	\usepackage[margin=1 in]{geometry}
 	\allowdisplaybreaks
 	\hypersetup{
@@ -20,7 +21,7 @@
 	
 	\SetNewAudience{compact}
 	\SetNewAudience{full}
-	\def\CurrentAudience{compact}
+	\def\CurrentAudience{full}
 
 	\setlength{\parindent}{0pt}
 
@@ -43,6 +44,8 @@
 	\newenvironment{block}[1][Label]{\underline{#1}\par}{}
 	\newenvironment{proof}{\block[Proof]}{\endblock}
 	\newenvironment{proposition}{\block[Proposition]}{\endblock}
+	\newenvironment{lemma}{\block[Lemma]}{\endblock}
+	\newenvironment{theorem}{\block[Theorem]}{\endblock}
 
 	% \NewEnviron{examples}{
 	% 	\begin{shownto}{-,compact}
@@ -58,6 +61,7 @@
 	\newenvironment{test}{\shownto{-,compact}\enumerate}{\endenumerate\endshownto}
 
 	\newcommand{\bb}[1]{\left\{#1\right\}}
+	\newcommand{\bbb}[1]{\left[#1\right]}
 	\newcommand{\pp}[1]{\left(#1\right)}
 
 	\newcommand{\divider}[0]{\textcolor{lightgray}{\rule{\textwidth}{0.1pt}}}
@@ -70,21 +74,13 @@
 
 \begin{document}
 
-\begin{shownto}{-,compact}
-	\begin{enumerate}
-		\item test
-	\end{enumerate}
-\end{shownto}
-
-\begin{example}
-	\item Test
-\end{example}
-
 \onehalfspacing
 \maketitle
 \tableofcontents
 \pagebreak
 \section{2018/01/9}
+
+
 \section{2018/01/11}
 
 $v \subseteq \real^n$ is a subspace of $\real^n$ if \\
@@ -399,6 +395,152 @@ Notice that $E \subseteq V$ is a subspace of $V$ iff $E$ is nonempty and $\alpha
 		Let $F_1 = \bb{\v{u_1}, \v{u_2}, ..., \v{u_n}}$ be a subset of vectors in $V$ \\
 		$F_2 = \bb{\v{v_1}, \v{v_2}, ..., \v{v_n}}$ be a subset of vectors in $V$ \\
 		$F_1$ and $F_2$ are both spanning sets of the same subspace $E$ of $V$ iff every vector in $F_1$ is a $lc$ of vectors in $F_2$ and every vector in $F_2$ is a $lc$ of vectors in $F_1$.
-	\end{proposition}	
+	\end{proposition}
+
+\section{2018/01/25}
+
+Wasn't there
+
+\section{2018/01/30}	
+
+\subsection{Linear Independence}
+
+\subsubsection{Properties}
+
+
+% PROPERTY sets should go to n, not k
+\begin{itemize}
+	\item If a subset $\vectorset{u}$ of vectors in $V$ contains the zero vector $\pp{\v{u_i} = \v{0} \text{ for some } i}$, then it is linearly dependent
+	
+	\item If $F = \vectorset{u}$ is linearly independent, then any subset of $F$ is linearly dependent
+	
+	\item if $F = \vectorset{u}$ is linearly independent, and $\bb{\v{u_1}, \v{u_2}, ..., \v{u_n}, \v{u_{n+1}}}$ is linearly independent, then $\v{u_{n+1}} \in \sspan{\v{u_1}, \v{u_2}, ..., \v{u_n}}$
+	
+	\begin{proof}
+		\begin{enumerate}
+			\item Without loss of generality, $\v{u_1} = \v{0}$ \\
+			Note that $2 \v{u_1} + 0 \v{u_2} + 0 \v{u_3} + ... + 0 \v{u_n} = \v{0}$ \\
+			As there is a nonzero coefficient, there must be linear dependence.
+			
+			\item Let $F = \vectorset{u}$ be linearly independent. \\
+			Let $F_1$ be a subset of $F$ containing $k$ vectors, $k \le n$ \\
+%			WLOG, $F__1 = \bb{\v{u_1}, \v{u_2}, ..., \v{u_k}}$ \\
+			$\sum_{i=1}^n \alpha_i \v{u_i} = \v{0} \Rightarrow \sum_{i=1}^k \alpha_i \v{u_i} + 0 \v{u_{i+1}} + 0 \v{u_{i+2}} + ... 0 \v{u_n} = \v{0}$
+		\end{enumerate}
+	\end{proof}
+
+	Since $F$ is linearly independent, we must have $\alpha_1 = \alpha_2 = ... = \alpha_k = 0$
+
+	\item Assume that $F = \vectorset{u}$ is linearly independent and $\bb{\v{u_1}, \v{u_2}, ..., \v{u_n}, \v{u_{n+1}}}$ is linearly dependent \\
+	
+	There exists a finite sequence $\alpha_1, \alpha_2, ..., \alpha_n, \alpha_{n+1}$, where not all values are zeroes, such that \\
+	$\alpha_1 \v{u_1} + \alpha_2 \v{u_2} + ... + \alpha_n \v{u_n} + \alpha_{n+1} \v{u_{n+1}} = \v{0}(*)$ \\
+	
+	Claim $\alpha_{n+1} \ne 0$ \\
+	Assume $\alpha_{n+1} = 0$ \\
+	$\alpha_{n+1} = 0$ and $(*)$ yields \\
+	$\alpha_1 \v{u_1} + \alpha_2 \v{u_2} + ... + \alpha_n \v{u_n} = \v{0}$ \\
+	which implies $\alpha_1 = \alpha_2 = ... = \alpha_n = 0$ (since $F$ is linearly independent). That is a contraction, therefore $\alpha_{n+1} \ne 0$
+	
+	$(*)$ can be rewritten as $\alpha_{n+1} \v{u_{n+1}} = \alpha_1 \v{u_1} + \alpha_2 \v{u_2} + ... + \alpha_n \v{u_n} = \sum_{i=1}^n \alpha_i \v{u_i}$ \\
+	$\v{u_{n+1}} = \sum_{i=1}^n -\pp{\frac{\alpha_i}{\alpha{n+1}}} \v{u_i}$ \qquad ie $\v{u_{n+1}} \in \sspan{\v{u_1}, \v{u_2}, ..., \v{u_n}}$
+\end{itemize}
+
+\begin{proposition}
+	If $F = \vectorset{u}$ is linearly dependent, then one of the $\v{u_i}$ can be written as the linear combination of the others.
+\end{proposition}
+
+\underline{Basis} \\
+Let $V$ be a vector apces and $E$ be a subspace of $V$. A basis of $E$ is a family $F = \vectorset{u}$ of vectors in $E$ such that
+
+\begin{enumerate}
+	\item $E = \sspan{\v{u_1}, \v{u_2}, ..., \v{u_n}}$
+	\item $F = \vectorset{u}$ is linearly independent
+\end{enumerate} 
+
+\begin{examples}
+	\item $V = \real^3$ \qquad A basis of $V$ is $\bb{\m{1 \\ 0 \\ 0}, \m{0 \\ 1 \\ 0}, \m{0 \\ 0 \\ 1}}$
+	
+	\item Let $V$ be any vector space \\
+	$E = \bb{\v{0}}$ does not have a basis because the only spanning set if $\bb{\v{0}}$ which is linearly dependent
+	
+	\begin{lemma}
+		Let $E$ be a subspace of $V$ \\
+		Let $F_1 = \vectorset{u}$ be a spanning set of $E$ \\
+		Let $F_2 = \vectorset{v}$ be a linearly independent subset of $E$ \\
+		then $m \ge n$
+	\end{lemma}
+
+	\begin{proof}
+		By contradiction \\
+		Assume that $n > m$ \\
+		$\bbb{\v{v_1}, \v{v_2}, ..., \v{v_n}} = \bbb{\v{u_1}, \v{u_2}, ..., \v{u_n}} AX$ \\
+		$AX = 0$ 
+		% A is m x n
+		% X is n x 1
+	\end{proof}
+
+	Fn $j = 1, 2, ..., n$ \\
+	$\v{v_j} = \sum_{i=1}^m a_{ij} \v{u_i}$ \qquad (because $F_1$ is a spanning set of $E$) \\
+	Let  $A = \pp{a_{ij}}_{1 \le i \le m \\ 1 \le j \le n}$ \\
+	% todo line break in subtext
+	
+	$\sum_{j=1}^m x_j \v{v_j} = \sum_{i=1}^m \pp{\sum_{j=1}^n \alpha_{ij} x_j} \v{u_i} (*)$ \\
+	
+	$A$ is $m \times n$ and $n > m$ \\
+	Therefore, the homogeneous system $AX = 0$ has a non trivial solution. \\
+	Using the components of the nontrivial solution in $(*)$, we have $\sum_{j=1}^n x_j \v{v_j} = \v{0}$, but not all $x_j$ are equal to $0$. \\
+	ie  $F_2$ is linearly dependent, which is a contradiction
+\end{examples}
+
+\begin{theorem}
+	Let $V$ be a vector space and $E$ be a subspace of $V$ such that $E \ne \bb{\v{0}}$ \\
+	All basis of $E$ have the same number $k$ of vectors; $k$ is called the dimension of $E$ \\
+	Notation \qquad $dim(E) = k$
+	
+	\begin{proof}
+		Let $B_1 = \bb{set u1 to uk}$ and $B_2 = \bb{set v1 to vl}$ be two basis of $E$. We have to prove that $l = k$ \\
+		
+		\begin{equation*}
+			\begin{rcases*}
+				B_1 \text{ is a spanning set of } E \\
+				B_2 \text{ is linearly independent in } E
+			\end{rcases*} \Rightarrow k \ge l
+		\end{equation*}
+		
+		\begin{equation*}
+		\begin{rcases*}
+		B_2 \text{ is a spanning set of } E \\
+		B_1 \text{ is linearly independent in } E
+		\end{rcases*} \Rightarrow l \ge k
+		\end{equation*}
+		
+		$k = l$
+	\end{proof}
+\end{theorem}
+
+\begin{block}[Remark]
+	$E = \bb{\v{0}}$ \quad
+	$dim(E) = 0$ \quad
+	$dim(\real^3) = 3$
+\end{block}
+
+\begin{examples}
+	\item $P_n =$ set of all polynomials of order $\le n$ \\
+	We have seen that $B = \bb{1, x, x^2, ..., x^n}$ is a spanning set of $P_n$ and is also linearly independent \\
+	
+	$B$ is a basis of $P_n$ \\
+	therefore $dim(P_n) = n + 1$
+	
+	\item $M_{2 \times 2} =$ set of all $2 \times 2$ matrices \\
+	$E_1 = \mm{1 & 0 \\ 0 & 0}$
+	$E_2 = \mm{0 & 0 \\ 1 & 0}$
+	$E_1 = \mm{0 & 0 \\ 0 & 1}$
+	$E_1 = \mm{0 & 1 \\ 0 & 0}$
+	
+	$\bb{E_1, E_2, E_3, E_4}$ is a basis of $M_{2 \times 2}$ \\
+	$M = \mm{a & c \\ b & d} = aE_1 + bE_2 + dE_3 + cE_4$ \\
+	$dim(M_{2 \times 2}) = 2 \times 2 = 4$
+\end{examples}
 
 \end{document}

@@ -644,3 +644,135 @@ exit:
     me.next.lock = false
     me.next = null
 ```
+
+# Lecture 6. 2018/01/30
+
+MCS Cont
+* (+) FCFS
+* (+) Cache friendly
+* (+) Space efficient
+    * Every thread needs one node
+* (-) Needs both TS & CAS
+* (-) Can spin on exit
+
+---
+
+CLH Lock
+
+```java
+class Node {
+    boolean locked
+}
+
+class Thread {
+    Node me = new Node()
+    Node myPred = null
+}
+
+enter:
+    me.locked = true        // signifies to others that they should be locked
+    while (myPred.locked)   // spin
+
+exit:
+    me.locked = false
+    me = myPred
+```
+
+* Notice that nodes get moved around, and there's no spin on exit
+* Still FCFS
+
+---
+
+## Java's Locks (synchronous)
+
+"Thin" Lock (Bacon lock)
+* Optimized lock, contention is rare
+    1. Lock an unlocked object
+    2. Recursive lock on lock you own (shallow)
+    3. Deep recursive locking (over 256)
+    4. Contention (shallow, deep)
+* Java aims to make 1. and 2. fast, at the expense of 3. and 4.
+    * Use mutex (pthread) for 3. and 4.
+* Each object has lock word
+    * Divided into 8, 8, 15, 1 bits
+    * First 8 bits is reserved
+    * Second 8 bits - recursive lock count (-1)
+    * 15 bits represent thread id of owner
+        * 0 represents no thread, and consequently no lock
+    * Last 1 bit = lock shape - 0 = cheap (thin); 1 = expensive (fat) loc
+* Lock done using `CAS(lock, id << 1, 0)`
+    * true &rarr; locked, false &rarr; check ownership
+        * ownership: true &rarr; locking again, add 1 to lock count. Make sure there is no overflow for the count
+    * If fail occurs anywhere, transition into "fat lock"
+        * Only owner can do that
+        * If we don't own it, we spin until we do, or until it becomes a fat lock (known from shape bit)
+
+"Fat" Lock
+* Need mutex
+* Lock divided into 8, 24, 1
+* 24 bit - pointer to mutex
+* 1 bit - shape bit (1)
+
+---
+
+Semaphore & Mutexer
+
+* Spinning uses CPU
+* Better if we went to sleep(), and someone else wakes us up
+    * However, easy to get lost wakeup
+
+Semaphore
+* Blocking synch &rarr; sleep & wake
+* Abstraction
+* P(S) "down" (all atomic)
+    ```java
+    while (s == 0)
+        sleep()
+    s--
+    ```
+* V(s) "up" (all atomic)
+    ```java
+    s++
+    wakeup()    // call some wakeup
+    ```
+
+Binary Semaphore
+* Always 0 or 1
+* Starts at 1
+
+Counting Semaphore
+* Not just 0 & 1
+* Useful for representing resource
+
+Producer/Consumer (bounded buffer)
+* Data buffer[n]
+* Semaphore spaces = n
+* Semaphore filled = 0
+
+```java
+produce:
+    while(true)
+        Data d = produce()
+        P(spaces)
+        buffer[pindex] = d
+        pindex = (pindex + 1) % n
+        V(filled)
+
+consumer:
+    while(true)
+        Data d;
+        p(filled)
+        d = buffer[cindex]
+        cindex = (cindex + 1) % n
+        V(spaces)
+        consume(d)
+
+```
+
+Other Binary Semaphore
+* Starts at 0 &rarr; signalling
+    * Makes threads wait for each other
+
+Drawbacks
+* 2 ideas together - mutual exclusion & signalling
+* P(), V() &rarr; separate, fragile design
