@@ -565,15 +565,9 @@ A random variable may be:
 
 \subsubsection{Discrete R.V.}
 
-We can always compute the probability that a random variable $X$ has a specific value by adding the probability of all sample events which result in $X$.
+We can always compute the probability that a random variable $X$ has a specific value by adding the probability of all sample events which result in $X$. \\
 
-\begin{example}
-	Let $x$ be the number of heads after tossing a coin three times
-	
-	\begin{itemize}
-		\item \todo
-	\end{itemize}
-\end{example}
+Listing the possible values of $X$ and their probabilities establishes the probability distribution. This may also be done using a PMF: \\
 
 \ddef{PMF - probability mass function (for discrete R.V.) - $P(x) = P(X = x)$} \\
 Where $X$ is the R.V. and $x$ is the variate 
@@ -584,7 +578,7 @@ PMF Properties
 	\item $\sum_x P(x) = 1$
 \end{enumerate}
 
-\todo maybe add pmf table?
+A PMF row contains the sample event, probability, and the \# of cases where $X = x$
 
 \begin{example}
 	$P(X = x) = \frac{\theta}{x} P(X = x - 1), x = 1, 2, 3, ...$ \\
@@ -611,5 +605,43 @@ PMF Properties
 Another function that describes the distribution of an R.V. is the cumulative distribution function (CDF). Unlike the PMF, the CDF is defined for all R.V., not just discrete ones. \\
 
 \ddef{Cumulative Distribution Function - the function $F_x$ given by $F_x(x) = P(X \le x), x \in \real$}
+
+\section{2018/01/31}
+
+\begin{example}
+	$x ~ p(x) = \frac{x}{6}, x = 1, 2, 3$ \\
+	Find and draw the CDF of x \\
+	
+	\underline{Ans} 
+	
+	\begin{tabular}[t]{@{} l | l | l | l}
+		$x$ 	& 1 			& 2 			& 3 \\
+		\hline
+		$P(X)$	& $\frac{1}{6}$	& $\frac{2}{6}$	& $\frac{3}{6}$ \\
+		\hline
+		$F(X)$	& $\frac{1}{6}$	& $\frac{1}{6} + \frac{2}{6}$ & $\frac{1}{6} + \frac{2}{6} + \frac{3}{6} = 1$
+	\end{tabular}
+
+	\underline{Remarks}
+	\begin{enumerate}
+		\item The CDF for discrete R.V. must be a step function.
+		\item The height of a jump in the CDF at $x$ is equal to the value of PMF at $x$.
+		\item The flat region of the CDF correspond to values outside the support of $X$ so the PMF is equal to 0 in these regions.
+	\end{enumerate}
+
+	\underline{Properties for CDF}
+	
+	Any CDF $F$ has the following properties
+	
+	\begin{enumerate}
+		\item $0 \le F(x) \le 1$
+		\item Convergence to $0$ and $1$ in the limits:
+		$\lim_{x \rightarrow -\infty} F(x) = 0$, $\lim_{x \rightarrow \infty} F(x) = 1$
+		
+		
+	\end{enumerate}
+\end{example}
+
+
 
 \end{document}

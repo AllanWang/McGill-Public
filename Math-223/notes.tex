@@ -12,7 +12,7 @@
 	}
 	\author{Allan Wang} 
 	\date{Last updated: \today}
-	\title{MATH 223: Linear Algebra 2}
+	\title{MATH 223: Linear Algebra}
 	\pagestyle{fancy}
 	\lhead{MATH 223}
 	\chead{\leftmark}
@@ -33,6 +33,7 @@
 
 	\renewcommand{\v}[1]{\overrightarrow{#1}}
 	\newcommand{\vectorset}[1]{\{\v{#1_1}, \v{#1_2}, ..., \v{#1_k}\}}
+	\newcommand{\vectorseq}[2]{\v{#1_1}, \v{#1_2}, ..., \v{#1_#2}}
 	\newcommand{\vectorseqtwo}[2]{#1_1\v{#2_1} + #1_2\v{#2_2} + ... + #1_k\v{#2_k}}
 	\newcommand\m[1]{\begin{bmatrix}#1\end{bmatrix}}
 	\newcommand\mm[1]{\begin{pmatrix}#1\end{pmatrix}}
@@ -46,6 +47,16 @@
 	\newenvironment{proposition}{\block[Proposition]}{\endblock}
 	\newenvironment{lemma}{\block[Lemma]}{\endblock}
 	\newenvironment{theorem}{\block[Theorem]}{\endblock}
+	
+	\newkeycommand{\vv}[base=u, end=n] {
+		\v{\commandkey{base}_1}, \v{\commandkey{base}_2}, ..., \v{\commandkey{base}_{\commandkey{end}}}
+	}
+
+	\newkeycommand{\vsum}[co=, base=u, end=n] {
+		\commandkey{co}_1\v{\commandkey{base}_1} + \commandkey{co}_2 \v{\commandkey{base}_2} + ... + \commandkey{co}_{\commandkey{end}} \v{\commandkey{base}_{\commandkey{end}}}	
+	}
+
+	\newcommand{\todo}[0]{\textcolor{red}{\textbackslash\textbackslash TODO \ }}
 
 	% \NewEnviron{examples}{
 	% 	\begin{shownto}{-,compact}
@@ -72,6 +83,8 @@
 	
 	\newenvironment{eqn}{\equation\alignedat{3}}{\endalignedat\endequation}
 
+	\setlist[enumerate]{itemsep=0mm}
+	\setlist[itemize]{itemsep=0mm}
 \begin{document}
 
 \onehalfspacing
@@ -93,11 +106,11 @@ $v \subseteq \real^n$ is a subspace of $\real^n$ if \\
 
 A subspace $V$ of $\real$ has a basis
 
-ie a family $\vectorset{u}$ of vectors in $V$ such that $\vectorset{u}$ is a spanning set of $V$
+ie a family $\bb{\vv[end=k]}$ of vectors in $V$ such that $\bb{\vv[end=k]}$ is a spanning set of $V$
 
 A spanning set of $V$ is a set such that every vector in $V$ is a linear combination of that set
 
-ie whenever $\vectorseqtwo{\alpha}{u} = \vec{0}$ then $\alpha_1 = \alpha_2 = ... = \alpha_k = 0$
+ie whenever $\vsum[co=\alpha,end=k] = 0$
 
 if $A\alpha = 0$, rank of $A$ is $k (\le n)$, where $k =$ dimension of $V$
 
@@ -410,11 +423,13 @@ Wasn't there
 
 % PROPERTY sets should go to n, not k
 \begin{itemize}
-	\item If a subset $\vectorset{u}$ of vectors in $V$ contains the zero vector $\pp{\v{u_i} = \v{0} \text{ for some } i}$, then it is linearly dependent
+	\item If a subset $\vv[end=k]$ of vectors in $V$ contains the zero vector $\pp{\v{u_i} = \v{0} \text{ for some } i}$, then it is linearly dependent
 	
 	\item If $F = \vectorset{u}$ is linearly independent, then any subset of $F$ is linearly dependent
 	
-	\item if $F = \vectorset{u}$ is linearly independent, and $\bb{\v{u_1}, \v{u_2}, ..., \v{u_n}, \v{u_{n+1}}}$ is linearly independent, then $\v{u_{n+1}} \in \sspan{\v{u_1}, \v{u_2}, ..., \v{u_n}}$
+	
+	\todo update
+	\item if $F = \vv$ is linearly independent, and $\bb{\v{u_1}, \v{u_2}, ..., \v{u_n}, \v{u_{n+1}}}$ is linearly independent, then $\v{u_{n+1}} \in \sspan{\v{u_1}, \v{u_2}, ..., \v{u_n}}$
 	
 	\begin{proof}
 		\begin{enumerate}
@@ -541,6 +556,120 @@ Let $V$ be a vector apces and $E$ be a subspace of $V$. A basis of $E$ is a fami
 	$\bb{E_1, E_2, E_3, E_4}$ is a basis of $M_{2 \times 2}$ \\
 	$M = \mm{a & c \\ b & d} = aE_1 + bE_2 + dE_3 + cE_4$ \\
 	$dim(M_{2 \times 2}) = 2 \times 2 = 4$
+\end{examples}
+
+\section{2018/02/01}
+
+\subsection{Basis \& Dimensions}
+
+\begin{examples}
+	\item let $U = \bb{M \in M_{2 \times 2} \mid M = M^T}$ \\
+	It is clear that $U$ is a subspace of $M_{2 \times 2}$ \\
+	
+	\underline{Basis of $U$} \\
+	Let $M = \mm{a & c \\ b & d} \quad M^T = \mm{a & b \\ c & d} \quad M = M^T \Leftrightarrow b = c$ \\
+	$M \in U \Leftrightarrow M = \mm{a & b \\ b & d}$ \\
+	$M = a \mm{1 & 0 \\ 0 & 0} + b \mm{0 & 1 \\ 1 & 0} + d \mm{0 & 0 \\ 0 & 1}$ \\
+	% Note above represents _1, A_2, A_3 
+	Also $\bb{A_1, A_2, A_3}$ is linearly independent. \\
+	$\therefore \bb{A_1, A_2, A_3}$ is a basis of $U$, ie $dim(U) = 3$
+\end{examples}
+
+\begin{lemma} 
+	(Fundamental) \\
+	If $\bb{\v{u_1}, \v{u_2}, ..., \v{u_n}}$ is a spanning set of $U$ (a subspace of $V$) and $\bb{\v{v_1}, \v{v_2}, ..., \v{v_k}}$ is linearly independent in $U$ then $k \le n$.
+\end{lemma}
+
+\begin{proposition}
+	Let $U$ be a subspace of $V$ and $dim(U) = n$
+	\begin{enumerate}
+		\item Every spanning set of $U$ has \underline{at least} $n$ elements
+		\item Every spanning set of $U$ which contains $n$ vectors is a basis of $U$
+	\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+	\begin{enumerate}
+		\item Let $\bb{\vectorseq{u}{n}} = B$ be a basis of $U$ \\
+		Let $F = \bb{\vectorseq{v}{m}}$ be a spanning set of $U$ \\
+		Note that $B$ is linearly independent, by the fundamental lemma $m \ge n$
+		
+		\item Let $F = \bb{\vectorseq{v}{n}}$ be a spanning set of $U$ \\
+		\underline{Claim} $F$ is also linearly dependent \\
+		Suppose otherwise; one of the $\v{v_i}$ is a lc of the other ones. \\
+		WLOG $\v{v_n}$ is a lc of $\vv[base=v, end=n-1]$ \\
+		$U = \sspan{\vv[base=v, end=n]} = \sspan{\vv[base=v, end=n-1]}$  \\
+		Thus, a contradiction as every spanning set must have at least $n$ elements. Therefore, $F$ is linearly independent, and a basis of $U$.
+	\end{enumerate}
+\end{proof}
+
+\begin{examples}
+	\item T or F: $V = \sspan{x^2, x + 1}$ \\
+	False, $dim(P_2) = 3$,  and every spanning set must have at least 3 elements.
+	\item T or F: $V = \sspan{x^2, x + 1, x^2 - x - 1, 2x + 3}$ \\
+	% Label as P_1, P_2, P_3, P_4
+	Note that $x^2 - x - 1$ is a lc of $x^2$ and $x + 1$ \\
+	Let $p(x) = ax^2 + bx + c \in P_2$ \\
+	Can we find $x_1, x_2, x_3 \in \real$ st. $p = x_1p_1 + x_2p_2 + x_3p_4$ (*) 
+	\begin{eqn}
+	\text{(*) implies}
+	\begin{cases}
+		x_2 + 3x_3 &= c \\
+		x_2 + 2x_3 &= b \\
+		x_1 &= a
+	\end{cases}
+	\end{eqn}
+
+	$AX = \m{a \\ b \\ c}$
+	$X = \m{x_1 \\ x_2 \\ x_3}$ \\
+	$A = \m{1 & 0 & 0 \\ 0 & 1 & 2 \\ 0 & 1 & 3}$ \\
+	$A$ is invertible, thus \\
+	$X = A^{-1} \m{a \\ b \\ c}$ ie $\bb{P_1, P_2, P_4}$ is a spanning set of $P_2$
+\end{examples}
+
+\begin{proposition}
+	Let $U$ be a subspace of $V$ and $dim(U) = n$
+	
+	\begin{enumerate}
+		\item Every linearly independent subset of $U$ has \underline{at most} $n$ vectors
+		\item Any linearly independent subset of $U$ which contains $n$ elements is a basis of $U$
+	\end{enumerate}
+
+	\begin{proof}
+		\begin{enumerate}
+			\item Use the fundamental lemma
+			\item Let $B = \bb{\vv[base=u]}$ is a basis of $U$ and $F = \bb{\vv[base=v]}$ a linearly independent set in $U$
+			\item \underline{Claim} $F$ is also a spanning set o $U$ \\
+			Proof by contradiction \\
+			$\v{w}$ is not a lc of $\vv[base=v]$ then $\bb{\vv[base=v], \v{w}}$ is linearly independent \\
+			$\vectorseqtwo{\alpha}{v} = \v{0}$ \\
+			This is a linearly independent subset with $n + 1$ elements, which is a contradiction
+		\end{enumerate}
+	\end{proof}
+\end{proposition}
+
+\begin{proposition}
+	Let $U$ and $W$ be two subspaces of a vector space $V$
+	\begin{enumerate}
+		\item If $U \subseteq W$ then $dim(U) \le dim(W)$ 
+		\item If $U \subseteq W$ and $dim(U) = dim(W)$ then $U = W$
+		\begin{proof}
+			\begin{enumerate}
+				\item A basis of $U$ is a linearly independent set of vectors in $W$, thus has at most $dim(W)$ vectors
+				\item $U \subseteq W \qquad dim(U) = dim(W) = n$ \\
+				Let $B = \bb{\vv}$ be a basis of $U$; $B$ is a linearly independent set of vectors in $W$ and $B$ has $n = dim(W)$ vectors. By the previous proposition, $B$ is a basis of $W$. \\
+				$\therefore W = \sspan{\vv} = U$
+			\end{enumerate}
+		\end{proof}
+	\end{enumerate}
+\end{proposition}
+
+\begin{examples}
+	\item $U = \bb{f \in F(N) \mid f(n + 2) = 3f(n + 1) - 2f(n)}$ \\
+	\begin{tabular}{@{} l l}
+		$f_1(n) = 1$ & $(1, 1, 1, ...)$ \\
+		$f_2(n) = 2^n$ & $(2^0, 2^1, 2^2, ...)$
+	\end{tabular}
 \end{examples}
 
 \end{document}

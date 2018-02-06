@@ -24,6 +24,7 @@ ME | Mutual Exclusion
 FA | Fetch and Add
 CAS | Compare and Swap
 TS | Test and Set
+CV | Condition Variable
 
 # Lecture 1. 2018/01/09
 
@@ -776,3 +777,127 @@ Other Binary Semaphore
 Drawbacks
 * 2 ideas together - mutual exclusion & signalling
 * P(), V() &rarr; separate, fragile design
+
+# Lecture 7. 2018/02/01
+
+## Monitors
+
+* Dijkstra, Per Brinch Hansen
+* Package data
+* Operations are mutually-exclusive
+
+```java
+class Monitor {
+    private int d1, d2, ...
+
+    synchronized void foo() { ... }
+
+    synchronized int bar() { ... }
+}
+```
+* Condition variable for thread communication
+    * Always associated with monitor (mutex)
+    * Can have more than 1 (ie Pthreads)
+    * In base Java &rarr; one, unnamed
+    * 2 ops
+        | Pthread | Java |
+        --- | ---
+        `sleep()` | `wait()`
+        `signal()` | `notify()` (can only invoke inside monitor)
+    * Calling `wait()` inside a monitor will give it up & sleep (atomic)
+    * When another thread calls `notify()`, sleeping thread may be woken up. Note that a thread that is woken cannot continue on until it has reacquired the lock
+
+How does it work?
+* Have a queue (set) of threads trying to get into the monitor (mq)
+* Each CV implies another queue &rarr; cvq
+
+Atomic ops
+
+```java
+enter T:
+    if no one is in T
+        enter
+    else
+        mq & sleep
+
+exit T:
+    wake up thread in mq 
+
+wait T cvq:
+    add T to cvq
+        sleep
+    exit
+
+notify cvq:
+    take a thread from cvq & put to mq
+
+notifyAll cvq:
+    move all threads from cvq to mq
+```
+
+* Notice that we wake one thread with `notify()`
+* Upon being woken up, conditions may not hold; hence conditions should be checked again (typically with while loop)
+* Spurious wakeups - may be woken up without being notified
+    * Also solved by waiting in a while loop
+
+## Different semantics for CV
+* Signal & Continue
+    * Notifier retains control of monitor
+    * Woken thread competes with other threads for entry
+* Signal & Wait
+    * Notifier transfers monitor control to the woken thread
+    * Notifier needs to re-acquire lock to continue
+* Signal & Urgent Wait
+    * Same as signal & wait, except a woken thread will give control back to the notifier once finished
+* Reader/Writer Lock
+    * DB context - only 1 write at a time
+    * Multiple concurrent readers
+
+---
+
+R/W Lock
+
+```java
+int readers = 0
+BinarySemaphore r, rw // init to 1
+
+reader:
+    down r
+    readers++
+    if readers == 1   // acquire lock if first reader
+        down rw
+    up r
+    read()
+    down r
+    readers--
+    if readers == 0   // give up lock if last reader
+        up rw
+    up r
+
+writer:
+    down rw
+    write()
+    up rw
+
+```
+
+* Note that this gives preference to readers
+    * A continuous stream of readers may starve waiting writers
+* There are variants for writer's preference & fair solution
+
+---
+
+## Termination
+
+* Asynchronous termination may easily corrupt the state
+    * Eg terminating thread when it's in the middle of a syscall
+    * Stop threads instead by using a polling mechanism
+* Java does not have cancellation, but instead has interrupts
+    * Many operations will capture it by default and throw an `InterruptedException` to be handled. Note that some exceptions may be thrown by spurious wakeups. Threads can also use `.interrupted()` to check its interruption status.
+
+## Priorities
+
+* Nominatively priority pre-emptive
+* Java - 10 priorities
+* Pthreads - RR, FIFO
+* NT - 7 levels
