@@ -56,6 +56,9 @@
 		\commandkey{co}_1\v{\commandkey{base}_1} + \commandkey{co}_2 \v{\commandkey{base}_2} + ... + \commandkey{co}_{\commandkey{end}} \v{\commandkey{base}_{\commandkey{end}}}	
 	}
 
+	% TODO customize style
+	\newcommand{\uu}[1]{\underbracket{#1}}
+
 	\newcommand{\todo}[0]{\textcolor{red}{\textbackslash\textbackslash TODO \ }}
 
 	% \NewEnviron{examples}{
@@ -68,6 +71,8 @@
 	% }
 	% \newenvironment{examples}{\underline{Examples}\enumerate}{\endenumerate\divider}
 	\newenvironment{examples}{\shownto{-,compact}\underline{Examples}\enumerate}{\endenumerate\divider\endshownto}
+	
+	\newenvironment{example}{\shownto{-,compact}\underline{Example}~\\}{\divider\endshownto}
 
 	\newenvironment{test}{\shownto{-,compact}\enumerate}{\endenumerate\endshownto}
 
@@ -77,7 +82,9 @@
 
 	\newcommand{\divider}[0]{\textcolor{lightgray}{\rule{\textwidth}{0.1pt}}}
 	
-	\newcommand{\ssum}[0]{\sum_{i=1}^n}
+	\newkeycommand{\ssum}[sub=i=1, sup=n] {
+		\sum_{\commandkey{sub}}^{\commandkey{sup}}	
+	}
 	
 	\newcommand{\sspan}[1]{\text{span}\bb{#1}}
 	
@@ -606,7 +613,7 @@ Let $V$ be a vector apces and $E$ be a subspace of $V$. A basis of $E$ is a fami
 \begin{examples}
 	\item T or F: $V = \sspan{x^2, x + 1}$ \\
 	False, $dim(P_2) = 3$,  and every spanning set must have at least 3 elements.
-	\item T or F: $V = \sspan{x^2, x + 1, x^2 - x - 1, 2x + 3}$ \\
+	\item T or F: $V = \sspan{\underbracket{x^2}_{P_1}, \underbracket{x + 1}_{P_2}, \underbracket{x^2 - x - 1}_{P_3}, \underbracket{2x + 3}_{P_4}}$ \\
 	% Label as P_1, P_2, P_3, P_4
 	Note that $x^2 - x - 1$ is a lc of $x^2$ and $x + 1$ \\
 	Let $p(x) = ax^2 + bx + c \in P_2$ \\
@@ -670,6 +677,178 @@ Let $V$ be a vector apces and $E$ be a subspace of $V$. A basis of $E$ is a fami
 		$f_1(n) = 1$ & $(1, 1, 1, ...)$ \\
 		$f_2(n) = 2^n$ & $(2^0, 2^1, 2^2, ...)$
 	\end{tabular}
+\end{examples}
+
+\section{2018/02/06}
+
+\begin{example} 
+	$U = \bb{f \in F(\natural) \mid f(n + 2) - 3f(n + 1) + 2 f(n) = 0}$ \\
+	Note that $U$ is the set of all sequences $\bb{x_n}_{n \ge 0}$ such that $x_{n + 2} - 3x_{n + 1} + 2x_n = 0$ \\
+	Note that if $f(n) = r^n \in U$, then $r = 1$ or $r = 2$ \\
+	$f_1(n) = 1 \ \quad \forall n$ is an element of $U$ \\
+	$f_2(n) = 2^n \quad \forall n$ \\
+	$\bb{f_1, f_2}$ is a basis of $U$ \\
+	If $f \in U$ and $f(0) = f(1) = 0$, using the relation $f(n + 2) - 3f(n + 1) + 2f(n) = 0$, we can deduce that $f(n) = 0 \quad \forall n$. \\
+	$\bb{f_1, f_2}$ is linearly independent \\
+	Suppose that $\alpha f_1 + \beta f_2 = 0$ \\
+	% \begin{eqn}
+	% 	\begin{cases}
+	% 		\alpha f_1(0) + \beta f_2(0) = 0 \\
+	% 		\alpha f_1(1) + \beta f_2(1) = 0
+	% 	\end{cases}
+
+	% 	\Leftrightarrow
+
+		
+	% \end{eqn}
+
+	% \begin{eqn}
+	% 	\begin{cases}
+	% 		\alpha + \beta = 0 \\
+	% 		\alpha + 2 \beta 0
+	% 	\end{cases}
+	% \end{eqn}
+	\todo
+
+	$\bb{f_1, f_2}$ is a spanning set of $U$ \\
+	Let $f \in U$ \\
+	$\exists a, b \in \real$ such that
+
+	\begin{eqn}
+		\begin{cases}
+			a f_1(0) + b f_2(0) = f(0) \\
+			a f_1(1) + b f_2(1) = f(1)
+		\end{cases}
+	\end{eqn}
+
+	$\Leftrightarrow$
+
+	\begin{eqn}
+		\begin{cases}
+			a + b = f(0) \\
+			a + 2b = f(1)
+		\end{cases}
+	\end{eqn}
+
+	$b = f(1) - f(0)$ \\
+	$a = 2 f(0) - f(1)$ \\
+	Let $g(n) = f(n) - (2f(0) - f(1)) f_1(n) - (f(1) - f(0)) f_2 (n)$ \\
+	$g \in U$ and $g(0) = 0$, $g(1) = 0$ \\
+	$\therefore$ using (*) $g(n) = 0 \quad \forall n$ \\
+	ie $f(n) = (2f(0) - f(1)) f_1 (n) + (f(0) - f(1)) f_2 (n)$ \\
+	
+	Any sequence $\bb{x_n}_n$ such that $x_{n + 2} = 3x_{n + 1} + 2x_n = 0$ can be written as
+	
+	$$x_n = (2x_0 - x_1) + (x_0 - x_1) 2^n$$
+	
+
+\end{example}
+
+\begin{block}[Exercises]
+	Find a basis for each of the following subspaces
+	\begin{enumerate}
+		\item $U = \bb{f \in F(\natural) \mid f(n + 2) - 4f(n + 1) + 4f(n) = 0}$
+		\item $U = \bb{f \in F(\natural) \mid f(n + 2) - 5f(n + 1) + 6f(n) = 0}$
+	\end{enumerate}
+\end{block}
+
+\subsection{Direct Sum}
+
+Let $V$ be a vector space and $E, F$ are 2 subspaces of $V$ \\
+$E + F = \bb{\v{u} = \v{u_1} + \v{u_2}, \v{u_1} \in E, \v{u_2} \in F} \subseteq V$
+
+\begin{examples}
+	\item $V = \real^2$ \\
+	$E = \sspan{\m{1 \\ 0} = i} \qquad F = \sspan{\m{0 \\ 1} = j}$  \\
+	$E + F = \real^2$ 
+	
+	\item $V = \real^3$ \\
+	$E = \sspan{i = \m{1 \\ 0 \\ 0}, j = \m{0 \\ 1 \\ 0}}$ \quad xy-plane \\
+	$F = \sspan{j = \m{0 \\ 1 \\ 0}, k = \m{0 \\ 0 \\ 1}}$ \quad yz-plane
+\end{examples}
+
+\begin{block}[Definition]
+	Let V be a vector space and $E$ and $F$ be 2 subspaces of $V$ \\
+	$V$ is said to be the direct sum of $E$ and $F$ \\
+	(Notation: = $V = E \oplus F$) \\
+	If $V = E + F$ and  $E \cap F = \bb{\v{0}}$
+\end{block} \\
+
+\begin{proposition}
+	If $V = E_1 \oplus E_2$, then every vector $\v{u} \in V$ can be written \underline{uniquely} as $\v{u} = \v{u_1} + \v{u_2}$, where $\v{u_1} \in E_1, \v{u_2}, \in E_2$ \\
+	
+	\begin{proof}
+		\begin{eqn}
+			\v{u} &= \v{u_1} + \v{u_2} \qquad && \v{u_1}, \v{v_1} \in E_1 \\
+			&= \v{v_1} + \v{v_2} \qquad && \v{u_2} + \v{v_2} = \in E_2 \\
+			& \v{u_1} + \v{u_2} &&= \v{v_1} + \v{v_2} \\
+			& \v{w} = \uu{\v{u_1} - \v{v_1}}_{\in E_1} &&= \uu{\v{v_2} - \v{u_2}}_{\in E_2} = \v{0}
+		\end{eqn}
+	\end{proof}
+
+	$\v{w} \in E_1, \v{w} \in E_2, \v{w} \in E_1 \cap E_2$ \\
+	ie $\v{w} = \v{0}$
+\end{proposition}
+
+\begin{theorem}
+	Let $V$ be a finite dimensional vector space \\
+	Assume that $V = E_1 \oplus E_2$ \\
+	then $dim(V) = dim(E_1) + dim(E_2)$ \\
+	More precisely, if $B_1 = \bb{\vv}$ is a basis of $E_1$ and $B_2 = \bb{\vv[base=v, end=m]}$ is a basis of $E_2$, then $B = B_1 \cup B_2$ is a basis of $V$ 
+	
+	\begin{proof}
+		$\because V = E_1 \oplus E_2, V = E_1 + E_2$ \\
+		$\therefore B$ is a spanning set of $V$
+	\end{proof}
+
+	\begin{eqn}
+		\v{u} &\in V \\
+		\v{u} &= \uu{\v{w_1}}_{\in E_1} + \uu{\v{w_2}}_{\in E_2} \\
+		&= \ssum \alpha_1 \v{u_i} + \ssum[sup=m] \beta_i + \v{v_i} 
+	\end{eqn}
+	$B$ is linearly independent $\pp{\text{bc } E_1 \cap E_2 = \bb{\v{0}}}$
+	\begin{eqn}
+		\ssum \alpha_i \v{u_i} + \ssum[sup=m] \beta_i \v{v_i} &= \v{0} \Leftrightarrow \\
+		\ssum \alpha_i \v{u_i} &= - \ssum[sup=m] \beta_i \v{v_i} = \v{w} \\
+		\v{w} \in E_1 \cap E_2 &= \bb{\v{0}} \\
+		\v{w} &= \v{0} \\
+	\end{eqn}
+
+	$$\ssum \alpha_i \v{u_i} = \v{0} \Rightarrow \alpha_i = 0 \quad \forall i = 1, 2, ..., n \quad B_1 \text{ is a basis}$$
+	$$\ssum[sup=m] \beta_i \v{v_i} = \v{0} \Rightarrow \beta_i = 0 \quad \forall i = 1, 2, ..., m \quad B_2 \text{ is a basis}$$
+
+\end{theorem}
+
+\begin{examples}
+	\item $E = \sspan{2 - x, 1 + x^2}$ \qquad Find $F$ such that \\
+	$E \oplus F = P_2$ \\
+	$\because \bb{2 - x, 1 + x^2}$ is linearly independent \\
+	$\therefore dim(E) = 2$ \\
+	if $P_2 = E \oplus F$ \\ 
+	$3 = dim(P_2) = dim(E) + dim(F)$ \\
+	$dim(F) = 1$ \\\\
+	Let $p(x) = 1 \quad \forall x$ \\
+	$p \in P_2$, but $p \notin E$ \\
+	$F = \sspan{p}$ \\
+	$P_2 = F \oplus E$
+	
+	\item Let $V = M_{2 \times 2}$ \\
+	$E = \bb{M \in M_{2 \times 2} \mid M = M^T}$ \\
+	Find $F$ such that $E \oplus F = M_{2 \times 2}$ \\
+	
+	\begin{eqn}
+		M_1 = A + A^T \\
+		M_1^T = A^T + \pp{A^T}^T = A^T + A = M_1 \\
+		M_2 = A - A^T \\
+		M_2^T = A^T - A = -M_2 \\
+		E = \bb{M \in M_{n \times n} \mid M = M^T} \\
+		F = \bb{M \in M_{n \times n} \mid M^T = -M} \\
+		M \in E \cap F \Rightarrow M = 0 
+	\end{eqn}
+	Let $A \in M_{n \times n}$ \\
+	$$A = \uu{\frac{1}{2} (A + A^T)}_{\in E} + \uu{\frac{1}{2} (A - A^T)}_{\in F}$$ \\
+	$M_{n \times n} = E \oplus F$
+sss	j
 \end{examples}
 
 \end{document}

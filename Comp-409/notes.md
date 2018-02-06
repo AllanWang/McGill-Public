@@ -25,6 +25,8 @@ FA | Fetch and Add
 CAS | Compare and Swap
 TS | Test and Set
 CV | Condition Variable
+TSD | Thread Specific Data
+TLS | Thread Local Storage
 
 # Lecture 1. 2018/01/09
 
@@ -901,3 +903,160 @@ writer:
 * Java - 10 priorities
 * Pthreads - RR, FIFO
 * NT - 7 levels
+
+# Lecture 8. 2018/02/06
+
+## Priority Inversion
+
+* Low level thread locks and executes &rarr; high priority thread enters and attempts to acquire lock &rarr; medium priority thread comes in as well and acquires lock from low priority &rarr; high priority thread must wait for medium priority thread to finish before the lock can be acquired 
+
+* Mars Pathfinder
+    * High priority thread - bus manager
+    * Medium priority thread - communication
+    * Low priority thread - meteor logical
+    * Once priority inversion occurs, another watchdog thread will reset everything
+
+---
+
+Solutions
+
+Priority Inheritance
+
+* Thread holding a lock will temporarily acquire the priority of the highest priority thread waiting for the lock
+
+Priority Ceilings
+
+* Locks are associated with priority
+    * High priority lock &rarr; high priority thread
+
+Barrier
+
+* Want thread to wait for each other
+
+For more than 2 threads
+
+```java
+volatile int numThreads = n
+
+// for each thread
+while true
+    // work
+    if FA(numThreads, -1) == -1
+        numThreads = n
+    else
+        while numThreads != 0
+            yield()
+
+Sense Reversing Barrier
+
+```java
+boolean phase = true
+boolean phases[n] // all false
+
+if FA(numThreads, -1) == -1
+    numThreads = n
+    phase = phases[id]
+else
+    while phases[id] != phase
+        yield()
+
+```
+
+---
+
+TSD/TLS
+* Stack data - local to threads
+* Global data - shared
+Sometimes convenient to have thread-specific versions of global data
+
+errno in C
+* Global data - could get modified by different threads and be inconsistent
+* Less confusion if each thread has own errno
+
+TSD - pthread
+TLS - Java
+
+```java
+// Java TLS
+static fls = new ThreadLocal()
+
+// per thread; independent
+tls.set(2) // t0
+tls.set(1) // t1
+```
+
+TSD
+* Allocate
+* pthread key-create (&keydestination)
+
+--- 
+
+Dining Philosopher Problem
+
+5 philosophers at a round table with 5 plates and 5 utensils. Each will think, eat, and repeat. Eating requires getting two utensils adjacent to the philosophers. Goal is to avoid deadlock.
+
+Solutions
+
+---
+
+Single Global Mutex
+
+```java
+think()
+P(global)
+eat()
+V(global)
+```
+
+Works, but not very concurrent
+
+---
+
+Mutex per Utensil
+
+c = mutex[5]
+
+```java
+think()
+P(c[i])
+P(c[(i + 1) % 5])
+eat()
+V(c[(i + 1) % 5])
+V(c[i])
+```
+Doesn't actually work. If everyone tries to grab left utensil, no one will be able to grap right utensil and complete `eat()`
+
+---
+
+Create Global Lock
+
+```java
+lock = mutex // global lock
+c = mutex[5] // lock per utensil
+
+think()
+P(lock)
+P(c[i])
+P(c[(i + 1) % 5])
+V(lock)
+eat()
+V(c[(i + 1) % 5])
+V(c[i])
+```
+
+Works, but still not very concurrent.
+If philosopher 1 eats, and philosopher 2 attempts to eat, philosopher 2 will hold the global lock and block others who could have eaten from eating.
+
+---
+
+Order the Locks
+
+```java
+think()
+j = ((i + 1) % 5)
+P(min(i, j))
+P(max(i, j))
+eat()
+V(max(i, j)) // order here isn't as important
+V(min(i, j)) // but reverse unlock is good practice
+```
