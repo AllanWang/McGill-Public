@@ -851,4 +851,154 @@ $E + F = \bb{\v{u} = \v{u_1} + \v{u_2}, \v{u_1} \in E, \v{u_2} \in F} \subseteq 
 sss	j
 \end{examples}
 
+
+\section{2018/02/08}
+
+$S = \bb{M \in M_{n \times n} \mid M^T = M}$ \\
+$A = \bb{M \in M_{n \times n} \mid M^T = -M}$
+\todo add bar case
+
+$M_{n \times n} = S \oplus A$ \\
+$dim(A) = \frac{n^2 - n}{2}$ \\
+$dim(S) = \frac{n^2 + n}{2}$
+
+\todo end bar case
+
+$dim(E \oplus F) = dim(E) + dim(F)$ \\
+If $dim(E + F) = dim(E) + dim(F)$ then it is a direct sum.
+
+\begin{block}[Exercise]
+$dim(E + F) = dim(E) + dim(F) - dim(E \cap F)$ \\
+$(E \cap F)$ is a subspace of $V$ whenever $E$ and $F$ are subspaces of $V$.
+\end{block}
+
+\subsection{Coordinates}
+
+Let $V$ be a vector space such that $dimm(V) = n$ \\
+Let $B = \bb{\vv}$ be a basis of $V$. \\
+Given $\v{w}$ in $V$, $\v{w}$ can be written \underline{uniquely} as a linear combination of vectors in $B$.
+
+ie $\v{w} = \ssum x_i \v{u_i}$ \\
+
+Therefore the column-matrix $\m{x_1 \\ x_2 \\ \vdots \\ x_n}$ uniquely identifies $\v{w}$. \\
+
+$\m{x_1 \\ x_2 \\ \vdots \\ x_n}$ is called the \underline{coordinate-vector} of $\v{w}$ relative to the basis $B$.
+
+\begin{examples}
+	\item $M_{2 \times 2} \qquad B = \bb{E_1 = \m{1 & 0 \\ 0 & 0}, E_2 = \m{0 & 0 \\ 1 & 0}, E_3 = \m{0 & 0 \\ 0 & 1}, E_4 = \m{0 & 1 \\ 0 & 0}}$ \\
+	$M = \m{1 & 3 \\ 3 & 2}$ \\
+	$U = \bb{A \in M_{ \times 2} \mid A^T = A}$ \\
+	A basis of $U$ is given by $B_1 = \bb{A_1 = \m{1 & 0 \\ 0 & 0}, A_2 = \m{0 & 1 \\ 1 & 0}, A_3 = \m{0 & 0 \\ 0 & 1}}$ \\\\
+	Coordinate vector of $M$ relative to $B$ \\
+	$M = E_1 + 3E_2 + 2E_3 + 3E_4 \leftrightarrow \m{1 \\ 3 \\ 2 \\ 3}$ \\\\
+	Coordinate vector of $M$ relative to $B_1$ \\
+	$M = A_1 + 3A_2 + 2A_3 \leftrightarrow \m{1 \\ 3 \\ 2}$ (Note that the order for which you write the basis is important)
+	
+	\item Find a basis $B$ of $U = \sspan{\uu{1 + x}_{P_1}, \uu{3 + x^2}_{P_2}, \uu{(x - 1)^2}_{P_3}}$ and find the coordinate vector of $p(x) = (x - 1)^2$ relative to $B$. \\
+	$\bb{P_1, P_2, P_3}$ is a spanning of $U$. \\
+	Linear Independence \\
+	$\alpha_1 P_1 + \alpha_2 P_2 + \alpha_3 P_3 = 0$ \\
+	$\uu{A}_{3 \times 3} \m{\alpha_1 \\ \alpha_2 \\ \alpha_3} = \uu{0}_{3 \times 1}$ where $A = \m{1 & 3 & 1 \\ 1 & 0 & -2 \\ 0 & 1 & 1} \rightsquigarrow \m{1 & 0 & -2 \\ 0 & 1 & 1 \\ 0 & 0 & 0}$ \\
+	$P_3 = -2 P_1 + P_2$ \\
+	$\bb{P_1, P_2}$ is linearly independent \\
+	$B = \bb{P_1, P_2}$ is a basis of $U$ and coordinates of $P = P_3$ relative to $B$ is $\m{-2 \\ 1}$ \\
+	\begin{block}[Remark]
+		If $V$ is a n-dimensional vector space over $\real$ \\
+		$B = \bb{\vv}$ is a basis of $V$ \\
+		The map $T: V \rightarrow \real^n, T(U) = \m{x_1 \\ x_2 \\ \vdots \\ x_n}$ \\
+		where $\m{x_1 \\ x_2 \\ \vdots \\ x_n}$ is the coordinate-vector of $\v{u}$ relative to $B$ \\
+		is an isomorphism $\v{u} \leftrightarrow \m{x_1 \\ x_2 \\ \vdots \\ x_n}$
+	\end{block}
+\end{examples}
+
+\subsection{Linear Transformations (Mapping)}
+
+\begin{block}[Definition]
+	Let $V$ and $W$ be two vector spaces over $\real$ \\
+	A map (of function) $T: V \rightarrow W$ is called a linear transformation of the following properties hold.
+	
+	\begin{enumerate}
+		\item $T(\v{u_1} + \v{u_2}) = T(\v{u_1}) + T(\v{u_2})$ whenever $\v{u_1}, \v{u_2} \in V$
+		
+		\item $T(\alpha \v{u}) = \alpha T(\v{u})$ whenever $\v{u} \in V \quad \alpha \in \real$
+	\end{enumerate}
+
+\end{block}
+
+\begin{block}[Remark]
+	$T : V  \rightarrow W$ is a linear transformation iff $T(\alpha_1 \v{u_1} + \alpha_2 \v{u_2}) = \alpha_1 T(\v{u_1}) + \alpha_2 T(\v{u_2})$ whenever $\v{u_1}, \v{u_2} \in V \quad \alpha_1, \alpha_2 \in \real$ \\
+	or equivalently: $T(\ssum \alpha_i \v{u_i}) = \ssum \alpha_i T(\v{u_i})$ \\
+	whenever $\alpha_i \quad i = 1, ..., n \in \real \qquad \v{u_i} \quad i = 1, ..., n \in V$
+\end{block}
+
+\begin{examples}
+	\item 
+	\begin{eqn}
+		V &= P \\
+		T: V &\rightarrow R \\
+		T(p) &= [p(0)]^2 \\\\
+		p_1(x) &= x - 1 \\
+		p_2(x) &= x + 1 \\
+		T(p_1) &= (p_1(0))^2 = 1 \\
+		T(p_2) &= 1 \\
+		T(p_1 + p_2) &= 0
+	\end{eqn}
+	$T$ is not a linear transformation
+	\item The coordinate-map $dim(V) = n$ and $B = \bb{\vv}$ is a basis of $V$ \\
+	The map $T: V \rightarrow \real^n$ \\
+	$T(\v{u}) = \m{x_1 \\ x_2 \\ \cdots \\ x_n} \leftarrow$ coordinates of $\v{u}$ relative to $B$ \\
+	$T$ is a linear transformation \\
+	\item $T: \real^p \rightarrow \real^q$ \\
+	$\uu{T(X)}_{q \times 1} = \uu{A}_{q \times p} \uu{X}_{p \times 1}$, where $A$ is a $q \times p$ matrix, is a linear transformation
+	\item $T: P_2 \rightarrow P_2$ \\
+	$T(p)(x) = xp'(x) + \int^1_0 p(x)dx$ \\
+	$T(p_1 + p_2)(x) = x(p'_1(x) + p'_2(x)) + \int^1_0 (p_1(x) + p_2(x)) dx = xp'_1(x) + \int^1_0 p_1(x)dx + xp'_2(x) + \int^1_0 p_2(x)dx = T(p_1)(x) + T(p_2)(x)$ \\
+	$T(\alpha p)(x) = \alpha x p'(x) + \alpha \int^1_0 p(x)dx = \alpha T(p)(x)$
+\end{examples}
+
+\begin{proposition}
+	Let $T: V \rightarrow W$ be a linear transformation 
+	
+	\begin{enumerate}
+		\item $T(\v{O_V}) = \v{O_W}$
+		\item Let $E$ be a subspace of $V$ \\
+		$T(E) = \bb{T(\v{u}), \text{ where } \v{u} \in E}$ is a subspace of $W$
+		\item Let $F$ be a subspace of $W$ \\
+		$T^{-1} (F) = \bb{\v{u} \in V \mid T(\v{u}) \in F}$ is a subspace of $V$
+		
+		\begin{proof}
+			\begin{enumerate}
+				\item 
+				\begin{eqn}
+					\v{u} &\in V \\
+					\v{u} + \v{O_V} &= \v{u} \\
+					T(\v{u} + \v{O_V}) &= T(\v{u}) \\
+					T(\v{u}) + T(\v{O_V}) &= T(\v{u})
+				\end{eqn}
+				$\therefore T(\v{O_V}) = \v{O_W}$
+				\item Let $E \subseteq V$ be a subspace of $V$ \\
+				$T(E) = \bb{T(\v{u}), \text{ where } \v{u} \in E}$ (reverse in) $\v{O_W}$ \\
+				$\v{O_V} \in E, \ \therefore \v{O_W} = T(\v{O_V}) \in T(E)$ \\
+				Let $\v{w_1}, \v{w_2} \in T(E); \ \alpha_1, \alpha_2 \in \real$ \\
+				$\v{w_1} = T(\v{u_1}) \text{ where } \v{u_1} \in E$ \\
+				$\v{w_2} = T(\v{u_2}) \text{ where } \v{u_2} \in E$ \\
+				$\alpha_1 \v{w_1} + \alpha_2 \v{w_2} = \alpha_1T(\v{u_1}) + \alpha_2 T(\v{u_2}) = T(\alpha_1 \v{u_1} + \alpha_2 \v{u_2}) = T(\v{u})$ \\
+				where $\v{u} = \alpha_1 \v{u_1} + \alpha_2 \v{u_2} \in E$ \\
+				ie $\alpha_1 \v{w_1} + \alpha_2 \v{w_2} \in T(E)$
+				\item 
+				\begin{eqn}
+					T^{-1} (F) &= \bb{\v{u} \in V \mid T(\v{u}) \in F} \\
+					\text{Let } \v{u_1}, \v{u_2} &\in T^{-1}(F) \ \alpha_1, \alpha_2 \in \real \\
+					T(\v{u_1}) &\in F, T(\v{u_2}) \in F \\
+					\alpha_1 \v{u_1} + \alpha_2 \v{u_2} &\in T^{-1}(F) \\
+					T(\alpha_1 \v{u_1} + \alpha_2 \v{u_2}) &= \alpha_1 \uu{T(\v{u_1})}_{\in F} + \alpha_2 \uu{T(\v{u_2})}_{\in F} \in F \\
+					\alpha_1 \v{u_1} + \alpha_2 \v{u_2} &\in T^{-1} (F)
+				\end{eqn}
+			
+			\end{enumerate}
+			
+		\end{proof}
+	\end{enumerate}
+\end{proposition}
+
 \end{document}
