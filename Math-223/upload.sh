@@ -1,3 +1,6 @@
 #!/usr/bin/env bash
 
-pdflatex -jobname notes-compact "\def\CurrentAudience{compact}\input{notes}"
+echo 'put "notes.pdf" "pdf/MATH-223.pdf"' | xclip -selection clipboard
+
+sftp allanwang.ca@ssh.allanwang.ca
+

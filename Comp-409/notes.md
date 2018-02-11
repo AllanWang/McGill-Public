@@ -1060,3 +1060,85 @@ eat()
 V(max(i, j)) // order here isn't as important
 V(min(i, j)) // but reverse unlock is good practice
 ```
+
+# Lecture 9. 2018/02/08
+
+## Deadlock
+
+Solutions
+* Order resources
+
+Coffman's Condition
+* 4 necessary conditions 
+    1. Serially reusable resources
+    2. Incremental acquisition
+    3. No preemption
+    4. Dependency Cycle
+
+Livelock
+
+* Threads are not stopped, but are also not making useful progress
+
+Race Condition
+* Happening due to lack of ordering guarantees
+* Note: different from non-determinism & atomicity
+
+Concurrent Pros
+* 2 ordering relations
+    1. Intra-thread ordering - program order
+    2. Inter-thread - synchronization order
+* A data-race in a multithreaded program occurs when two of more threads access the same memory location, with no ordering constraints and at least on of them being a writer
+
+Consensus
+
+* Lots of synch primitives  (TS, FA, CAS)
+* We can build locks with any/all of those
+
+```java
+caslock
+
+CAS x a b:
+    bool rc
+    while TS(caslock, 1) == 1; // spin
+    if x == a
+        x = b
+        rc = true
+    else
+        rc = false
+    caslock = null
+    return rc
+```
+
+* CAS original - fixed amount of time to execute (wait free)
+* Simulate CAS - spins, potentially indefinitely
+* Wait free
+    * Finite # of steps
+    * Fault-tolerant
+* Consensus problem
+    * n threads, each with different values
+    * Want to agree on the value
+    * Requirements
+        * Consistent - all agree in the end
+        * Valid - agreed value is one of the starting values
+        * Wait-free - finite # steps, fault tolerant
+
+* Consensus number of a sync primitive is the max # of threads for which they can solve the consensus problem
+
+* Binary consensus `{0, 1}`
+    * Show we cannot solve 2-consensus
+    * Start in a bivalent state
+        * System &rarr; `{0, 1}` 
+    * End up in a univalent state
+        * `{0}` or `{1}`
+
+(I got tired after this part)
+
+* T0: reads a var
+    * T1 &rarr; might read or write
+    * T1 tree also necessarily exists before T0's action - not univalent
+* Therefore both T0 & T1 must both write
+    * Could write different vars
+* T0 & T1 write different vars
+* They both write the same var x
+    * Cannot be univalent &rarr; cannot be critical
+* R/w primitives have a consensus # of 1
