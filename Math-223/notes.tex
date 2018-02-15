@@ -1001,4 +1001,155 @@ $\m{x_1 \\ x_2 \\ \vdots \\ x_n}$ is called the \underline{coordinate-vector} of
 	\end{enumerate}
 \end{proposition}
 
+\section{2018/02/13}
+
+\todo
+
+\section{2018/02/15}
+
+\begin{block}[Definition]
+	(one-to-one and onto linear transformations)
+	
+	\begin{enumerate}
+		\item $T: V \rightarrow W$, is said to be one-to-one (or injective) if, whenever $T(\v{u_1}) = T(\v{u_2})$, we have $\v{u_1} = \v{u_2}$
+		\item $T: V \rightarrow W$ is said to be onto (or surjective) if $W = J?m(T)$
+	\end{enumerate}
+\end{block}
+
+\begin{block}[Remark]
+	$T: V \rightarrow W$ is onto iff there is a spanning set $\bb{\vv, ...}$ of $V$ such that $\bb{T(\v{u_1}), T(\v{u_2}), ..., T(\v{u_n}), ...}$ is a spanning set of $W$
+\end{block}
+
+\begin{proposition}
+	$T: V \rightarrow W$, linear transformation is one-to-one iff $Ker(T) = \bb{\v{0_V}}$
+	
+	\begin{proof}
+		$(\Rightarrow)$ Assume $T$ is one-to-one \\
+		Recall $Ker(T) = \bb{\v{u} \in v \mid T(\v{u}) = \v{0_W}}$ \\
+		Let $\v{u} \in Ker(T), T(\v{u}) = \v{0_W} = T(\v{0_V})$ \\
+		$\because T$ is one-to-one, \quad $\therefore \v{u} = \v{0_V}$ \\
+		
+		$(\Leftarrow)$ Assume that $Ker(T) = \bb{\v{0_V}}$ \\
+		Let us prove that $T$ is one-to-one \\
+		Let $\v{u_1}, \v{u_2} \in V$, such that \\
+		\begin{eqn}
+			T(\v{u_1}) &= T(\v{u_2}) \Rightarrow \\
+			T(\v{u_1} - \v{u_2}) &= \v{0_W} \\
+			\text{ie } \v{u_1} - \v{u_2} \in Ker(T) &= \bb{\v{0_V}} \\
+			\v{u_1} - \v{u_2} &= \v{0_V} \\
+			\text{ie } \v{u_1} &= \v{u_2}
+		\end{eqn}
+		
+	\end{proof}
+\end{proposition}
+
+\begin{examples}
+	\item $T: P_2 \rightarrow P_3$
+	\begin{eqn}
+		T(p)(x) &= \int_0^x p(t)dt \\
+		Ker(T) &= \bb{p \mid T(p) = 0} &&\\
+		T(p)(x) &= 0 && \forall x\\ 
+		\frac{d}{dx} (T(p)(x)) &= 0 &&\text{ie } p(x) = 0 \quad \forall x \text{ (By Fundamental theorem of calculus)} \\
+		Ker(T) &= \bb{0} && \text{ie } T \text{ is one-to-one}
+	\end{eqn}
+	$\because T(p)(0) = 0 \quad \forall p \in P_2$ \\
+	$\therefore$ the polynomial $f(x) = 1 \quad \forall x$ does not belong to $Im(T)$, ie $Im(T) \ne P_3$
+	\begin{block}[Exercise]
+	Prove that $Im(T) = \bb{p \in P_3 \mid p(0) = 0}$
+	\end{block}
+
+	\item $T: \real^n \rightarrow \real^m \\
+	T(X) = \uu{A}_{m \times n} X$ \\
+	\begin{enumerate}
+		\item $T$ is one-to-one iff the homogeneous system $AX = 0$ has a unique solution \\
+		ie $Rank(A) = n$
+		\item $T$ is onto iff $Col(A) = \real^m$ \\
+		ie $Rank(A) = dim(Col(A)) = m$
+	\end{enumerate}
+	\begin{block}[Remark]
+		$T : V \rightarrow W$ \\
+		Let $\v{w}$ be a fixed vector in $W$ \\
+		Solving the equation $T\v{u} = \v{w}$ \\
+		The set of all solutions is $T^{-1}(\bb{\v{w}})$ 
+		\begin{enumerate}
+			\item $T^{-1}(\bb{\v{w}})$ can be empty (No solution) \\
+			\item $T^{-1}(\bb{\v{w}})$ can have only one vector if \\
+				$\v{w} \in Im(T)$ and $T$ is one-to-one
+			item $T^{-1}(\bb{\v{w}})$ has infinitely many vectors when $\v{w} \in Im(T)$ and $Ker(T) \ne \bb{\v{0_V}}$
+		\end{enumerate}
+		\end{block}
+\end{examples}
+
+\subsection{Isomorphism}
+
+\begin{block}[Definition]
+	A linear transformation $T: V \rightarrow W$ is said to be an isomorphism if $T$ is one-to-one and onto
+\end{block}
+
+\begin{examples}
+	\item $T: \real^n \rightarrow \real^n \\
+	T(X) = \uu{A}_{n \times n} X$ \\
+	$T$ is an isomorphism iff $Rank(A) = n$
+	\item $T: M_{n \times m} \rightarrow M_{m \times n} \\
+	T(A) = A^T$ \\
+	Recall $\uu{A}_{n \times m} \in Ker(T) \Leftrightarrow T(A) = A^T = \uu{0}_{m \times n} \\
+	A = (A^T)^T = (\uu{0}_{m \times n})^T = \uu{0}_{m \times n}$ \\
+	$T$ is one-to-one \\
+	Let $B \in M_{m \times n}$ \\
+	$T$ is onto \\
+	
+	$T$ is an isomorphism
+	
+	\item The coordinate map \\
+	If $V$ is a vector space such that $dim(V) = n$ and $\bb{\vv} = B$ is a basis of $V$ \\
+	The map $T: V \rightarrow \real^n$ \\
+	$T(\v{u}) = \m{x_1 \\ x_2 \\ \vdots \\ x_n} \leftarrow$ coordinates of $\v{u}$ relative to $B$ \\
+	is an isomorphism
+\end{examples}
+
+\begin{proposition}
+	Let $T: V \rightarrow W$ be an isomorphism \\The inverse transformation $T^{-1}: W \rightarrow V$ is a linear transformation, and is also an isomorphism
+	
+	\begin{proof}
+		$T \circ T^{-1}(\v{w}) = \v{w} \quad \v{w} \in W$ \\
+		$T^{-1} \circ T(\v{v}) = \v{v} \quad \v{v} \in V$ \\
+		Let $\v{w_1}, \v{w_2} \in W$, $\alpha_1, \alpha_2 \in \real$ \\
+		\begin{eqn}
+			T^{-1}(\alpha_1 \v{w_1} + \alpha_2 \v{w_2}) &\stackrel{?}{=} \alpha_1 T^{-1}(\v{w_1}) + \alpha_2 T^{-1}(\v{w_2}) \\
+			T(T^{-1}(\alpha_1 \v{w_1} + \alpha_2 \v{w_2})) &= \alpha_1 \v{w_1} + \alpha_2 \v{w_2} \\
+			T(\alpha_1 T^{-1}(\v{w_1}) + \alpha_2 T^{-1}(\v{w_2})) &= \alpha_1 T(T^{-1}(\v{w_1})) + \alpha_2 T(T^{-1}(\v{w_2})) \\
+			&= \alpha_1 \v{w_1} + \alpha_2 \v{w_2}
+		\end{eqn}
+	
+		$\because T$ is one-to-one \\
+		$T^{-1} (\alpha_1 \v{w_1} + \alpha_2 \v{w_2}) = \alpha_1 T^{-1} (\v{w_1}) + \alpha_2 T^{-1}(\v{w_2})$ \\
+		$Im(T^{-1}) = V$ \\
+		$\because \forall \v{v} \in V$ \\
+		$\v{v} = T^{-1}(T(\v{v})) \quad \text{ie } \v{v} \in Im(T^{-1})$ \\
+		$\v{w} \in Ker(T^{-1}) \quad T^{-1}(\v{w}) = \v{0_V}$ \\
+		$\v{w} = T(T^{-1}(\v{w})) = T(\v{0_V}) = \v{0_W}$ \\
+		$Ker(T^{-1}) = \bb{\v{0_W}} \quad T^{-1}$ is one-to-one \\
+		$T^{-1}$ is also an isomorphism
+		
+		\begin{block}[Exercise]
+			Let $T: V \rightarrow W$ be an isomorphism and $B = \bb{\vv}$ be a basis of $V$ \\
+			Let $\v{w_i} = T(\v{u_i})$ \\
+			Prove that $\bb{\v{w_1}, \v{w_2}, ..., \v{w_n}}$ is a basis of $W$ \\
+			($\therefore dim(V) = dim(W)$)
+		\end{block}
+	\end{proof}
+\end{proposition}
+
+\begin{block}[Dimension Theorem]
+	(Generalization of the Rank Theorem) \\
+	$\real^m \rightarrow \real^n$ \qquad $\uu{A}_{n \times m}$ \\
+	$\uu{Real(A)}_{dim(col(A)) = dim(Im(T))} + \uu{dim(Null(A))}_{dim(Ker(T))} = m$
+	
+	\begin{theorem}
+		Let $T: V \real W$ be a linear transformation. \\
+		Assume $dim(V)$ is finite \\
+		Then $dim(V) = dim(Ker(T)) + dim(Im(T))$
+	\end{theorem}
+\end{block}
+
 \end{document}
