@@ -47,6 +47,8 @@
 	\newenvironment{proposition}{\block[Proposition]}{\endblock}
 	\newenvironment{lemma}{\block[Lemma]}{\endblock}
 	\newenvironment{theorem}{\block[Theorem]}{\endblock}
+	\newenvironment{remark}{\block[Remark]}{\endblock}
+	\newenvironment{definition}{\block[Definition]}{\endblock}
 	
 	\newkeycommand{\vv}[base=u, end=n] {
 		\v{\commandkey{base}_1}, \v{\commandkey{base}_2}, ..., \v{\commandkey{base}_{\commandkey{end}}}
@@ -59,7 +61,9 @@
 	% TODO customize style
 	\newcommand{\uu}[1]{\underbracket{#1}}
 
-	\newcommand{\todo}[0]{\textcolor{red}{\textbackslash\textbackslash TODO \ }}
+	\newcommand{\todo}[0]{\text{\textcolor{red}{\textbackslash\textbackslash TODO \ }}}
+	
+	\newcommand{\st}[0]{\text{ s.t. }}
 
 	% \NewEnviron{examples}{
 	% 	\begin{shownto}{-,compact}
@@ -80,7 +84,7 @@
 	\newcommand{\bbb}[1]{\left[#1\right]}
 	\newcommand{\pp}[1]{\left(#1\right)}
 
-	\newcommand{\divider}[0]{\textcolor{lightgray}{\rule{\textwidth}{0.1pt}}}
+	\newcommand{\divider}[0]{\par\textcolor{lightgray}{\rule{\textwidth}{0.1pt}}}
 	
 	\newkeycommand{\ssum}[sub=i=1, sup=n] {
 		\sum_{\commandkey{sub}}^{\commandkey{sup}}	
@@ -350,7 +354,7 @@ Notice that $E \subseteq V$ is a subspace of $V$ iff $E$ is nonempty and $\alpha
 	The zero polynomial $(0) \in E$ \\
 	let $p_1 \in E, p_2 \in E, (p_1 + _2)(0) = p_1(0) + p_2(0) \ge 0$ \\
 	$p1 + p_2 \in E$ \\
-	However, $E$ is not stable under scalar muliplication. \\
+	However, $E$ is not stable under scalar multiplication. \\
 	Ex $p(x) = x + 1 \in E \leftarrow p(0) = 1 \ge 0$ \\
 	if $\alpha < 0$, then $\alpha p(0) = \alpha < 0 \rightarrow \alpha p \notin E$
 	
@@ -541,11 +545,11 @@ Let $V$ be a vector apces and $E$ be a subspace of $V$. A basis of $E$ is a fami
 	\end{proof}
 \end{theorem}
 
-\begin{block}[Remark]
+\begin{remark}
 	$E = \bb{\v{0}}$ \quad
 	$dim(E) = 0$ \quad
 	$dim(\real^3) = 3$
-\end{block}
+\end{remark}
 
 \begin{examples}
 	\item $P_n =$ set of all polynomials of order $\le n$ \\
@@ -767,12 +771,12 @@ $E + F = \bb{\v{u} = \v{u_1} + \v{u_2}, \v{u_1} \in E, \v{u_2} \in F} \subseteq 
 	$F = \sspan{j = \m{0 \\ 1 \\ 0}, k = \m{0 \\ 0 \\ 1}}$ \quad yz-plane
 \end{examples}
 
-\begin{block}[Definition]
+\begin{definition}
 	Let V be a vector space and $E$ and $F$ be 2 subspaces of $V$ \\
 	$V$ is said to be the direct sum of $E$ and $F$ \\
 	(Notation: = $V = E \oplus F$) \\
 	If $V = E + F$ and  $E \cap F = \bb{\v{0}}$
-\end{block} \\
+\end{definition} \\
 
 \begin{proposition}
 	If $V = E_1 \oplus E_2$, then every vector $\v{u} \in V$ can be written \underline{uniquely} as $\v{u} = \v{u_1} + \v{u_2}$, where $\v{u_1} \in E_1, \v{u_2}, \in E_2$ \\
@@ -902,18 +906,18 @@ $\m{x_1 \\ x_2 \\ \vdots \\ x_n}$ is called the \underline{coordinate-vector} of
 	$P_3 = -2 P_1 + P_2$ \\
 	$\bb{P_1, P_2}$ is linearly independent \\
 	$B = \bb{P_1, P_2}$ is a basis of $U$ and coordinates of $P = P_3$ relative to $B$ is $\m{-2 \\ 1}$ \\
-	\begin{block}[Remark]
+	\begin{remark}
 		If $V$ is a n-dimensional vector space over $\real$ \\
 		$B = \bb{\vv}$ is a basis of $V$ \\
 		The map $T: V \rightarrow \real^n, T(U) = \m{x_1 \\ x_2 \\ \vdots \\ x_n}$ \\
 		where $\m{x_1 \\ x_2 \\ \vdots \\ x_n}$ is the coordinate-vector of $\v{u}$ relative to $B$ \\
 		is an isomorphism $\v{u} \leftrightarrow \m{x_1 \\ x_2 \\ \vdots \\ x_n}$
-	\end{block}
+	\end{remark}
 \end{examples}
 
 \subsection{Linear Transformations (Mapping)}
 
-\begin{block}[Definition]
+\begin{definition}
 	Let $V$ and $W$ be two vector spaces over $\real$ \\
 	A map (of function) $T: V \rightarrow W$ is called a linear transformation of the following properties hold.
 	
@@ -923,13 +927,13 @@ $\m{x_1 \\ x_2 \\ \vdots \\ x_n}$ is called the \underline{coordinate-vector} of
 		\item $T(\alpha \v{u}) = \alpha T(\v{u})$ whenever $\v{u} \in V \quad \alpha \in \real$
 	\end{enumerate}
 
-\end{block}
+\end{definition}
 
-\begin{block}[Remark]
+\begin{remark}
 	$T : V  \rightarrow W$ is a linear transformation iff $T(\alpha_1 \v{u_1} + \alpha_2 \v{u_2}) = \alpha_1 T(\v{u_1}) + \alpha_2 T(\v{u_2})$ whenever $\v{u_1}, \v{u_2} \in V \quad \alpha_1, \alpha_2 \in \real$ \\
 	or equivalently: $T(\ssum \alpha_i \v{u_i}) = \ssum \alpha_i T(\v{u_i})$ \\
 	whenever $\alpha_i \quad i = 1, ..., n \in \real \qquad \v{u_i} \quad i = 1, ..., n \in V$
-\end{block}
+\end{remark}
 
 \begin{examples}
 	\item 
@@ -1003,22 +1007,123 @@ $\m{x_1 \\ x_2 \\ \vdots \\ x_n}$ is called the \underline{coordinate-vector} of
 
 \section{2018/02/13}
 
-\todo
+(From someone else's notes)
+
+\subsection{Linear Transformations}
+
+\begin{proposition}
+	$T: V \rightarrow W$ is a linear transformation
+	\begin{enumerate}
+		\item If $E$ is a subspace of $V$ then $T(E) = \bb{T(\v{u}) \text{ where } \v{u} \in E}$ is a subspace of $W$.
+		\item If $F$ is a subspace of $W$ then $T^{-1}(F) = \bb{\v{u} \in V \st T(\v{u}) \in F}$ is a subspace of $V$
+	\end{enumerate}
+\end{proposition}
+
+\begin{examples}
+	\item \begin{eqn}
+		T: \real^3 &\rightarrow \real^2 \\
+		T \mm{x \\ y \\ z} &= \mm{x \\ z} \\
+		&= \uu{\mm{1 & 0 & 0 \\ 0 & 0 & 1}}_{2 \times 3} \uu{\m{x \\ y \\ z}}_{3 \times 1} \\
+		&\text{will be a linear transformation because it can be written in this format} \\ 
+		& \text{(projection onto xz plane)} \\
+		E &= \sspan{\m{1 \\ 0 \\ 0}, \m{0 \\ 1 \\ 0}} \text{ (xy plane)} \\
+	\end{eqn}
+	if $\v{u} \in E$ then $\v{u} = \m{a \\ b \\ 0}$ and $T(\v{u}) = \m{a \\ 0}$ \\
+	$T(E) = \sspan{\m{1 \\ 0}} \rightarrow x $ axis is in $\real^2$
+	
+	\item Let $F = \sspan{\m{1 \\ 0}}$ \\
+	\begin{eqn}
+		T^{-1}(F) &= \bb{\v{u} = \mm{x \\ y \\ z} \text{ such that } T(\v{u}) \in F} \\
+		T(\v{u}) &= \mm{x \\ z} = t \mm{1 \\ 1} \quad t \in \real \\
+		& \quad x = t, z = t, y \text{ is arbitrary } \rightarrow y = s \\
+		T^{-1}(F) &= \bb{\v{u} = \mm{t \\ s \\ t} \mid t, s \in \real} \\
+		T^{-1}(F) &= \sspan{\m{1 \\ 0 \\ 1}, \m{0 \\ 1 \\ 0}}
+	\end{eqn}
+	$T^{-1}(F)$ is a subspace, $T^{-1}(F)$ cannot be empty, $\v{0} \in T^{-1}(F)$
+	
+\end{examples}
+
+Particular Cases: $Ker(T)$ and $Im(T)$ \\
+Let $T: V \rightarrow W$ be a linear transformation \\
+\begin{enumerate}
+	\item $E = V$ is a trivial subspace of $V$ \\
+	From previous proposition, $T(V)$ is a subspace of $W$. It is called the \underline{image} of $V$ through $T$, denoted $Im(T)$ 
+	
+	\item $F = \bb{\v{0_W}}$ is also a trivial subspace of $W$. Using the previous proposition $T^{-1}\pp{\bb{\v{0_W}}}$ is a subspace of $V$ called the \underline{kernel} of $T$, denoted $Ker(T)$. \\
+	$Ker(T) = \bb{\v{u} \in V \st T(\v{u}) = \v{0_W}}$
+\end{enumerate}
+
+\begin{remark}
+	$T: V \rightarrow W$ and $\bb{\vv, ...}$ is a spanning set of $V$ \\
+	then $\bb{T(\v{u_1}), T(\v{u_2}), ..., T(\v{u_n}), ...}$ is a spanning set of $T(V) = Im(T)$
+	
+	\begin{proof}
+		Let $\v{w} \in Im(T) \pp{\equiv T(V)}$, then $\exists \v{u} \in V \st \v{w} = T(\v{u}), \v{u} = \ssum \alpha_i \v{u_i}, \v{w} = T(\v{u}) = T(\ssum \alpha_i \v{u_i}) = \ssum \alpha_i T(\v{u_i})$ (Linear combination of $T(\v{u_i})$)
+	\end{proof}
+\end{remark}
+
+\begin{examples}
+	\item $T: V = \real^p \rightarrow W = \real^q$ \\
+	$T(X) = AX$ \\
+	A spanning set of $Im(T)$ is given by $T(\v{u_i})$ where $\v{u_i} = \uu{\m{0 \\ 0 \\ 1 \\ 0 \\ 0}}_{p \times 1} \leftarrow i^{th}$ position \\
+	$T(\v{u_i}) = A \v{u_i} = i^{th}$ column of $A$ \\
+	$Im(T) = Col(A)$ \\
+	$Ker(T) = \bb{x \mid AX = 0} = Null(A)$
+	
+	\item $T: V = P_2 \rightarrow W = \real$ \\
+	$T(p) = \int_0^1 p(x) dx$ \quad is this a linear transformation? \\
+	
+	$T$ is a linear transformation \\
+	$\bb{1, , x^2}$ is a spanning set of $V$ \\
+	$p_1(x) = 1, p_2(x) = x, p_3(x) = x^2$ \\
+	$T(p_1) = 1, T(p_2) = \frac{1}{2}, T(p_3) = \frac{1}{3} \rightarrow$ fractions came from doing transformations \\
+	
+	\begin{eqn}
+		Im(T) &= \sspan{1, \frac{1}{2}, \frac{1}{3}} \subseteq \real \\
+		&= \sspan{1} = \real
+	\end{eqn}
+	$T$ is onto because the whole $W$ is covered by $Im(T)$ \\
+	
+	$Ker(T) = \bb{p \in P_2 \mid \int_0^1 p(x) dx = 0}$ \\
+	$p(x) = ax^2 + bx + c \quad \int_0^1 p(x) dx \Rightarrow \frac{a}{3} + \frac{b}{2} - c = 0$ \\
+	$Ker(T) = \sspan{x - \frac{1}{2}, x^2 - \frac{1}{3}}$ \\
+	$\frac{a}{3} + \frac{b}{2} + c = 0 \quad c = -\frac{a}{3} - \frac{b}{2}$ \\
+	$p(x) = ax^2 + bx - \frac{a}{3} - \frac{b}{2} = a(x^2 - \frac{1}{3}) + b(x - \frac{1}{2})$
+	
+	\item $T: V = M_{2 \times 2} \rightarrow W = M_{2 \times 2}$ \\
+	$T(\uu{M}_{2 \times 2}) = \uu{A}_{2 \times 2} \uu{M}_{2 \times 2}$ \quad where $A = \mm{1 & 2 \\ 1 & 2}$ \\
+	Is this a linear transformation? Yes \\
+	(if $M = \m{1 & 0 \\ 0 & 1}, AM = \bbb{t\m{1 \\ 1}, s\m{1 \\ 1}}$) \\
+	What is the basis of $M_{2 \times 2}$? \quad $E_1 = \m{1 & 0 \\ 0 & 0}, E_2 = \m{0 & 0 \\ 1 & 0}, E_3 = \m{0 & 0 \\ 0 & 1}, E_4 = \m{0 & 1 \\ 0 & 0}$ \\
+	$\bb{E_1, E_2, E_3, E_4}$ is a basis of $M_{2 \times 2}$ \\
+	$T(E_1) = \m{1 & 0 \\ 1 & 0}, T(E_2) = \m{2 & 0 \\ 2 & 0}, T(E_3) = \m{0 & 2 \\ 0 & 2}, T(E_4) = \m{0 & 1 \\ 0 & 1}$ \\
+	$Im(T) = \sspan{\m{1 & 0 \\ 1 & 0}, \m{0 & 1 \\ 0 & 1}}$ because clearly $T(E_2)$ is twice $T(E_1)$ \& $T(E_3)$ is twice $T(E_4)$ \\
+	
+	$Ker(T) = \bb{M_{2 \times 2} \mid AM = 0}$ \\
+	$M = \bbb{x_1 \mid x_2} \Rightarrow AM = \bbb{Ax_1 \mid Ax_2} = 0$ \\
+	$Ax_1 = 0 \quad x_1 = t \bbb{2 \\ -1} t \in \real$ \\
+	$Ax_2 = 0 \quad x_2 = s \bbb{2 \\ -1} s \in \real$ \\
+	
+	$M = \m{t & s \\ -t & -s} \quad t, s \in \real$ \\
+	
+	$Ker(T) = \sspan{\mm{2 & 0 \\ -1 & 0}, \mm{0 & 2 \\ 0 & -1}}$
+	
+\end{examples}
 
 \section{2018/02/15}
 
-\begin{block}[Definition]
+\begin{definition}
 	(one-to-one and onto linear transformations)
 	
 	\begin{enumerate}
 		\item $T: V \rightarrow W$, is said to be one-to-one (or injective) if, whenever $T(\v{u_1}) = T(\v{u_2})$, we have $\v{u_1} = \v{u_2}$
 		\item $T: V \rightarrow W$ is said to be onto (or surjective) if $W = J?m(T)$
 	\end{enumerate}
-\end{block}
+\end{definition}
 
-\begin{block}[Remark]
+\begin{remark}
 	$T: V \rightarrow W$ is onto iff there is a spanning set $\bb{\vv, ...}$ of $V$ such that $\bb{T(\v{u_1}), T(\v{u_2}), ..., T(\v{u_n}), ...}$ is a spanning set of $W$
-\end{block}
+\end{remark}
 
 \begin{proposition}
 	$T: V \rightarrow W$, linear transformation is one-to-one iff $Ker(T) = \bb{\v{0_V}}$
@@ -1066,7 +1171,7 @@ $\m{x_1 \\ x_2 \\ \vdots \\ x_n}$ is called the \underline{coordinate-vector} of
 		\item $T$ is onto iff $Col(A) = \real^m$ \\
 		ie $Rank(A) = dim(Col(A)) = m$
 	\end{enumerate}
-	\begin{block}[Remark]
+	\begin{remark}
 		$T : V \rightarrow W$ \\
 		Let $\v{w}$ be a fixed vector in $W$ \\
 		Solving the equation $T\v{u} = \v{w}$ \\
@@ -1077,14 +1182,14 @@ $\m{x_1 \\ x_2 \\ \vdots \\ x_n}$ is called the \underline{coordinate-vector} of
 				$\v{w} \in Im(T)$ and $T$ is one-to-one
 			item $T^{-1}(\bb{\v{w}})$ has infinitely many vectors when $\v{w} \in Im(T)$ and $Ker(T) \ne \bb{\v{0_V}}$
 		\end{enumerate}
-		\end{block}
+	\end{remark}
 \end{examples}
 
 \subsection{Isomorphism}
 
-\begin{block}[Definition]
+\begin{definition}
 	A linear transformation $T: V \rightarrow W$ is said to be an isomorphism if $T$ is one-to-one and onto
-\end{block}
+\end{definition}
 
 \begin{examples}
 	\item $T: \real^n \rightarrow \real^n \\
