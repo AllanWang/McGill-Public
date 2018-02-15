@@ -8,25 +8,27 @@
 
 | | |
 --- | ---
-UMA | Uniform Memory Access
-NUMA | Non-Uniform Memory Access
-CS | Critical Section
-UP | Uni-Processor
-MP | Multi-Processor
-SMP | Symmetric Multi-Processor
+AMO | At Most One
+CAS | Compare and Swap
 CMP | on Chip Multi-Processor
 CMT | Coarse-grained Multi Threaded
-FMT | Fine-grained Multi Threaded
-SMT | Simultaneous Multi Threaded
-IPC | Instructions Per Cycle
-AMO | At Most One
-ME | Mutual Exclusion
-FA | Fetch and Add
-CAS | Compare and Swap
-TS | Test and Set
+CS | Critical Section
 CV | Condition Variable
-TSD | Thread Specific Data
+FA | Fetch and Add
+FMT | Fine-grained Multi Threaded
+IPC | Instructions Per Cycle
+ME | Mutual Exclusion
+MP | Multi-Processor
+NUMA | Non-Uniform Memory Access
+PC | Process Consistency
+SC | Sequential Consistency
+SMP | Symmetric Multi-Processor
+SMT | Simultaneous Multi Threaded
 TLS | Thread Local Storage
+TS | Test and Set
+TSD | Thread Specific Data
+UMA | Uniform Memory Access
+UP | Uni-Processor
 
 # Lecture 1. 2018/01/09
 
@@ -1142,3 +1144,112 @@ CAS x a b:
 * They both write the same var x
     * Cannot be univalent &rarr; cannot be critical
 * R/w primitives have a consensus # of 1
+
+# Lecture 10. 2018/02/15
+
+R/W - consensus #1
+
+---
+
+FA, TS, consensus #2
+```java
+int decide (int v):
+    x = TS(decider, v) // x is old value
+    if x == 1:
+        return v 
+    return x
+```
+
+Solves 2 consensus, but not 3
+
+---
+
+CAS, consensus # &infin;
+
+```java
+int decide (int v):
+    CAS(decider, 1, v)
+    return decider
+```
+
+## Linearization
+
+* Concurrent programs
+    * In general, not functional
+    * Output can depend on timing/scheduling
+
+* Correctness
+    * If whatever happens in our concurrent program has an equivalent sequential program producing the same output
+
+---
+
+Example - 2 queues p, q - enqueue, dequeue
+
+T0 | T1
+--- | ---
+1. p.enq(x) | 4. q.enq(y)
+2. q.enq(x) | 5. p.enq(y)
+3. p.deq() -> returns y | 6. q.deq() -> returns x
+(numbers are just for future reference and do not refer to runtime order)
+
+is this linearizable?
+
+* Since p returns y, 5 must occur before 1 (FIFO)
+* Since q returns x, 2 must occur before 4
+* However, given that the calls in within each thread is sequential, we know that this result isn't possible
+
+--- 
+Memory models
+
+T0 | T1
+--- | ---
+x = 1 | y = 2
+b = y  | a = x
+(variables start at 0)
+
+Possibilities: (a, b) = (1, 0), (0, 2), (1, 2)
+
+Note that cases like (0, 0) is not possible; invalid interleaving 
+
+--- 
+Write-buffering
+
+P0 | WB0 | Mem | P1 | WB1
+--- | --- | --- | --- | ---
+x = 1 | &rarr; x = 1 | x = 0 | y = 2 | &rarr; y = 2 
+- | - | y = 0 | - | -
+b = y | &rarr; b = 0 | a = 0 | - | -
+- | - | - | a = x | &rarr; a = 0
+- | writes x | x = 1 | - | -
+- | - | y = 2 | - | writes y
+- | - | a = 0 | - | -
+- | - | b = 0 | - | -
+
+As a result, with buffering, we can have (0, 0).
+
+&therefore; we cannot just think of interleavings
+
+* Model types
+    * Strict consistency - operations necessarily follow program order (intra-threads)
+    * Sequential Consistency (SC) - operations appear to execute in program order
+    * Both cases result in a global timeline for operations
+
+* Coherence
+    * The write to a given variable must be seen in the same order by all threads
+    * Doesn't require sequential consistency. Every variable has their own timeline
+
+* Process Consistency (PC)
+    *  T0 | T1 | T2 | T3
+       ---|---|---|---
+       x = 1 | x = 3 | a = x(1) | d = x (3)
+       y = 2 | y = 4 | b = y (2) | e = y (4)
+       - | - | c = x (3) | f = x (1)
+
+    * T2 sees T0 before T1
+    * T3 sees T1 before T0
+    * Note that this is not coherent
+
+* Note
+    * SC implies cohrerence and PC
+    * PC does not imply coherence
+    * Coherence does not imply PC
