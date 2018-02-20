@@ -102,4 +102,37 @@ $$Cap(A, B) = \sum_{x \in T} (M - P_x) + \text{number of matches } xy \text{ wit
     * A set of linear constraints of the form $\alpha_1 x_1 + \alpha_2 x_2 + ... \alpha_n + x_n = \beta$, where $\alpha_i \in \mathbb{R} \ \forall i \in 0 .. n$
     * Linear objective function that we want to minimize or maximize <br>
       $c_1 x_1 + c_2 x_2 + ... c_n + x_n$, where $c_i \in \mathbb{R} \ \forall i \in 0 .. n$ 
-    * 
+
+> Feasible Region - set of all solutions satisfying all the constraints
+
+* Feasible region can be empty, unbounded, or bounded in a convex polygon
+
+> Convex - where every two points in the region form a line segment within the region
+
+* Benefit of convex shapes is that you can greedily find your optimization by moving along local minimas/maximas when they give a better result. You will not be stuck in a region as you might in a concave shape.
+
+* Standard form is we are optimizing max, with all variables being nonnegative, and all other constraints as &le; c
+* To convert to standard form:
+    * Any inequality as &ge; can be multiplied by -1 to achieve &le;
+    * Any equality can be split into &ge; c and &le; c
+    * Any constraint for negative variables involves replacing the variable with its negative counterpart, and updating the original constraint to be strictly nonnegative
+    * If variable does not have a constraint, we can replace it with the difference of two new variables, where both new variables are nonnegative. That way all used variables have the nonnegative constraint
+* Useful in that it can be easily represented with matrices. Given that we have n variables and m optimization inequalities
+    * Let `C` be an n by 1 matrix of the coefficients of x in our maximization
+    * Let `A` be an m by n matrix representing the coefficients of x in each optimization inequality
+    * Let `B` be an m by 1 matrix representing the results of each optimization inequality
+    * Let `X` be an n by 1 matrix representing each variable
+    * We are therefore:
+        * Trying to find max C<sup>T</sup>X
+        * Such that AX &le; B
+        * And X &ge; 0
+
+* Duality - used to convince ourselves of our optimization for a LP without solving the LP
+    * Procedure
+        * Multiply every optimization inequality (1 to m) by y<sub>1</sub> to y<sub>m</sub>
+        * Add up all the inequalities together
+        * Make the left side of our original maximization &le; right side of our summed inequality
+        * Create constraints that every y variable is positive
+        * Create constraint such that every coefficient of our new inequality matches (y variable summation &ge; c)
+        * Solving this will give us the best upper bound
+        * Note that this also leads to a minimization in standard form

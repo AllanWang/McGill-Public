@@ -1,6 +1,9 @@
 \documentclass[12pt]{article}
-	\usepackage{hyperref, fancyhdr, setspace, enumerate, amsmath, amsthm, amssymb, array, keycommand, lastpage, amssymb, xcolor}
+	\usepackage{hyperref, fancyhdr, setspace, enumerate}
+	\usepackage{tabulary}
+	\usepackage{amsmath, amsthm, amssymb, array, keycommand, lastpage, amssymb, xcolor, mathtools}
 	\usepackage{multiaudience}
+	\usepackage{makecell}
 	\usepackage{enumitem}
 	\usepackage[margin=1 in]{geometry}
 	\allowdisplaybreaks
@@ -42,6 +45,8 @@
 	\newcommand{\ddef}[1]{\textcolor{blue}{#1}}
 	
 	\newcommand{\real}[0]{\mathbb{R}}
+	
+	\newcommand{\uu}[1]{\underbracket{#1}}
 
 	\newkeycommand{\ccup}[sub=i=1, sup=\infty, base=A_i] {
 		\bigcup_{\commandkey{sub}}^{\commandkey{sup}}\commandkey{base}
@@ -59,10 +64,19 @@
 		\sum_{\commandkey{sub}}^{\commandkey{sup}}	
 	}
 
+	\newenvironment{block}[1][Label]{\underline{#1}\par}{}
+%	\newenvironment{proof}{\block[Proof]}{\endblock}
+	\newenvironment{proposition}{\block[Proposition]}{\endblock}
+	\newenvironment{lemma}{\block[Lemma]}{\endblock}
+%	\newenvironment{theorem}{\block[Theorem]}{\endblock}
+	\newenvironment{remark}{\block[Remark]}{\endblock}
+	\newenvironment{definition}{\block[Definition]}{\endblock}
+
 	\newcommand{\bb}[1]{\left\{#1\right\}}
 	\newcommand{\pp}[1]{\left(#1\right)}
+	\newcommand{\abs}[1]{\left|#1\right|}
 
-	\newcommand{\divider}[0]{\textcolor{lightgray}{\rule{\textwidth}{0.1pt}}}
+	\newcommand{\divider}[0]{\par\textcolor{lightgray}{\rule{\textwidth}{0.1pt}}}
 	
 	\newenvironment{claim}{\textit{Claim:}}{\hfill $\square$}
 	
@@ -272,7 +286,7 @@ see check 3
 Let $A_1, A_2, ..., \in F$ \\
 $\Rightarrow P(\ccup) \le \ssum[sup=n] P(A_i)$
 
-\begin{proof} \textit{1.}
+\begin{proof}
 	\begin{equation}
 		\begin{alignedat}{2}
 			&& \ccup[sup=k] &= A_i \cup (A^C_1 \cap A_2) \cup (A^C_1 \cap A^C_2 \cap A_3) \cup ... \cup (A^C_1 \cap ... \cap A^C_{k-1} \cap A_k) \\
@@ -637,11 +651,126 @@ Another function that describes the distribution of an R.V. is the cumulative di
 		\item $0 \le F(x) \le 1$
 		\item Convergence to $0$ and $1$ in the limits:
 		$\lim_{x \rightarrow -\infty} F(x) = 0$, $\lim_{x \rightarrow \infty} F(x) = 1$
-		
-		
+		\item Non-decreasing \\
+		If $x_1 \le x_2$, then $F(x_1) \le F(x_2)$
+		\item Right continuous \\
+		The CDF is continuous except for some jumps; whenever there is a jump, the CDF is continuous from the right. That is, $F(a) = \lim_{x \rightarrow a^+} F(x) \quad \forall a$
 	\end{enumerate}
 \end{example}
 
+\subsection{Continuous Random Variable}
 
+A random variable $x$ with $CDF F$ is said to be continuous if $F(x)$ is continuous for $-\infty < x < \infty$
+
+\divider
+
+What's the relationship between $p(x) = p(X = x)$ and $F(x) = p(X \le x)$? \\
+
+\begin{eqn}
+	p(x) &= F(x) - F(x - 1) \\
+	&= \frac{F(x) - F(x - 1)}{x - (x - 1)}
+\end{eqn}
+
+$\rightarrow p(x)$ is soft of a "derivative" of $F(x)$ \\
+$\rightarrow$ This observation brings us the notation of density function for continuous r.v, which is defined as follows.
+
+\ddef{PDF - probability density function - Let $F(x)$ be the CDF for a continuous r.v. $x$. Then $f(x)$, given by $f(x) = \frac{dF(x)}{dx} = F'(x)$ whenever the derivative exists, is called the PDF for the random variable $x$.}
+
+\underline{Properties for PDF}
+
+\begin{enumerate}
+	\item If $f(x)$ is a density function, then
+		\begin{enumerate}
+			\item $f(x) \ge 0 \quad \forall x$
+			\item $\int_{-\infty}^{\infty} f(x)dx = 1$
+		\end{enumerate}
+	
+		\begin{example}
+			\begin{equation}
+				f(x) =
+				\begin{cases}
+					2x; \ 0 \le x \le 1 \\
+					0; \ o.w.
+				\end{cases}
+				\text{show } f(x) \text{ is a PDF}
+			\end{equation}
+			
+			\underline{Ans}
+			\begin{eqn}
+				& \because \quad && 0 \le x \le 1 \\
+				& \therefore && 0 \le 2x \le 2 \\
+				& \therefore && f(x) \ge 0 \quad \forall x
+			\end{eqn}
+			\begin{eqn}
+				1 &= \int_{-\infty}^{\infty} f(x)dx \\
+				&= \int_0^1 2x dx \\
+				&= 2 \cdot \int_0^1 x dx \\
+				&= 2 \cdot \frac{1}{2}x^2 \bigg\rvert_0^1 \\
+				&= 1
+			\end{eqn}	
+		\end{example}
+	
+		\begin{theorem} \\\\
+			If the random variable $x$ has PDF $f(x)$, CDF $F(x)$, and $a \le b$, then the probability that $X$ falls in interval $[a, b]$ is $p(a \le X \le b) = \int_a^b f(x) dx = F(b) - F(a)$
+		\end{theorem}
+	
+		\item 
+		\begin{equation}
+			f(x) =
+			\begin{cases}
+				2x; 0 \le x \le 1 \\
+				0; \ o.w.
+			\end{cases}
+			\text{ is a PDF}
+		\end{equation}
+		
+		Find $p(x > \frac{1}{2})$ and $p(x = \frac{1}{2})$
+		
+		\underline{Ans} \\
+		$\int_{\frac{1}{2}}^1 2x dx = 2 \cdot \frac{1}{2} x^2 \bigg\rvert_{\frac{1}{2}}^1 = \frac{3}{4}$
+		
+		\begin{remark}
+			\begin{enumerate}
+				\item For continuous r.v., $p(x = a) = 0$
+				\item For discrete r.v., $p(x = a)$ means a probability
+			\end{enumerate}
+		\end{remark}
+\end{enumerate}
+
+\begin{tabulary}{\textwidth}{L L}
+	Discrete & Continuous \\
+	\multicolumn{2}{c}{\underline{Def of a r.v.}} \\
+	X has countable support & X has uncountable support \\
+	Usually integers (eg $x \in \bb{0, 1, 2, ...})$ & Usually interval in $\real$ (eg $x \in x > 0$) \\
+	\multicolumn{2}{c}{\underline{Probability of r.v.s}} \\
+	The PMF is a function or a table that gives the probability that a discrete r.v. is exactly equal to some value $x$ ($f(x) = p(X = x) \quad \sum_{x \in \real_x} f(x) = 1$) & The PDF integrated from $a$ to $b$ yields the probability that a continuous r.v. takes on a value in the interval $[a, b]$ \qquad \qquad \qquad ($p(a \le x \le b) = \int_a^b f(x) dx$ \qquad \qquad $\int_{-\infty}^{\infty} f(x) dx = 1$) \\
+	$F(x) = P(X \le x) = \sum_{t \le x} f(t)$ & $F(x) = P(X \le x) = \int_{-\infty}^x f(t) dt$
+\end{tabulary}
+
+\section{2018/02/02}
+
+\subsection{Transformation for univariate random variable}
+
+Goal is to find the probability distribution of a function of random variables
+
+\begin{enumerate}
+	\item For discrete r.v.: directly plug in
+	
+	\begin{example}
+		$x \sim p(x) = \frac{(\lvert x \rvert + 1)^2}{9}, x = -1, 0, 1$ \\
+		Find distribution of $y = x^2$ \\
+		$y = 0 \rightarrow P(Y = 0) = P(X = 0) = \frac{1}{9} \\ y = 1 \rightarrow P(Y = 1) = P(X = -1) + P(X = 1) = \frac{8}{9}$ \\
+		(Note sum $ = 1$) 
+	\end{example}
+
+	\item Jacobian Transformation (For continuous r.v.)
+	
+	\begin{block}[Lemma]
+		Let $x$ be a continuous r.v. with PDF $f(x)$. Let $Y = g(x)$, where $g$ is a 1 to 1 and differentiable function. \\
+		$f_Y(y) = f_x\pp{g^{-1}(y)} \abs{\frac{dg^{-1}(y)}{dy}} = f_X \pp{g^{-1} (y)} \cdot \abs{J}$
+	\end{block}
+\end{enumerate}
+
+\todo Page 8
 
 \end{document}
