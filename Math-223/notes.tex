@@ -852,21 +852,20 @@ $E + F = \bb{\v{u} = \v{u_1} + \v{u_2}, \v{u_1} \in E, \v{u_2} \in F} \subseteq 
 	Let $A \in M_{n \times n}$ \\
 	$$A = \uu{\frac{1}{2} (A + A^T)}_{\in E} + \uu{\frac{1}{2} (A - A^T)}_{\in F}$$ \\
 	$M_{n \times n} = E \oplus F$
-sss	j
 \end{examples}
 
 
 \section{2018/02/08}
 
-$S = \bb{M \in M_{n \times n} \mid M^T = M}$ \\
-$A = \bb{M \in M_{n \times n} \mid M^T = -M}$
-\todo add bar case
-
-$M_{n \times n} = S \oplus A$ \\
-$dim(A) = \frac{n^2 - n}{2}$ \\
-$dim(S) = \frac{n^2 + n}{2}$
-
-\todo end bar case
+\begin{equation}
+	S = \bb{M \in M_{n \times n} \mid M^T = M} \\
+	A = \bb{M \in M_{n \times n} \mid M^T = -M}
+	\begin{cases}
+		M_{n \times n} = S \oplus A \\
+		dim(A) = \frac{n^2 - n}{2} \\
+		dim(S) = \frac{n^2 + n}{2}
+	\end{cases}
+\end{equation}
 
 $dim(E \oplus F) = dim(E) + dim(F)$ \\
 If $dim(E + F) = dim(E) + dim(F)$ then it is a direct sum.
@@ -1256,5 +1255,42 @@ Let $T: V \rightarrow W$ be a linear transformation \\
 		Then $dim(V) = dim(Ker(T)) + dim(Im(T))$
 	\end{theorem}
 \end{block}
+
+\section{2018/02/20}
+
+\todo
+
+\section{2018/02/22}
+
+Midterm is on Chapter 4 \& 5, and has 4 questions. Rooms will be announced tomorrow; try to get there 10 min early.
+
+\begin{examples}
+	\item
+	Given $E, F$ are subspaces of $V$, prove that $E \oplus F \subseteq V$. \\
+	
+	We already know that $E + F \subseteq V$, so we just need to show that $E \cap F = \bb{\v{0_v}}$  \\
+	
+	To prove equality, show that $dim(V) = dim(E) + dim(F)$
+
+	\item
+	If $U$ is a subspace of $V$, $W$ is a subspace of $V$, and $U \cup W$ is a subspace of $V$, prove that $U \subseteq W$ or $W \subseteq U$ \\
+	
+	If $U \nsubseteq W$ and $W \nsubseteq U$, take $\v{u} \in U$ where $\v{u} \notin W$, and $\v{w} \in W$ where $\v{w} \notin U$, then $\v{u} + \v{w} \notin U \cup W$
+	
+	\item 
+	$T; V \rightarrow W$
+	
+	\begin{enumerate}
+		\item $E$ is a subspace of $V$ \\
+		$dim(T(E)) = dim(E) - dim(Ker(T) \cap E)$ \\
+		Define $T_1: E \rightarrow T(E)$ \\
+		\begin{eqn}
+			dim(E) &= \uu{dim(Im(T_1))}_{= dim(T(E))} + \uu{dim(Ker(T_1))}_{= dim(E \cap Ker(T))} \\
+			\v{u} \in Ker(T_1) &\Leftrightarrow \v{u} \in E \text{ and } T(\v{u}) = \v{0_w} \\
+			&\Leftrightarrow \v{u} \in E \text{ and } \v{u} \in  Ker(T) \\
+			Ker(T_1) &= Ker(T) \cap E
+		\end{eqn}
+	\end{enumerate}
+\end{examples}
 
 \end{document}
