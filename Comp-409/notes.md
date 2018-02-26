@@ -952,7 +952,7 @@ while true
     else
         while numThreads != 0
             yield()
-
+```
 Sense Reversing Barrier
 
 ```java
@@ -1209,6 +1209,7 @@ T0 | T1
 --- | ---
 x = 1 | y = 2
 b = y  | a = x
+
 (variables start at 0)
 
 Possibilities: (a, b) = (1, 0), (0, 2), (1, 2)
@@ -1218,16 +1219,17 @@ Note that cases like (0, 0) is not possible; invalid interleaving
 --- 
 Write-buffering
 
-P0 | WB0 | Mem | P1 | WB1
---- | --- | --- | --- | ---
-x = 1 | &rarr; x = 1 | x = 0 | y = 2 | &rarr; y = 2 
-- | - | y = 0 | - | -
-b = y | &rarr; b = 0 | a = 0 | - | -
-- | - | - | a = x | &rarr; a = 0
-- | writes x | x = 1 | - | -
-- | - | y = 2 | - | writes y
-- | - | a = 0 | - | -
-- | - | b = 0 | - | -
+
+| P0 | WB0 | Mem | P1 | WB1
+| --- | --- | --- | --- | ---
+| x = 1 | &rarr; x = 1 | x = 0 | y = 2 | &rarr; y = 2 
+| - | - | y = 0 | - | -
+| b = y | &rarr; b = 0 | a = 0 | - | -
+| - | - | - | a = x | &rarr; a = 0
+| - | writes x | x = 1 | - | -
+| - | - | y = 2 | - | writes y
+| - | - | a = 0 | - | -
+| - | - | b = 0 | - | -
 
 As a result, with buffering, we can have (0, 0).
 
@@ -1272,6 +1274,7 @@ Intel/AMD
 * Some kind of casual consistency
 * IRIW - independent read independent write
     * Probably don't want, but not ruled out
+    
   P0 | P1 | P2 | P3 
   ---|---|---|---
   x = 1 | y = 1 | eax = x, ebx = y | ecx = y, edx = x
@@ -1281,11 +1284,13 @@ Intel/AMD
 
 * Also cases that should not happen, but can be obsered in practice
   n6 
+  
   P0 | P1 
   --- | ---
   x = 1 | y = 2
   eax = x | x = 2
   ebx = y |
+  
   Could observe that eax = 1, ebx = 0, x = 1
 
 * Could happen with write buffers
@@ -1296,10 +1301,12 @@ Intel/AMD
 * Constraints on inter-process ordering
     * Any 2 stores are seeing consistent ordering by processes other than those doing the write. Leaves opens another case n5
     * n5
+    
       P0 | P1
       ---|---
       x = 1 | x = 2
       eax = x | ebx = x
+      
       eax = 2, ebx = 1
       not disallowed, but also not observed
 * x86-TSO - abstract model by academics
@@ -1327,6 +1334,7 @@ Intel/AMD
         * Up : if `p` has the lock & WB<sub>p</sub> is empty, we can release the lock
         * progress condition : all buffered writes are eventually committed
         * Example
+	
           P: WB<sub>p</sub> = [0x55] = 0 | Q: WB<sub>q</sub> = [0x55] = 7
           ---|---
           Lock : Inc [0x55] |
@@ -1336,6 +1344,7 @@ Intel/AMD
           &tau;p (0x55 = 0) |
           &tau;p (0x55 = 1) |
           Up |  &tau;q
+	  
             * Without lock, p can begin increment, q can set to 7, and p can increment the new value by 1 &rarr; 8
         * spinlock
             * Address of lock is eax
