@@ -332,6 +332,7 @@ Word sized expressions with "at-most-one" critical reference at a time are "effe
 ---
 
 x = y = 0 
+
 Thread 1 | Thread 2
 --- | ---
 x = y + 1 | y = y + 1
@@ -342,6 +343,7 @@ As AMO is satisfied in both cases, there are no unexpected values to be consider
 ---
 
 x = y = 0
+
 Thread 1 | Thread 2
 --- | ---
 x = y + 1 | y = x + 1
@@ -899,10 +901,12 @@ class Monitor {
     * Can have more than 1 (ie Pthreads)
     * In base Java &rarr; one, unnamed
     * 2 ops
+
         | Pthread | Java |
         --- | ---
         `sleep()` | `wait()`
         `signal()` | `notify()` (can only invoke inside monitor)
+
     * Calling `wait()` inside a monitor will give it up & sleep (atomic)
     * When another thread calls `notify()`, sleeping thread may be woken up. Note that a thread that is woken cannot continue on until it has reacquired the lock
 
@@ -1282,9 +1286,10 @@ Example - 2 queues p, q - enqueue, dequeue
 
 T0 | T1
 --- | ---
-1. p.enq(x) | 4. q.enq(y)
-2. q.enq(x) | 5. p.enq(y)
-3. p.deq() -> returns y | 6. q.deq() -> returns x
+1: p.enq(x) | 4: q.enq(y)
+2: q.enq(x) | 5: p.enq(y)
+3: p.deq() -> returns y | 6: q.deq() -> returns x
+
 (numbers are just for future reference and do not refer to runtime order)
 
 is this linearizable?
@@ -1294,12 +1299,14 @@ is this linearizable?
 * However, given that the calls in within each thread is sequential, we know that this result isn't possible
 
 --- 
+
 Memory models
 
 T0 | T1
 --- | ---
 x = 1 | y = 2
 b = y  | a = x
+
 (variables start at 0)
 
 Possibilities: (a, b) = (1, 0), (0, 2), (1, 2)
@@ -1338,7 +1345,7 @@ As a result, with buffering, we can have (0, 0).
        ---|---|---|---
        x = 1 | x = 3 | a = x(1) | d = x (3)
        y = 2 | y = 4 | b = y (2) | e = y (4)
-       - | - | c = x (3) | f = x (1)
+       &mdash; | &mdash; | c = x (3) | f = x (1)
 
     * T2 sees T0 before T1
     * T3 sees T1 before T0
@@ -1363,6 +1370,8 @@ Intel/AMD
 * Some kind of casual consistency
 * IRIW - independent read independent write
     * Probably don't want, but not ruled out
+  <br>
+
   P0 | P1 | P2 | P3 
   ---|---|---|---
   x = 1 | y = 1 | eax = x, ebx = y | ecx = y, edx = x
@@ -1371,12 +1380,14 @@ Intel/AMD
   For P3, it sees ecx = 1, edx = 0, meaning P1 happened before P0
 
 * Also cases that should not happen, but can be obsered in practice
-  n6 
+  n6 <br>
+
   P0 | P1 
   --- | ---
   x = 1 | y = 2
   eax = x | x = 2
-  ebx = y |
+  ebx = y | |
+
   Could observe that eax = 1, ebx = 0, x = 1
 
 * Could happen with write buffers
@@ -1387,10 +1398,12 @@ Intel/AMD
 * Constraints on inter-process ordering
     * Any 2 stores are seeing consistent ordering by processes other than those doing the write. Leaves opens another case n5
     * n5
+
       P0 | P1
       ---|---
       x = 1 | x = 2
       eax = x | ebx = x
+
       eax = 2, ebx = 1
       not disallowed, but also not observed
 * x86-TSO - abstract model by academics
@@ -1417,7 +1430,7 @@ Intel/AMD
         * Lp : if the lock is not held by another process, `p` can acquire it
         * Up : if `p` has the lock & WB<sub>p</sub> is empty, we can release the lock
         * progress condition : all buffered writes are eventually committed
-        * Example
+        * Example<br>
           P: WB<sub>p</sub> = [0x55] = 0 | Q: WB<sub>q</sub> = [0x55] = 7
           ---|---
           Lock : Inc [0x55] |
@@ -1426,7 +1439,7 @@ Intel/AMD
           Wp[0x55] = 1 |
           &tau;p (0x55 = 0) |
           &tau;p (0x55 = 1) |
-          Up |  &tau;q
+          Up | &tau;q
             * Without lock, p can begin increment, q can set to 7, and p can increment the new value by 1 &rarr; 8
         * spinlock
             * Address of lock is eax
