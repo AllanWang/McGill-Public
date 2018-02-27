@@ -33,6 +33,97 @@ JNS | Jump Not Signed
 JLE | Jump Less Than
 JMP | Jump
 
+# Interfaces
+
+## Semaphore
+
+```java
+/**
+ * Block thread until [count] permits are available before acquiring them
+ * acquire() = acquire(1)
+ */
+void acquire(int count)
+
+/**
+ * Get number of currently available permits
+ */
+int availablePermits()
+
+/**
+ * Acquire and return all available permits
+ */
+int drainPermits()
+
+/**
+ * Makes [count] more permits available
+ * release() = release(1)
+ */
+void release(int count)
+
+/**
+ * Pseudo: acquire()
+ */
+void P()
+
+/**
+ * Pseudo: release()
+ */
+void V()
+```
+
+## Thread
+
+```java
+/**
+ * Interrupts the thread; thread must abide by
+ * interruption to actually be affected
+ */
+void interrupt()
+
+/**
+ * Checks if thread is interrupted
+ */
+boolean isInterrupted()
+
+/**
+ * Makes current thread wait for specified thread to die
+ * Optionally add long parameter for max number of millis
+ * to wait
+ */
+void join()
+
+/**
+ * Launches thread by making JVM call run()
+ */
+void start()
+
+/**
+ * Sleeps current thread for specified time
+ */
+static void sleep(long millis) throws InterruptedException
+```
+
+## Object
+
+```java
+/**
+ * Wakes up single thread waiting on monitor
+ * Often times, notifyAll() is preferred
+ */
+void notify()
+
+/**
+ * Wakes up all threads all threads waiting on monitor
+ */
+void notifyAll()
+
+/**
+ * Causes current thread to wait until notify()
+ * or notifyAll() is called from this object
+ * Optionally specify timeout (long millis)
+ */
+void wait() throws InterruptedException
+```
 
 # Lecture 1. 2018/01/09
 
