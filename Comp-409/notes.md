@@ -1,8 +1,6 @@
 # Comp 409
 
-> Clark Verbrugge 
-
-> [Course Webpage](http://www.sable.mcgill.ca/~clump/comp409/)
+> Clark Verbrugge  &bull; [Course Webpage](http://www.sable.mcgill.ca/~clump/comp409/)
 
 # Acronyms
 
@@ -17,6 +15,9 @@ CV | Condition Variable
 FA | Fetch and Add
 FMT | Fine-grained Multi Threaded
 IPC | Instructions Per Cycle
+JLE | Jump Less Than
+JMP | Jump
+JNS | Jump Not Signed
 ME | Mutual Exclusion
 MP | Multi-Processor
 NUMA | Non-Uniform Memory Access
@@ -29,9 +30,6 @@ TS | Test and Set
 TSD | Thread Specific Data
 UMA | Uniform Memory Access
 UP | Uni-Processor
-JNS | Jump Not Signed
-JLE | Jump Less Than
-JMP | Jump
 
 # Interfaces
 
@@ -571,7 +569,7 @@ SCHED_OTHER | offered by OS
 init:
     stage: id -> stage
     int stage[n]
-    waiting stage ->id 
+    waiting stage -> id 
     initiation[n]
     stage 1 -> not trying to set n?
 
