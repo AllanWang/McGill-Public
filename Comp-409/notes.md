@@ -1431,17 +1431,18 @@ Intel/AMD
         * Lp : if the lock is not held by another process, `p` can acquire it
         * Up : if `p` has the lock & WB<sub>p</sub> is empty, we can release the lock
         * progress condition : all buffered writes are eventually committed
-        * Example<br>
-          P: WB<sub>p</sub> = [0x55] = 0 | Q: WB<sub>q</sub> = [0x55] = 7
-          ---|---
-          Lock : Inc [0x55] |
-          Lp |
-          Rp[0x55] = 0 |
-          Wp[0x55] = 1 |
-          &tau;p (0x55 = 0) |
-          &tau;p (0x55 = 1) |
-          Up |  &tau;q
-	  
+        * Example
+
+          | P: WB<sub>p</sub> = [0x55] = 0 | Q: WB<sub>q</sub> = [0x55] = 7 |
+          |---|---|
+          | Lock : Inc [0x55] | |
+          | Lp | |
+          | Rp[0x55] = 0 | |
+          | Wp[0x55] = 1 | |
+          | &tau;p (0x55 = 0) | |
+          | &tau;p (0x55 = 1) | |
+          | Up | &tau;q |
+
             * Without lock, p can begin increment, q can set to 7, and p can increment the new value by 1 &rarr; 8
         * spinlock
             * Address of lock is eax
