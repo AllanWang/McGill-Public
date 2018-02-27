@@ -1047,7 +1047,7 @@ while true
     else
         while numThreads != 0
             yield()
-
+```
 Sense Reversing Barrier
 
 ```java
@@ -1316,16 +1316,17 @@ Note that cases like (0, 0) is not possible; invalid interleaving
 --- 
 Write-buffering
 
-P0 | WB0 | Mem | P1 | WB1
---- | --- | --- | --- | ---
-x = 1 | &rarr; x = 1 | x = 0 | y = 2 | &rarr; y = 2 
-- | - | y = 0 | - | -
-b = y | &rarr; b = 0 | a = 0 | - | -
-- | - | - | a = x | &rarr; a = 0
-- | writes x | x = 1 | - | -
-- | - | y = 2 | - | writes y
-- | - | a = 0 | - | -
-- | - | b = 0 | - | -
+
+| P0 | WB0 | Mem | P1 | WB1
+| --- | --- | --- | --- | ---
+| x = 1 | &rarr; x = 1 | x = 0 | y = 2 | &rarr; y = 2 
+| - | - | y = 0 | - | -
+| b = y | &rarr; b = 0 | a = 0 | - | -
+| - | - | - | a = x | &rarr; a = 0
+| - | writes x | x = 1 | - | -
+| - | - | y = 2 | - | writes y
+| - | - | a = 0 | - | -
+| - | - | b = 0 | - | -
 
 As a result, with buffering, we can have (0, 0).
 
@@ -1345,7 +1346,7 @@ As a result, with buffering, we can have (0, 0).
        ---|---|---|---
        x = 1 | x = 3 | a = x(1) | d = x (3)
        y = 2 | y = 4 | b = y (2) | e = y (4)
-       &mdash; | &mdash; | c = x (3) | f = x (1)
+       | - | - | c = x (3) | f = x (1)
 
     * T2 sees T0 before T1
     * T3 sees T1 before T0
@@ -1439,7 +1440,8 @@ Intel/AMD
           Wp[0x55] = 1 |
           &tau;p (0x55 = 0) |
           &tau;p (0x55 = 1) |
-          Up | &tau;q
+          Up |  &tau;q
+	  
             * Without lock, p can begin increment, q can set to 7, and p can increment the new value by 1 &rarr; 8
         * spinlock
             * Address of lock is eax
