@@ -594,7 +594,7 @@ exit id:
 
 From last class, part of the proof was by contradiction (at least one thread left behind)
 
-Let $t_A% be the last thread at level stage to write init
+Let $t_A$ be the last thread at level stage to write init
 Waiting stage = $t_A$
 
 Another thread is in $t_X$
@@ -680,9 +680,9 @@ exit:
 
 ```java
 enter:
-    while(lock == 1)
+    while (lock == 1)
     while (TS(lock, 1) == 1)
-        while(lock == 1)
+        while (lock == 1)
 ```
 
 * Not FCFS
@@ -727,6 +727,7 @@ MCS
     }
     ```
     * Each thread has node and a static tail
+
 ```java
 enter:
     me.next = null
@@ -851,7 +852,7 @@ Producer/Consumer (bounded buffer)
 
 ```java
 produce:
-    while(true)
+    while (true)
         Data d = produce()
         P(spaces)
         buffer[pindex] = d
@@ -859,7 +860,7 @@ produce:
         V(filled)
 
 consumer:
-    while(true)
+    while (true)
         Data d;
         p(filled)
         d = buffer[cindex]
