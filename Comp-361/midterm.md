@@ -70,6 +70,15 @@ This is a UML class diagram.
 * Like an environment model, but showcasing only what is necessary to create the system interactions
 * Cards may be grouped to show the system/object for which they belong to
 
+### Dependency Model
+
+* Usage dependency - dashed arrow with `<<use>>`
+    * `<<call>>`, `<<instantiate>>`, `<<parameter>>`
+* Transient references pass by parameters - dashed arrow pointing from caller to parameter
+* Navigation represent accessibility - solid arrow pointing from reference holder (with count: `0..c`) to reference, with the name as the annotation; note that this association can be bidirectional
+* Composition arrows (from holder to reference) is used to represent associations where the reference cannot live outside the existence or timeline of the holder
+* References that cannot be changed can be annotated with `{frozen}`
+
 ## Behavioural Models
 
 ### Operation Model
@@ -108,3 +117,23 @@ This is a UML class diagram.
 * Responsibilities may be surrounded by box dictating entity
 * Stubs may have multiple annotated out paths
 * Can use timers, with either an input condition (dot is filled) or an output timeout value (dot has clock symbol, timeout line is jagged)
+
+---
+
+### Communication Design
+
+> Compact model for simple flows
+
+* Dewey decimal for sequencing and concurrency
+* `*` to represent repetition
+* `var := method()` to represent return
+* `'` or many `'`s to represent switch cases
+
+### Sequence Diagram
+
+> Sequence of messages between objects
+
+* `name:type` with lifelines
+* Optional `*` to denote many (method calls or objects)
+* Objects can be created/destroyed during execution, denoted with `{new}` and `{destroyed}`. Those created then destroyed are `{transient}`
+* Destruction at the end of an execution is denoted by a cross on the lifeline

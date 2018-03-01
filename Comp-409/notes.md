@@ -1447,7 +1447,7 @@ Intel/AMD
             * Address of lock is eax
             * Start: Lock : Dec[eax]
               JNS : enter (jump no sign)
-            * Spin: CMP [eax], 0
+            * Spin: CMP[eax], 0
               JLE : spin
               JMP start (jump)
             * Exit : MOV[eax], 1
