@@ -1,0 +1,776 @@
+\documentclass[12pt]{article}
+	\usepackage{hyperref, fancyhdr, setspace, enumerate}
+	\usepackage{tabulary}
+	\usepackage{amsmath, amsthm, amssymb, array, keycommand, lastpage, amssymb, xcolor, mathtools}
+	\usepackage{multiaudience}
+	\usepackage{makecell}
+	\usepackage{enumitem}
+	\usepackage[margin=1 in]{geometry}
+	\allowdisplaybreaks
+	\hypersetup{
+		%colorlinks=true, %set true if you want colored links
+		linktoc=all, %set to all if you want both sections and subsections linked
+		linkcolor=black, %choose some color if you want links to stand out
+	}
+	\author{Allan Wang} 
+	\date{Last updated: \today}
+	\title{MATH 323: Probability}
+	\pagestyle{fancy}
+	\lhead{MATH 323}
+	\chead{\leftmark}
+	\rhead{Allan Wang}
+	\cfoot{Page \thepage \ of \pageref{LastPage}}
+	
+	% Only number for sections
+	\setcounter{secnumdepth}{1}
+	
+	\newcommand\mm[1]{\begin{pmatrix}#1\end{pmatrix}}
+
+	\setlength{\parindent}{0pt}
+	
+	\SetNewAudience{notes}
+	\SetNewAudience{full}
+	
+	\setlist[enumerate]{itemsep=0mm}
+	\setlist[itemize]{itemsep=0mm}
+
+	\newcommand{\tab}[1]{\hspace{.2\textwidth}\rlap{#1}}
+	
+	\newcommand{\comment}[1]{}
+
+	\newcommand{\mathcomment}[0]{\quad\color{blue}}
+
+	\newcommand{\bigsum}[2]{\sum\limits_{#1}^{#2}}
+
+	\newcommand{\ddef}[1]{\textcolor{blue}{#1}}
+	
+	\newcommand{\real}[0]{\mathbb{R}}
+	
+	\newcommand{\uu}[1]{\underbracket{#1}}
+
+	\newkeycommand{\ccup}[sub=i=1, sup=\infty, base=A_i] {
+		\bigcup_{\commandkey{sub}}^{\commandkey{sup}}\commandkey{base}
+	}
+
+	\newkeycommand{\ccap}[sub=i=1, sup=\infty, base=A_i] {
+		\bigcap_{\commandkey{sub}}^{\commandkey{sup}}\commandkey{base}
+	}
+
+	\newkeycommand{\llim}[sub=n \rightarrow \infty, base=A_n] {
+		\lim_{\commandkey{sub}}\commandkey{base}
+	}
+
+	\newkeycommand{\ssum}[sub=i=1, sup=k] {
+		\sum_{\commandkey{sub}}^{\commandkey{sup}}	
+	}
+
+	\newenvironment{block}[1][Label]{\underline{#1}\par}{}
+%	\newenvironment{proof}{\block[Proof]}{\endblock}
+	\newenvironment{proposition}{\block[Proposition]}{\endblock}
+	\newenvironment{lemma}{\block[Lemma]}{\endblock}
+%	\newenvironment{theorem}{\block[Theorem]}{\endblock}
+	\newenvironment{remark}{\block[Remark]}{\endblock}
+	\newenvironment{definition}{\block[Definition]}{\endblock}
+
+	\newcommand{\bb}[1]{\left\{#1\right\}}
+	\newcommand{\pp}[1]{\left(#1\right)}
+	\newcommand{\abs}[1]{\left|#1\right|}
+
+	\newcommand{\divider}[0]{\par\textcolor{lightgray}{\rule{\textwidth}{0.1pt}}}
+	
+	\newenvironment{claim}{\textit{Claim:}}{\hfill $\square$}
+	
+	\newenvironment{remarks}{\underline{Remarks}\par}{}
+	
+	\newenvironment{example}{\shownto{-,notes}\underline{Example}\par}{\par\divider\endshownto}
+	
+	\newenvironment{eqn}{\equation\alignedat{3}}{\endalignedat\endequation}
+	
+	\newcommand{\todo}[0]{\textcolor{red}{\textbackslash\textbackslash TODO \ }}
+	
+	\newcounter{theorem}
+	\newcommand{\theorem}[1]{\refstepcounter{theorem}\par\medskip
+		\underline{Theorem~\thetheorem. #1}}
+	
+	\let\oldperp\perp
+	\renewcommand{\perp}[0]{\oldperp\!\!\!\oldperp}
+
+\begin{document}
+\onehalfspacing
+\maketitle
+\tableofcontents
+\pagebreak
+\section{2018/01/10}
+
+\ddef{Experiment - process by which an observation is made}
+
+\ddef{Random Experiment - experiment where:}
+
+\begin{itemize}
+	\item A collection of every possible outcome can be observed prior to its performance
+	\item It can be repeated under the same condition
+\end{itemize}
+
+\ddef{Samples Space $(S, \Omega)$ - collection of every possible outcome in an experiment}
+
+\begin{itemize}
+    \item Ex dice tossing is an experiment since we observe the number appearing on the other side
+\end{itemize}
+
+\ddef{Kolmogorov Axioms - for every event $A$ in $\Omega$, the probability of an event $P(A)$ satisfied}
+
+\begin{enumerate}
+	\item $P(A) \ge 0$
+	\item $P(\Omega) = 1$
+	\item $P(\ccup) = \ssum[sup=\infty] P(A_i)$ when $A_i \cap A_j = \emptyset \ \forall i \ne j$
+\end{enumerate}
+
+$$P(A) = \frac{n(A)}{n(\Omega)}$$
+
+\section{2018/01/12}
+
+\subsection{Limit of Sequence of Sets}
+
+\ddef{Non-decreasing sequence - sequence of \(A_i\) such that \(A_j \subseteq A_k\) if \(i < k\)}
+
+\ddef{Non-increasing sequence - sequence of \(A_i\) such that \(A_j \supseteq A_k\) if \(i > k\)}
+
+\divider
+
+\underline{Example 1}
+\begin{eqn}
+	\text{Let } A_k & = \bb{x \mid 1 < x \le 2 - \frac{1}{k}} \\
+	A_1 & = \bb{x \mid 1 < x \le 2 - \frac{1}{1}} \\
+	A_2 & = \bb{x \mid 1 < x \le 2 - \frac{1}{2}} \\
+	& \vdots \\
+	A_k & = \bb{x \mid 1 < x \le 2 - \frac{1}{k}} \\
+\end{eqn}
+
+\(\because\) the sequence is non-decreasing.
+
+\(\therefore \llim = \ccup = \bb{x \mid 1 < x < 2}\)
+
+Note that \(x < 2\) is open
+
+\divider
+
+\underline{Example 2} \\
+
+\(A_k = \bb{x \mid 1 < x \le x + \dfrac{1}{k}}\)
+
+Note that the sequence is non-increasing.
+
+\(\llim = \ccap = \bb{x \mid 1 < x \le 1} = \emptyset\)
+
+Note that \(x \le 1\) is still closed.
+
+\divider
+
+\subsection{Partition \& Inequalities}
+
+\ddef{Partition - sequence of mutually exclusive sets which together form the whole. More formally:}
+
+Let \(\bb{A_i}_{i = 1}^{\infty (k)}\) be a sequence of sets
+
+\(A_i \le \Omega, \forall i\)
+
+\begin{tabular}{@{} l l}
+If		& (a) \(A_i \cap A_j = \emptyset, \forall i \ne j\) \\
+		& (b) \(\ccup[sup=\infty (k)] = \Omega \) \\
+Then 	& $\bb{A_i}_{i=1}^{\infty(k)}$ is a partition of sample space $\Omega$
+\end{tabular}
+
+Note that if $B$ is any subset of $\Omega$ \& $\bb{A_i, ..., A_k}$ is a partition of $\Omega \Rightarrow B = \ccup[sup=k, base=(A_i \cap B)]$.
+
+\divider
+
+\theorem{Kolmogorov Probability Measure}
+	
+Let \(F\) be a set that collects possible sets from \(\Omega\)
+
+P: \(F \rightarrow R^+\) is called a probability measure if
+
+\begin{enumerate}[label=(\alph*)]
+	\item \(P(A) \ge 0 \quad \forall A \in F \text{non-negative}\)
+	\item \(P(\Omega) = 1\)<br>
+	\item \(P(\ccup) = \Sigma_{i=1}^{\infty} P(A_i), A_i \cap A_j = \emptyset \quad \forall i \ne j\)
+\end{enumerate}
+
+Some extensions:
+
+\begin{enumerate}
+	\item \(P(\phi) = 0\)
+	\item \(P(\ccup[sup=k]) = \Sigma_{i=1}^{k} P(A_i), A_i \cap A_j = \emptyset \quad \forall i \ne j\)
+	\item \(P(A^C) = 1 - P(A)\)
+	\item \(A \subseteq B \Rightarrow P(A) \le P(B)\)
+	\item \(P(A \cup B) = P(A) + P(B) - P(A \cap B)\)
+	\item \(P(A_1 \cup A_2 \cup A_3) = P(A_1) + P(A_2) + P(A_3) - P(A_1 \cap A_2) - P(A_2 \cap A_3) - P(A_1 \cap A_3) + P(A_1 \cap A_2 \cap A_3)\)
+\end{enumerate}
+
+\begin{claim}
+\begin{eqn}
+		&& P(\phi) &= 0 &\\
+		\because \ && \Omega & = \Omega \cup \phi &\\
+		\therefore \ && P(\Omega) & = P(\Omega \cup \phi) &\\
+		&& & = P(\Omega) + P(\phi) & \mathcomment (\therefore \Omega \cap \phi = \phi) \\
+		&& & = 1+ P(\phi) &\\
+		\therefore \ && P(\phi) &= 0 &
+\end{eqn}
+\end{claim}
+
+\begin{claim}
+	\begin{eqn}
+		&& P(A^C) &= 1 - P(A) &\\
+		\because \ && \Omega & = A \cup A^C &\\
+		\therefore \ && P(\Omega) &= P(A \cup A^C) &\\
+		&& &	= P(A) + P(A^C) & \mathcomment (A \cap A^C = \phi) \\
+		\therefore \ && 1 &= P(A) + P(A^C) &\\
+		\therefore \ && P(A^C) &= 1 - P(A) &
+	\end{eqn}
+\end{claim}
+
+\begin{claim}
+	\begin{eqn}
+			A \subseteq B & \Rightarrow P(A) \le P(B) &\\
+			P(B) & = P(A \cup (A^C \cap B)) &\\
+			& = P(A) + P(A^C \cap B) & \mathcomment (A \cap (A^C \cap B) = \emptyset) \\
+			& \ge P(A) &
+	\end{eqn}
+\end{claim}
+
+\begin{claim}
+	\begin{eqn}
+		&& P(A \cup B) &= P(A) + P(B) - P(A \cap B) &\\
+		\because \ && A \cup B &= A \cup (A^C \cap B) &\\
+		\therefore \ && P(A \cup B) &= P(A \cup (A^C \cap B)) & \mathcomment (A \cap (A^C \cap B) = \emptyset) \\
+		&&&= P(A) + P(A^C \cap B) &\\
+		\textit{Note} && P(B) &= P((A \cap B) \cup (A^C \cap B)) &\\
+		&&&= P(A \cap B) + P(A^C \cap B) &\\
+		\Rightarrow \ && P(A^C \cap B) &= P(B) - P(A \cap B) &
+	\end{eqn}
+\end{claim}
+
+\subsection{Conditional Probability and Baye's Rule}
+
+\ddef{The conditional probability of an event A, given that an event B has occurred, is equal to $P(A \mid B) = \frac{P(A \cap B)}{P(B)}$ if $P(B) > 0$}
+
+Remark 1:
+
+Here A is the event whose uncertainty we want to update, and B is the evidence we observe (or want to treat as given)
+
+We call \(P(A)\) the prior probability of \(A\), and \(P(A \mid B)\) the posterior probability of A.)
+
+\ddef{Prior - before updating based on evidence}
+
+\ddef{Posterior - after updating based on evidence}
+
+Remark 2:
+
+\(P(A \mid B)\) is a probability measure
+
+Check 1:
+
+\(P(A \mid B) = \frac{P(A \cap B)}{P(B)} > 0\)
+
+Since \(P(B) > 0\) and \(P(A \cap B) > 0\)
+
+Check 2:
+
+\(P(\Omega \mid B) = \frac{P(\Omega \cap B)}{P(B)} = \frac{P(B)}{P(B)} = 1\)
+
+Check 3:
+
+see check 3
+
+\subsection{Bonferroni Inequalities}
+Let $A_1, A_2, ..., \in F$ \\
+$\Rightarrow P(\ccup) \le \ssum[sup=n] P(A_i)$
+
+\begin{proof}
+	\begin{equation}
+		\begin{alignedat}{2}
+			&& \ccup[sup=k] &= A_i \cup (A^C_1 \cap A_2) \cup (A^C_1 \cap A^C_2 \cap A_3) \cup ... \cup (A^C_1 \cap ... \cap A^C_{k-1} \cap A_k) \\
+			\Rightarrow \ && P(\ccup[sup=k]) &= P(A_1) + P(A^C_1 \cap A_2) + P(A^C_1 \cap A^C_2 \cap A_3) + ... \\
+			&&& \le P(A_1) + P(A_2) + P(A_3) + ... P(A_k) \\
+			&&&= \ssum P(A_i)
+		\end{alignedat}
+	\end{equation}
+\end{proof}
+
+\begin{proof}
+	\begin{equation}
+		\begin{alignedat}{3}
+		\textit{Let } && B^C_i &= A_i &\\
+		&& P(\ccap) &= P(\ccap[base=B^C_i]) &\\
+		&& &= P((\ccup[base=B_i])^C) & \mathcomment \text{by DeMorgan} \\
+		&& &= 1 - P(\ccup[base=B_i]) &\\
+		&& & \ge 1 - \ssum[sup=\infty] P(B_i) & \mathcomment \text{by Boole's Inequality} \\
+		&& &= 1 - \ssum[sup=\infty]P(A^C_i)
+		\end{alignedat}
+	\end{equation}
+\end{proof}
+
+\section{2018/01/17}
+
+\ddef{Independence between two events $A$ and $B$, denoted as $A \perp B$, is when:}
+
+\begin{itemize}
+	\item $P(A \mid B) = P(A)$
+	\item $P(B \mid A) = P(B)$
+	\item $P(A \cap B) = P(A) P(B)$
+\end{itemize}
+
+The following statements are equivalent
+
+\begin{enumerate}
+	\item $A \perp B \Leftrightarrow A^C \perp B$
+	\item $A \perp B \Leftrightarrow A^C \perp B^C$
+	\item $A \perp B \Leftrightarrow A \perp B^C$
+\end{enumerate}
+
+\theorem{Baye's Rule}
+
+Assume $\bb{A_1, A_2, ..., A_k}$ is a partition of $\Omega$ such that $P(A_i) > 0 \ \forall i$. For $B \subseteq \Omega$, we have
+
+\begin{enumerate}[label=(\alph*)]
+	\item Law of total probability 
+	\begin{eqn}
+		P(B) &= P \pp{\ccup[sup=k, base=(A_i \cap B)]} \\
+		&= \ssum P(A_i \cap B) \\
+		&= \ssum P(B \mid A_i) P(A_i)
+	\end{eqn}
+
+	\item \begin{eqn}
+		P(A_i \mid B) &= \frac{A_i \cap B}{P(B)} \\
+		&= \frac{P(B \mid A_i) P(A_i)}{\ssum P(B \mid A_i) P(A_i)}
+	\end{eqn}
+\end{enumerate}
+
+\begin{example} 
+	(Baye's Rule) \\
+	You have two coins, one fair and one biased with a $\frac{3}{4}$ probability of landing on heads. You pick a coin at random and flip it three times, resulting in three heads. What is the probability that the coin is fair? \\
+	
+	\underline{Solution}
+	
+	\begin{itemize}
+		\item Let $A_1 = P(\text{fair coin})$
+		\item Let $A_2 = P(\text{biased coin})$
+		\item Let $B = P(\text{fair coin \& three heads})$
+	\end{itemize}
+	
+	\begin{eqn}
+		P(A_1 \mid B) &= \frac{P(A_1 \cap B)}{P(B)} \\
+		&= \frac{P(A_1) P(B \mid A_1)}{P(B)} \\
+		&= \frac{P(A_1) P(B \mid A_1)}{P(A_1) P(B \mid A_1) + P(A_2) P(B \mid A_2)} \\
+		&= \frac{\frac{1}{2} \cdot \pp{\frac{1}{2}}^3}{\frac{1}{2} \cdot \pp{\frac{1}{2}}^3 + \frac{1}{2} \cdot \pp{\frac{3}{4}}^3} \\
+		&\approx 0.23		
+	\end{eqn}
+\end{example}
+
+\section{2018/01/19}
+
+\begin{remarks}
+	\begin{enumerate}
+		\item Before flipping the coin, we thought we were equally likely to have picked the fair coin as the biased coin, ie $P(A) = P(A^C) = 0.5$ \\
+		However, upon observing three heads, it becomes more likely that we have chosen the biased coin, as $P(A^C \mid B) = 1 - 0.23 = 0.77$
+		
+		\item It is incorrect to say that $P(A) = 1$, as $P(A)$ is the probability prior to the observation, and we have merely observed that $P(A \mid A) = 1$
+	\end{enumerate}
+\end{remarks}
+
+\begin{example}
+	\begin{itemize}
+		\item Bowl $A_1$: 3 red \& 7 blue chips
+		\item Bowl $A_2$: 8 red \& 2 blue chips
+	\end{itemize}
+
+	Tossing a die, bowl $A_1$ is selected if a 5 or a 6 is rolled. Otherwise, $A_2$ is selected. \\
+	Find the probability that the chip is from $A_1$ given that it is red ($P(A_1 \mid \text{Red})$)
+	
+	\begin{equation}
+		\begin{alignedat}{2}
+			& P(A_1) &&= \frac{n(5 \text{ or } 6)}{n(\Omega)} = \frac{2}{6} \\
+			& P(A_2) &&= \frac{4}{6} \\
+			& P(\text{Red} \mid A_1) &&= \frac{3}{10} \\
+			& P(\text{Red} \mid A_2) &&= \frac{8}{10} \\
+			& P(A_1 \mid \text{Red}) &&= \frac{P(A_1 \cap A)}{P(A)} \\
+			& &&= \frac{P(A_1) \cdot P(A \mid A_1)}{P(A_1) \cdot P(A \mid A_1) + P(A_2) \cdot P(A \mid A_2)} \\
+			& &&= \frac{\frac{2}{6} \cdot \frac{3}{10}}{\frac{2}{6} \cdot \frac{3}{10} + \frac{4}{6} \cdot \frac{8}{10}} \\
+			& &&= \frac{3}{19}
+		\end{alignedat}
+	\end{equation}
+\end{example}
+
+\subsection{Permutation \& Combination}
+
+\begin{example}
+	What's the probabiltiy that 20 people have different birthdays? Assume that the year has 365 days
+	
+	\begin{eqn}
+		& P(A) &&= \frac{n(A)}{n(\Omega)} \\
+		& n(\Omega) &&= 365 \times 365 \times 365 ... \times 365 \\
+		& n(A) &&= 365 \times 364 \times 363 \times ... 346 \\
+		\therefore \ & P(A) &&= \frac{365 \times 364 \times ... \times 346}{365^{20}}
+	\end{eqn}
+\end{example}
+
+\ddef{Permutation - An ordered arrangement of $r$ distinct objects from a set of $n$, denoted as $P^n_r$}
+
+\begin{eqn}
+	P^n_r = \frac{n!}{(n - r)!}
+\end{eqn}
+
+\begin{example} 
+	There are 6 people on the bus, and 10 stops remaining. What's the probability that each person gets off at a different stop?
+\end{example}
+
+\ddef{Combination - An unordered arrangement of $r$ distinct objects from a set of $n$, denoted as $\mm{n \\ r} = C^n_r =\frac{n!}{r! (n - r)!}$} \\
+
+\begin{example}
+	How many different choices of drawing 5 cards from a standard deck of 52 playing cards?
+\end{example}
+
+\begin{example}
+	How many different permutations are there of the letters in the word "book"?
+\end{example}
+
+\section{2018/01/24}
+
+To find the permutation of $n$ elements, compute $\frac{n!}{a! b! c! ...}$, where $a, b, c$ are the number of repeating elements for each distinct element.
+
+\begin{example}
+	Permutation of the word "STATISTICS" ~\\ 
+	3 S's, 3 T's, 2 I's, 1 A, 1 C \\
+	$$\frac{10!}{3! 3! 2! 1! 1!} = 50400$$
+\end{example}
+
+To find the permutation of unique items in a round table, simply anchor one item and permute the rest.
+
+\begin{example}
+	How many permutations are there of four people playing bridge on a round table? \\
+	$$P^3_3 = 3!$$
+\end{example}
+
+\begin{example}
+	How many ways can four married couples seat themselves around a circular table such that no couple sits next to each other?
+	
+	Let $A_i$ be the event that the $i^{th}$ couple sits next to each other. Our goal is to find:
+	$$P\pp{\pp{\ccup[sup=4]}^C} = 1 - P\pp{\ccup[sup=4]}$$
+	
+	Note that when finding the probability that a couple is seated next to each other, we may simply treat the couple as one entity, and multiple the result by 2 as person $A$ may be to the left or to the right of person $B$.
+	
+	\begin{enumerate}
+		\item The probability of couple $i$ sitting together is:
+		$$\frac{\text{Permutation for 7 people (1 couple) around a round table}}{\text{Permutation for 8 people around a round table}} \cdot 2$$
+		
+		$$P(A_1) = \frac{6! \cdot 2}{8!}$$
+		
+		\item Consequently, the probability of couple $i$ and $j$ ($i \ne j$)sitting together is:
+		
+		$$\frac{5! \cdot 2^2}{7!}$$
+		
+		\item Probability of $k$ chosen couples sitting together is
+		
+		$$\frac{(7 - k)! \cdot 2^k}{7!}$$
+	\end{enumerate}
+
+	$$\therefore P\pp{\ccup[sup=4]} = C^4_1 \cdot \frac{6! \cdot 2}{7!} - C^4_2 \cdot \frac{5! \cdot 2^2}{7!} + C^4_3 \cdot \frac{4! \cdot 2^3}{7!} - C^4_4 \cdot \frac{3! \cdot 2^4}{7!} = \frac{74}{105}$$
+	
+	$$\therefore P\pp{\pp{\ccup[sup=4]}^C} = 1 - \frac{74}{105} = \frac{31}{105}$$
+\end{example}
+
+\begin{example}
+	What are the odds of getting a full house? (5 card hand containing 3 cards of the same rank and 2 cards or another rank, in any order) \\
+	
+	Solution: We are taking 3 cards of one of the 13 suits, ignoring the order, then taking 2 cards of one of the 12 remaining suits ,ignoring the order. Note that $n(\Omega) = C^{52}_5$, as we are picking 5 unique cards out of 52 possibilities.
+	
+	$$P(\text{Full House}) = \frac{C^{13}_1 \cdot C^4_3 \cdot C^{12}_1 \cdot C^4_2}{C^{52}_5}$$
+\end{example}
+
+\begin{example}
+	What's the probability for 
+	
+	\begin{enumerate}[label=\Alph*:]
+		\item At least one 6 appears when 6 fair dice are rolled
+		\item At least two 6's appear when 12 fair dice are rolled
+	\end{enumerate}
+
+	\underline{Solution}
+	\begin{enumerate}[label=\Alph*:]
+		\item \begin{eqn}
+			P(A) &= 1 - P(A^C) \\
+			&= 1 - \frac{5^6}{6^6} \\
+			&\approx 0.67
+		\end{eqn}
+		\item \begin{eqn}
+			P(B) &= 1 - P(B^C) \\
+			&= 1 - \pp{P(\text{no 6}) + P(\text{one 6})} \\
+			&= 1 - \pp{\frac{5^{12}}{6^{12}} + \frac{5^{11} \cdot C^{12}_1}{6^{12}}} \\
+			&\approx 1 - 0.38 \\
+			&= 0.62
+		\end{eqn}
+	\end{enumerate}
+
+\end{example}
+
+\begin{example}
+	The following three problems are isomorphic.
+	
+	\begin{enumerate}
+		\item How many ways are there to choose $k$ items from a set of $n$ with replacement if order does not matter?
+		\item How many ways can we put $k$ indistinguishable balls into $n$ distinguishable boxes?
+		\item How many solutions are there for:
+		$$x_1 + x_2 + ... + x_n = r$$
+		where $x_i$ is a non-negative integer for all $i$ in $0$ until $n$
+	\end{enumerate}
+\end{example}
+
+\section{2018/01/26}
+
+\begin{example}
+	You have four identical cups and seven identical balls. How many ways can you put the balls in the cups? The order of the cups matter; ie $\mid \ \therefore \ \mid \ \therefore \ \mid \ \cdot \ \mid \quad \mid$ differs from $\mid \ \therefore \ \mid \ \cdot \ \mid \ \therefore \ \mid \quad \mid$. \\
+	
+	In this example, we may treat the question like so: \\
+	We have seven identical balls, and three dividers. The dividers may be placed in any way, and will result in four sections, which may or may not be empty. This is equivalent to finding the number of permutations for 0000000111, which is $\frac{10!}{3! * 7!}$
+	
+	
+	This is denoted as $H^n_r$
+\end{example}
+
+\begin{example}
+	Let $x_1 + x_2 + x_3 + x_4 = 15$, where \\
+	$x_1 \ge 1, x_2 \ge 2, x_3 \ge 3, x_4 \ge 4$ \\
+	How non-negative integer solution are there for the equation? \\\\
+	\underline{Solution}
+	\begin{eqn}
+		\text{Let } y_1 &= x_1 - 1 \ge 0 \\
+		y_2 &= x_2 - 2 \ge 0 \\
+		y_3 &= x_3 - 3 \ge 0 \\
+		y_4 &= x_4 - 4 \ge 0 \\
+		x_1 &+ x_2 + x_3 + x_4 = 15 \\
+		&\Rightarrow (y_1 + 1) + (y_2 + 2) + (y_3 + 3) + (y_4 + 4) = 15 \\
+		&\Rightarrow y_1 + y_2 + y_3 + y_4 = 5, y \ge 0 \\
+		&\Rightarrow \frac{(4 + 5 - 1)!}{5! 31}
+	\end{eqn}
+\end{example}
+
+\subsection{Random Variables \& Probability Distributions}
+
+\ddef{Random Variable (R.V.) - $x : \Omega \rightarrow \real$ - a real valued function whose domain is a sample space}
+
+\begin{example}
+	Tossing a fair coin twice. \\
+	Let $x$ be the number of $H$s observed within 2 trials: \\
+	\begin{eqn}
+		& \Omega &&= \bb{HH, HT, TH, TT} \\
+		& X(HH) &&= 2 \\
+		& X(HT) &&= 1 \\
+		& X(TH) &&= 1 \\
+		& X(TT) &&= 0
+	\end{eqn}
+\end{example}
+
+A random variable may be:
+
+\begin{enumerate}
+	\item Discrete if the range of $x, R_x$ is a countable set
+	\item Continuous if the range of $x, R_x$ is an uncountable set (ie an interval of real numbers)
+\end{enumerate}
+
+\subsubsection{Discrete R.V.}
+
+We can always compute the probability that a random variable $X$ has a specific value by adding the probability of all sample events which result in $X$. \\
+
+Listing the possible values of $X$ and their probabilities establishes the probability distribution. This may also be done using a PMF: \\
+
+\ddef{PMF - probability mass function (for discrete R.V.) - $P(x) = P(X = x)$} \\
+Where $X$ is the R.V. and $x$ is the variate 
+
+PMF Properties
+\begin{enumerate}
+	\item $0 \le P(x) \le 1, \forall x$
+	\item $\sum_x P(x) = 1$
+\end{enumerate}
+
+A PMF row contains the sample event, probability, and the \# of cases where $X = x$
+
+\begin{example}
+	$P(X = x) = \frac{\theta}{x} P(X = x - 1), x = 1, 2, 3, ...$ \\
+	Find $P(X = x)$ \\\\
+	\underline{Solution}
+	\todo review; summation may be wrong
+	\begin{eqn}
+		P(X = x) &= \frac{\theta}{x} P(X = x - 1) \\
+		&= \frac{\theta}{x} \cdot \frac{\theta}{x - 1} \cdot P(X = x - 2) \\
+		&= \frac{\theta}{x} \cdot \frac{\theta}{x - 1} \cdot \frac{\theta}{x - 2} \cdot P(X = x - 3) \\
+		& ... \\
+		&= \frac{\theta^x}{x!} P(X = 0) \\
+		&\therefore \sum_{x=1}^\infty P(X = x) \\
+		&= \sum_{x=1}^\infty \frac{\theta^x}{x!} P(X = 0) \\
+		&= 1
+	\end{eqn}	
+\end{example}
+
+\begin{eqn}
+	e^a &= \frac{a^0}{0!} + \frac{a^1}{1!} + \frac{a^2}{2!} + ... \\
+	&= \sum_{x=0}^\infty \frac{a^x}{x!}
+\end{eqn}
+
+Another function that describes the distribution of an R.V. is the cumulative distribution function (CDF). Unlike the PMF, the CDF is defined for all R.V., not just discrete ones. \\
+
+\ddef{Cumulative Distribution Function - the function $F_x$ given by $F_x(x) = P(X \le x), x \in \real$}
+
+\section{2018/01/31}
+
+\begin{example}
+	$x ~ p(x) = \frac{x}{6}, x = 1, 2, 3$ \\
+	Find and draw the CDF of x \\
+	
+	\underline{Ans} 
+	
+	\begin{tabular}[t]{@{} l | l | l | l}
+		$x$ 	& 1 			& 2 			& 3 \\
+		\hline
+		$P(X)$	& $\frac{1}{6}$	& $\frac{2}{6}$	& $\frac{3}{6}$ \\
+		\hline
+		$F(X)$	& $\frac{1}{6}$	& $\frac{1}{6} + \frac{2}{6}$ & $\frac{1}{6} + \frac{2}{6} + \frac{3}{6} = 1$
+	\end{tabular}
+
+	\underline{Remarks}
+	\begin{enumerate}
+		\item The CDF for discrete R.V. must be a step function.
+		\item The height of a jump in the CDF at $x$ is equal to the value of PMF at $x$.
+		\item The flat region of the CDF correspond to values outside the support of $X$ so the PMF is equal to 0 in these regions.
+	\end{enumerate}
+
+	\underline{Properties for CDF}
+	
+	Any CDF $F$ has the following properties
+	
+	\begin{enumerate}
+		\item $0 \le F(x) \le 1$
+		\item Convergence to $0$ and $1$ in the limits:
+		$\lim_{x \rightarrow -\infty} F(x) = 0$, $\lim_{x \rightarrow \infty} F(x) = 1$
+		\item Non-decreasing \\
+		If $x_1 \le x_2$, then $F(x_1) \le F(x_2)$
+		\item Right continuous \\
+		The CDF is continuous except for some jumps; whenever there is a jump, the CDF is continuous from the right. That is, $F(a) = \lim_{x \rightarrow a^+} F(x) \quad \forall a$
+	\end{enumerate}
+\end{example}
+
+\subsection{Continuous Random Variable}
+
+A random variable $x$ with $CDF F$ is said to be continuous if $F(x)$ is continuous for $-\infty < x < \infty$
+
+\divider
+
+What's the relationship between $p(x) = p(X = x)$ and $F(x) = p(X \le x)$? \\
+
+\begin{eqn}
+	p(x) &= F(x) - F(x - 1) \\
+	&= \frac{F(x) - F(x - 1)}{x - (x - 1)}
+\end{eqn}
+
+$\rightarrow p(x)$ is soft of a "derivative" of $F(x)$ \\
+$\rightarrow$ This observation brings us the notation of density function for continuous r.v, which is defined as follows.
+
+\ddef{PDF - probability density function - Let $F(x)$ be the CDF for a continuous r.v. $x$. Then $f(x)$, given by $f(x) = \frac{dF(x)}{dx} = F'(x)$ whenever the derivative exists, is called the PDF for the random variable $x$.}
+
+\underline{Properties for PDF}
+
+\begin{enumerate}
+	\item If $f(x)$ is a density function, then
+		\begin{enumerate}
+			\item $f(x) \ge 0 \quad \forall x$
+			\item $\int_{-\infty}^{\infty} f(x)dx = 1$
+		\end{enumerate}
+	
+		\begin{example}
+			\begin{equation}
+				f(x) =
+				\begin{cases}
+					2x; \ 0 \le x \le 1 \\
+					0; \ o.w.
+				\end{cases}
+				\text{show } f(x) \text{ is a PDF}
+			\end{equation}
+			
+			\underline{Ans}
+			\begin{eqn}
+				& \because \quad && 0 \le x \le 1 \\
+				& \therefore && 0 \le 2x \le 2 \\
+				& \therefore && f(x) \ge 0 \quad \forall x
+			\end{eqn}
+			\begin{eqn}
+				1 &= \int_{-\infty}^{\infty} f(x)dx \\
+				&= \int_0^1 2x dx \\
+				&= 2 \cdot \int_0^1 x dx \\
+				&= 2 \cdot \frac{1}{2}x^2 \bigg\rvert_0^1 \\
+				&= 1
+			\end{eqn}	
+		\end{example}
+	
+		\begin{theorem} \\\\
+			If the random variable $x$ has PDF $f(x)$, CDF $F(x)$, and $a \le b$, then the probability that $X$ falls in interval $[a, b]$ is $p(a \le X \le b) = \int_a^b f(x) dx = F(b) - F(a)$
+		\end{theorem}
+	
+		\item 
+		\begin{equation}
+			f(x) =
+			\begin{cases}
+				2x; 0 \le x \le 1 \\
+				0; \ o.w.
+			\end{cases}
+			\text{ is a PDF}
+		\end{equation}
+		
+		Find $p(x > \frac{1}{2})$ and $p(x = \frac{1}{2})$
+		
+		\underline{Ans} \\
+		$\int_{\frac{1}{2}}^1 2x dx = 2 \cdot \frac{1}{2} x^2 \bigg\rvert_{\frac{1}{2}}^1 = \frac{3}{4}$
+		
+		\begin{remark}
+			\begin{enumerate}
+				\item For continuous r.v., $p(x = a) = 0$
+				\item For discrete r.v., $p(x = a)$ means a probability
+			\end{enumerate}
+		\end{remark}
+\end{enumerate}
+
+\begin{tabulary}{\textwidth}{L L}
+	Discrete & Continuous \\
+	\multicolumn{2}{c}{\underline{Def of a r.v.}} \\
+	X has countable support & X has uncountable support \\
+	Usually integers (eg $x \in \bb{0, 1, 2, ...})$ & Usually interval in $\real$ (eg $x \in x > 0$) \\
+	\multicolumn{2}{c}{\underline{Probability of r.v.s}} \\
+	The PMF is a function or a table that gives the probability that a discrete r.v. is exactly equal to some value $x$ ($f(x) = p(X = x) \quad \sum_{x \in \real_x} f(x) = 1$) & The PDF integrated from $a$ to $b$ yields the probability that a continuous r.v. takes on a value in the interval $[a, b]$ \qquad \qquad \qquad ($p(a \le x \le b) = \int_a^b f(x) dx$ \qquad \qquad $\int_{-\infty}^{\infty} f(x) dx = 1$) \\
+	$F(x) = P(X \le x) = \sum_{t \le x} f(t)$ & $F(x) = P(X \le x) = \int_{-\infty}^x f(t) dt$
+\end{tabulary}
+
+\section{2018/02/02}
+
+\subsection{Transformation for univariate random variable}
+
+Goal is to find the probability distribution of a function of random variables
+
+\begin{enumerate}
+	\item For discrete r.v.: directly plug in
+	
+	\begin{example}
+		$x \sim p(x) = \frac{(\lvert x \rvert + 1)^2}{9}, x = -1, 0, 1$ \\
+		Find distribution of $y = x^2$ \\
+		$y = 0 \rightarrow P(Y = 0) = P(X = 0) = \frac{1}{9} \\ y = 1 \rightarrow P(Y = 1) = P(X = -1) + P(X = 1) = \frac{8}{9}$ \\
+		(Note sum $ = 1$) 
+	\end{example}
+
+	\item Jacobian Transformation (For continuous r.v.)
+	
+	\begin{block}[Lemma]
+		Let $x$ be a continuous r.v. with PDF $f(x)$. Let $Y = g(x)$, where $g$ is a 1 to 1 and differentiable function. \\
+		$f_Y(y) = f_x\pp{g^{-1}(y)} \abs{\frac{dg^{-1}(y)}{dy}} = f_X \pp{g^{-1} (y)} \cdot \abs{J}$
+	\end{block}
+\end{enumerate}
+
+\todo Page 8
+
+\end{document}

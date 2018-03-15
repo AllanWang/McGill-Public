@@ -30,6 +30,7 @@ TS | Test and Set
 TSD | Thread Specific Data
 UMA | Uniform Memory Access
 UP | Uni-Processor
+LL | Linked List
 
 # Interfaces
 
@@ -1451,3 +1452,22 @@ Intel/AMD
               JLE : spin
               JMP start (jump)
             * Exit : MOV[eax], 1
+
+# Lecture 13. 2018/03/13
+
+Missed class
+
+# Lecture 12. 2018/03/15
+
+Lock free designs make use of CAS, LL/SL, etc as opposed to locks
+
+```java
+tryAdd(Node n, Node prev):
+    n.next = prev.next
+    return CAS(prev.next, n.next n)
+```
+
+Sadly these naive methods do not work.
+Given a list H &rarr; `x` &rarr; `y` &rarr; `z` &rarr; T:
+
+If one thread tries to remove `x`, and another thread tried to add `w` between `x` and `y`, `w` will be lost.
