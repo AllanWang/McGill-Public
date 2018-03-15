@@ -1470,4 +1470,87 @@ tryAdd(Node n, Node prev):
 Sadly these naive methods do not work.
 Given a list H &rarr; `x` &rarr; `y` &rarr; `z` &rarr; T:
 
-If one thread tries to remove `x`, and another thread tried to add `w` between `x` and `y`, `w` will be lost.
+1. If one thread tries to remove `x`, and another thread tries to add `w` between `x` and `y`, `w` will be lost.
+2. If onne thread tries to remove `x` and another thread tries to remove `y`, both may succeed with `y` remaining in the list.
+
+
+Various solutions exist
+* Valois - "auxiliary nodes"
+* Time Harris - lazy solution - mark node to be deleted then delete lazily
+
+---
+
+```java
+
+tryAdd(Node n, Node prev):
+    next = prev.next
+    return CAS(prev.next, n.next to false, n to false)
+
+tryRemove(Node n, Node prev):
+    Node succ = n.next
+    if CAS(n.next, succ to false, succ to true): // mark first
+        CAS(prev.next, n to false, succ to false)  // delete is ok to fail
+        return true
+    return false
+
+find(int data):
+    while(true):
+        pred = H
+        curr = pred.next
+        while curr != T: @restart
+            succ = curr.next
+            while curr.marked:
+                if !CAS(pred.next, curr to false, succ to false):
+                    continue@restart
+                curr = succ
+                succ = curr.next
+            if curr.data == data:
+                return curr
+            pred = curr
+            curr = succ
+        return null
+
+```
+
+### Elimination Stack
+
+With a lock-free stack, we still have a lot of contention. Stack ops are fundamentally sequential. However, if `push()` and `pop()` show up at the same time, it might be better to just short-circuit the whole thing. ie, `push()` gives the value to `pop`; `push + pop` cancel/do nothing.
+
+---
+
+Lock free exchanger (2 threads exchange data)
+* state info (pair of <value, state>)
+* need atomic operators to r/w pair atomically
+* value: data exchange
+* state: `EMPTY`, `WAITING`, `BUSY`
+    * `EMPTY` - ready to do the swap <br> CAS(pair, null to EMPTY, A to EMPTY)
+        * CAS to set the slow to item & state `WAITING`, but only if the state is `EMPTY`
+        * If successful:
+            * wait for the first thread to show up
+            * spin until we see the state as `BUSY`
+            * grab item & set state to `EMPTY`
+        * If we wait for too long
+            * Try & give up
+            * Use CAS to set back to `EMPTY` <br> CAS(pair, A to `EMPTY`, null to `EMPTY`)
+                * If successful, we go & do push/pop
+                * Else complete the exchange    
+    * `WAITING` - one thread (second thread to show up)
+        * check the state &rarr; not `EMPTY`
+        * grab item
+        * try CAS(pair, A to `WAITING`, B to `BUSY`)
+            * If successful, we have done our part
+            * If fail, restart to resolve push/pop
+    * `BUSY` - two threads (third thread to show up &rarr; give up)
+        * second thread has completed the exchange
+        * grab value `B` 
+        * set state to `EMPTY`
+
+Can associate an exchange for the state
+* push(x) is expected to exchange x for null
+* pop() is expected to exchange null for x
+* if successful, don't need to actually go through the state
+* in fact, we can associate an array of exchangers
+    * threads above random index to try for an exchange
+* try for a while, if a matching push/pop does not show up or a non-matching situation
+    * push/posh or pop/pop occurs, give up & resort to the lock free stack
+* Java's exchanger is based on an array of exchangers
