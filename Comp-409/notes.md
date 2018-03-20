@@ -1457,7 +1457,7 @@ Intel/AMD
 
 Missed class
 
-# Lecture 12. 2018/03/15
+# Lecture 14. 2018/03/15
 
 Lock free designs make use of CAS, LL/SL, etc as opposed to locks
 
@@ -1554,3 +1554,63 @@ Can associate an exchange for the state
 * try for a while, if a matching push/pop does not show up or a non-matching situation
     * push/posh or pop/pop occurs, give up & resort to the lock free stack
 * Java's exchanger is based on an array of exchangers
+
+# Lecture 15. 2018/03/20
+
+Lock Free algorithms are problematic in the way that references from deallocated objects may be resued unknowingly
+
+Universal construction - almost any data structure can be made into a lock free version
+* Assume data stracture has some interface. We can make another interface that wraps the original to ensure that the invocations are sequential
+* Need threads to agree on the order of operations in the log &rarr; consensus 
+
+```java
+newInvoc(...):
+    do:
+        j = consensus i
+    while i != j
+    // we are now the next op
+
+    s = tail
+    r = tail.state
+    do:
+        r = r.apply s  // without modifying data, check the previous ops to update the state
+        s = s.next
+    while s != i
+
+    return r
+```
+
+One concern is that our consensus algorithm is one shot and not reusable. However, knowing that we can construct a new consensus object with each invocation, this is not an issue.
+
+## Open MP
+
+Not a language, but rather a set of directives (structured comments: pragma) on top of an existing language that makes parallelism easy
+
+| | |
+| --- | --- |
+`#pragma omp parallel` | For single statements
+`#pragma omp for` | For loops; will be partitioned amongst the thread team
+`#pragma omp sections` | Another way of partitioning work
+`#pragma omp single` | Part within section that should only be executed by one thread
+`#pragme omp master` | Part that must be executed by a specified thread (master)
+
+## Data Model
+
+Threads share static, heap data
+
+* `shared(x, y, z)`
+* `private(x, y, z)` - each thread has its own copy; uninitialized, not persistent
+* `threadPrivate(x, y, z)` - like private, but persistent & presumably initialized
+* `firstPrivate` - var is initialized from the present scope
+* `lastPrivate` - value is given back to the parent
+* `reduction(opList)` - opList can be + (init at 0) or * (init at 1)
+
+...
+
+* flush - mian maechanism for synchronzing cache & memory
+    * commits any pending writes
+    * invalidates cached copies
+    * rules
+        * if intersection of 2 flush sets is non-empty, flushes must be sseen in same order by everyone
+        * if thread redds, writes, modifies in flush set, program order is respected
+        * atomic ops have implicit flush of the vars involved
