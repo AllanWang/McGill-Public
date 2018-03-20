@@ -83,6 +83,8 @@
 \newcommand{\bb}[1]{\left\{#1\right\}}
 \newcommand{\bbb}[1]{\left[#1\right]}
 \newcommand{\pp}[1]{\left(#1\right)}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\ang}[1]{\langle#1\rangle}
 
 \newcommand{\divider}[0]{\par\textcolor{lightgray}{\rule{\textwidth}{0.1pt}}}
 
@@ -1348,5 +1350,139 @@
 	\end{remark}
 
 	Discussed and got back midterms
+	
+	\section{2018/03/20}
+	
+	\subsection{Inner Product}
+	
+	\begin{block}[Review: Dot Product]
+	$u, v \in \real^n$
+	
+	$u \cdot v = \ssum u_i v_i$ where $u = \m{u_1 \\ u_2 \\ \vdots \\ u_n} \ v = \m{v_1 \\ v_2 \\ \vdots \\ v_n}$
+	
+	\begin{block}[Properties]
+		\begin{eqn}
+			u \cdot v &= v \cdot u \\
+			(u_1 + u_2) \cdot v &= u_1 \cdot v + u_2 \cdot v \\
+			(\alpha u) \cdot v &= \alpha (u \cdot v) \\ 
+			u \cdot u &= \ssum u_i^2 \ge 0
+		\end{eqn}
+	\end{block}
+	
+	\end{block}
+
+	\begin{block}[Cauchy-Schwarz Inequality]
+		$\abs{u \cdot v} \le \sqrt{u \cdot u} \sqrt{v \cdot v} = \abs{\abs{u}} \abs{\abs{v}}$ \\ 
+		If $u \ne 0$ and $v \ne 0$, then $\frac{\abs{u \cdot v}}{\abs{\abs{u}} \abs{\abs{v}}} \le 1$ \quad ie $-1 \le \frac{\abs{u \cdot v}}{\abs{\abs{u}} \abs{\abs{v}}} \le 1$ \\
+		$\frac{\abs{u \cdot v}}{\abs{\abs{u}} \abs{\abs{v}}} = cos(\theta)$ where $\theta \in \bbb{0, \pi}$ \\
+		$\theta$ is called the angle between $u$ and $v$
+	\end{block}
+	
+	\divider
+	
+	\begin{block}[Definition (Inner Product)]
+		Let $V$ be a vector space. \\
+		An inner product on $V$ is a function denoted $\ang{,}: V \times V \rightarrow \real$. \\
+		(It associates to any pair $(u, v) \in V \times V$ as a number denoted $\ang{u, v}$)
+		
+		\begin{block}[Properties]
+			\begin{enumerate}
+				\item $\ang{u, v} = \ang{v, u}$ \quad (Symmetry)
+				\item Whenever $u_1, u_2, c \in V \ \alpha_1 \alpha_2 \in \real$: \\
+				$\ang{\alpha_1 u_1 + \alpha_2 u_2, v} = \alpha_1 \ang{u_1, v} + \alpha_2 \ang{u_2, v}$
+				\item $\ang{u, u} \ge 0$ and $\ang{u, u} = 0$ iff $u = 0_v$
+			\end{enumerate}
+		\end{block}
+	\end{block}
+
+	\begin{examples}
+		\item $V = \real^n$ \\ 
+		$\ang{u, v} = u \cdot v = \uu{\m{u}^T}_{1 \times n} \uu{\m{v}}_{n \times 1}$
+		\item $V = \real^2$
+		$u_1 = \m{x_1 \\ y_1} \ u_2 = \m{x_2 \\ y_2}$ \\
+		\begin{eqn}
+			\ang{u_1, u_2} &= x_1 x_2 - y_1 y_2 \\ 
+			&= \m{x_1 & y_1} \m{x_2 \\ -y_2} \\ 
+			&= \m{x_1 & y_1} \uu{\m{1 & 0 \\ 0 & -1}}_A \m{x_2 \\ y_2} \\
+			&= \m{u_1}^T A \m{u_2}
+		\end{eqn}
+	
+		\begin{enumerate}
+			\item \begin{eqn}
+				\ang{u_2, u_1} &= \m{u_2}^T A \m{u_1} \\ 
+				\ang{u_2, u_1} &= \uu{\m{u_2}^T A \m{u_1}}_{1 \times 1} \\ 
+				&= \pp{\m{u_2}^T A \m{u_1}}^T \\ 
+				&= \m{u_1}^T A^T \m{u_2} \quad \mathcomment{(A = A^T)} \\ 
+				&= \m{u_1}^T A \m{u_2} \\ 
+				&= \ang{u_1, u_2}
+			\end{eqn}			
+		\item \begin{eqn}
+			\ang{\alpha_1 u_1 + \alpha_2 u_2, v} &= \m{\alpha_1 u_1 + \alpha_2 u_2}^T A \m{v} \\ 
+			&= \pp{\alpha_1 \m{u_1}^T + \alpha_2 \m{u_2}^T} A \m{v} \\
+			&= \alpha_1 \ang{u_1, v} + \alpha_2 \ang{u_2, v}
+		\end{eqn}
+		\item 
+		\begin{eqn}
+			\ang{u, u} &= \m{u}^T A \m{u} \\
+			&= x^2 - y^2 \quad \mathcomment{\text{if} \m{u} = \m{x \\ y}}
+		\end{eqn}
+		If $\m{u} = \m{0 \\ 1}$, then $\ang{u, u} = -1 < 0$ \\
+		Therefore, $\ang{,}$ is not an inner product on $V = \real^2$
+		\end{enumerate}
+	
+		\item $V = \real^2$ \\
+		$\ang{u, v} = \m{u}^T A \m{v}$ where $A = \m{2 & -2 \\ -2 & 6}$ \\
+		$u_1 = \m{x_1 \\ y_1} \ u_2 = \m{x_2 \\ y_2}$ \\
+		$\ang{u_1, u_2} = 2 x_1 x_2 - 2(x_1 y_2 + x_2 y_1) + 6y_1 y_2$ \\
+		
+		Since $A = A^T$, $\ang{u, v} = \ang{v, u}$ \\
+		It is clear that $\ang{\alpha_1 u_1 + \alpha_2 u_2, v} = \alpha_1 \ang{u_1, v} + \alpha_2 \ang{u_2, v}$
+		\begin{eqn}
+			\ang{u, u} &= \m{u}^T A \m{u} \quad \mathcomment{\text{if} \m{u} = \m{x \\ y}} \\ 
+			\ang{u, u} &= 2x^2 - 4xy + 6y^2 \\ 
+			&= 2(x^2 - 2x6) + 6y^2 \\
+			&= 2((x - y)^2 - y^2) + 6y^2 \\
+			&= 2(x - y)^2 + 4y^2 \ge 0
+		\end{eqn}
+	
+		\begin{equation}
+			\text{Moreover,} \ang{u, u} = 0 \Leftrightarrow
+			\begin{cases}
+			x - y = 0 \\y = 0
+			\end{cases}
+			\text{ie} \m{u} = \m{0 \\ 0}
+		\end{equation}
+	\end{examples}
+
+	\subsection{Diagonalization of A}
+	(Based on example 3 above for $A = \m{2 & -2 \\ -2 & 6}$)
+	\begin{enumerate}
+		\item Characteristic Polynomial 
+		\begin{eqn}
+			P_A &= det(A - \lambda I_2) \\ 
+			&= det \m{2 - \lambda & -2 \\ -2 & 6 - \lambda} \\
+			&= (\lambda - 2)(\lambda - 6) - 4 \\
+			&= \lambda^2 - 8\lambda + 12 - 4 \\
+			&= \lambda^2 - 8\lambda + 8
+		\end{eqn}
+	
+		\item Eigenvalues 
+		\begin{eqn}
+			\lambda_1 &= 4 + 2\sqrt{2} \\
+			\lambda_2 &= 4 - 2\sqrt{2} 
+		\end{eqn}
+	
+		\item Eigenvectors \\
+		$A - \lambda_1 I_2 = \mm{-2 + 2\sqrt{2} & -2 \\ -2 & 2 + 2\sqrt{2}}$: \quad
+		$x_1 = \m{1 \\ -1 + \sqrt{2}}$ is an eigenvector \\
+		
+		$A - \lambda_2 I_2 = \mm{-2 - 2\sqrt{2} & -2 \\ -2 & 2 - 2\sqrt{2}}$: \quad
+		$x_2 = \m{1 \\ -1 - \sqrt{2}}$ is an eigenvector \\
+		
+		$x_1 \cdot x_2 = 1 + \pp{(-1)^2 - (\sqrt{2})^2}^2 = 0$ 
+		
+		\item Diagonalization \\
+		$A = PDP^{-1} = \m{1 & 1 \\ -1 + \sqrt{2} & -1 - \sqrt{2}} \m{4 - 2\sqrt{2} & 0 \\ 0 & 4 + 2\sqrt{2}} \pp{\frac{1}{-2\sqrt{2}} \m{-1-\sqrt{2} & -1 \\ 1 - \sqrt{2} & 1}}$ \\
+	\end{enumerate}
 	
 \end{document}
