@@ -76,7 +76,7 @@
 % \newenvironment{examples}{\underline{Examples}\enumerate}{\endenumerate\divider}
 \newenvironment{examples}{\shownto{-,compact}\underline{Examples}\enumerate}{\endenumerate\divider\endshownto}
 
-\newenvironment{example}{\shownto{-,compact}\underline{Example}~\\}{\divider\endshownto}
+\newenvironment{example}{\shownto{-,compact}\underline{Example}\par}{\divider\endshownto}
 
 \newenvironment{test}{\shownto{-,compact}\enumerate}{\endenumerate\endshownto}
 
@@ -1484,5 +1484,162 @@
 		\item Diagonalization \\
 		$A = PDP^{-1} = \m{1 & 1 \\ -1 + \sqrt{2} & -1 - \sqrt{2}} \m{4 - 2\sqrt{2} & 0 \\ 0 & 4 + 2\sqrt{2}} \pp{\frac{1}{-2\sqrt{2}} \m{-1-\sqrt{2} & -1 \\ 1 - \sqrt{2} & 1}}$ \\
 	\end{enumerate}
+
+	\section{2018/03/22}
+
+	$\ang{u, v} = \m{u}^T A \m{v}$ \\
+	$\ang{u, v} = \ang{v, u}$ \ for this property to hold, we need $A = A^T$; ie $A$ must be symmetric \\
+	$\ang{u, v}$ is clearly linear in $u$. \\
+	The last property: $\ang{u, u} \ge 0$ and $\ang{u, u} = 0 \Leftrightarrow u = 0$ \\
+	
+	\begin{definition}
+		A symmetric matrix $A$ such that $\m{u}^T A \m{u} \ge 0 \ \forall u \in \real^n$ and $\m{u}^T A \m{u} = 0$ only for $u = 0$ is called a positive definite matrix
+	\end{definition}
+
+	\begin{example}
+		$I_n$ is an $n \times n$ positive definite matrix
+	\end{example}
+	
+	\begin{proposition}
+		If $A$ is positive definite, then $\ang{u, v} = \m{u}^T A \m{v}$ defines an inner product on $\real^n$
+	\end{proposition}
+	
+	\begin{theorem}
+		If $A$ is a symmetric matrix then $A$ is diagonalizable. Moreover, there exists a matrix $Q$ such that $Q^{-1} = Q^T$ and $A = QDQ^T$ where $D$ is a diagonal matrix.
+	\end{theorem}
+	
+	\begin{remark}
+		An $n \times n$ matrix, such that $Q^{-1} = Q^T$ (or equivalently $QQ^T = Q^TQ = I_n$) is called an orthogonal matrix. \\
+		If $x_i$ is the $i^{th}$ column of $Q$, then $x_i^Tx_i = 1$ and $x_i^Tx_j = 0$ whenever $i \ne j$
+	\end{remark}																							
+
+	\begin{example}
+		$(n = 2)$ \\
+		$A = \m{5 & 1 \\ 1 & 5}$ \\
+		\begin{eqn}
+			P_A(\lambda) &= det(A - \lambda I_2) \\
+			&= (\lambda - 5)^2 - 1 \\
+			&= (\lambda - 6)(\lambda - 4) \\\\
+			\lambda_1 &= 6 \\
+			\lambda_2 &= 4
+		\end{eqn}
+	
+		\begin{itemize}
+			\item $\lambda_1 = 6$ \quad $A - \lambda_1 I_2 = \mm{-1 & 1 \\ 1 & -1}$ \\
+			$A - \lambda_1 I_2)X = 0 \Leftrightarrow X = t\m{1 \\ 1} \ t$
+			\item $\lambda_2 = 4$ \quad $A - \lambda_2 I_2 = \mm{1 & 1 \\ 1 & 1}$ \\
+			$A - \lambda_2 I_2)X = 0 \Leftrightarrow X = t\m{-1 \\ 1}$
+		\end{itemize}
+		
+		$A = PDP^{-1}$ where $D = \m{6 & 0 \\ 0 & 4}, P = \m{1 & -1 \\ 1 & 1}$ \\
+		Choose $Q = \m{\frac{1}{\sqrt{}} & -\frac{1}{\sqrt{2}} \\ \frac{1}{\sqrt{2}} & \frac{1}{\sqrt{2}}}$ \quad $Q$ is an orthogonal matrix \quad $A = QDQ^T$
+		
+			\begin{block}[Question]
+			Is $\ang{u, v} = \m{u}^T A \m{v}$ an inner product in $\real^2$?
+			Equivalently, is $A$ a positive definite matrix?
+			
+			\begin{eqn}
+				\ang{u, u} &= \m{u}^T A \m{u} \\
+				&= \m{u}^T Q D Q^T \m{u} \\
+				&= \pp{Q^T \m{u}}^T D \pp{Q^T \m{u}}
+			\end{eqn}
+			
+			Let $S$ be the basis of $\real^2$ such that \\
+			$\m{u}_S = Q^T \m{u} \quad \quad S = \bb{\m{\frac{1}{\sqrt{2}} \\ \frac{1}{\sqrt{2}}}, \m{-\frac{1}{\sqrt{2}} \\ \frac{1}{\sqrt{2}}}}$ \\
+			$\ang{u, u} = \m{u}_S^T D \m{u}_S$ \quad if $\m{u}_S = \m{x_1 \\ x_2}$ \\
+			$\ang{u, u} = \lambda_1 x_1^2 + \lambda_2 x_2^2$ \\
+			This defines an inner product iff $\lambda_1 > 0$ and $\lambda_2 > 0$ \\
+			$A = \m{5 & 1 \\ 1 & 5}$ \\
+			$u = \m{x \\ y} \quad v = \m{x' \\ y'}$ \\
+			\begin{eqn}
+				\ang{u, v} &= 5xx' + (xy' + x'y) + 5yy' \\
+				\ang{u, u} &= 5x^2 + 2xy + 5y^2 \\
+				&= 6x_1^2 + 4y_1^2
+			\end{eqn}
+		\end{block}
+	\end{example}
+
+	\begin{block}[Exercise]
+		Let $A = \m{-4 & -2 & 4 \\ -2 & -1 & 2 \\ 4 & 2 & -4}$ 
+		\begin{enumerate}
+			\item Find $Q$ such that $A = QDQ^T$; $Q$ is the orthogonal matrix, and $D$ is the diagonal matrix
+			\item is $\ang{u, v} = \m{u}^T A \m{v}$ an inner product in $\real^3$?
+		\end{enumerate}
+	\end{block}
+
+	\begin{block}[Other examples of inner product]
+		\begin{enumerate}
+			\item Let $V = P_n$ \\
+			$\ang{p, q} = \int_0^1 p(t)q(t)dt$ \\
+			(Example: $p(t) = t, q(t) = t - 1, \ang{p, q} = \int_0^1 t(t - 1)dt = -\frac{1}{6}$)
+			
+			\begin{enumerate}
+				\item \begin{eqn}
+					\ang{q, p} &= \int_0^1 q(t)p(t)dt \\
+					&= \int_0^1 p(t)q(t)dt = \ang{p, q}
+				\end{eqn}
+				\item \begin{eqn}
+					\ang{p_1 + p_2, q} &= \int_0^1 (p_1(t) + p_2(t)) q(t) dt \\
+					&= \int_0^1 p_1(t)q(t)dt + \int_0^1 p_2(t)q(t)dt \\
+					&= \ang{p_1, q} + \ang{p_2, q}
+				\end{eqn}
+				\item \begin{eqn}
+					\ang{p, p} = 0 &\Leftrightarrow \int_0^1 p^2(t)dt = 0 \\
+					&\Leftrightarrow p^2(t) = 0 \quad \forall t \in (0, 1) \\
+					&\Leftrightarrow p(t) = 0 \quad \forall t \in (0, 1)
+				\end{eqn}
+			
+				$x_i = \frac{1}{i} \quad i = 1, 2, 3, ..., n$ \\
+				$x_i \in (0, 1) \quad P(x_i) = 0$ \\
+				$p(t) = C(x - x_i) ... (x - x_n)$ \\
+				$p(x_{n + 1}) = 0 \Leftrightarrow C(x_{n + 1} - x_i) ... (x_{n + 1} - x_n) = 0 \Rightarrow C = 0$
+				$\therefore p = 0$
+				
+				Let $\uu{\rho(t) > 0}_{\text{weight function}}$ on $(0, 1)$ \\
+				$\ang{p, q}_\rho = \int_0^1 \rho(t)p(t)q(t)dt$
+			\end{enumerate}
+		
+			\item $V = M_{n \times n}$ \\
+			$\ang{A, B} = tr(A^T B)$ 
+			\begin{enumerate}
+				\item \begin{eqn}
+					\ang{B, A} &= tr(B^T A) \\
+					&= tr\pp{(B^T A)^T} \\
+					&= tr(A^T B) \\
+					&= \ang{A, B}
+				\end{eqn}
+			
+				\item \begin{eqn}
+					\ang{A, A} &= tr(A^T A) \\\\
+					A &= (a_{ij}) \\
+					tr(A^T A) = \sum_i (A^T A)
+				\end{eqn}
+			
+				Let $\uu{x_i}_{n \times 1}$ be the $i^{th}$ column of $A$ \\
+				$(A^T A)_{ii} = X_i^T x_i$ \\
+				$tr(A^T A) = \sum_{i = 1}^r x_i^T x_i \ge 0$ \\
+				also
+				\begin{eqn}
+					 \ang{A, A} = 0 &\Rightarrow \quad && x_i^T x_i = 0 \quad && \forall i \\
+					 &ie && x_i = \uu{0}_{n \times 1} && \forall i \\
+					 &ie && A = \uu{0}_{n \times n}
+				\end{eqn}
+			\end{enumerate}
+		\end{enumerate}
+	\end{block}
+
+	\begin{block}[Cauchy-Schwarz Inequality]
+		\begin{proposition}
+			Let $\ang{,}$ be an inner product on a vector space $V$ \\
+			$\ang{u, v} \big|^2 \le \ang{u, u} \ang{v, v}$
+		\end{proposition} \\
+		\begin{proof}
+			Let $u, v \in V$ be fixed \\
+			Define $F(t) = \ang{u + tv, u + tv}$ \\
+			Note that $F(t) \ge 0 \quad \forall t$ \\
+			Also $F(t) = \ang{u, u} + 2t \ang{u, v} + t^2 \ang{v, v}$ \\
+			Therefore the discriminant $\Delta' = \ang{u, v}^2 - \ang{u, u} \ang{v, v} \le 0$
+		\end{proof}
+	\end{block}
 	
 \end{document}
