@@ -39,12 +39,12 @@ public class EnqDeqValidator {
                     break;
                 case "deq":
                     if (list.isEmpty()) {
-                        p("Failed %d: attempted to dequeue %s on empty list", i, id);
+                        p("Failed %d (%s): attempted to dequeue %s on empty list", i, line, id);
                         return false;
                     }
                     String actualId = list.removeFirst();
                     if (!id.equals(actualId)) {
-                        p("Failed %d: dequeued %s, expected %s", i, actualId, id);
+                        p("Failed %d (%s): dequeued %s, expected %s", i, line, actualId, id);
                         valid = false;
                     }
                     break;
