@@ -1297,7 +1297,116 @@
 
 	\section{2018/03/13}
 	
-	\todo
+	(Copied from someone else's notes)
+	
+	\subsection{Matrix Representation of Linear Transformation}
+	
+	$T: V \rightarrow V, dim(V) = n$ \\
+	If $B = \bb{\vv}$ is a basis of $V$, \\
+	there exists a (unique) $n \times n$ matrix denoted $[T]_B$ such that $\forall u \in V$ \\
+	$\uu{[T(\v{u})]_B}_{note 1} = [T]_B \uu{[\v{u}]_B}_{note 2}$ \\
+	note 1: coordinates of $T(\v{u})$ relative to $B$ \\
+	note 2: coordinates of $\v{u}$ relative to $B$
+	
+	\begin{remark}
+		Given that $B = \bb{\vv}$, the $i^{th}$ column of $[T]_B$ is $[T(u_i)]_B$
+	\end{remark}
+
+	\begin{block}[Properties]
+		\begin{enumerate}
+			\item If $T_1$ and $T_2$ are linear transformations from $V$ into $V$: $[T_1 + T_2]_B = [T_1]_B + [T_2]_B$
+			
+			\begin{eqn}
+				\because && \quad [(T_1 + T_2)(u)]_B &= [T_1(u) + T_2(u)]_B \\
+				&& &= [T_1(u)]_B + [T_2(u)]_B \\
+				&& &= \pp{[T_1]_B + [T_2]_B}[u]_B \\
+				\therefore && \quad [T_1 + T_2]_B &= [T_1]_B + [T_2]_B
+			\end{eqn}
+		
+			\item If $T: V \rightarrow V$ is a linear transformation and $\alpha \in \real$, $[\alpha T]_B = \alpha [T]_B$
+			
+			\item Let $T_1: V \rightarrow V$, $T_2: V \rightarrow V$ be 2 linear transformations. $[T_1 \circ T_2]_B = [T_1]_B [T_2]_B$
+			
+			\begin{eqn}
+				[T_1 \circ T_2 (u)] &= [T_1(T_2(u))]_B \\
+				&= [T_1]_B [T_2(u)]_B \\
+				&= [T_1]_B [T_2]_B [u]_B
+			\end{eqn}
+		
+			\item $T: V \rightarrow V$ is an isomorphism iff $[T]_B$ is invertible. Moreover, $[T^{-1}]_B = \pp{[T]_B}^{-1}$
+		\end{enumerate}
+	\end{block}
+
+	\subsection{Change of Basis}
+	
+	$T: V \rightarrow V dim(V) = n$ \\
+	$B = \bb{\vv}$ and $S = \bb{\vv[base=v]}$ \\
+	
+	Let $P$ be the $n \times n$ matrix such that every $i^{th}$ column is $[v_i]_B$ \\
+	If $\v{u} \in V$, then $[u]_B = P [u]_S$ \\
+	$\v{u} = \sum x_i v_i \quad [u]_S = \m{x_1 \\ x_2 \\ \vdots \\ x_n}$ \hfill
+	$[u]_B = \sum_i x_i [v_i]_B = P \m{x_1 \\ x_2 \\ \vdots \\ x_n} = P[u]_S$ \\
+	P is the transition matrix from $S$ to $B$ 
+	
+	\divider
+	
+	Let $u \in V$ \\
+	\begin{eqn}
+		&& [T(u)]_S &= P^{-1} [T(u)]_B \\
+		&& &= P^{-1} [T]_B [u]_B \\
+		&& &=P^{-1} [T_B] P[u]_S \\
+		\therefore && \quad [T]_S &= P^{-1} [T]_B P
+	\end{eqn}
+	
+	\begin{example}
+		\begin{eqn}
+			V &= P_2 \\
+			T(p)(n) = x p'(n) \\
+			B &= \bb{\uu{1}_{p_1}, \uu{x}_{p_2}, \uu{x^2}_{p_3}} \\
+			S &= \bb{\uu{1 + x}_{q_1}, \uu{2x - 1}_{q_2}, \uu{x^2 + x}_{q_3}} \\
+			T(p_1)(x) &= 0 \\
+			T(p_2)(x) &= x \\
+			T(p_3)(x) &= 2x^2 \\
+			[T]_B &= \m{0 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 2} \\
+			Null([T]_B) &= \sspan{\m{1 \\ 0 \\ 0}} = Ker(T) \\
+			Ker(T) &= \bb{tp_1, t \in \real} = \sspan{p_1} \\
+			T(q_1)(x) &= x = \frac{1}{3}(q_1 + q_2) \\
+			T(q_2)(x) &= 2x = \frac{2}{3}(q_1 + q_2) \\
+			T(q_3)(x) &= 2x^2 + x = 2(x^2 + x) - x = 2q_3 - \frac{1}{3} (q_1 + q_2) \\
+			[T]_B &= \m{\frac{1}{3} & \frac{2}{3} & -\frac{1}{3} \\ \frac{1}{3} & \frac{2}{3} & -\frac{1}{3} \\ 0 & 0 & 2}
+		\end{eqn}
+	
+		Using the formula $[T]_S = P^{-1} [T]_B P$
+		
+		$P = \m{1 & =1 & 0 \\ 1 & 2 & 1 \\ 0 & 0 & 1}$ \hfill
+		$P^{-1} = \m{\frac{2}{3} & \frac{1}{3} & -\frac{1}{3} \\ -\frac{1}{3} & \frac{1}{3} & -\frac{1}{3} \\ 0 & 0 & 1}$
+	\end{example}
+
+	\subsubsection{Generalization}
+	
+	$T: V \rightarrow W$ is a linear transformation \\
+	$dim(V) = n, B = \bb{\vv}$ is a basis of $V$ \\
+	$dim(W) = m, S = \bb{\vv[base=v]}$ be a basis of $W$ \\
+	There exists a \underline{unique} $m \times n$ matrix \\
+	$[T]_{B, S}$ is called the matrix of $T$ relative to the bases $B$ and $S$ such that $\forall u \in V$ \\
+	$\uu{[T(u)]_S}_{m \times 1} = \uu{[T]_{B, S}}_{m \times n} \uu{[u]_B}_{n \times 1}$
+	
+	\begin{remark}
+		The $j^{th}$ column of $[T]_{B, S}$ is $[T(u_j)]_S$
+		
+		\begin{example}
+			\begin{eqn}
+				T &: P_3 \rightarrow P_2 \\
+				T(p(n) &= p'(n) \\
+				B &= \bb{1, x, x^2, x^3} \\
+				S &= \bb{\uu{1 + x}_{q_1}, \uu{2x - 1}_{q_2}, \uu{x^2 + x}_{q_3}} \\
+				3x^2 &= 3[(x^2 + x) - x] \\
+				&= 3q_3 - 3x \\
+				&= 3q_3 - q_1 - q_2 \\
+				[T]_{BS} &= \m{0 & \frac{2}{3} & \frac{2}{3} & -1 \\ 0 & -\frac{1}{3} & \frac{2}{3} & -1 \\ 0 & 0 & 0 & 3}
+			\end{eqn}
+		\end{example}
+	\end{remark}
 	
 	\section{2018/03/15}
 	
