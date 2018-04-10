@@ -136,3 +136,38 @@ $$Cap(A, B) = \sum_{x \in T} (M - P_x) + \text{number of matches } xy \text{ wit
         * Create constraint such that every coefficient of our new inequality matches (y variable summation &ge; c)
         * Solving this will give us the best upper bound
         * Note that this also leads to a minimization in standard form
+
+# NP-Completeness & Computational Interactability
+
+> Undecidable problems - problems that cannot be solved by any algorithm
+
+* Undecidable Problem Examples
+    * Halting problem - given code with input, decide whether it eventually terminates
+    * Given 10 types of equally sized square tiles with four colours on each edge, can we place them such that touching edges have the same colour without rotation? The pattern must be fully repeating on both axes
+
+
+* P problems - solvable in polynomial time
+* Decision problems - yes/no problems
+* NP problems - verifiable in polynomial time
+    * 3-Colourability - given an undirected graph, can we colour the vertices such that no 2 neighbouring vertices are the same colour? 
+* CoNP problems - no inputs are easy to verify
+* Exp problems - solvable in exponential time
+
+* Certifier
+    * Takes in input `<w, t>`
+    * |t| &le; O(|w|<sup>c</sup>) where c is a fixed constant
+    * w is a yes input &hArr; &exist; t for which our certifier accepts `<w, t>`
+
+* Polynomial Time Reductions
+    * X is polynomial-time reducible to Y if there is an efficient "oracle" algorithm that solves X in polynomial time (using the oracle) whether y is a yes input for Y or not
+    * Written as X &le;<sub>p</sub> Y
+    * Thm: If X &le;<sub>p</sub> Y and Y &in; P &rArr; X &in; P
+
+* CNF - conjunctive normal form - collection of clauses containing or's, and joined by and's
+
+* SAT problem - given CNF, can we assign T/F values to variables such that the clauses are all true?
+* Thm: Every problem X in NP can be polynomially reduced to SAT
+
+* Showing that problem Z is NP-Complete 
+    * Show that Z has an efficient certifier
+    * Reduce SAT or any other NP-Complete problem to Z

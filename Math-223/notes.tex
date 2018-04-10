@@ -58,7 +58,6 @@
 	\commandkey{co}_1\v{\commandkey{base}_1} + \commandkey{co}_2 \v{\commandkey{base}_2} + ... + \commandkey{co}_{\commandkey{end}} \v{\commandkey{base}_{\commandkey{end}}}	
 }
 
-% TODO customize style
 \newcommand{\uu}[1]{\underbracket{#1}}
 
 \newcommand{\todo}[0]{\text{\textcolor{red}{\textbackslash\textbackslash TODO \ }}}
@@ -1497,7 +1496,7 @@
 		\begin{block}[Properties]
 			\begin{enumerate}
 				\item $\ang{u, v} = \ang{v, u}$ \quad (Symmetry)
-				\item Whenever $u_1, u_2, c \in V \ \alpha_1 \alpha_2 \in \real$: \\
+				\item Whenever $u_1, u_2, v \in V \ \alpha_1 \alpha_2 \in \real$: \\
 				$\ang{\alpha_1 u_1 + \alpha_2 u_2, v} = \alpha_1 \ang{u_1, v} + \alpha_2 \ang{u_2, v}$
 				\item $\ang{u, u} \ge 0$ and $\ang{u, u} = 0$ iff $u = 0_v$
 			\end{enumerate}
@@ -1750,5 +1749,109 @@
 			Therefore the discriminant $\Delta' = \ang{u, v}^2 - \ang{u, u} \ang{v, v} \le 0$
 		\end{proof}
 	\end{block}
+
+	\section{2018/03/27}
+	
+	\todo
+	
+	\section{2018/03/29}
+	
+	\todo
+	
+	\section{2018/04/03}
+	
+	\begin{block}[Exercises]
+		\begin{enumerate}
+			\item Assume that $E, R$ are 2 subspaces of $V$ such that $E \bot F$. \\
+			Prove that $P_{E \oplus F} = P_E + P_F$
+			\item Does the above hold if $E$ is not orthogonal to $F$?
+		\end{enumerate}
+	\end{block}
+
+	\subsection{More about Projections}
+	
+	\subsubsection{$\real^n$ with the usual dot project}
+	
+	If $T, \real^n \rightarrow \real^n$ is a linear transformations, let $\m{T}$ be the standard matrix of $T$. \\
+	What are the condition(s) on $\m{T}$ so that $\m{T}$ is the standard matrix of an orthogonal projection onto a subspace $E$ of $\real^n$? \\
+	
+	If $T$ is an  orthogonal projection \\
+	$T^2(u) = T(\uu{T(u)}_{\in E}) = T(u), T^2 = T, \m{T}^2 = \m{T}$ \\
+	
+	$\real^n = Ker(T) \oplus Im(T) \qquad E = Im(T)$ \\
+	If $T$ is an orthogonal projection, we must also have $Ker(T) \bot Im(T)$ 
+	
+	\todo add spans 
+	
+	$u = \m{x \\ y} = (x - y) \m{1 \\ 0} + y \m{1 \\ 1}$ \\
+	Let $\m{T(u)} = \m{y \\ y} = \m{T} \m{x \\ y} = \m{0 & 1 \\ 0 & 1} \m{x \\ y}$ \\
+	$\m{T}^2 = \m{T}, Ker(T) = \sspan{\v{i}}, Im(T) = \sspan{\v{i} + j}$ \\
+	
+	For $T$ to be an orthogonal projection on $Im(T)$, we must have $Im(T) \bot Ker(T)$ \\
+	ie $\forall u, v \in \real^n$
+	\begin{eqn}
+		\ang{T(u), v - T(v)} &= 0 \\
+		\ang{T(u), v} &= \ang{T(u), T(v)} = \ang{u, T(V)} \\
+		\ang{T(u), v} &= \ang{u, T(v)} \\
+		\m{T(u)}^T \m{v} &= \ang{u}^T \ang{T(v)} \\
+		\m{\m{T}\m{u}}^T \m{v} &= \m{u}^T \m{T} \m{v}
+	\end{eqn}
+
+	\begin{proposition}
+		Let $P$ be an $n \times n$ matrix such that $P^2 = P$. $P$ is the standard matrix of an orthogonal projection iff $P^T = P$
+	\end{proposition}
+
+	\begin{example}
+		From lecture 18:
+		
+		$A = \m{5 & 1 \\ 1 & 5} \qquad \text{eigenvalues: } \lambda_1 = 6, \lambda_2 = 4$ \\
+		$\lambda = 6 \Rightarrow E_6 = \sspan{\m{1 \\ 1}} = \sspan{\m{\frac{1}{\sqrt{2}} \\ \frac{1}{\sqrt{2}}}}$ \\
+		$\lambda = 4 \Rightarrow E_4 = \sspan{\m{-1 \\ 1}} = \sspan{\m{-\frac{1}{\sqrt{2}} \\ \frac{1}{\sqrt{2}}}}$ \\
+		$A = QDQ^T$ where $Q = \m{\frac{1}{\sqrt{2}} & -\frac{1}{\sqrt{2}} \\ \frac{1}{\sqrt{2}} & \frac{1}{\sqrt{2}}}, D = \m{6 & 0 \\ 0 & 4}$
+		
+		\begin{block}[Exercise]
+			Prove that $A = 6P_{E_6} + 4P_{E_4}$
+		\end{block}
+	\end{example}
+
+	\section{2018/04/05}
+	
+	\todo away
+	
+	\section{2018/04/10}
+	
+	\begin{eqn}
+		(E + F)^\perp &= E^\perp \cap F^\perp \\
+		\text{If } E \perp F \text{ then } P_{E \oplus F} &= P_E + P_F
+	\end{eqn}
+
+	\begin{block}[Exercise]
+		If $P_{E + F} = P_E + P_F$, is it necessary that $E \perp F$? $E, F$ are subspaces of $V$.
+	\end{block}
+	
+	\divider
+	
+	$T: V \rightarrow V$ is an isomorphism iff $\uu{\m{T}_B}_{n \times n}$ is invertible. \\
+	
+	Let $\uu{X}_{n \times 1}$ be such that $\m{T}_B X = 0$ \\
+	Let $v \in V$ such that $\m{v}_B = X$ 
+	\begin{eqn}
+		\m{T(v)}_B &= \m{T}_B \m{v}_B \\
+		&= \m{T}_B X = 0 \\
+		\therefore \quad T(v) &= 0_v \Rightarrow v = 0_v \Rightarrow X = 0
+	\end{eqn}
+	
+	To prove the reverse, assume that $\m{T}_B$ is invertible. 
+	Let us prove that $Ker(T) = \bb{0_v}$, which is enough to show that $T$ is an isomorphism. \\
+	
+	Let $v \in Ker(T), T(v) = 0_v$ \\
+	$\m{T(v)}_B = 0$, ie $\m{T}_B \m{v}_B = 0$ \\
+	Since $\m{T}_B$ is invertible, we must have $\m{v}_B = 0$, ie $v = 0_v$
+	
+	\divider 
+	
+	If $E$ is a subspace of $V$, $E \subseteq (E^\perp)^\perp$ \\
+	Let $u \in E, \quad \forall v \in E^\perp$ \\
+	$\ang{u, v} = 0 \Rightarrow u \in (E^\perp)^\perp, E \subseteq (E^\perp)^\perp$
 	
 \end{document}

@@ -1670,3 +1670,49 @@ execute(Runnable r)
 Given runnables take in nothing and output nothing, they are not always enough. There also exists `Callable<V>` which returns `V` and allows exception throwing
 
 ExecutorServie gives different ways of executing. ThreadPoolExecutor allows for specifications for pools of threads
+
+# Lecture 17. 2018/03/27
+
+# Lecture 18. 2018/03/29
+
+# Lecture 19. 2018/04/03
+
+Last Time
+* Process algebra
+    * Message passing (synchronous)
+    * &pi;-calculus - g1/g2 - builds on ealier PA called CCS
+        * motivated by limitation in CCS
+        * calculus of mobility - mobile communication - structure can change dynamically
+        * Defined with 2 entities
+            * Processes or agents
+            * Channels or names
+        * Very abstract - no "real" arithmetic/low level data
+* ...
+* Induction definition for processes
+    * &emptyset; - process that does nothing (STOP, HALT)
+    * P & Q are processes, then P | Q is a parallel composition
+    * Choice operator, ie \&Sigma;<sub>i &in; I></sub> &pi;<sub>i</sub> P<sub>i</sub>
+    * Send: \overline{x} y, where x is channel, y is what is sent
+    * Receive: x(y), where x is channel, y is what the data will be bound to
+    * Ex (x(y) e1 | \overline{x} z e2) reduces to (e1[y &rarr; z] | e2)
+* Other constructs
+    * !P - replication operator; as many copies of P as we want
+    * (&nu; x) p - creates a new ("nu") fresh channel called x in p
+* Reduction rules
+    * PAR - processes can evolve at independent rates
+    * RES
+    * STDOUT
+    * Equivalence (structural congruence) - (vx)&emptyset; &equiv; &emptyset;, &emptyset; | P &equiv; P | &emptyset; &equiv; P
+    * Associative - (P | Q) | W &equiv; P | (Q | W) 
+
+---
+
+* &lambda;-calculus, seq progression
+* (&lambda; x (&lambda; y M)) can be simplified to (&lambda; xy M)
+
+# Lecture 20. 2018/04/05
+
+I was away
+
+# Lecture 21. 2018/04/10
+
