@@ -31,6 +31,7 @@ TSD | Thread Specific Data
 UMA | Uniform Memory Access
 UP | Uni-Processor
 LL | Linked List
+TLS | Thread Level Specialization
 
 # Interfaces
 
@@ -1716,3 +1717,65 @@ I was away
 
 # Lecture 21. 2018/04/10
 
+Last time
+* Data flow -> static data flow
+* Dynamic deletion
+* Functions from stream to stream
+    * Domain of streams - prefix ordered
+    * Constraints
+        * Monotonic - if x < y, f(x) < f(y)
+        * Continuous - eg preserves bounds
+    * Network of continuous functions is described by a aystem of (recursive) stream flow equations. The solutions describe the possible flow of our network
+* Kahn's principle
+* Cons - prepends 0 ot act as identity
+* Buriden's Ass - given a donkey between and equidistant to two bales of hay, will it ever starve by taking too long in making a decision as to which bale it will go to?
+* Buridan's Principle - for any device making a decision among a finte nuumber of possible outcomes based on a continuing possible imputs, there will be inputs for which the device takes abitrarily long to make a decision
+    * How to fix this?
+        * Default decision - only pushes the decision; when can we not decide?
+        * One decision
+* Bipartition - evey var is either a gate input & wire output, a wire input & gate output, an I/O wire
+* Integrity - each var is the output of at most one gate
+* ??? - each wire is input to at most one gate, gate output may connect to multiple wire inputs
+* Feedback - no minimal self-cycles
+* Arbiter - P<sub>in</sub>, Q<sub>in</sub>, P<sub>out</sub>, Q<sub>out</sub>
+    * Initially, P<sub>in</sub> = Q<sub>in</sub> = true; P<sub>out</sub> = Q<sub>out</sub> = false
+    * In any finite history, find state must be such that P<sub>out</sub> &ne; Q<sub>out</sub>
+    * There exists histories with P<sub>out</sub> &wedge; &not;Q<sub>out</sub> = true and &not;P<sub>out</sub> &wedge; Q<sub>out</sub> = true
+    * We want it to be
+        * Delay bounded - all histories are finite
+        * Stable - in each history, one output remains unchanged
+    * Glitch-free if delay-bounded & stable
+
+# Lecture 22. 2018/04/12
+
+* Thread-kevel specification (TLS)
+    * Similar to transactional program
+    * Automatic parallelization
+    * Takes advantage of multicore machines
+    * Aims for ok performance
+* SPMT - speculative multithreading
+    * optimistic/speculative technique
+    * Parallelize code we don't know can be parallelizable
+    * Safety guarantees to ensure correct execution
+        * Speculative threads execute in isolation - all writes are buffered, do not affefct main memory
+        * Commits buffer at join time and validates using set of assumptions with current memory
+            * If mismatch, discard result and continuing executing sequentially
+        * Buffer/isolation ensures we do not see writes from the future
+    * Major issue
+        * Overhead
+        * Hardware - cheaper but limited capacity
+        * Software - much more expensive, but with logs of capacity
+    * Deciding where to speculate
+        * Loop level speculation
+        * Method level speculations
+    * Value prediction
+        * 0, 1
+        * Last value 
+        * Last stride (diff in return values)
+    * How any spec threads can we have, and who can speculate
+        * "out of order" speculation
+            * Non spec thread can start more than one spec thread
+            * Spec threads are merged in reverse order of creation
+        * "in order" speculation
+            * Every thread can speculate at most once (speculation child)
+            * 

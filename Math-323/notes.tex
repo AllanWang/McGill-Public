@@ -206,4 +206,46 @@ Random experiment for which, given $0 < p < 1$, $P(Y = 1) = p$, $P(Y = 0) = q = 
 	\item Expectation $= p$, Variance $=pq$
 \end{enumerate}
 
+\section{Final Review}
+
+\subsection{Inequality}
+
+\begin{itemize}
+	\item Kolmogorov's Axioms \\
+	Last point: If $A_i \cap A_j = \emptyset$, then $P(A_i \cup A_j) = P(A_i) + P(A_j)$
+	\item Boole's Inequality \\
+	For $A_1, A_2, ... \in F$, $P\pp{\bigcup_{i = 1}^\infty A_i} \le \sum_{i = 1}^\infty P(A_i)$ \\
+	Prove using disjoint settings, using axiom above for summation, and showing that an intersection $A \cap B$ is always less than or equal to $A$.
+	\item Bonferroni's Inequality \\
+	For $A_1, A_2, ... \in F$, $P\pp{\bigcap_{i = 1}^\infty A_i} \ge 1 - \sum_{i = 1}^\infty P(A_i^C)$ \\
+	Prove using DeMorgan's, then Boole's to form the inequality.
+\end{itemize}
+
+\subsection{Independence}
+
+	Prove that $A$ is independent from $B$ iff $A^C$ is independent from $B$
+
+\subsection{Moment Generation Function}
+
+Used to calculate moments (expectation and variance) and showing that distributions are equal.
+
+To find the expectation, derive MGF and set $t = 0$, or derive $log(MGF)$ and set $t = 1$
+
+An MGF is composed of the normalizing constant and the kernel
+
+\subsection{Transformation}
+
+\begin{itemize}
+	\item Jacobian
+	\item CDF
+	
+	\begin{eqn}
+		P(Y \le y) &= P(g(X) \le y) \\ 
+		&= P(X \le g^{-1}(y)) \\
+		&= P_x(g^{-1}(y)) \\\\
+		f_y(y) &= F'_y(y) \\
+		&= F'_x(f^{-1}(y)) \frac{d}{dy} g^{-1}(y)
+	\end{eqn}
+\end{itemize}
+
 \end{document}
