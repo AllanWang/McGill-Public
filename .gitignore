@@ -3,6 +3,8 @@ cmake-build-debug/
 *.zip
 local.md
 
+Gemfile.lock
+
 # Jekyll
 _site
 .sass-cache/
