@@ -104,9 +104,119 @@
 
 \section{Formulas}
 
+\subsection{Mean \& Variance}
+
 \begin{tabularx}{\textwidth}{l | X | X}
 	& Mean ($\mu$) & Variance ($\sigma^2$) \\
 	General & $\overline{y} = \frac{1}{n} \sum_{i = 1}^n y_i$ & $\frac{1}{n - 1} \sum_{i = 1}^n (y_i - \overline{y})^2$
 \end{tabularx}
 
-\end{document}
+\subsection{Combination \& Permutation}
+
+\begin{itemize}
+	\item $P_r^n = \frac{n!}{(n - r)!}$
+	\item $\mm{n \\ r} = C_r^n = \frac{n!}{r! (n - r)!}$
+	\item Permutation of $n$ objects of $k$ kinds, where $n_i$ is the number of times type $k$ occurs, is $\frac{n!}{n_1! n_2! ... n_k!}$
+	\item Circular permutations (round table) with $n$ items taken $r$ at a time $ = \frac{P_r^n}{r}$
+\end{itemize}
+
+\subsection{Misc}
+
+\begin{itemize}
+	\item $P(A \mid B) = \frac{A \cap B}{P(B)}$ if $P(B) > 0$
+\end{itemize}
+
+\section{Theories \& Definitions}
+
+\subsection{Kolmogorov Axioms}
+
+$\forall A \in \Sigma$:
+
+\begin{enumerate}
+	\item $P(A) \ge 0$ (non-negative)
+	\item $P(\Sigma) = 1$ (normed)
+	\item $P \pp{\bigcup_{j = 1}^\infty A_j} = \sum_{j = 1}^\infty P(A_j)$ when $A_i \cap A_j = \emptyset \quad \forall i \ne j$ (linearly-additive)
+\end{enumerate}
+
+\subsection{De-Morgan's Theorem}
+
+\begin{enumerate}
+	\item $(A \cap B)^C = A^C \cup B^C$ 
+	\item $(A \cup B)^C = A^C \cap B^C$
+\end{enumerate}
+
+\subsection{Partition}
+
+Let $\bb{A_i}_{i = 1}^{\infty (k)}$ be a sequence of sets $A_i \le \Omega, \forall i$. If:
+
+\begin{enumerate}
+	\item $A_i \cap A_j = \emptyset, \forall i \ne j$ 
+	\item $\bigcup_{i = 1}^{\infty (k)} A_i = \Sigma$
+\end{enumerate}
+
+then we say $\bb{A_i}_{i = 1}^{\infty (k)}$ is a partition of sample space $\Omega$: $\Omega = \bigcup_{j = 1}^k A_j$
+
+\subsection{Inequalities (Boole, Bonferroni)}
+
+\begin{enumerate}
+	\item Boole's Inequality \\
+	Let $A_i, A_2, ... \in \mathcal{F}$ \\
+	$\Rightarrow P\pp{\bigcup_{i = 1}^\infty A_i} \le \sum_{i = 1}^\infty P(A_i)$ 
+	\item Bonferroni's Inequality \\
+	$P\pp{\bigcap_{i = 1}^\infty A_i} \ge 1 - \sum_{i = 1}^\infty P(A_i^C)$
+\end{enumerate}
+
+\subsection{Baye's Rule}
+
+Assume $\bb{A_1, A_2, ..., A_k}$ is a partition of $\Omega$ such that $P(A_i) > 0 \forall i$ \\
+For $B \subseteq \Omega$:
+
+\begin{enumerate}
+	\item Law of Total Probability \\
+	\begin{eqn}
+		P(B) &= P\pp{\bigcup_{i = 1}^k (A_i \cap B)} \\
+		&= \sum_{i = 1}^k P(A_i \cap B) \\
+		&= \sum_{i = 1}^k P(B \mid A_i) P(A_i) 
+	\end{eqn}
+	\item 
+	\begin{eqn}
+		P(A_i \mid B) &= \frac{P(A_i \cap B)}{P(B)} \\
+		&= \frac{P(B \mid A_i) P(A_i)}{\sum_{i = 1}^k P(B \mid A_i) P(A_i)}
+	\end{eqn}
+\end{enumerate}
+
+%-------------------------------------------------------------------------------
+
+\section{Misc}
+
+\begin{itemize}
+	\item If $\bb{A_i}_{i = 1}^\infty$ is non-decreasing, then $\lim_{n \rightarrow \infty} A_n = \bigcup_{i = 1}^\infty A_i$
+	\item If $\bb{A_i}_{i = 1}^\infty$ is non-increasing, then $\lim_{n \rightarrow \infty} A_n = \bigcap_{i = 1}^\infty A_i$
+\end{itemize}
+
+\subsection{Independence}
+
+$A$ and $B$ are independent ($A \perp B$) if any of the following holds:
+
+\begin{itemize}
+	\item $P(A \mid B) = P(A)$ 
+	\item $P(B \mid A) = P(B)$
+	\item $P(A \cap B) = P(A)P(B)$
+\end{itemize}
+
+Note that $\emptyset$ is independent to any event, and that \\
+$A \perp B \Leftrightarrow A^C \perp B \Leftrightarrow A^C \perp B^C \Leftrightarrow A \perp B^C$
+
+\newpage
+\section{Questions}
+\begin{enumerate}
+	\item How many ways can 4 married couples seat themselves around a circular table if no couple can sit next to each other?
+\end{enumerate}
+
+\newpage 
+\section{Answers}
+\begin{enumerate}
+	\item $\frac{31}{105}$ - Compute probabilities that $i$ couple(s) sit next to each other for $i$ in $1..4$ and find complement of sum.
+\end{enumerate}
+
+\end{document}   
