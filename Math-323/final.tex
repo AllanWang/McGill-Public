@@ -120,6 +120,26 @@
 	\item Circular permutations (round table) with $n$ items taken $r$ at a time $ = \frac{P_r^n}{r}$
 \end{itemize}
 
+\subsection{PMF \& CDF}
+
+PMF: Probability Mass Function
+
+Discrete r.v.: $P(x) = P(X = x)$
+
+\begin{itemize}
+	\item $0 \le P(x) \le 1, \forall x$
+	\item $\sum_x P(x) = 1$
+\end{itemize}
+
+CDF: Cumulative distribution function: $F_x(x) = P(X \le x), x \in \real$
+
+\begin{itemize}
+	\item $0 \le F(x) \le 1$
+	\item $\lim_{x \rightarrow -\infty} F(x) = 0$, $\lim_{x \rightarrow \infty} F(x) = 1$
+	\item Non-decreasing: $x_1 \le x_2 \Rightarrow F(x_1) \le F(x_2)$
+	\item Right continuous
+\end{itemize}
+
 \subsection{Misc}
 
 \begin{itemize}
@@ -211,12 +231,30 @@ $A \perp B \Leftrightarrow A^C \perp B \Leftrightarrow A^C \perp B^C \Leftrighta
 \section{Questions}
 \begin{enumerate}
 	\item How many ways can 4 married couples seat themselves around a circular table if no couple can sit next to each other?
+	\item What is the probability of getting a full house? (3 cards of some rank and 2 cards of another rank)
+	\item Find the support and realization of X, where X is the number of heads, and we are tossing a fair coin three times.
 \end{enumerate}
 
 \newpage 
 \section{Answers}
 \begin{enumerate}
-	\item $\frac{31}{105}$ - Compute probabilities that $i$ couple(s) sit next to each other for $i$ in $1..4$ and find complement of sum.
+	\item $\frac{31}{105}$ \\
+	Compute probabilities that $i$ couple(s) sit next to each other for $i$ in $1..4$ and find complement of sum.
+	\item $0.00144$ \\
+	Basic combination probability: $$\frac{(C_1^{13} \cdot C_3^4) \cdot (C_1^{12} \cdot C_2^4)}{C_5^{52}}$$
+	\item 
+	\begin{itemize}
+		\item Realization = number of occurrences per sample event. eg, HHH has realization 3, and THT has realization 1
+		\item Support = range of $x$. Here, it is 0 to 3
+		\item Table of $x$ to $P(x)$ showing the probability distribution of X: \\
+		\begin{tabular}{l | l}
+			$x$ & $P(x)$ \\
+			$0$ & $\frac{1}{8}$ \\
+			$1$ & $\frac{3}{8}$ \\
+			$2$ & $\frac{3}{8}$ \\
+			$3$ & $\frac{1}{8}$
+		\end{tabular}
+	\end{itemize}
 \end{enumerate}
 
 \end{document}   
