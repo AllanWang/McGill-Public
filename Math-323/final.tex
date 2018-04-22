@@ -74,6 +74,7 @@
 	\newenvironment{definition}{\block[Definition]}{\endblock}
 
 	\newcommand{\bb}[1]{\left\{#1\right\}}
+	\newcommand{\bbb}[1]{\left[#1\right]}
 	\newcommand{\pp}[1]{\left(#1\right)}
 	\newcommand{\abs}[1]{\left|#1\right|}
 
@@ -111,6 +112,71 @@
 	General & $\overline{y} = \frac{1}{n} \sum_{i = 1}^n y_i$ & $\frac{1}{n - 1} \sum_{i = 1}^n (y_i - \overline{y})^2$
 \end{tabularx}
 
+\subsection{Expected Value \& Variance}
+
+\begin{tabularx}{\textwidth}{X | X}
+	\textbf{General} \\
+	Probability & $p(y)$ \\
+	$E(Y)$ & $\mu = \sum_y yp(y)$ \\
+	$V(Y)$ & $\sigma^2 = E \bbb{(Y - \mu)^2} = E(Y^2) - \mu^2$ \\
+	$M_x(t)$ & $E(e^{tx})$ \\\\
+	\textbf{Bernoulli} \\
+	Realization & $x = 0, 1$ \\
+	$P_x(x)$ & $p^x(1-p)^{1-x} = p^x q^{1-x}$ \\
+	$M_x(t)$ & $(1 - p) + pe^t$ \\
+	$E(X)$ & $\sum_{x = 0}^1 x p^x q^{1-x} = p$ \\
+	$V(X)$ & $E(X^2) - E(X)^2 = p(1 - p)$ \\\\
+	\textbf{Binomial} \\
+	Realization & $x = 0, 1, ..., n$ \\
+	$P_x(x)$ & $C_x^n p^x (1-p)^{n - x}$ \\
+	$M_x(t)$ & $(pe^t + 1 - p)^n$ \\
+	$E(X)$ & $np$ \\
+	$V(X)$ & $np(1 - p)$ \\\\
+	\textbf{Geometric} \\
+	Realization & $x = 1, 2, ...$ \\
+	$P_x(x)$ & $p^x (1-p)^{x - 1}$ \\
+	$M_x(t)$ & $\frac{pe^t}{1 - (1 - p)e^t}$ \\
+	$E(X)$ & $\frac{1}{p}$ \\
+	$V(X)$ & $\frac{1 - p}{p^2}$ \\\\
+	\textbf{Negative Binomial} \\
+	Realization & $x = r, r + 1, ...$ \\
+	$P_x(x)$ & $C_{r - 1}^{x - 1} p^r q^{x - r}$ \\
+	$M_x(t)$ & $\bbb{\frac{pe^t}{1 - (1 - p)e^t}}^r$ \\
+	$E(X)$ & $r \cdot \frac{1}{p}$ \\
+	$V(X)$ & $r \cdot \frac{1 - p}{p^2}$ \\\\
+\end{tabularx}
+
+\newpage
+\begin{tabularx}{\textwidth}{X | X}
+	\textbf{Poisson} \\
+	Realization & $x = 0, 1, 2, ...$ \\
+	$P_x(x)$ & $\frac{e^{-\lambda} \cdot \lambda^x}{x!}$ \\
+	$M_x(t)$ & $e^{\lambda (e^t - 1)}$ \\
+	$E(X)$ & $\lambda$ \\
+	$V(X)$ & $\lambda$ \\\\
+	\textbf{Exponential Distribution} \\
+	Realization & $X \sim Exp(\lambda), x > 0$ \\
+	$P_x(x)$ & $\lambda e^{-\lambda x}$ \\
+	$M_x(t)$ & $\frac{\lambda}{\lambda - t}$ \\
+	$E(X)$ & $\frac{1}{\lambda}$ \\
+	$V(X)$ & $\frac{1}{\lambda^2}$ \\\\
+	\textbf{Uniform Distribution} \\
+	Realization & $a < x < b$ \\
+	$P_x(x)$ & $\frac{1}{b - a} = c$ \\
+	$M_x(t)$ & $\frac{e^{tb} - e^{ta}}{t(b - a)}$ \\
+	$E(X)$ & $\frac{a + b}{2}$ \\
+	$V(X)$ & $\frac{(b - a)^2}{12}$ \\\\
+\end{tabularx}
+
+\begin{tabularx}{\textwidth}{l | l | l | l}
+	& p(y) & $\mu = E(Y)$ & $\sigma^2 = V(Y)$ \\
+	General & p(y) & $\sum_y yp(y)$ & $E \bbb{(Y - \mu)^2} = E(Y^2) - \mu^2$ \\
+	Binomial & $\mm{n \\ y}p^yq^{n-y}$ & $np$ & $npq$ \\
+	Geometric & $q^{y - 1}p$ & $\frac{1}{p}$ & $\frac{1 - p}{p^2}$ \\
+	Negative Binomial & $\mm{y - 1 \\ r - 1} p^r q^{y - r}$ & $\frac{r}{p}$ & $\frac{r(1 - p)}{p^2}$ \quad (r = index of first occurrence) \\
+	Poisson & $\frac{\lambda^y}{y!} e^{-\lambda}$ & $\lambda$ & $\lambda$
+\end{tabularx}
+
 \subsection{Combination \& Permutation}
 
 \begin{itemize}
@@ -140,10 +206,57 @@ CDF: Cumulative distribution function: $F_x(x) = P(X \le x), x \in \real$
 	\item Right continuous
 \end{itemize}
 
+\subsection{Moment Generating Function}
+
+Given $m(t) = E(e^{tY})$, $E(Y^k) = m^{(k)}(0) = \mu'_k$, $\mu'_1 = \mu$. \\
+In finding derivatives, we can also find it against $log(m_x(t))$, as $m(0) = 1$ \\
+
+For simplification, note that $\sum_0^\infty \frac{f^t}{y!} = e^f$
+
+Properties 
+\begin{itemize}
+	\item $M_{x + a}(t) = E[e^{(x + a)t}] = e^{at} M_x(t)$
+	\item $M_{bx}(t) = E[e^{(bx)t}] = M_x(bt)$
+	\item $M_{\frac{x + a}{b}}(t) = e^{\frac{a}{b}t} M_x(\frac{t}{b})$
+\end{itemize}
+
+\subsection{Inequalities}
+\begin{itemize}
+	\item Markov: $E(x) < \infty \Rightarrow$ \\
+	$P(x \ge c) \le \frac{E(x)}{c}, \forall c > 0$
+	\item Tchebysheff: $E(x), Var(x) < \infty \Rightarrow$ \\
+	$P(\abs{x - \mu} \ge k\sigma) \le \frac{1}{k^2}$ or \\
+	$P(\abs{x - \mu} < k\sigma) \ge 1 - \frac{1}{k^2}$
+	\item Chernoff: $M_x(t)$ is a mgf of r.v. $x$, and $c > 0 \Rightarrow$ \\
+	$P(x \ge c) \le e^{-tc} M_x(t) \forall t > 0$ \\
+	$P(x \le c) \le e^{-tc} M_x(t) \forall t < 0$
+\end{itemize}
+
 \subsection{Misc}
 
 \begin{itemize}
 	\item $P(A \mid B) = \frac{A \cap B}{P(B)}$ if $P(B) > 0$
+	\item Skewness 
+	\begin{eqn}
+		\frac{\mu^3}{\sigma^3}
+		\begin{cases}
+			> 0 \quad \text{right} \\
+			= 0 \quad \text{symmetric} \\
+			< 0 \quad \text{left}
+		\end{cases}
+	\end{eqn}
+	\item Kurtosis 
+	\begin{eqn}
+		\frac{\mu^4}{\sigma^4} - 3
+		\begin{cases}
+			> 0 \quad \text{peaked} \\
+			= 0 \quad \text{normal} \\
+			< 0 \quad \text{flat}
+		\end{cases}
+	\end{eqn}
+	\item Jensen: $f(x)$ is a convex function if: \\
+	$a \cdot f(x_1) + (1 - a) \cdot f(x_2) \ge f(ax_1 + (1 - a)x_2)$, where $0 \le a \le 1$ \\
+	This also means that $E(f(x)) \ge f(E(x))$ 
 \end{itemize}
 
 \section{Theories \& Definitions}
