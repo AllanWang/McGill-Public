@@ -166,16 +166,34 @@
 	$M_x(t)$ & $\frac{e^{tb} - e^{ta}}{t(b - a)}$ \\
 	$E(X)$ & $\frac{a + b}{2}$ \\
 	$V(X)$ & $\frac{(b - a)^2}{12}$ \\\\
+	\textbf{Gamma} \\
+	Realization & $x > 0$ \\
+	$P_x(x)$ & $\frac{\lambda^\alpha x^{\alpha - 1} e^{-\lambda x}}{\Gamma(\alpha)}$ \\
+	& $\frac{\Gamma(\alpha)}{\beta^\alpha} = \int_0^\infty x^{\alpha - 1} e^{-\beta x} dx, \quad \Gamma(\alpha) = (\alpha - 1)!$ \\
+	$M_x(t)$ & $\pp{\frac{\lambda}{\lambda - t}}^\alpha$ \\
+	$E(X)$ & $\alpha \beta$ \\
+	$V(X)$ & $\alpha \beta^2$ \\\\
+	\textbf{Beta} \\
+	Realization & $0 < x < 1$ \\
+	$P_x(x)$ & $\frac{1}{B(\alpha, \beta)} x^{\alpha - 1} (1 - x)^{\beta - 1}$ \\ 
+	& $\quad \alpha, \beta > 0 \quad B(\alpha, \beta) = \frac{\Gamma(\alpha) \Gamma(\beta)}{\Gamma(\alpha + \beta)}$ \\
+	$M_x(t)$ & $ $ \\
+	$E(X)$ & $\frac{\alpha}{\alpha + \beta}$ \\
+	$V(X)$ & $\frac{\alpha \beta}{(\alpha + \beta)^2 (\alpha + \beta + 1)}$ \\\\
 \end{tabularx}
 
-\begin{tabularx}{\textwidth}{l | l | l | l}
-	& p(y) & $\mu = E(Y)$ & $\sigma^2 = V(Y)$ \\
-	General & p(y) & $\sum_y yp(y)$ & $E \bbb{(Y - \mu)^2} = E(Y^2) - \mu^2$ \\
-	Binomial & $\mm{n \\ y}p^yq^{n-y}$ & $np$ & $npq$ \\
-	Geometric & $q^{y - 1}p$ & $\frac{1}{p}$ & $\frac{1 - p}{p^2}$ \\
-	Negative Binomial & $\mm{y - 1 \\ r - 1} p^r q^{y - r}$ & $\frac{r}{p}$ & $\frac{r(1 - p)}{p^2}$ \quad (r = index of first occurrence) \\
-	Poisson & $\frac{\lambda^y}{y!} e^{-\lambda}$ & $\lambda$ & $\lambda$
+\newpage
+\begin{tabularx}{\textwidth}{X | X}
+	\textbf{Normal} \\
+	Realization & $-\infty < x < \infty$ \\
+	$P_x(x)$ & $\frac{1}{\sigma \sqrt{2\pi}} e^{-(x - \mu)^2 / (2 \sigma^2)}$ \\
+	$E(X)$ & $\mu$ \\
+	$V(X)$ & $\sigma^2$ \\
+	Standard $z$ & $\frac{x - \mu}{\sigma}$
 \end{tabularx}
+
+\newpage
+Chi-square is a beta distribution where $\alpha = \frac{v}{2}$ for some $v$, and $\beta = 2$ $(\lambda = \frac{1}{2})$. This makes $\mu = v$ and $\sigma^2 = 2v$
 
 \subsection{Combination \& Permutation}
 
