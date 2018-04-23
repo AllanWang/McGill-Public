@@ -1,0 +1,391 @@
+\documentclass[12pt]{article}
+	\usepackage{hyperref, fancyhdr, setspace, enumerate}
+	\usepackage{tabulary}
+	\usepackage{amsmath, amsthm, amssymb, array, keycommand, lastpage, amssymb, xcolor, mathtools}
+	\usepackage{multiaudience}
+	\usepackage{tabularx}
+	\usepackage{makecell}
+	\usepackage{enumitem}
+	\usepackage[margin=1 in]{geometry}
+	\allowdisplaybreaks
+	\hypersetup{
+		%colorlinks=true, %set true if you want colored links
+		linktoc=all, %set to all if you want both sections and subsections linked
+		linkcolor=black, %choose some color if you want links to stand out
+	}
+	\author{Allan Wang} 
+	\date{Last updated: \today}
+	\title{MATH 323: Probability}
+	\pagestyle{fancy}
+	\lhead{MATH 323}
+	\chead{\leftmark}
+	\rhead{Allan Wang}
+	\cfoot{Page \thepage \ of \pageref{LastPage}}
+	
+	% Only number for sections
+	\setcounter{secnumdepth}{1}
+	
+	\newcommand\mm[1]{\begin{pmatrix}#1\end{pmatrix}}
+
+	\setlength{\parindent}{0pt}
+	
+	\SetNewAudience{notes}
+	\SetNewAudience{full}
+	
+	\setlist[enumerate]{itemsep=0mm}
+	\setlist[itemize]{itemsep=0mm}
+
+	\newcommand{\tab}[1]{\hspace{.2\textwidth}\rlap{#1}}
+	
+	\newcommand{\comment}[1]{}
+
+	\newcommand{\mathcomment}[0]{\quad\color{blue}}
+
+	\newcommand{\bigsum}[2]{\sum\limits_{#1}^{#2}}
+
+	\newcommand{\ddef}[1]{\textcolor{blue}{#1}}
+	
+	\newcommand{\real}[0]{\mathbb{R}}
+	
+	\newcommand{\uu}[1]{\underbracket{#1}}
+
+	\newkeycommand{\ccup}[sub=i=1, sup=\infty, base=A_i] {
+		\bigcup_{\commandkey{sub}}^{\commandkey{sup}}\commandkey{base}
+	}
+
+	\newkeycommand{\ccap}[sub=i=1, sup=\infty, base=A_i] {
+		\bigcap_{\commandkey{sub}}^{\commandkey{sup}}\commandkey{base}
+	}
+
+	\newkeycommand{\llim}[sub=n \rightarrow \infty, base=A_n] {
+		\lim_{\commandkey{sub}}\commandkey{base}
+	}
+
+	\newkeycommand{\ssum}[sub=i=1, sup=k] {
+		\sum_{\commandkey{sub}}^{\commandkey{sup}}	
+	}
+
+	\newenvironment{block}[1][Label]{\underline{#1}\par}{}
+%	\newenvironment{proof}{\block[Proof]}{\endblock}
+	\newenvironment{proposition}{\block[Proposition]}{\endblock}
+	\newenvironment{lemma}{\block[Lemma]}{\endblock}
+%	\newenvironment{theorem}{\block[Theorem]}{\endblock}
+	\newenvironment{remark}{\block[Remark]}{\endblock}
+	\newenvironment{definition}{\block[Definition]}{\endblock}
+
+	\newcommand{\bb}[1]{\left\{#1\right\}}
+	\newcommand{\bbb}[1]{\left[#1\right]}
+	\newcommand{\pp}[1]{\left(#1\right)}
+	\newcommand{\abs}[1]{\left|#1\right|}
+
+	\newcommand{\divider}[0]{\par\textcolor{lightgray}{\rule{\textwidth}{0.1pt}}}
+	
+	\newenvironment{claim}{\textit{Claim:}}{\hfill $\square$}
+	
+	\newenvironment{remarks}{\underline{Remarks}\par}{}
+	
+	\newenvironment{example}{\shownto{-,notes}\underline{Example}\par}{\par\divider\endshownto}
+	
+	\newenvironment{eqn}{\equation\alignedat{3}}{\endalignedat\endequation}
+	
+	\newcommand{\todo}[0]{\textcolor{red}{\textbackslash\textbackslash TODO \ }}
+	
+	\newcounter{theorem}
+	\newcommand{\theorem}[1]{\refstepcounter{theorem}\par\medskip
+		\underline{Theorem~\thetheorem. #1}}
+	
+	\let\oldperp\perp
+	\renewcommand{\perp}[0]{\oldperp\!\!\!\oldperp}
+
+\begin{document}
+\onehalfspacing
+\maketitle
+\tableofcontents
+\pagebreak
+
+\section{Formulas}
+
+\subsection{Mean \& Variance}
+
+\begin{tabularx}{\textwidth}{l | X | X}
+	& Mean ($\mu$) & Variance ($\sigma^2$) \\
+	General & $\overline{y} = \frac{1}{n} \sum_{i = 1}^n y_i$ & $\frac{1}{n - 1} \sum_{i = 1}^n (y_i - \overline{y})^2$
+\end{tabularx}
+
+\subsection{Expected Value \& Variance}
+
+\begin{tabularx}{\textwidth}{X | X}
+	\textbf{General} \\
+	Probability & $p(y)$ \\
+	$E(Y)$ & $\mu = \sum_y yp(y)$ \\
+	$V(Y)$ & $\sigma^2 = E \bbb{(Y - \mu)^2} = E(Y^2) - \mu^2$ \\
+	$M_x(t)$ & $E(e^{tx})$ \\\\
+	\textbf{Bernoulli} \\
+	Realization & $x = 0, 1$ \\
+	$P_x(x)$ & $p^x(1-p)^{1-x} = p^x q^{1-x}$ \\
+	$M_x(t)$ & $(1 - p) + pe^t$ \\
+	$E(X)$ & $\sum_{x = 0}^1 x p^x q^{1-x} = p$ \\
+	$V(X)$ & $E(X^2) - E(X)^2 = p(1 - p)$ \\\\
+	\textbf{Binomial} \\
+	Realization & $x = 0, 1, ..., n$ \\
+	$P_x(x)$ & $C_x^n p^x (1-p)^{n - x}$ \\
+	$M_x(t)$ & $(pe^t + 1 - p)^n$ \\
+	$E(X)$ & $np$ \\
+	$V(X)$ & $np(1 - p)$ \\\\
+	\textbf{Geometric} \\
+	Realization & $x = 1, 2, ...$ \\
+	$P_x(x)$ & $p (1-p)^{x - 1}$ \\
+	$M_x(t)$ & $\frac{pe^t}{1 - (1 - p)e^t}$ \\
+	$E(X)$ & $\frac{1}{p}$ \\
+	$V(X)$ & $\frac{1 - p}{p^2}$ \\\\
+	\textbf{Negative Binomial} \\
+	Realization & $x = r, r + 1, ...$ \\
+	$P_x(x)$ & $C_{r - 1}^{x - 1} p^r q^{x - r}$ \\
+	$M_x(t)$ & $\bbb{\frac{pe^t}{1 - (1 - p)e^t}}^r$ \\
+	$E(X)$ & $r \cdot \frac{1}{p}$ \\
+	$V(X)$ & $r \cdot \frac{1 - p}{p^2}$ \\\\
+\end{tabularx}
+
+\newpage
+\begin{tabularx}{\textwidth}{X | X}
+	\textbf{Poisson} \\
+	Realization & $x = 0, 1, 2, ...$ \\
+	$P_x(x)$ & $\frac{e^{-\lambda} \cdot \lambda^x}{x!}$ \\
+	$M_x(t)$ & $e^{\lambda (e^t - 1)}$ \\
+	$E(X)$ & $\lambda$ \\
+	$V(X)$ & $\lambda$ \\\\
+	\textbf{Exponential Distribution} \\
+	Realization & $X \sim Exp(\lambda), x > 0$ \\
+	$P_x(x)$ & $\lambda e^{-\lambda x}$ \\
+	$M_x(t)$ & $\frac{\lambda}{\lambda - t}$ \\
+	$E(X)$ & $\frac{1}{\lambda}$ \\
+	$V(X)$ & $\frac{1}{\lambda^2}$ \\\\
+	\textbf{Uniform Distribution} \\
+	Realization & $a < x < b$ \\
+	$P_x(x)$ & $\frac{1}{b - a} = c$ \\
+	$M_x(t)$ & $\frac{e^{tb} - e^{ta}}{t(b - a)}$ \\
+	$E(X)$ & $\frac{a + b}{2}$ \\
+	$V(X)$ & $\frac{(b - a)^2}{12}$ \\\\
+	\textbf{Gamma} \\
+	Realization & $x > 0$ \\
+	$P_x(x)$ & $\frac{\lambda^\alpha x^{\alpha - 1} e^{-\lambda x}}{\Gamma(\alpha)}$ \\
+	& $\frac{\Gamma(\alpha)}{\beta^\alpha} = \int_0^\infty x^{\alpha - 1} e^{-\beta x} dx, \quad \Gamma(\alpha) = (\alpha - 1)!$ \\
+	$M_x(t)$ & $\pp{\frac{\lambda}{\lambda - t}}^\alpha$ \\
+	$E(X)$ & $\alpha \beta$ \\
+	$V(X)$ & $\alpha \beta^2$ \\\\
+	\textbf{Beta} \\
+	Realization & $0 < x < 1$ \\
+	$P_x(x)$ & $\frac{1}{B(\alpha, \beta)} x^{\alpha - 1} (1 - x)^{\beta - 1}$ \\ 
+	& $\quad \alpha, \beta > 0 \quad B(\alpha, \beta) = \frac{\Gamma(\alpha) \Gamma(\beta)}{\Gamma(\alpha + \beta)}$ \\
+	$M_x(t)$ & $ $ \\
+	$E(X)$ & $\frac{\alpha}{\alpha + \beta}$ \\
+	$V(X)$ & $\frac{\alpha \beta}{(\alpha + \beta)^2 (\alpha + \beta + 1)}$ \\\\
+\end{tabularx}
+
+\newpage
+\begin{tabularx}{\textwidth}{X | X}
+	\textbf{Normal} \\
+	Realization & $-\infty < x < \infty$ \\
+	$P_x(x)$ & $\frac{1}{\sigma \sqrt{2\pi}} e^{-(x - \mu)^2 / (2 \sigma^2)}$ \\
+	$E(X)$ & $\mu$ \\
+	$V(X)$ & $\sigma^2$ \\
+	Standard $z$ & $\frac{x - \mu}{\sigma}$
+\end{tabularx}
+
+\newpage
+Chi-square is a beta distribution where $\alpha = \frac{v}{2}$ for some $v$, and $\beta = 2$ $(\lambda = \frac{1}{2})$. This makes $\mu = v$ and $\sigma^2 = 2v$
+
+\subsection{Combination \& Permutation}
+
+\begin{itemize}
+	\item $P_r^n = \frac{n!}{(n - r)!}$
+	\item $\mm{n \\ r} = C_r^n = \frac{n!}{r! (n - r)!}$
+	\item Permutation of $n$ objects of $k$ kinds, where $n_i$ is the number of times type $k$ occurs, is $\frac{n!}{n_1! n_2! ... n_k!}$
+	\item Circular permutations (round table) with $n$ items taken $r$ at a time $ = \frac{P_r^n}{r}$
+\end{itemize}
+
+\subsection{PMF \& CDF}
+
+PMF: Probability Mass Function
+
+Discrete r.v.: $P(x) = P(X = x)$
+
+\begin{itemize}
+	\item $0 \le P(x) \le 1, \forall x$
+	\item $\sum_x P(x) = 1$
+\end{itemize}
+
+CDF: Cumulative distribution function: $F_x(x) = P(X \le x), x \in \real$
+
+\begin{itemize}
+	\item $0 \le F(x) \le 1$
+	\item $\lim_{x \rightarrow -\infty} F(x) = 0$, $\lim_{x \rightarrow \infty} F(x) = 1$
+	\item Non-decreasing: $x_1 \le x_2 \Rightarrow F(x_1) \le F(x_2)$
+	\item Right continuous
+\end{itemize}
+
+\subsection{Moment Generating Function}
+
+Given $m(t) = E(e^{tY})$, $E(Y^k) = m^{(k)}(0) = \mu'_k$, $\mu'_1 = \mu$. \\
+In finding derivatives, we can also find it against $log(m_x(t))$, as $m(0) = 1$ \\
+
+For simplification, note that $\sum_0^\infty \frac{f^t}{y!} = e^f$
+
+Properties 
+\begin{itemize}
+	\item $M_{x + a}(t) = E[e^{(x + a)t}] = e^{at} M_x(t)$
+	\item $M_{bx}(t) = E[e^{(bx)t}] = M_x(bt)$
+	\item $M_{\frac{x + a}{b}}(t) = e^{\frac{a}{b}t} M_x(\frac{t}{b})$
+\end{itemize}
+
+\subsection{Inequalities}
+\begin{itemize}
+	\item Markov: $E(x) < \infty \Rightarrow$ \\
+	$P(x \ge c) \le \frac{E(x)}{c}, \forall c > 0$
+	\item Tchebysheff: $E(x), Var(x) < \infty \Rightarrow$ \\
+	$P(\abs{x - \mu} \ge k\sigma) \le \frac{1}{k^2}$ or \\
+	$P(\abs{x - \mu} < k\sigma) \ge 1 - \frac{1}{k^2}$
+	\item Chernoff: $M_x(t)$ is a mgf of r.v. $x$, and $c > 0 \Rightarrow$ \\
+	$P(x \ge c) \le e^{-tc} M_x(t) \forall t > 0$ \\
+	$P(x \le c) \le e^{-tc} M_x(t) \forall t < 0$
+\end{itemize}
+
+\subsection{Misc}
+
+\begin{itemize}
+	\item $P(A \mid B) = \frac{A \cap B}{P(B)}$ if $P(B) > 0$
+	\item Skewness 
+	\begin{eqn}
+		\frac{\mu^3}{\sigma^3}
+		\begin{cases}
+			> 0 \quad \text{right} \\
+			= 0 \quad \text{symmetric} \\
+			< 0 \quad \text{left}
+		\end{cases}
+	\end{eqn}
+	\item Kurtosis 
+	\begin{eqn}
+		\frac{\mu^4}{\sigma^4} - 3
+		\begin{cases}
+			> 0 \quad \text{peaked} \\
+			= 0 \quad \text{normal} \\
+			< 0 \quad \text{flat}
+		\end{cases}
+	\end{eqn}
+	\item Jensen: $f(x)$ is a convex function if: \\
+	$a \cdot f(x_1) + (1 - a) \cdot f(x_2) \ge f(ax_1 + (1 - a)x_2)$, where $0 \le a \le 1$ \\
+	This also means that $E(f(x)) \ge f(E(x))$ 
+\end{itemize}
+
+\section{Theories \& Definitions}
+
+\subsection{Kolmogorov Axioms}
+
+$\forall A \in \Sigma$:
+
+\begin{enumerate}
+	\item $P(A) \ge 0$ (non-negative)
+	\item $P(\Sigma) = 1$ (normed)
+	\item $P \pp{\bigcup_{j = 1}^\infty A_j} = \sum_{j = 1}^\infty P(A_j)$ when $A_i \cap A_j = \emptyset \quad \forall i \ne j$ (linearly-additive)
+\end{enumerate}
+
+\subsection{De-Morgan's Theorem}
+
+\begin{enumerate}
+	\item $(A \cap B)^C = A^C \cup B^C$ 
+	\item $(A \cup B)^C = A^C \cap B^C$
+\end{enumerate}
+
+\subsection{Partition}
+
+Let $\bb{A_i}_{i = 1}^{\infty (k)}$ be a sequence of sets $A_i \le \Omega, \forall i$. If:
+
+\begin{enumerate}
+	\item $A_i \cap A_j = \emptyset, \forall i \ne j$ 
+	\item $\bigcup_{i = 1}^{\infty (k)} A_i = \Sigma$
+\end{enumerate}
+
+then we say $\bb{A_i}_{i = 1}^{\infty (k)}$ is a partition of sample space $\Omega$: $\Omega = \bigcup_{j = 1}^k A_j$
+
+\subsection{Inequalities (Boole, Bonferroni)}
+
+\begin{enumerate}
+	\item Boole's Inequality \\
+	Let $A_i, A_2, ... \in \mathcal{F}$ \\
+	$\Rightarrow P\pp{\bigcup_{i = 1}^\infty A_i} \le \sum_{i = 1}^\infty P(A_i)$ 
+	\item Bonferroni's Inequality \\
+	$P\pp{\bigcap_{i = 1}^\infty A_i} \ge 1 - \sum_{i = 1}^\infty P(A_i^C)$
+\end{enumerate}
+
+\subsection{Baye's Rule}
+
+Assume $\bb{A_1, A_2, ..., A_k}$ is a partition of $\Omega$ such that $P(A_i) > 0 \forall i$ \\
+For $B \subseteq \Omega$:
+
+\begin{enumerate}
+	\item Law of Total Probability \\
+	\begin{eqn}
+		P(B) &= P\pp{\bigcup_{i = 1}^k (A_i \cap B)} \\
+		&= \sum_{i = 1}^k P(A_i \cap B) \\
+		&= \sum_{i = 1}^k P(B \mid A_i) P(A_i) 
+	\end{eqn}
+	\item 
+	\begin{eqn}
+		P(A_i \mid B) &= \frac{P(A_i \cap B)}{P(B)} \\
+		&= \frac{P(B \mid A_i) P(A_i)}{\sum_{i = 1}^k P(B \mid A_i) P(A_i)}
+	\end{eqn}
+\end{enumerate}
+
+%-------------------------------------------------------------------------------
+
+\section{Misc}
+
+\begin{itemize}
+	\item If $\bb{A_i}_{i = 1}^\infty$ is non-decreasing, then $\lim_{n \rightarrow \infty} A_n = \bigcup_{i = 1}^\infty A_i$
+	\item If $\bb{A_i}_{i = 1}^\infty$ is non-increasing, then $\lim_{n \rightarrow \infty} A_n = \bigcap_{i = 1}^\infty A_i$
+\end{itemize}
+
+\subsection{Independence}
+
+$A$ and $B$ are independent ($A \perp B$) if any of the following holds:
+
+\begin{itemize}
+	\item $P(A \mid B) = P(A)$ 
+	\item $P(B \mid A) = P(B)$
+	\item $P(A \cap B) = P(A)P(B)$
+\end{itemize}
+
+Note that $\emptyset$ is independent to any event, and that \\
+$A \perp B \Leftrightarrow A^C \perp B \Leftrightarrow A^C \perp B^C \Leftrightarrow A \perp B^C$
+
+\newpage
+\section{Questions}
+\begin{enumerate}
+	\item How many ways can 4 married couples seat themselves around a circular table if no couple can sit next to each other?
+	\item What is the probability of getting a full house? (3 cards of some rank and 2 cards of another rank)
+	\item Find the support and realization of X, where X is the number of heads, and we are tossing a fair coin three times.
+\end{enumerate}
+
+\newpage 
+\section{Answers}
+\begin{enumerate}
+	\item $\frac{31}{105}$ \\
+	Compute probabilities that $i$ couple(s) sit next to each other for $i$ in $1..4$ and find complement of sum.
+	\item $0.00144$ \\
+	Basic combination probability: $$\frac{(C_1^{13} \cdot C_3^4) \cdot (C_1^{12} \cdot C_2^4)}{C_5^{52}}$$
+	\item 
+	\begin{itemize}
+		\item Realization = number of occurrences per sample event. eg, HHH has realization 3, and THT has realization 1
+		\item Support = range of $x$. Here, it is 0 to 3
+		\item Table of $x$ to $P(x)$ showing the probability distribution of X: \\
+		\begin{tabular}{l | l}
+			$x$ & $P(x)$ \\
+			$0$ & $\frac{1}{8}$ \\
+			$1$ & $\frac{3}{8}$ \\
+			$2$ & $\frac{3}{8}$ \\
+			$3$ & $\frac{1}{8}$
+		\end{tabular}
+	\end{itemize}
+\end{enumerate}
+
+\end{document}   
