@@ -1,0 +1,124 @@
+\documentclass[12pt]{article}
+	\usepackage{hyperref, fancyhdr, setspace, enumerate}
+	\usepackage{tabulary}
+	\usepackage{amsmath, amsthm, amssymb, array, keycommand, lastpage, amssymb, xcolor, mathtools}
+	\usepackage{multiaudience}
+	\usepackage{tabularx}
+	\usepackage{makecell}
+	\usepackage{enumitem}
+	\usepackage[margin=1 in]{geometry}
+	\allowdisplaybreaks
+	\hypersetup{
+		%colorlinks=true, %set true if you want colored links
+		linktoc=all, %set to all if you want both sections and subsections linked
+		linkcolor=black, %choose some color if you want links to stand out
+	}
+	\author{Allan Wang} 
+	\date{Last updated: \today}
+	\title{COMP 360: Algorithm Design}
+	\pagestyle{fancy}
+	\lhead{COMP 360}
+	\chead{\leftmark}
+	\rhead{Allan Wang}
+	\cfoot{Page \thepage \ of \pageref{LastPage}}
+	
+	% Only number for sections
+	\setcounter{secnumdepth}{1}
+
+	\setlength{\parindent}{0pt}
+	
+	\SetNewAudience{notes}
+	\SetNewAudience{full}
+	
+	\setlist[enumerate]{itemsep=0mm}
+	\setlist[itemize]{itemsep=0mm}
+
+	\newcommand{\tab}[1]{\hspace{.2\textwidth}\rlap{#1}}
+	
+	\newcommand{\comment}[1]{}
+
+	\newenvironment{block}[1][Label]{\underline{#1}\par}{}
+%	\newenvironment{proof}{\block[Proof]}{\endblock}
+	\newenvironment{proposition}{\block[Proposition]}{\endblock}
+	\newenvironment{lemma}{\block[Lemma]}{\endblock}
+%	\newenvironment{theorem}{\block[Theorem]}{\endblock}
+	\newenvironment{remark}{\block[Remark]}{\endblock}
+	\newenvironment{definition}{\block[Definition]}{\endblock}
+
+	\newcommand{\bb}[1]{\left\{#1\right\}}
+	\newcommand{\bbb}[1]{\left[#1\right]}
+	\newcommand{\pp}[1]{\left(#1\right)}
+	\newcommand{\abs}[1]{\left|#1\right|}
+
+	\newcommand{\divider}[0]{\par\textcolor{lightgray}{\rule{\textwidth}{0.1pt}}}
+	
+	\newenvironment{claim}{\textit{Claim:}}{\hfill $\square$}
+	
+	\newcommand{\uu}[1]{\underbracket{#1}}
+	
+	\newenvironment{remarks}{\underline{Remarks}\par}{}
+	
+	\newenvironment{example}{\shownto{-,notes}\underline{Example}\par}{\par\divider\endshownto}
+	
+	\newenvironment{eqn}{\equation\alignedat{3}}{\endalignedat\endequation}
+	
+	\newcommand{\todo}[0]{\textcolor{red}{\textbackslash\textbackslash TODO \ }}
+	
+	\newcounter{theorem}
+	\newcommand{\theorem}[1]{\refstepcounter{theorem}\par\medskip
+		\underline{Theorem~\thetheorem. #1}}
+	
+	\let\oldperp\perp
+	\renewcommand{\perp}[0]{\oldperp\!\!\!\oldperp}
+
+\begin{document}
+\onehalfspacing
+\maketitle
+\tableofcontents
+\pagebreak
+
+\section{Duality}
+
+Standard form:
+
+\begin{eqn}
+	max && cx_1 + cx_2 + ... & \\
+	s.t. && \quad a_1x_1 + ... + a_{1n}x_n &\le b_1 \\
+	&& x_1, ..., x_n \ge 0
+\end{eqn}
+
+(Or $min, \ge, \ge$)
+
+\begin{itemize}
+	\item If $x_1 + x_2 = 0$, replace with $x_1 + x_2 \le 2, x_1 + x_2 \ge 2$
+	\item If $x_1 \le 0$, replace with $x'_1 = -x_1$
+	\item If no $x_2 \ge 0$, create $x'_2 \ge 0, x''_2 \ge 0, x_2 = x'_2 - x''_2$
+\end{itemize}
+
+\divider 
+
+If either primal/dual are unbounded, counterpart is infeasible.
+
+\begin{itemize}
+	\item Weak: $opt(\uu{primal}_{max}) \ge opt(\uu{dual}_{min})$
+	\item Strong: $opt(primal) = opt(dual)$
+\end{itemize}
+
+\divider
+
+\begin{eqn}
+	max && f_{ts} \\
+ 	s.t. && f_{uv} &\le c_{uv} \quad && \forall u \in V \\
+ 	&& \quad \sum_{vu \in E'} f_{vu} - \sum_{uw \in E'} f_{uw} &= 0 && \forall u \in V \\
+ 	&& f_{uv} &\ge 0 && \forall uv \in E' \\\\
+ 	min && \sum_{uv \in E} c_{uv} x_{uv} \\
+ 	&& y_s - y_t &\ge 1 \\
+ 	&& x_{uv} + y_v - y_u &\ge 0 && \forall uv \in E \\
+ 	&& x_{uv} &\ge 0 && \forall uv \in E \\
+ 	&& y_u & \text{ free } && \forall u
+\end{eqn}
+
+\newpage
+\section{P NP}
+
+\end{document}   
