@@ -2,7 +2,11 @@
 
 > [Course Website]( http://cs.mcgill.ca/~jcheung/teaching/fall-2018/comp550/index.html)
 
-# Lecture 2 - 2018/09/06
+## Lecture 1 - 2018/09/04
+
+
+
+## Lecture 2 - 2018/09/06
 
 * Morpheme - subpart of a word that cannot be broken down any further
     * Free morphemes can occur on their own
@@ -20,4 +24,9 @@
         * Full morphological analysis - recover full structure
 
 * FSA - finite state automata
-    * 
+
+## Lecture 3 - 2018/09/11
+
+* Word - smallest unit that can appear in isolation
+* Convenient assumption is that words are delimited by spaces
+* 
