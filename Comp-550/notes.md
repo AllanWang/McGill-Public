@@ -29,4 +29,11 @@
 
 * Word - smallest unit that can appear in isolation
 * Convenient assumption is that words are delimited by spaces
-* 
+* Word frequency
+    * Term frequency: TF(w, S) = #w in corpus S
+        * eg TF(<i>cat</i>, the cat sat on the mat) = 1
+    * Relative frequency: RF(w, S) = TF(w, S) / |S|
+        * eg RF(<i>cat</i>, the cat sat on the mat) = &frac16;
+* Corpus - collection of text; used for text to count
+* Zipf's Law: f &prop; 1/r
+    * Frequency of word type is inversely proportional to rank of word type (by frequency)
