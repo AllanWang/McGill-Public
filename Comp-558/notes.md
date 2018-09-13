@@ -55,3 +55,15 @@
 * Impulse function: &sigma;(x) = 1 when x = 0, 0 otherwise
     * &sigma;(x) * I(x) = I(x)
     * Outputs an impulse response
+
+## Lecture 4 - 2018/09/13
+
+* Motivation for edge detection
+    * Find boundaries of objects
+    * Match features in images
+* Edge detection based on threshold
+    * | I(x + 1) - I(x - 1) | > &tau; <br/> where &tau; is the threshold
+    * Can also use partial derivatives to account for changes in both x and y
+        * Prewitt used gradients [1, 0, -1; 1, 0, -1; 1, 0, -1] and [-1, -1, -1; 0, 0, 0; 1, 1, 1]
+        * Sobel used gradients [1, 0, -1; 2, 0, -2; 1, 0, -1] and [-1, -2, -1; 0, 0, 0; 1, 2, 1]
+        * 
