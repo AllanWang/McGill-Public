@@ -2,6 +2,7 @@
 cmake-build-debug/
 *.zip
 local.md
+.DS_Store
 
 Gemfile.lock
 

@@ -30,3 +30,7 @@
 * Continuous Integration (CI) - branch of source code is built and tested whenever changes are committed to the source
 * Continuous Deployment - changes are automatically deployed to production without manual intervention
 * Continuous Delivery - software can be released to production at any time with as much automation as possible
+
+## Lecture 4 - 2018/09/14
+
+* "Program testing can be used to show the presence of bugs, but never to show their absence" - Dijkstra
