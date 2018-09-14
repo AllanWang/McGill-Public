@@ -34,3 +34,18 @@
 ## Lecture 4 - 2018/09/14
 
 * "Program testing can be used to show the presence of bugs, but never to show their absence" - Dijkstra
+* Exhaustive testing is impossible
+    * Cannot test all operating conditions/inputs
+    * Gain confidence based on incomplete testing
+    * Continuity property - small differences in operating conditions may cause drastically different behaviour in software
+        * As an example, a bridge that can sustain weight `W` can sustain any weight `w < W`. THe same cannot be said about software
+* Early testing saves time & money
+* Defects cluster together
+* Pesticide paradox - system tends to build resistance to particular testing techniques
+    * Executing same tests will not find new bugs
+* Testing is context-dependent 
+    * Different systems are tested differently (eg aircraft vs mobile app)
+* Absence of errors is a fallacy
+
+* Unit test failures are typically fixed directly by the developer. Problems that are submitted typically relate to later stages
+* Well tested modules may still fail integration testing
