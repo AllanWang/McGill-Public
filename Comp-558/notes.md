@@ -66,4 +66,10 @@
     * Can also use partial derivatives to account for changes in both x and y
         * Prewitt used gradients [1, 0, -1; 1, 0, -1; 1, 0, -1] and [-1, -1, -1; 0, 0, 0; 1, 1, 1]
         * Sobel used gradients [1, 0, -1; 2, 0, -2; 1, 0, -1] and [-1, -2, -1; 0, 0, 0; 1, 2, 1]
-        * 
+
+## Lecture 5 - 2018/09/18
+
+* Canny edge detection
+    * Mark pixel as candidate edge if gradient magnitude is greater than some threshold &tau;<sub>high</sub>
+    * Non-maximum suppression - compare gradient magnitude with neighbours nearest to the direction of that gradient. Eliminate edge pixels if they are not a local maximum
+    * Hysteresis thresholding 
