@@ -54,4 +54,29 @@
     * Assign vocabulary items less frequent than some frequency threshold `<UNK>`
     * Treat `<UNK>` as some vocabulary word
     * Use `<UNK>` for unseen words during testing
-* Smoothing - shift probabilty mass to cases that we haven't seen before/are unsure about
+* Smoothing - shift probability mass to cases that we haven't seen before/are unsure about
+
+## Lecture 5 - 2018/09/18
+
+* Supervised learning - model has access to some input data and corresponding output data (eg a label)
+* Unsupervised learning - model has only input data
+* Clustering - finding hidden structure in data without labels
+* Learning - creating good characterization of data
+* Semi-supervised learning - outputs for some inputs but not all
+* Grey Area 
+    * Specific rules
+        * eg anything ending in -ed is a verb
+        * Variously called semi-supervised, distantly supervised, minimally supervised, or unsupervised
+    * Give seed set
+        * eg learning sentiment lexicon; gives positive seeds (good, awesome, great) and negative seeds (bad,  awful, dreadful)
+* Regression - y is a continuous outcome
+* Classification - y is a discrete outcome
+* Linear Regression
+* N-grams
+    * Aka bag-of-words
+    * Versions
+        * Presence of absence of an N-gram (1 or 0)
+        * Count of N-gram
+        * Proportion of total document
+        * Scaled versions of counts
+    * 
