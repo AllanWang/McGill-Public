@@ -73,3 +73,25 @@
     * Mark pixel as candidate edge if gradient magnitude is greater than some threshold &tau;<sub>high</sub>
     * Non-maximum suppression - compare gradient magnitude with neighbours nearest to the direction of that gradient. Eliminate edge pixels if they are not a local maximum
     * Hysteresis thresholding 
+
+## Lecture 6 - 2018/09/20
+
+**TODO**
+
+## Lecture 7 - 2018/09/25
+
+**TODO**
+
+## Lecture 8 - 2018/09/27
+
+* Gaussian pyramid - smoothing + subsampling
+* Think of &nabla;I as 2 x 1 matrix (or a column vector)
+* StructureTensor is a 2 x 2 matrix given by &nabla;I (&nabla;I)<sup>T</sup>
+* The eigenvalues & eigenvectors of matrix reveal invariant geometric properties
+    * Order the eigenvalues in descending order (&lambda;<sub>1</sub> &ge; &lambda;<sub>2</sub> > 0)
+    * Then e<sub>1</sub> is the direction aligned with the local gradient
+    * Special case is when &lambda;<sub>2</sub> = 0, I is constant along e<sub>2</sub>
+* To find corners, find a way to capture locations where I(x<sub>0</sub>, y<sub>0</sub>) is different from that of its neighbours
+    * Keep in mind
+        * We always 'smooth' a little bit (convolution with a kernel) so that &nabla;I is acceptable
+        * I(x<sub>0</sub> + &Delta;x, y<sub>0</sub> + &Delta;y)
