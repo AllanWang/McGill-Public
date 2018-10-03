@@ -163,3 +163,9 @@
     * Organization specific (Google, Microsoft)
 * Unreachable code - code that cannot be executed under any condition
 * Dead code - code that is reachable but does not affect program behaviour when removed 
+
+## Lecture 8 - 2018/09/28
+
+// TODO missed
+
+## Lecture 9 - 2018/10/03

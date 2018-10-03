@@ -95,3 +95,20 @@
     * Keep in mind
         * We always 'smooth' a little bit (convolution with a kernel) so that &nabla;I is acceptable
         * I(x<sub>0</sub> + &Delta;x, y<sub>0</sub> + &Delta;y)
+
+## Lecture 9 - 2018/08/02
+
+* Midterm material ends this week
+* Normalized correlation - d<sub>correl</sub>(H<sub>1</sub>, H<sub>2</sub>) = &Sigma;(H'<sub>1</sub>(i) &centerdot; H'<sub>2</sub>) / &radic;(&Sigma;(H'<sub>1</sub><sup>2</sup>(i) &centerdot; H'<sub>2</sub><sup>2</sup>(i)))
+    * 1 - perfect match
+    * -1 - perfect mismatch
+    * 0 - no correlation
+* Chi-square - 
+* Bhattacharya
+    * 0 - perfect match
+    * 1 - total mismatch
+* Histogram equalization 
+* Histogram of oriented gradients
+    * Compute gradients
+    * Divide into bins by orientation
+    * Count number of entries in each bin

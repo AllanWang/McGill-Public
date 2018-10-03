@@ -79,4 +79,23 @@
         * Count of N-gram
         * Proportion of total document
         * Scaled versions of counts
-    * 
+
+## Lecture 6 - 2018/09/20
+
+* P(outcome i) = #(outcome i)/#(all events)
+* &pi;<sub>i</sub> = P(Q<sub>1</sub> = 1) = #(Q<sub>1</sub> = 1)/#(sentences)
+* a<sub>ij</sub> = P(Q<sub>t+1</sub> = j | Q<sub>t</sub> = i) = #(i, j)/#(i)
+* b<sub>ik</sub> = P(O<sub>t</sub> = k | Q<sub>t</sub> = i) = #(word k, tag i)/#(i)
+* Forward algorithm
+    * Uses DP to avoid unnecessary recalculations
+    * Create table of all possible state sequences, annotated with probabilities
+    * Trellis - table for possible state sequences
+* Backward algorithm
+    * Trellis with cells &beta;<sub>i</sub>(t)
+    * Unlike &alpha;<sub>i</sub>(t), it excludes the current word
+* Forward & backward
+    * P(O|&theta;) = &Sigma;<sup>N</sup><sub>i=1</sub> &alpha;<sub>i</sub>(t)&beta;<sub>i</sub>(t) for any t = 1 .. T
+* Log sum trick - to avoid underflow (from small numbers), work in log domain
+* Viterbi algorithm - similar to forward algorithm, but replace summation with max
+    * Used to find most likely state sequence
+    * Backpointers - keep track of max entry; work backwards to recover best label sequence
