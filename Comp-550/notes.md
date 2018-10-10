@@ -82,14 +82,30 @@
 
 ## Lecture 6 - 2018/09/20
 
+* Part of speech
+    * Identifies some grammatical properties of words
+    * Includes
+        * Model & auxiliary words - <u>Did</u> the chicken cross the road?
+        * Conjunctions - <u>and</u>, <u>but</u>
+        * Particles - look <u>up</u>, turn <u>down</u>
+* Penn Treebank (PTB) Tagset
+* Open class - words tend to be added (neologism)
+    * Noun, verb, adjective, etc
+* Closed class - new words tend not to be added
+    * Pronoun, determiners, quantifiers, conjunctions, modals & auxiliary, preposition
+* PTB distinguishes between singular and plural nouns , but not transitive and intransitive verbs
+
+## Lecture 7 - 2018/09/25
+
 * P(outcome i) = #(outcome i)/#(all events)
 * &pi;<sub>i</sub> = P(Q<sub>1</sub> = 1) = #(Q<sub>1</sub> = 1)/#(sentences)
-* a<sub>ij</sub> = P(Q<sub>t+1</sub> = j | Q<sub>t</sub> = i) = #(i, j)/#(i)
+* a<sub>ij</sub> = P(Q<sub>t+1</sub> = j | Q<sub>t </sub> = i) = #(i, j)/#(i)
 * b<sub>ik</sub> = P(O<sub>t</sub> = k | Q<sub>t</sub> = i) = #(word k, tag i)/#(i)
 * Forward algorithm
     * Uses DP to avoid unnecessary recalculations
     * Create table of all possible state sequences, annotated with probabilities
     * Trellis - table for possible state sequences
+    * Runtime O(N<sup>2</sup>T)
 * Backward algorithm
     * Trellis with cells &beta;<sub>i</sub>(t)
     * Unlike &alpha;<sub>i</sub>(t), it excludes the current word
@@ -98,4 +114,14 @@
 * Log sum trick - to avoid underflow (from small numbers), work in log domain
 * Viterbi algorithm - similar to forward algorithm, but replace summation with max
     * Used to find most likely state sequence
-    * Backpointers - keep track of max entry; work backwards to recover best label sequence
+    * Backpointers - keep track of max entry; work backwards to recover best label sequence 
+* Unsupervised training
+    * No state sequences; have to estimate them
+    * Initialize params randomly
+    * Viterby EM ('Hard EM)
+        * Prediction and updaets using Viterbi algorithm
+    * Soft predictions - probabilities of all possible state sequences
+
+## Lecture 8 - 2018/09/27
+
+

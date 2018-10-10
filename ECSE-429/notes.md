@@ -1,5 +1,7 @@
 # ECSE 429
 
+## Lecture 2 - 2018/09/10
+
 ## Lecture 3 - 2018/09/12
 
 * Software quality challenges
@@ -169,3 +171,16 @@
 // TODO missed
 
 ## Lecture 9 - 2018/10/03
+
+* White-box testing
+    * Focus on system's internal logic
+    * Based on system's source code as opposed to specifications
+    * (-) May miss functionality of specifications that was not implemented
+    * Control-flow graph
+        * Nodes - blocks of sequential statements
+        * Edges - transfers of controls
+        * Nodes with no branches should be grouped together
+    * Modified condition/decision coverage
+        * Each condition must be true & false at least once
+        * Must have a pair of test cases where one condition changes, affecting the outcome
+        * Requires n + 1 cases

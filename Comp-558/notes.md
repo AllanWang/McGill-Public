@@ -112,3 +112,20 @@
     * Compute gradients
     * Divide into bins by orientation
     * Count number of entries in each bin
+
+## Lecture 10 - 2018/08/04
+
+**TODO**
+
+## Lecture 11 - 2018/08/09
+
+Midterm next week until lecture 10
+
+* CNNs
+    * Convolutional layers (MLPs)
+    * Activation functions, tanh ,sigmoid, RELV
+    * Pooling, avg, max, others
+* Backward Propagation 
+    * Gol is to estimate W and b to minimize sum of square error loss function
+* Review properties of 2nd moment matrix
+* 
