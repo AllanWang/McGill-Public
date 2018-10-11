@@ -119,9 +119,25 @@
     * No state sequences; have to estimate them
     * Initialize params randomly
     * Viterby EM ('Hard EM)
-        * Prediction and updaets using Viterbi algorithm
+        * Prediction and updates using Viterbi algorithm
     * Soft predictions - probabilities of all possible state sequences
 
 ## Lecture 8 - 2018/09/27
 
-
+* Chunking - find syntactic chunks in sentence; not hierarchical 
+* Named-entity recognition (NER) - identify elements in text corresponding to high level categories (eg person, organization, location)
+* IOB Tagging - label whether word is inside, outside, or at beginning of span
+    * Eg for Org, McGill University would be labelled B I, as both compose a single organization
+* Generative models - learn joint distributions P(X, Y)
+    * Can be applied to new models, unlike discriminative
+* Discriminative models - learn conditional distributions P(Y|X)
+* Standard HMM - product of probabilities
+    * Forward algorithm - P(X|&theta;)
+    * Viterbi algorithm - argmax<sub>y</sub>P(X, y|&theta;)
+* Linear-chain conditional random fields (CRF) - Sums over features & time-steps
+    * Replaces HMM products by numbers that are not probabilities, but linear combinations of weights & feature values
+    * Allows word templates
+    * Forward algorithm - Z(X)
+    * Viterbi algorithm - argmax<sub>Y</sub>P(Y|X, &theta;)
+* To avoid overfitting, make weights close to zero
+    * Done be adding an extra term (-&theta;<sub>k</sub>/&sigma;<sup>2</sup>) for regularization

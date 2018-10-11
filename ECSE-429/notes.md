@@ -1,6 +1,39 @@
 # ECSE 429
 
-## Lecture 2 - 2018/09/10
+## Lecture 2 - 2018/09/07
+
+* Mistake - committed error
+* Defect - result of a mistake
+* Failure - executed defect
+* Incident - consequence of failure
+* Software testing - exercising software with test cases to gain confidence in the system
+
+* Fault - hypothesized cause of error
+    * HW - bit flip due to cosmic particle
+    * SW - increment instead of decrement
+* Error - erroneous state leading to failure
+    * HW - reading faulty memory
+    * SW - incorrect variable when faulty statement executes
+* Failure - delivered service deviates from correct service
+    * HW - robot arm collides with wall
+    * SW - result of computation is incorrect
+* 9 causes of software defects
+    * Faulty requirement definition
+    * Client-developer communication failures
+    * Deliberate deviations from software requirements
+    * Logical design errors
+    * Coding errors
+    * Non-compliance with documentation & coding instructions
+    * Shortcomings of testing process
+    * Procedure errors
+    * Documentation errors
+* Mean time to failure (MTTF) - probability of failure-free operation until specified time
+* Mean time between failures (MTBF) - probability system is up at any given time
+* Pervasive problems
+    * Software commonly delivered late, over budget, and with unsatisfactory quality
+    * Validation & verification rarely systematic; not based on well-defined techniques
+    * Development process commonly unstable/uncontrolled
+    * Quality poorly measured/monitored
 
 ## Lecture 3 - 2018/09/12
 
@@ -168,7 +201,29 @@
 
 ## Lecture 8 - 2018/09/28
 
-// TODO missed
+* Testing
+    * Goal - investigate one run of program
+    * Outputs pass/fail
+* Static analysis
+    * Goal - reasons about all runs of program
+    * Outputs safe, error, or incomplete
+    * Some problems cannot be analyzed (eg halting problem)
+* Soundness - if prover says P is true, then P is true
+    * Trivially sound: SA says nothing
+* Completeness - if P is true, SA will say that P is true
+    * Trivially complete: say everything
+* Designated properties of SA
+    * Precision - minimize false alarms
+    * Scalable - be able to analyze large programs
+    * Understandability - easily interpretable error reports
+* SA Pros
+    * May achieve higher coverage than testing
+    * May prove absence of defects
+    * May find subtle flaws
+* SA Cons
+    * Limited to functional correctness (no performance check)
+    * False alarms/missed errors
+    * May be time consuming or non-terminating
 
 ## Lecture 9 - 2018/10/03
 
@@ -184,3 +239,17 @@
         * Each condition must be true & false at least once
         * Must have a pair of test cases where one condition changes, affecting the outcome
         * Requires n + 1 cases
+
+## Lecture 10 - 2018/10/08
+
+// TODO missed 
+
+## Lecture 11 - 2018/10/10
+
+* Data flow graph (DFG) captures flow of definitions
+    * Similar to control flow graph
+    * Annotate nodes with def, c-use as needed; annotate edges with p-use
+* Paths go from def to a use case node; p-use are for edges only and are included in the paths
+* Mutation testing
+    * Given a program, create some mutants (change one node from original)
+    * Original test will then run through mutants; if all are detected, then the mutants are dead and the test set is adequate

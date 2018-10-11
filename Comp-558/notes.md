@@ -76,7 +76,25 @@
 
 ## Lecture 6 - 2018/09/20
 
-**TODO**
+* Inliers - points explained by line model
+* Outliers - points not explained by line model
+* Reduce sensitivity to outliers by reducing penalty for large distances
+    * Eg distance rather than distance squared
+    * Eg constant penalty after certain distance
+* Hough transform  
+    * Lines can be represented with some positive value r (from origin), at some angle &theta; between 0 and 2&pi;. The line is perpendicular to the line at angle &theta;, crossing the line r away from origin.
+    * For Hough transform, for every &theta; in [0, 2&pi;), compute r for line in direction &theta; through point (x<sub>i</sub>, y<sub>i</sub>). Vote for this (r, &theta;), and return the (r, &theta;) with the maximum count
+    * To detect peaks, we can smooth the voting map to remove noise
+* RANSAC - RANdom SAmple Consensus - reduces sensitivity
+    * Pick two different points, and fit a line
+        * Good model if many other points lie near the line
+        * We can find consensus set by counting the number of remaining points that are within &tau; from the line
+    * Do this many times and find the best line model (highest consensus size)
+    * Take best model, find consensus, then refit using least square method
+    * Can be scaled up to n points, where n is minimum # of points needed for exact model fit
+    * Why minimum # of points?
+        * Trade off is that more points lead to greater chance of including an outlier
+    * 
 
 ## Lecture 7 - 2018/09/25
 
