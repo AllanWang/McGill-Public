@@ -235,6 +235,8 @@
         * Nodes - blocks of sequential statements
         * Edges - transfers of controls
         * Nodes with no branches should be grouped together
+        * Branching nodes cannot contain assignment
+            * Eg `if (i++ == 2)` cannot be in one node
     * Modified condition/decision coverage
         * Each condition must be true & false at least once
         * Must have a pair of test cases where one condition changes, affecting the outcome
@@ -248,7 +250,17 @@
 
 * Data flow graph (DFG) captures flow of definitions
     * Similar to control flow graph
+    * c-use - computational use - variable used for assignment, in output, or as a parameter
+        * Definition of `A[E]` is typically c-use E, def A
+        * Reference to `A[E]` is typically c-use E, c-use A
+    * p-use - predicate use - variable use in condition in branch statement
+    * k - kill - deallocation 
     * Annotate nodes with def, c-use as needed; annotate edges with p-use
+    * du-pair
+        * Starts at d (define), ends at u (use)
+        * If p-use ends at node after p-use
+        * c-use must be def-clear simple path (at most one loop)
+        * p-use must be def-clear loop-free path
 * Paths go from def to a use case node; p-use are for edges only and are included in the paths
 * Mutation testing
     * Given a program, create some mutants (change one node from original)
