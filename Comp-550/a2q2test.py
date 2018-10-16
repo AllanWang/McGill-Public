@@ -2,6 +2,17 @@
 from nltk.grammar import CFG
 from nltk.parse.chart import BottomUpChartParser
 
+##################################################
+#
+# Expected grammar format
+#
+# S -> NP VP        # Start state S
+# A -> B | C        # Arrow and vbar
+# C -> "a" | "b"    # non-terminals in quotes
+#
+##################################################
+
+
 # Replace with your file name here
 filename = "a2q2.txt"
 
