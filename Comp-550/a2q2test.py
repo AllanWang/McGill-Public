@@ -7,6 +7,7 @@ filename = "a2q2.txt"
 
 with open(filename) as f:
     content = f.read()
+    # Spent too long on this and gave up; I just manually converted accents within the grammar file
     content = content.replace('é', 'e').replace('è', 'e').replace('ê', 'e') \
         .replace('á', 'a').replace('à', 'a').replace('â', 'a') \
         .replace('ó', 'o').replace('ò', 'o').replace('ô', 'o')
@@ -42,11 +43,15 @@ validSentences = [
     "les televisions mangent",
     "Jackie mange",
     "Montreal mange",
-    "il la regarde"
+    "les chats mangent le poisson"
 ]
 
 invalidSentences = [
-    "le chat"
+    "le chat",
+    "je mangent le poisson",
+    "les noirs chats mangent le poisson",
+    "la poisson mangent les chats",
+    "je mange les"
 ]
 
 print("Testing valid sentences...\n\n\n")
