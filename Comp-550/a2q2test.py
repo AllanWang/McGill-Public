@@ -19,7 +19,7 @@ filename = "a2q2.txt"
 with open(filename) as f:
     content = f.read()
     # Spent too long on this and gave up; I just manually converted accents within the grammar file
-    content = content.replace('é', 'e').replace('è', 'e').replace('ê', 'e') \
+    content = content.lower().replace('é', 'e').replace('è', 'e').replace('ê', 'e') \
         .replace('á', 'a').replace('à', 'a').replace('â', 'a') \
         .replace('ó', 'o').replace('ò', 'o').replace('ô', 'o')
     grammar = CFG.fromstring(content, encoding="utf-8")
@@ -65,13 +65,13 @@ invalidSentences = [
     "je mange les"
 ]
 
-print("Testing valid sentences...\n\n\n")
+print("\n\nTesting valid sentences...\n\n")
 
 for valid in validSentences:
     print(valid)
     parse(valid, True)
 
-print("Testing invalid sentences...\n\n\n")
+print("\n\nTesting invalid sentences...\n\n")
 
 for invalid in invalidSentences:
     print(invalid)
