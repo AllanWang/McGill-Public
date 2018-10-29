@@ -355,3 +355,61 @@
 * Can download pretrained word2vec embeddings from web
     * Advantages - trained, large quantity, cheap, easy to try
     * Disadvantages - doesn't always work
+
+## Lecture 14 - 2018/10/18
+
+* Compositionality - meaning of phrase depends on meanings of its parts
+    * Idioms often violate compositionality
+* Co-compositionality - meanings of words depend also on other words that they are composed with
+    * Considering words such as rose, wine, cheeks, red does not combine compositionally, but rather co-compositionally
+* Semantic inference - making explicit something that is implicit
+    * I want to visit the capital of Italy; capital of Italy is Rome; &therefore; I want to visit Rome
+* Montagovian semantics - using logical formalism to represent natural language inferences
+* First-order predicate calculus
+    * Domain of discourse - set of entities we care about
+    * Variables - potential elements of domain
+        * Typically lower case
+    * Predicates - maps elements of domain to truth values
+        * Can be different valences (eg takes multiple elements)
+    * Functions - maps elements to other elements
+        * Can be different valences
+            * Valence 0 function is a constant
+    * Logical connectives - &not;, &wedge;, &vee;, &rarr;, &harr;
+    * Quantifiers - &exist;, &forall;
+* Interpretation of first order logic (FOL)
+    * Domain of discourse (D)
+    * Mapping for functions to elements of D
+    * Mapping for predicates to True or False
+    * All students who study and do homework will get an A
+        * &forall;x.(study(x) &wedge; hw(x)) &rarr; grade(x) = A
+* Lambda calculus - describes computation using mathematical functions
+    * Definitions
+        * Variables (eg x)
+        * &lambda;x.t, t is a lambda term
+        * ts, t and s are lambda terms
+    * Function application (or beta reduction)
+        * Given (&lambda;x.t)s, replace all instances of x in t with expression s
+        * Left associative - abcd = ((ab)c)d
+        * (&lambda;x.x + y)2 &rarr; 2 + y
+        * (&lambda;x.xx)(&lambda;x.x) = (&lambda;x.x)(&lambda;x.x) = &lambda;x.x
+    * Allows for partial computations
+* Syntax-driven semantic composition
+    * Augment CFG with lambda expressions (syntactic composition = function application)
+    * Semantic attachments
+        * Syntactic composition: A &rarr; a<sub>1</sub> ... a<sub>n</sub>
+        * Semantic attachment: {f(a<sub>j</sub>.sem, ..., a<sub>k</sub>.sem)}
+    * Proper noun: PN &rarr; COMP550 to {COMP550}
+    * Type-raised proper noun: PN &rarr; COMP550 to {&lambda;x.x(COMP550)}
+        * We create a function taking in the PN as argument
+    * NP rule: NP &rarr; PN to {PN.sem}
+    * Common noun: N &rarr; student to {&lambda;x.Student(x)}
+        * Type &langle;e, t&rangle;; takes an entity and returns a truth value
+    * Intransitive verbs: V &rarr; rules to {&lambda;x.&exist;e.Rules(e) &wedge; Ruler(e, x)}
+        * Created an event variable e
+    * Composition: S &rarr; NP VP to {NP.sem(VP.sem)}
+* Neo-Davidsonian event semantics
+    * Method 1: multi-place predicate: Rules(x)
+    * Method 2: Neo-Davidsonian version with event variable: &exist;e.Rules(e) &wedge; Ruler(e, x)
+        * Reifying event variable makes things more flexible
+            * Optional elements such as location and time
+            * Can add information to event variable
