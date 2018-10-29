@@ -173,7 +173,7 @@
         * Eg look up [x] can be written as look [x] up
     * Cannot easily model with HMMs or LC-CRFs, but possible with RNNs
 
-## Lecture 10 = 2018/10/04
+## Lecture 10 - 2018/10/04
 
 * Syntax 
     * How words can be arranged to form grammatical sentence
@@ -205,3 +205,153 @@
         *  &Sigma; - set of terminal symbols
         *  R - set of rules or productions of form A &rarr; (&Sigma; &cup; N)*, and A &in; N
         *  S - designated start symbol, S &in; N
+
+## Lecture 11 - 2018/10/09
+
+* Parsing algorithms
+    * Top-down - start at top of tree, expanding downwards with rewrite rules
+        * Eg Earley parser
+    * Bottom-up - start from input words and build bigger subtrees until a tree spans the whole sentence
+        * Eg CYK algorithm, shift-reduce parser
+* CYK Algorithm
+    * DP algorithm - partial solutions stored & efficiently reused
+    * Steps
+        * Convert CFG to appropriate form
+        * Set up table of possible constituents
+        * Fill in table
+        * Read table to recover all possible parsers
+* CNF Rules
+    * A &rarr; B C D becomes A &rarr; X1 D and X1 &rarr; B C
+    * A &rarr; s B becomes A &rarr; X2 B and X2 &rarr; s
+    * A &rarr; B - replace all B on LHS with A
+* Set up table
+    * Let sentence have N words, `w[0] ... w[N - 1]`
+    * Create table where cell i, j represents phrase spanning from `w[i:j + 1]` 
+        * Only need half table since i < j
+* Running through table
+    * Base case - one word phrase - check all non-terminals
+* PCFG - CFG with probabilities for each rule
+    * For each nonterminal A &in; N
+        * &Sigma;<sub>&alpha; &rarr; &beta; &in; R s.t. &alpha; = A</sub> Pr(&alpha; &rarr; &beta;) = 1
+* Extend CYK to PCFG by calculating partial probabilities as you fill the table
+    * Only best probability is included per cell
+* Train PCFG with treebank, such as WSG
+    * Simple version: MLE estimate
+        * Pr(&alpha; &rarr; &beta;) = #(&alpha; &rarr; &beta;) / #&alpha;
+            * Not great: 
+                * No context
+                    * Example: NPs in subject and object positions are not identically distributed
+                * Too sparse   
+                    * WIth the word 'ate', 'ate quickly', 'ate with a fork', 'ate a sandwich', etc are all labelled differently. Should be factorized, eg having an adverbial modifier
+
+## Lecture 12 - 2018/10/11
+
+* Adding context to PCFG
+    * Append parent categories (eg `NP^S` &rarr; PRP to `NP^VP` &rarr; PRP)
+* Removing context from long chain rule by splitting them into separate rule
+    * Eg Pr(VP &rarr; START AdvP VBD NP PP END) to
+        * Pr(VP &rarr; START AdvP)
+        * Pr(VP &rarr; AdvP VBD)
+        * Pr(VP &rarr; VBD NP)
+        * Pr(VP &rarr; NP PP)
+        * Pr(VP &rarr; PP END)
+* Markovization
+    * Vertical markovization - adding ancestors as context
+        * Zeroth order - vanilla PCFGs
+        * First order - one parent only (see above)
+        * nth order - add n parents
+    * Horizontal markovization - breaking RHS into parts
+        * Infinite order - vanilla PCFGs
+        * First order - pairs (see above)
+        * Can choose any order with interpolations
+* Semantics - study of meaning in language
+    * Meaning of words - lexical semantics
+* Referent - person/thing to which a expression refers
+* Extensional definition - all things for which a definition applies, as opposed to intention or comprehension
+* Intensional definition - necessary and sufficient conditions to be a telephone
+* Multiple words can refer to the same referent. Used in different contexts &rarr; different senses.
+    * Example of venus, morning star, evening star, which are all venus
+* Hyponym/hypernym - ISA (is a) relationship
+    * Monkey & mammal, Montreal & city, wine & beverage, etc. ([hyponym] is a [hypernym])
+* Synonym/Antonym - roughly same/different meaning
+* Homonymy
+    * Homophone - same sound (son vs sun)
+    * Homograph - same written form (lead (noun) vs lead (verb))
+* Polysemy - multiple related meanings
+    * Eg newspaper
+        * Daily weekly publication
+        * Business that publishes newspaper (meaning above)
+        * Physical object that is the product of a newspaper publisher
+        * Cheap paper made from wood pulp
+* Homonymy is typically with unrelated meaning, whereas polysemy is with related meaning
+* Metonymy - substitution of one entity for another related one
+    * Eg 
+        * Ordering a <u>dish</u> (food, not a physical dish)
+        * I work for the local <u>paper</u> (place, not object)
+        * <u>Quebec City</u> is cutting our budget again (government, not location)
+        * The <u>loonie</u> is at a 11-year low (value, not physical loonie)
+    * Synecdoche - specific kind involving whole-part relations
+        * All <u>hands</u> on deck
+* Holonymy/meronymy - whole part relationships
+    * Holonym &rarr; whole, meronym &rarr; part
+* Computational approach
+    * Heuristic - eg Lesk's
+    * Supervised ML - lots of work
+    * Unsupervised - eg Yarowsky's
+* Lesk's
+    * Given a sentence, construct a word bag from definitions of all senses of context words, get the overlaps between each sense and the word in question, then select the one with the highest overlap
+* Yarowsky's
+    * Gather data set with target word to be disambiguated
+    * Automatically label small seed set of examples
+    * Repeat for a while
+        * Train from seed set
+        * Apply model to entire data set
+        * Keep highly confident classification outputs to be new seed set
+    * Use last model as final model
+  
+## Lecture 13 - 2018/10/16
+
+* Hearst patterns - pairs of terms in hyponym-hypernym relationships tend to occur in certain lexico-syntactic patterns
+    * Can find relations through key words (cause, induce, stem (from), etc)
+    * Can find relations through co-occurring words (such as, and, or)
+    * Can find relations through words that tend to co-occur with target words
+* Term-context matrix
+    * Each row is a vector representation of word through context
+        * Context can refer to nearest 'x' neighbouring words
+* Cosine similarity
+    * sim(A, B) = (A &middot; B)/(||A|| ||B||)
+    * -1 if vectors point in opposite direction, 0 if orthogonal, 1 if same direction
+    * Positive (eg count) vectors are scored within 0 and 1
+* Cosine similarity is not enough to determine synonymy
+    * High cosine similarity can also indicate antonyms, word senses
+* Similarity - synonymy, hypernymy, hyponymy
+* Relatedness - anything that might be associated (eg good and bad)
+* Cosine similarity is really a measure of relatedness
+* Rescaling vectors
+    * Pointwise mutual information (PMI)
+        * pmi(w<sub>1</sub>, w<sub>2</sub>) = log (P(w<sub>1</sub>, w<sub>2</sub>)/(P(w<sub>1</sub>)P(w<sub>2</sub>)))
+        * Numerator - probability of both words occurring
+        * Denominator - probability of each word occurring in general
+    * If ratio < 1, PMI is negative
+        * Often disregarded &rarr; positive PMI (PPMI)
+* Compressing term-context matrix 
+    * Often very sparse, lots of zeros
+    * Singular value decomposition (SVD)
+        * X = W x &Sigma; x C<sup>T</sup>
+            * m is rank of matrix X
+            * Rows of W are new word vectors
+            * Rows of C (cols of C<sup>T</sup>) are new context vectors
+            * &Sigma; is diagonal matrix of singular values of X (sqrt of eigenvalues of X<sup>T</sup>X, from highest to lowest)
+    * Truncated SVD
+        * Throw out some singular values (lowest ones) in &Sigma;
+    * Word embeddings
+        * Neural network models
+    * Skip-gram
+* Validation
+    * Word similarity
+        * a : b :: c : d - what is d?
+            * Eg man : king :: woman : ? (man is to king as woman is to <u>queen</u>)
+        * Solved by assuming vector differences are 0: v<sub>a</sub> - v<sub>b</sub> = v<sub>c</sub> - v<sub>d</sub>
+* Can download pretrained word2vec embeddings from web
+    * Advantages - trained, large quantity, cheap, easy to try
+    * Disadvantages - doesn't always work

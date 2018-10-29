@@ -208,3 +208,26 @@ Midterm next week until lecture 10
 * Deformation matrix
     * [s, 0 \\\\ 0, s] - scales by s
     * [cos&theta;, -sin&theta; \\\\ sin&theta;, cos&theta;] - CCW rotation by &theta;
+
+## Lecture 13 - 2018/10/16
+
+> Midterm 
+
+## Lecture 13 - 2018/10/18
+
+* TODO
+
+## Lecture 13 - 2018/10/23
+
+* Beginning of 3D computer vision
+* Left handed frame (Z goes into canvas vs out of canvas)
+* To go from 3D to 2D, we can just drop the z coordinate (orthogonal view?)
+* Projection view - take depth into account by drawing images such that each ray goes to a single center of projection
+* Plane: aX + bY + cZ = d
+* f/Z - scale factor in perspective projection
+* Multiplying plane by f/Z, we can rewrite to ax + by + cf = fd/Z
+    * When Z &rarr; &infin;, ax = by + cf = 0, line at infinity
+* Ground plane
+    * Y = -h
+    * y = fY/Z = -fh/Z (when Z &rarr; &infin;, y &rarr; 0)
+    * aka 'horizon'
