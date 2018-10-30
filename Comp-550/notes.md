@@ -2,6 +2,36 @@
 
 > [Course Website]( http://cs.mcgill.ca/~jcheung/teaching/fall-2018/comp550/index.html)
 
+## Terms & Concepts
+
+* CL - computational linguistics
+* NLP - natural language processing
+* NLU - natural language understanding
+* NLG - natural language generation
+* Semantics, pragmatics, discourse, syntax, phonology, phonetics, morphology
+* Morpheme - inflection, derivation; free, bound (prefixes, suffixes, infixes, circumfixes)
+* Language - isolating, synthetic
+* Lemmatization
+* Lexicon
+* Morphotactics
+* FSA - finite state automata - Q &Sigma; q<sub>0</sub> &sigma; F
+* Porter stemmer
+* Morphological parsing - surface (foxes), intermediate (fox^s#), underlying (fox +N +Pl)
+* FST - finite state transducer - FSA with output symbols (&Delta;)
+* Word - tokens, types
+* Term frequency - TF(w, S)
+* Relative frequency - RF(w, S) 
+* Corpus 
+* Zipf's Law, Zipf-Mandelbrow Law
+* Long tail
+* N-grams
+* k-fold cross validation
+* Entropy - H(p)
+* Perplexity - Perplexity(p, q)
+* MLE - maximum likelihood estimation
+* Good-turing smoothing
+* Naïve Bayes
+
 ## Lecture 1 - 2018/09/04
 
 
@@ -37,6 +67,8 @@
 * Corpus - collection of text; used for text to count
 * Zipf's Law: f &prop; 1/r
     * Frequency of word type is inversely proportional to rank of word type (by frequency)
+* Zipf-Mandelbrow Law - better fit
+    * f = P/(r + &rho;)<sup>B</sup> or log f = log P - B log(r + &rho;)
 
 ## Lecture 4 - 2018/09/13
 
@@ -55,6 +87,13 @@
     * Treat `<UNK>` as some vocabulary word
     * Use `<UNK>` for unseen words during testing
 * Smoothing - shift probability mass to cases that we haven't seen before/are unsure about
+on unseen data
+* Good-turing smoothing
+    * N = &Sigma;<sub>i</sub>f<sub>i</sub> x i
+    * c* = (c + 1)f<sub>c+1</sub>/f<sub>c</sub>
+    * P(w<sub>c</sub>) = c*/N
+    * P(UNK) = f<sub>1</sub>/N
+    * Problem with high c as f<sub>c+1</sub> is often 0. Solution is to estimate log f<sub>c</sub><sup>LR</sup> = a log c + b (LR &rarr; linear relationship)
 
 ## Lecture 5 - 2018/09/18
 
@@ -79,6 +118,11 @@
         * Count of N-gram
         * Proportion of total document
         * Scaled versions of counts
+* POS tags
+    * Crudely captures syntactic patterns
+    * Needs preprocessing
+* Naïve Bayes  
+    * P(y|x) = P(y)&prod;<sub>i</sub>P(x<sub>i</sub>|y)/P(x)
 
 ## Lecture 6 - 2018/09/20
 
@@ -268,7 +312,7 @@
     * Meaning of words - lexical semantics
 * Referent - person/thing to which a expression refers
 * Extensional definition - all things for which a definition applies, as opposed to intention or comprehension
-* Intensional definition - necessary and sufficient conditions to be a telephone
+* Intensional definition - necessary and sufficient conditions
 * Multiple words can refer to the same referent. Used in different contexts &rarr; different senses.
     * Example of venus, morning star, evening star, which are all venus
 * Hyponym/hypernym - ISA (is a) relationship
@@ -426,7 +470,7 @@
             * At most one thing referred as a student
             * Student participates in some predicate ("took Comp550")
         * &exist;x.Student(x) &wedge; &forall;y.(Student(y) &rarr; y = x) &wedge; took(x, COMP550
-    * Det &rarr; a to {&lambda;P.&lambda;Q.&exist;x. P(ex) &wedge; Q(x)}
+    * Det &rarr; a to {&lambda;P.&lambda;Q.&exist;x. P(x) &wedge; Q(x)}
     * Det &rarr; the {&lambda;P.&lambda;Q.&exist;x P(x) &wedge; &forall;y(P(y) &rarr; y = x)}
 * Scopal ambiguity
     * Eg. Every student took a course
@@ -482,4 +526,10 @@
     7. Do left to right breadth first traversal of all branches below X to left of p. Propose any NP encountered as antecedent
     8. If X is S, do left to right breadth first traversal of all branches below X to right of p, but don't go below any NP or S encountered, Propose any NP encountered as antecedent
     9. Go to step 4
-* 
+
+## Lecture 17 - 2018/10/30
+
+* This-anaphora
+    * May refer to complex chunks of information
+* Midterm review
+    * CYK
