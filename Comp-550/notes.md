@@ -413,3 +413,73 @@
         * Reifying event variable makes things more flexible
             * Optional elements such as location and time
             * Can add information to event variable
+
+## Lecture 15 - 2018/10/23
+
+* Neo-Davidsonian semantics cont.
+    * Transitive verbs: V &rarr; enjoys to {&lambda;w.&lambda;z.w(&lambda;x.&exist;e.Enjoys(e) &wedge; Enjoyer(e, z) &wedge; Enjoyee(e, x))}
+* Note that for quantifiers, universal quantifiers use &rarr;, while existential ones use &wedge;
+* Russell (1905)'s Definite descriptions
+    * How to represent 'the' in FOL?
+        * In "the student took Comp550", we must enforce 
+            * An entity who is a student
+            * At most one thing referred as a student
+            * Student participates in some predicate ("took Comp550")
+        * &exist;x.Student(x) &wedge; &forall;y.(Student(y) &rarr; y = x) &wedge; took(x, COMP550
+    * Det &rarr; a to {&lambda;P.&lambda;Q.&exist;x. P(ex) &wedge; Q(x)}
+    * Det &rarr; the {&lambda;P.&lambda;Q.&exist;x P(x) &wedge; &forall;y(P(y) &rarr; y = x)}
+* Scopal ambiguity
+    * Eg. Every student took a course
+        * every > a: for all students, there exists a course that was taken by that student
+        * a > every: there exists a course for which all students took
+* Underspecified representation - meaning representation that can embody all possible readings without explicitly enumerating lal of them
+* Cooper Storage
+    * Associate a store with each FOL so that each reading can be recovered
+    * Every student took a course
+        * &exist;e.took(e) &wedge; taker(e, s<sub>1</sub>) &wedge; takee(e, s<sub>2</sub>)
+            * (&lambda;Q.&forall;x.Student(x) &rarr; Q(x), 1)
+            * (&lambda;Q.&exist;y.Course(y) &wedge; Q(y), 2)
+        * We do not specify the order of each sub expression
+    * Compositional rules now modify the inside part of a store, and introduce new idnex variables 
+
+## Lecture 16 - 2018/10/25
+
+* Coherent - property of discourse that makes sense
+    * Contains logical structure/meaning
+* Incoherent - eg two completely unrelated sentences
+* Cohesion - use of linguistic devices to tie together text units
+    * Lexical cohesion - related words in passage
+    * Discourse markers - cue words for discourse relations
+        * Eg also, and, therefore, however
+* Referent - actual entity in the world
+* Referring expressions - phrases that refer to the referent
+* Referring expressions towards the same referent are said to corefer
+* Antecedent - thing that exists before or logically precedes another
+* Anaphor - points to an antecedent that precedes it
+* Cataphor - points to an antecedent that follows it
+* Zero anaphora - ommitting pronouns in certain contexts
+    * Languages with this are referred to as pro-drop
+    * Eg No habl-o español
+    * Others can be dependent on context
+* Bridging reference - reference to entities that can be inferred from previously mentioned entity
+    * I like my office. <u>The windows</u> are large.
+* Non-referential pronouns
+    * Pleonastic pronouns 
+        * It is raining - not sure what 'it' is referring to
+    * Clefting
+        * It is he that is Bob - 'it' used to focus on some point
+* Pronominal anaphora resolution
+    * Relevant info to identify pronouns include gender & number (eg 3Sg), syntactic information, and recency
+* C-command - reflexives that must be bound by a subject in certain syntactic relationships
+    * Eg 'the students taught themselves', themselves refers to the students, if it was 'them' it would refer to some other group
+* Hobb's algorithm
+    1. Begin at NP node i mmediately dominating the pronoun
+    2. Go to first NP or S above it. Call this node X and the path to it p
+    3. Do left to right breadth first traversal of all branches below X to left o p. Propose as antecedent any NP node encountered that has an NP or S between it and X
+    4. If X is highest S in sentence, consider parse trees of previous sentences in recency order, and traverse each in left to right breadth first order. When NP encountered, propose as antecendent. If X not highest S, continue to step 5
+    5. From X, go to first NP or S above it. Call this node X and path to it p
+    6. If X is NP and p doens't pass through Nominal that X immediately dominates, propose X as antecedent
+    7. Do left to right breadth first traversal of all branches below X to left of p. Propose any NP encountered as antecedent
+    8. If X is S, do left to right breadth first traversal of all branches below X to right of p, but don't go below any NP or S encountered, Propose any NP encountered as antecedent
+    9. Go to step 4
+* 
