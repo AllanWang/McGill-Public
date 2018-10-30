@@ -213,11 +213,11 @@ Midterm next week until lecture 10
 
 > Midterm 
 
-## Lecture 13 - 2018/10/18
+## Lecture 14 - 2018/10/18
 
 * TODO
 
-## Lecture 13 - 2018/10/23
+## Lecture 15 - 2018/10/23
 
 * Beginning of 3D computer vision
 * Left handed frame (Z goes into canvas vs out of canvas)
@@ -231,3 +231,41 @@ Midterm next week until lecture 10
     * Y = -h
     * y = fY/Z = -fh/Z (when Z &rarr; &infin;, y &rarr; 0)
     * aka 'horizon'
+
+## Lecture 16 - 2018/10/25
+
+* TODO
+
+## Lecture 17 - 2018/10/30
+
+* Majority of notes done on paper. Below reflects some bigger points.
+* Rotation: [x(t) \\ y(t) \\ z(t)] = [cos(&Omega;t) & 0 & sin(&Omega;t) \\ 0 & 1 & 0 \\ -sin(&Omega;t) & 0 & cos(&Omega;t)] = [x<sub>0</sub> \\ y<sub>0</sub> \\ z<sub>0</sub>]
+* Rotation about y axis
+    * x(t) = f(X(t))/Z(t)
+    * y(t) = f(Y(t))/Z(t)
+    * Derive both where t = 0
+    * V<sub>x</sub> = f(&Omega;x<sub>0</sub><sup>2</sup> + &Omega;x<sub>0</sub><sup>2</sup>)/Z<sub>0</sub><sup>2</sup>
+    * V<sub>y</sub> = f&Omega;x<sub>0</sub>y<sub>0</sub>/z<sub>0</sub><sup>2</sup> = &Omega;xy/f
+* Rotation about x axis
+    * By symmetry, exchange roles of x and y
+    * V<sub>x</sub> = &Omega;xy/f
+    * V<sub>y</sub> = f&Omega;(1 + (y/f)<sup>2</sup>)
+* Rotation about z axis
+    * V<sub>x</sub> = &Omega; - y
+    * V<sub>y</sub> = &Omega; x
+* Discrete rotation
+    * [R] [x<sub>0</sub> \\ y<sub>0</sub> \\ z<sub>0</sub>] = [x<sub>r</sub> \\ y<sub>r</sub> \\ z<sub>r</sub>]
+    * R satisfies:
+        * det(R) = 1
+        * RR<sup>T</sup> = R<sup>T</sup>R = I<sub>3x3</sub>
+        * Ie orthogonal matrix, R<sup>T</sup> = R<sup>-1</sup>
+* Rotation matrix preserves angle between 2 vectors
+* Rotation matrix has 3 eigenvalues, 2 of which are complex, while the third is 1
+    * R<b>P</b> = &lambda;<b>P</b>
+    * If you choose the third eigenvalue and its associated eigenvector, then R<b>P</b> = <b>P</b>; <b>P</b> is the axis of rotation
+* To simplify cross product, let [a]<sub>x</sub>b = a x b = [0 & -a<sub>3</sub> & a<sub>2</sub> \\ a<sub>3</sub> & 0 & a<sub>1</sub> \\ a<sub>2</sub> & -a<sub>1</sub> & 0]
+* To map 3D point to 4D point, [x \\ y \\ z] &rarr; [x \\ y \\ z \\ 1]
+    * Translation [x + t<sub>x</sub> \\ y + t<sub>y</sub> \\ z + t<sub>z</sub> \\ 1] = [1 & 0 & 0 & t<sub>x</sub> \\ 0 & 1 & 0 & t<sub>y</sub> \\ 0 & 0 & 1 & t<sub>z</sub> \\ 0 & 0 & 0 & 1] [x \\ y \\ z \\ 1]
+    * Scaling [&sigma;<sub>x</sub>X \\ &sigma;<sub>y</sub>Y \\ &sigma;<sub>z</sub>Z \\ 1] = [&sigma;<sub>x</sub> & 0 & 0 & 0 \\ 0 & &sigma;<sub>y</sub> & 0 & 0 \\ 0 & 0 & &sigma;<sub>z</sub> & 0 \\ 0 & 0 & 0 & 1][x \\ y \\ z \\ 1]
+    * Rotation appears in the top left 3x3, with all other elements as 0, and cell 4, 4 = 1.
+    * 
