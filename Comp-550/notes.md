@@ -109,7 +109,7 @@
 * Word frequency
     * Term frequency: TF(w, S) = #w in corpus S
         * eg TF(<i>cat</i>, the cat sat on the mat) = 1
-    * Relative frequency: RF(w, S) = TF(w, S) / |S|
+    * Relative frequency: RF(w, S) = TF(w, S) / \|S\|
         * eg RF(<i>cat</i>, the cat sat on the mat) = &frac16;
 * Corpus - collection of text; used for text to count
 * Zipf's Law: f &prop; 1/r
@@ -169,7 +169,7 @@ on unseen data
     * Crudely captures syntactic patterns
     * Needs preprocessing
 * Naïve Bayes  
-    * P(y|x) = P(y)&prod;<sub>i</sub>P(x<sub>i</sub>|y)/P(x)
+    * P(y\|x) = P(y)&prod;<sub>i</sub>P(x<sub>i</sub>\|y)/P(x)
 
 ## Lecture 6 - 2018/09/20
 
@@ -190,8 +190,8 @@ on unseen data
 
 * P(outcome i) = #(outcome i)/#(all events)
 * &pi;<sub>i</sub> = P(Q<sub>1</sub> = 1) = #(Q<sub>1</sub> = 1)/#(sentences)
-* a<sub>ij</sub> = P(Q<sub>t+1</sub> = j | Q<sub>t </sub> = i) = #(i, j)/#(i)
-* b<sub>ik</sub> = P(O<sub>t</sub> = k | Q<sub>t</sub> = i) = #(word k, tag i)/#(i)
+* a<sub>ij</sub> = P(Q<sub>t+1</sub> = j \| Q<sub>t </sub> = i) = #(i, j)/#(i)
+* b<sub>ik</sub> = P(O<sub>t</sub> = k \| Q<sub>t</sub> = i) = #(word k, tag i)/#(i)
 * Forward algorithm
     * Uses DP to avoid unnecessary recalculations
     * Create table of all possible state sequences, annotated with probabilities
@@ -201,7 +201,7 @@ on unseen data
     * Trellis with cells &beta;<sub>i</sub>(t)
     * Unlike &alpha;<sub>i</sub>(t), it excludes the current word
 * Forward & backward
-    * P(O|&theta;) = &Sigma;<sup>N</sup><sub>i=1</sub> &alpha;<sub>i</sub>(t)&beta;<sub>i</sub>(t) for any t = 1 .. T
+    * P(O\|&theta;) = &Sigma;<sup>N</sup><sub>i=1</sub> &alpha;<sub>i</sub>(t)&beta;<sub>i</sub>(t) for any t = 1 .. T
 * Log sum trick - to avoid underflow (from small numbers), work in log domain
 * Viterbi algorithm - similar to forward algorithm, but replace summation with max
     * Used to find most likely state sequence
@@ -221,15 +221,15 @@ on unseen data
     * Eg for Org, McGill University would be labelled B I, as both compose a single organization
 * Generative models - learn joint distributions P(X, Y)
     * Can be applied to new models, unlike discriminative
-* Discriminative models - learn conditional distributions P(Y|X)
+* Discriminative models - learn conditional distributions P(Y\|X)
 * Standard HMM - product of probabilities
-    * Forward algorithm - P(X|&theta;)
-    * Viterbi algorithm - argmax<sub>y</sub>P(X, y|&theta;)
+    * Forward algorithm - P(X\|&theta;)
+    * Viterbi algorithm - argmax<sub>y</sub>P(X, y\|&theta;)
 * Linear-chain conditional random fields (CRF) - Sums over features & time-steps
     * Replaces HMM products by numbers that are not probabilities, but linear combinations of weights & feature values
     * Allows word templates
     * Forward algorithm - Z(X)
-    * Viterbi algorithm - argmax<sub>Y</sub>P(Y|X, &theta;)
+    * Viterbi algorithm - argmax<sub>Y</sub>P(Y\|X, &theta;)
 * To avoid overfitting, make weights close to zero
     * Done be adding an extra term (-&theta;<sub>k</sub>/&sigma;<sup>2</sup>) for regularization
 
@@ -410,7 +410,7 @@ on unseen data
     * Each row is a vector representation of word through context
         * Context can refer to nearest 'x' neighbouring words
 * Cosine similarity
-    * sim(A, B) = (A &middot; B)/(||A|| ||B||)
+    * sim(A, B) = (A &middot; B)/(\|\|A\|\| \|\|B\|\|)
     * -1 if vectors point in opposite direction, 0 if orthogonal, 1 if same direction
     * Positive (eg count) vectors are scored within 0 and 1
 * Cosine similarity is not enough to determine synonymy
