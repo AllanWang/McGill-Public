@@ -24,13 +24,60 @@
 * Corpus 
 * Zipf's Law, Zipf-Mandelbrow Law
 * Long tail
-* N-grams
+* N-grams - unigram, bigram, trigram
 * k-fold cross validation
 * Entropy - H(p)
+* Cross entropy - H(p, q)
+    * Estimation
 * Perplexity - Perplexity(p, q)
 * MLE - maximum likelihood estimation
 * Good-turing smoothing
 * Naïve Bayes
+* Supervised, semi-supervised, unsupervised learning
+    * Clustering, grammar induction, word relatedness
+* POS - part of speech
+* Classification, regression
+* N-grams, bag of words
+* Naïve Bayes
+* POS, modals, auxiliary verbs, conjunctions, particles
+* Open classes, neologisms, content words
+* Closed classes, function words
+* Forward algorithm, backward algorithm, forward & backward, viterbi algorithm
+* Random restarts, biased initialization
+* Chunking (shallow parsing), named-entity recognition
+* IOB tagging
+* Generative, discriminative
+* LC-CRF - Linear-chain conditional random fields
+* Constituency
+* FSA vs CFG
+* CYK
+* PCFG
+* Constituent parsing, dependency parsing
+* Hearst
+* Hypernymy, hyponymy
+* Synonymy, antonymy
+* Polysemy
+* Homonymy, homophone, homograph
+* Metonymy, synecdoche
+* Holonymy, meronymy
+* WordNet, synset
+* Lesk, Yarowsky, bootstrapping
+* PMI - pointwise mutation information
+* SVD - singular value decomposition
+* Word embeddings
+* Co-compositionality
+* Domain of discourse, variables, predicates, functions, logical connectives, quantifiers
+* FOL - first order logic
+* Lambda calculus, beta reduction, type-raising
+* Neo-davidsonian event semantics
+* Russell's definite descriptions
+* Cooper storage, store
+* Discourse markers
+* Referent, referring expression
+* Anaphora, antecedents, cataphora, zero anaphora, bridging reference
+* Pleonastic pronouns, clefting
+* Hobb
+
 
 ## Lecture 1 - 2018/09/04
 
