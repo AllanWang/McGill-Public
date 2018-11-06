@@ -265,3 +265,56 @@
 * Mutation testing
     * Given a program, create some mutants (change one node from original)
     * Original test will then run through mutants; if all are detected, then the mutants are dead and the test set is adequate
+
+## Lecture 12 - 2018/10/12
+
+* Project smells
+    * Buggy tests
+    * Lack of automated tests
+    * High test maintenance costs
+    * Production bugs
+* Test code smells
+    * Obscure test - hard to understand
+    * Eager test - verifying too much functionality
+    * Mystery guest - not able to see cause and effect as logic is outside of test method (eg using external file)
+    * General fixture - building/referencing larger fixture than needed to verify functionality (eg comparing entire data vs needed attributes)
+    * Hard-coded test data - constants in tests that obscure cause-effect relationship
+    * Conditional test logic - tests not always called (eg due to branching)
+    * Hard to test - eg highly coupled, asynchronous code
+    * Test code duplication - same test code repeated many times
+    * Test logic in production - code in production contains logic that should only be in tests
+* Behaviour smells
+    * Assertion roulette - many assertions in one method; hard to tell which assertion resulted in the failure
+    * Erratic test - some tests pass, others fail
+        * Possible causes
+            * Interacting tests/test suite
+            * Resource leakage
+            * Resource optimism (depends on external resource, non-deterministic results)
+            * Unrepeatable test - behaves differently the first time
+            * Test run war - failure when several tests are run simultaneously
+    * Fragile tests - tests that fail when SUT is changed in a way that should not affect the part the test is exercising
+    * Manual intervention - requires manual action each time it is run
+    * Slow tests - take too long to run
+* Name test classes and methods to reflect what is being exercised, and general characteristics of input/output values
+* Allow code reuse through parameterized tests or test utility methods
+
+## Lecture 13 - 2018/10/19
+
+* Black box component testing
+    * Testing without inside into details of underlying code
+    * Benefits - no need for source code; wide applicability
+    * Disadvantage - does not test hidden functions
+* Equivalence partitioning
+    * To have complete functional testing and avoid redundancy
+    * Entire input set covered &rarr; completeness
+    * Disjoint classes &rarr; avoid redundancy
+    * Equivalence class - behaves the same way, maps to similar output, tests the same thing, reveals the same bugs
+
+## Lecture 14 - 2018/10/24
+
+a<sub>a<u>b</u></sub>c
+
+## Lecture 15 - 2018/10/26
+
+## Lecture 16 - 2018/10/31
+
