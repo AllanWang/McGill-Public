@@ -298,23 +298,206 @@
 * Name test classes and methods to reflect what is being exercised, and general characteristics of input/output values
 * Allow code reuse through parameterized tests or test utility methods
 
-## Lecture 13 - 2018/10/19
+## 2018/10/17
+
+* Quiz 1
+
+---
+
+> From this point forth, I will write lectures based on topics and start dates rather than lecture dates.
+
+## Black Box Testing - 2018/10/19
 
 * Black box component testing
     * Testing without inside into details of underlying code
     * Benefits - no need for source code; wide applicability
     * Disadvantage - does not test hidden functions
-* Equivalence partitioning
+* EP - Equivalence partitioning
     * To have complete functional testing and avoid redundancy
     * Entire input set covered &rarr; completeness
     * Disjoint classes &rarr; avoid redundancy
-    * Equivalence class - behaves the same way, maps to similar output, tests the same thing, reveals the same bugs
+    * EC - Equivalence class - behaves the same way, maps to similar output, tests the same thing, reveals the same bugs
+    * WECT - weak equivalence class testing - choose one variable value for each equivalence class
+    * SECT - strong equivalence class testing - test all interactions; based on Cartesian product
+        * Makes an assumption that variables are independent
+* Error conditions should likely include both valid and invalid inputs during testing
+* Identifying EC (for each external input:)
+    * If input is range of valid values:
+        * Add one valid EC within range
+        * Add two invalid ECs outside each end of range
+    * If input is a number
+        * Add one valid EC
+        * Add two invalid ECs (none and more than N)
+    * If input is element from set of valid values
+        * Add one valid EC (within set)
+        * Add one invalid EC (outside set)
+    * If input is condition
+        * Add one EC to satisfy condition
+        * Add one invalid EC that rejects the condition
+    * Consider equivalence partitions to handle defaults, empty, blank, null, zero, none conditions, etc
+* Myer's test selection
+    * Until all valid ECs have been covered, add a test case that covers as many uncovered valid ECs as possible
+    * Until all invalid ECs have been covered, add a test case that covers one and only one uncovered invalid EC
+* EP is good in that it needs a small number of test cases, and a higher probability of uncovering defects than with randomly chosen test suites of the same size
+* EP is limited in that 
+    * Typed language avoid need to check for some invalid inputs
+    * Myer's test selection is weak when inputs are dependent
+    * Brute-force definitions are impractical when number of inputs is large
+* BVA - Boundary value analysis
+    * Tests under the assumption that errors tend to occur near extreme values
+    * Condition characteristics
+        * First/last, start/finish
+        * Min/max, under/over, lowest/highest
+        * Empty/full
+        * Slowest/fastest, smallest/largest, shortest/longest
+        * Next-to/farthest-from
+        * Soonest/latest
+    * Guideline - use values at minimum, just above minimum, nominal value, just below maximum, and maximum
+        * Convention: min, min+, nom, max-, max
+    * Make every value but one nominal, and let one variable assume extreme values
+    * Guidelines can be applied to output conditions, and also sub-boundary conditions (internal to software, eg powers-of-two for data structure sizes)
+    * Generally, n variables require 4n + 1 test cases
+    * For some robustness, add values beyond boundary, ie min- amd max+. Leads to 6n + 1 test cases
+* Worst case testing
+    * BVA assumes that failures typically occur with one fault.
+    * To account for any combination of faults, use full cartesian product, resulting in 5<sup>n</sup>
+    * To extend to robust worst case testing, use 7<sup>n</sup>
+* Decision table format 
+    * List of conditions and their unique combination of conditions
+    * List of resultants and the list of selected actions
+    * Allows us to distinguish values that aren't important for a given condition/result. Typically, it means they don't have an effect or are mutually exclusive
+* Binary decision trees
+    * Each node is a decision and each branch matches the decision result: solid line for true and dashed line for false
+    * Leaves are either 0 for false or 1 for true
+* ROBDD - reduced ordered binary decision diagrams
+    * Compact decision table
+    * Omits redundancy by removing conditions with no effects, and by reusing subtrees with the same outputs
+    * From binary decision tree
+        * If outputs are equal, remove the parent node
+        * If child matches another child, keep one and reuse it
+    * Shannon expansion
+        * Start with f, and replace a single variable with true or false (eg f = a &rarr; f<sub>a</sub>, f<sub><u>a</u></sub>)
+        * Generate the new expression by replacing specified variable with its result, and continue. Eventually, we'll know the branches for each variable, and we can generate the decision diagram
+    * Test suite can be generated by using every path of a ROBDD. Actions result from the path ending at a `1`.
+* Cause-effect modeling
+    * Given table, cause-effect table and graph allow us to generate boolean formula and decision table, which leads to test cases
+    * We identify causes and effects
+    * Potential constraints
+        * At least one (I) (ie A &vee; B)
+        * At most one (E) (ie &not;A &vee; &not;B)
+        * Exactly one (O) (ie A &oplus; B)
+        * Masks (M) (ie A &rArr; &not;B)
+        * Requires (R) (ie A &rArr; B)
+    * Write columns for conditions and columns for effects. This will map relevant conditions to their effects.
+    * Generate expressions for each cause based on the necessary effects (use &vee; and &wedge;)
+    * Create graph mapping each condition to the effects
+    * Results in high-yield test cases
+    * Helps identify all possible combinations of causes
+    * More restrictive than straight decision tables
+    * Points out incompleteness and ambiguities
+    * Deriving decision table
+        * Add row for each cause or effect
+        * Add column for each test case (variant)
+        * For each cause, figure out which variants are true and which are false
+        * For each effect, see which variants are present and which one are absent
+        * Use dash if both values are possible
+* To derive logic formulas, generate initial function from cause-effect graph, then transform into minimum DNF (disjunctive normal form) form using boolean algebra laws
+* Variable negation
+    * Unique true points - variant for each product term such that the product term is true but no other product term is true
+    * Near false points - variant for each literal such that the whole function is false, and where a negation to the literal value will render the whole function true
 
-## Lecture 14 - 2018/10/24
+## System Integration
 
-a<sub>a<u>b</u></sub>c
+* Bottom up testing - testing leaves and their respective parents until we reach the root (main)
+    * No stubs are required
+* Top down testing - testing main with stubs for all children, then go down in BFS until leaves are tested (without stubs)
+* Risk driven - test based on criticality. Test top down from critical points and then BFS for the remaining nodes.  
 
-## Lecture 15 - 2018/10/26
+## Integration Testing
 
-## Lecture 16 - 2018/10/31
+* Stubs - replaces called module
+    * Passes test data for input module
+    * Returns test results for output module
+    * Must be declared/invoked as real module (same name, parameter, return types, modifier)
+    * Stubs can become too complex
+* Drivers - used to call tested modules
+    * Handles parameter passing and return values
+* Strategies
+    * Big Bang
+        * Non-incremental; integrate all components as a whole
+        * Fast for small/stable systems, but does not allow parallel developments and can easily miss interface faults
+    * Top-down
+        * Test high level components, then called components until lowest-level components
+        * Better fault localization, little to no drivers needed, can test in parallel, supports different orders, major design flaws found first
+        * Needs lots of stubs and may not adequately test reusable components
+    * Bottom-up
+        * Test low level then highest level
+        * No need for stubs, can test reusable components thoroughly,  can test in parallel
+        * Needs drivers, high-level components tested last, no concept of early skeletal system
+    * Sandwich
+        * Has logic (top down), middle, and operations (bottom up)
+    * Risk-driven
+        * Integrate based on criticality
+    * Function/thread-based
+        * Integrate based on threads/functions
 
+## Testing OO Systems
+
+* OO software seems to require more testing than other paradigms
+* OO specific constructs
+    * Encapsulation of state
+    * Inheritance
+    * Polymorphism & dynamic binding
+    * Abstract classes
+    * Exception
+* Correctness is now input/output relation as well as object state
+* Testing OO methods is only meaningful in relation to other operations and their joint effect on shared state
+* New fault models
+    * Wrong instance of method inherited
+    * Wrong redefinition of attribute
+    * Wrong instance of operation called due to dynamic binding
+* OO integration levels
+    * Functions
+    * Classes
+    * Basic unit testing - single operation of class
+    * Unit testing - methods within lass
+    * Intra-class testing
+        * Black box/white box
+            * Data flow-based testing (across several methods)
+        * State-based testing
+        * Complex tests with stubs/mocks
+    * Cluster integration - integrate two or more classes through inheritance
+        * Recommended only with small or stable clusters, where components are tightly coupled
+    * System integration - integrate components into single application
+* Mock objects - help setup and control stubs; based on interfaces
+* Kung et al. Strategy
+    * Produces partial ordering of testing levels
+    * ORD - object relation diagram
+        * Diagram with edges representing inheritance (I), composition (C), and association (A)
+    * CFW - identify effects of class change at class level
+        * For class X, set of classes that could be affected by change to class X
+        * Assuming ORD is not modified, CFW(X) has to include subclasses of X, classes composed with X, and classes associated with X
+    * Dynamic relationships not taken into account
+    * Abstract classes cannot be tested directly
+    * Cyclic ORD
+        * Cluster - maximal set of strongly connected nodes
+        * Cyclic breaking - removing edges from cluster until graph becomes acyclic
+        * Deleting inheritance and composition edges result in stubbing/retesting, whereas removing association will lead to the simplest stub
+
+## System Testing
+
+* Performed after software is assembled
+* Check if system satisfies requirements
+* Acceptance tests - carried out by customers to verify expectations
+    * Alpha testing - performed on systems that may have incomplete features, typically by in-house testing panel
+    * Beta testing - end user testing performed within user environment
+* System level black-box testing
+    * Test cases derived from statement of functional requirements
+        * Natural language requirements
+        * Use cases
+        * Models
+        * For each case
+            * Develop scenario graph from use cases
+            * Determine and rank all possible scenarios
+            * Generate and execute test cases from scenarios to meet coverage goal
+* TODO p572 - ended with "example: combinatorial method"
