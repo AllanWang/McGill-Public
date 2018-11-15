@@ -209,15 +209,15 @@ Midterm next week until lecture 10
     * [s, 0 \\\\ 0, s] - scales by s
     * [cos&theta;, -sin&theta; \\\\ sin&theta;, cos&theta;] - CCW rotation by &theta;
 
-## Lecture 13 - 2018/10/16
+## 2018/10/16
 
 > Midterm 
 
-## Lecture 14 - 2018/10/18
+## Lecture 13 - 2018/10/18
 
 * TODO
 
-## Lecture 15 - 2018/10/23
+## Lecture 14 - 2018/10/23
 
 * Beginning of 3D computer vision
 * Left handed frame (Z goes into canvas vs out of canvas)
@@ -232,11 +232,11 @@ Midterm next week until lecture 10
     * y = fY/Z = -fh/Z (when Z &rarr; &infin;, y &rarr; 0)
     * aka 'horizon'
 
-## Lecture 16 - 2018/10/25
+## Lecture 15 - 2018/10/25
 
 * TODO
 
-## Lecture 17 - 2018/10/30
+## Lecture 16 - 2018/10/30
 
 * Majority of notes done on paper. Below reflects some bigger points.
 * Rotation: [x(t) \\ y(t) \\ z(t)] = [cos(&Omega;t) & 0 & sin(&Omega;t) \\ 0 & 1 & 0 \\ -sin(&Omega;t) & 0 & cos(&Omega;t)] = [x<sub>0</sub> \\ y<sub>0</sub> \\ z<sub>0</sub>]
@@ -269,19 +269,19 @@ Midterm next week until lecture 10
     * Scaling [&sigma;<sub>x</sub>X \\ &sigma;<sub>y</sub>Y \\ &sigma;<sub>z</sub>Z \\ 1] = [&sigma;<sub>x</sub> & 0 & 0 & 0 \\ 0 & &sigma;<sub>y</sub> & 0 & 0 \\ 0 & 0 & &sigma;<sub>z</sub> & 0 \\ 0 & 0 & 0 & 1][x \\ y \\ z \\ 1]
     * Rotation appears in the top left 3x3, with all other elements as 0, and cell 4, 4 = 1.
 
-## Lecture 18 - 2018/11/01
+## Lecture 17 - 2018/11/01
 
 * TODO
 
-## Lecture 19 - 2018/11/06
+## Lecture 18 - 2018/11/06
 
 * TODO
 
-## Lecture 20 - 2018/11/08
+## Lecture 19 - 2018/11/08
 
 * TODO
 
-## Lecture 21 - 2018/11/13
+## Lecture 20 - 2018/11/13
 
 * Homograph - invertible 3 x 3 matrix that allows you to map pixels in on camera's image to pixels in another camera's image
     * Case 1 - look at 3D scene plane
@@ -304,4 +304,6 @@ Case 1
     * t = sa<sub>x</sub> + sa</sub>y</sub> + sa <sub>z</sub> + tb<sub>x</sub> + tb<sub>y</sub> + tb<sub>z</sub>
 * To get pixel coordinates, premultiply P<sub>3 x 4</sub> 
 
-## Lecture 22 - 2018/11/15
+## Lecture 21 - 2018/11/15
+
+* 
