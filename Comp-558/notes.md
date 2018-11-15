@@ -291,7 +291,7 @@ Midterm next week until lecture 10
 
 ---
 
-Case 1
+Case 1 (plane)
 
 * We assume that (s, t) are 2D coordinates on scene plane
 * Bottom left hand corner of plane has coordinates (x<sub>0</sub>, y<sub>0</sub>, z<sub>0</sub>) in a world coordinate frame
@@ -302,8 +302,22 @@ Case 1
     * (x<sub>0</sub>, y<sub>0</sub>, z<sub>0</sub>) + t = (x, y, z)
     * t = sa + tb
     * t = sa<sub>x</sub> + sa</sub>y</sub> + sa <sub>z</sub> + tb<sub>x</sub> + tb<sub>y</sub> + tb<sub>z</sub>
-* To get pixel coordinates, premultiply P<sub>3 x 4</sub> 
+* To get pixel coordinates, pre-multiply P<sub>3 x 4</sub> 
 
 ## Lecture 21 - 2018/11/15
 
+Case 2 (stereo (2) cameras)
+
+* Rectification - transform (warp) both cameras' images such that their axes are in alignment
+    * T is written with respect to camera 1's coordinate frame
+        * Eg T = (1, 0, 0) implies that it is aligned with camera 1's x axis
+    * R<sub>rect</sub> is a 3 x 3 matrix which, when used to pre-multiply T, rotates it so that you end up with an axis system for camera 1 where the X axis is aligned with T
+    * To align camera 2, use R<sub>rect</sub>R<sub>1</sub>R<sub>2</sub><sup>-1</sup>
+    * To warp camera one - K<sub>1</sub>R<sub>rect</sub>K<sub>1</sub><sup>-1</sup>
+    * To warp camera two - K<sub>1</sub>R<sub>rect</sub>R<sub>1</sub>R<sub>2</sub><sup>-1</sup>K<sub>2</sub><sup>-1</sup>
+* 3D scene point X<sub>1</sub> = (X<sub>1</sub>, Y<sub>1</sub>, Z<sub>1</sub>)<sup>T</sup> is coordinate w.r.t. camera 1
+* Line of sight from one camera's optical center to the second camera's center intersects the image planes at the two epipoles, e<sub>1</sub>, e<sub>2</sub>
+* A unique 3D scene point defines an epipolar plane &pi;
+* A unique 3D scenepoint, &pi;, intersects the 2 camera image planes at conjugated epipolar lines
+* X<sub>1</sub> (above), along with T<sub>1</sub> = (T<sub>x</sub>, T<sub>y</sub>, T<sub>z</sub>)<sup>T</sup> and (X<sub>1</sub> - T<sub>1</sub>)<sup>T</sup> lie in the epipolar plane
 * 
