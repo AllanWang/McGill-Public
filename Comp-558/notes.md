@@ -268,4 +268,40 @@ Midterm next week until lecture 10
     * Translation [x + t<sub>x</sub> \\ y + t<sub>y</sub> \\ z + t<sub>z</sub> \\ 1] = [1 & 0 & 0 & t<sub>x</sub> \\ 0 & 1 & 0 & t<sub>y</sub> \\ 0 & 0 & 1 & t<sub>z</sub> \\ 0 & 0 & 0 & 1] [x \\ y \\ z \\ 1]
     * Scaling [&sigma;<sub>x</sub>X \\ &sigma;<sub>y</sub>Y \\ &sigma;<sub>z</sub>Z \\ 1] = [&sigma;<sub>x</sub> & 0 & 0 & 0 \\ 0 & &sigma;<sub>y</sub> & 0 & 0 \\ 0 & 0 & &sigma;<sub>z</sub> & 0 \\ 0 & 0 & 0 & 1][x \\ y \\ z \\ 1]
     * Rotation appears in the top left 3x3, with all other elements as 0, and cell 4, 4 = 1.
-    * 
+
+## Lecture 18 - 2018/11/01
+
+* TODO
+
+## Lecture 19 - 2018/11/06
+
+* TODO
+
+## Lecture 20 - 2018/11/08
+
+* TODO
+
+## Lecture 21 - 2018/11/13
+
+* Homograph - invertible 3 x 3 matrix that allows you to map pixels in on camera's image to pixels in another camera's image
+    * Case 1 - look at 3D scene plane
+        * Projection of location on 3D plane
+    * Case 2 - multiple cameras
+    * Case 3 - scene no longer planer, but camera undergoes pure rotation
+
+---
+
+Case 1
+
+* We assume that (s, t) are 2D coordinates on scene plane
+* Bottom left hand corner of plane has coordinates (x<sub>0</sub>, y<sub>0</sub>, z<sub>0</sub>) in a world coordinate frame
+* Unit vectors in the directions of the axes respectively in world coordinates
+    * a = (a<sub>x</sub>, a<sub>y</sub>, a<sub>z</sub>)
+    * b = (b<sub>x</sub>, b<sub>y</sub>, b<sub>z</sub>)
+* Coordinates of point (s, t) on plane in 3D
+    * (x<sub>0</sub>, y<sub>0</sub>, z<sub>0</sub>) + t = (x, y, z)
+    * t = sa + tb
+    * t = sa<sub>x</sub> + sa</sub>y</sub> + sa <sub>z</sub> + tb<sub>x</sub> + tb<sub>y</sub> + tb<sub>z</sub>
+* To get pixel coordinates, premultiply P<sub>3 x 4</sub> 
+
+## Lecture 22 - 2018/11/15
