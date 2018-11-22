@@ -501,3 +501,28 @@
             * Determine and rank all possible scenarios
             * Generate and execute test cases from scenarios to meet coverage goal
 * TODO p572 - ended with "example: combinatorial method"
+
+## Gray Box Testing
+
+TODO
+
+## Model Checking
+
+* Technique for checking if system model guarantees designated properties of spec
+* Formal verification can prove or disprove correctness of system with respect to formal property
+* Model checking exhaustively enumerates possible states and transitions of system 
+* Formal language required to capture system models and required properties
+* Kripke Structures
+    * KS = (S, I, R, L)
+    * S: states
+    * I &subseteq; S: initial states
+    * R &subseteq; S x S: transitions
+    * L : S &rarr; 2<sup>AP</sup>: labelling
+    * Transform from state machine by flattening hierarchy and parallelism, as well as encoding variables in the new states
+* Temporal logics
+    * Expresses functional requirements
+    * Deals with order and occurrences of states
+* Classification
+    * Linear - individual executions
+    * Branching - trees of executions
+* TODO CTL Syntax
