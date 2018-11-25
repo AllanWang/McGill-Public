@@ -504,7 +504,71 @@
 
 ## Gray Box Testing
 
+* Testing
+    * Test case analyzes one execution trace of system
+    * Detects errors but cannot guarantee/prove absence of errors
+    * Expensive to design; cheap to execute
+* Formal Verification
+    * Exhaustively analyzes all possible execution traces of system
+    * Can detect errors and guarantee/prove absence of errors
+    * Expensive to design; expensive to execute
+* Gray-box testing - test based on limited knowledge of internals (eg architecture, state, and UML design models)
+* Concrete state - combination of possible values of attributes
+    * Can be infinite
+* Abstract state
+    * Predicates over concrete states
+    * One may represent many concrete states
+    * Hierarchical
+    * Eg overdrawn state checks if concrete balance < 0
+* State machines: event(arguments) [condition] /operation(arguments)
+* Testing challenges for state machines
+    * In code generation, we automate the synthesis of executable code, and ensure that the implementation corresponds to the model
+    * In test generate, we automate the synthesis of test cases and test data, and verify that the implementation corresponds to the spec
+* Challenges for state-based tests
+    * Executability - finding data to execute test sequence (may be undecidable)
+    * Scalability- large number of concrete states
+    * Missing state model - need to reverse-engineer model
+* Fault model
+    * Missing/incorrect transitions to valid state based on correct input
+        * Eg missing transition, or incorrect end state
+    * Missing/incorrect output (action) based on correct input and transition
+        * Eg incorrect output, where start and end states are correct
+    * Corrupt state - invalid state output
+        * Eg transitioning to a new state after correct input
+    * Sneak path - transition that takes in unspecified or illegal input
+    * Illegal input failure - bad handling of illegal message
+        * Ie incorrect output, corrupted state
+    * Trap door - accepts undefined messages
+* N+ test strategy
+    * Reveals
+        * All state control faults
+        * All sneak paths
+        * Many corrupt states
+    * Procedure
+        * Derive round-trip path tree from state model
+            * Flatten state model (remove concurrency & hierarchy)
+            * Set root node to initial state
+            * Add edge for every transition out of initial node
+            * Mark each subsequent leaf as terminal if state it represents has already been drawn, or it is a final state (at most one loop)
+            * Repeat until all leaves are terminal
+            * Note that structure depends on order in which transitions are traced (breadth or depth first); depth first has fewer but longer test sequences
+        * Generate sneak path test cases
+        * Sensitize transitions in each test case
+* Conformance test cases
+    * Shows conformance to explicitly modeled behaviour
+    * Each test starts at root adn ends at leaf
+    * Oracle is sequence of states and actions
+    * Test cases are completed by identifying method parameter values and required conditions to traverse path
+    * Run tests by applying sequence to object starting at initial state, then checking intermediary states, final states, and outputs
+* Sneak path test cases
+    * Shows correct handling of implicitly excluded behaviour
+    * Sneak path possible for each unspecified transition, and for guarded transitions that evaluate to false
+    * Need to test all states' illegal events; on need to check sneak paths traversing two or more states
+    * Check for appropriate action; eg exception handling, error message, etc
+    * Also check that resultant state is unchanged
+
 TODO
+N+ 691
 
 ## Model Checking
 
@@ -526,3 +590,21 @@ TODO
     * Linear - individual executions
     * Branching - trees of executions
 * TODO CTL Syntax
+
+## Invited Talk
+
+* Identifying Bugs
+    * Traditional defect models predict defective modules
+        * Given previous releases, attempts to identify areas with more bugs in future releases
+        * May not always yield insightful results
+        * Require perfect recollection
+    * Can identify problematic patches
+        * Just in time models trained to predict fix-inducing changes
+* Expertise identification
+    * Modules with many minor contributors are more likely to be defective
+    * Bean plot - comparison between histogram of minor minor contributors in defective modules vs clean modules
+* Preempting legal issues
+    * Ensuring compliance with license terms of reused components
+        * Which source files are enabled?
+        * How are they combined? Statically, dynamically?
+        * 
