@@ -320,4 +320,29 @@ Case 2 (stereo (2) cameras)
 * A unique 3D scene point defines an epipolar plane &pi;
 * A unique 3D scenepoint, &pi;, intersects the 2 camera image planes at conjugated epipolar lines
 * X<sub>1</sub> (above), along with T<sub>1</sub> = (T<sub>x</sub>, T<sub>y</sub>, T<sub>z</sub>)<sup>T</sup> and (X<sub>1</sub> - T<sub>1</sub>)<sup>T</sup> lie in the epipolar plane
-* 
+
+## Lecture 22 - 2018/11/20
+
+TODO
+
+## Lecture 23 - 2018/11/22
+
+TODO
+
+## Lecture 24 - 2018/11/27
+
+* Lambertian shading - surface whose reflected image obeys the equation:
+    * I(X) = N(X) &centerdot; L
+* Classical "shape from shading"
+    * I(x, y) = N(x, y) &centerdot; L
+    * Too simplistic
+    * Most surfaces do not have Lambertian reflectance
+    * Cannot solve for single N without further constraints
+* Hard to distinguish shading and shadows
+* Scene colours depend on the illumination colour, though computer and human vision models typically normalize the image, assuming global colour bias
+* Some non Lambertian surface materials
+    * Plastic
+    * Polished fruit
+    * Metal
+    * Wet surfaces
+* Focal length = 1/field of view angle
