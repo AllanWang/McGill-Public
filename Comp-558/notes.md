@@ -271,7 +271,11 @@ Midterm next week until lecture 10
 
 ## Lecture 17 - 2018/11/01
 
-* TODO
+* 3D point (X, Y, Z) represented as 4D point (X, Y, Z, 1)
+* In 4 x 4 matrix
+    * Translation: t attributes from rows 1 to 3 in column 4
+    * Rotation: top left 3x3 matrix
+    * Scaling: diagonal of top left 3x3 matrix
 
 ## Lecture 18 - 2018/11/06
 
@@ -346,3 +350,9 @@ TODO
     * Metal
     * Wet surfaces
 * Focal length = 1/field of view angle
+
+## Lecture 26 - 2018/11/29
+
+* Mostly after lecture 11, registration onwards
+* Should know about gaussian scale spaces, ransac, svd
+* 

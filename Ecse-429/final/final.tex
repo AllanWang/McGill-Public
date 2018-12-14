@@ -1,0 +1,171 @@
+\documentclass[10pt]{article}
+    \usepackage{multicol}
+    \usepackage{ifthen}
+    \usepackage{geometry,amsmath,amssymb}
+    \usepackage{color}
+    \usepackage{enumitem}
+    \usepackage{graphicx}
+
+    \pdfinfo{
+      /Title (ecse429_final.pdf)
+      /Author (Allan Wang)
+      /Subject (ECSE 429)
+      /Keywords (pdflatex, latex,pdftex,tex)}
+    
+    % This sets page margins to .5 inch if using letter paper, and to 1cm
+    % if using A4 paper. (This probably isn't strictly necessary.)
+    % If using another size paper, use default 1cm margins.
+    \ifthenelse{\lengthtest { \paperwidth = 11in}}
+        { \geometry{top=.5in,left=.5in,right=.5in,bottom=.5in} }
+        {\ifthenelse{ \lengthtest{ \paperwidth = 297mm}}
+            {\geometry{top=1cm,left=1cm,right=1cm,bottom=1cm} }
+            {\geometry{top=1cm,left=1cm,right=1cm,bottom=1cm} }
+        }
+    
+    % Turn off header and footer
+    \pagestyle{empty}
+   
+	\definecolor{header}{rgb}{0.18,0.45,0.71}
+    % Redefine section commands to 	use less space
+    \makeatletter
+    \renewcommand{\section}{\@startsection{section}{1}{0mm}%
+                                    {-1ex plus -.5ex minus -.2ex}%
+                                    {0.5ex plus .2ex}%x
+                                    {\normalfont\large\bfseries\color{header}}}
+    \renewcommand{\subsection}{\@startsection{subsection}{2}{0mm}%
+                                    {-1explus -.5ex minus -.2ex}%
+                                    {0.5ex plus .2ex}%
+                                    {\normalfont\normalsize\bfseries}}
+    \renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{0mm}%
+                                    {-1ex plus -.5ex minus -.2ex}%
+                                    {1ex plus .2ex}%
+                                    {\normalfont\small\bfseries}}
+    \makeatother
+    
+    % Define BibTeX command
+    \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+        T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+    
+    % Don't print section numbers
+    \setcounter{secnumdepth}{0}
+    
+    
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{0pt plus 0.5ex}
+    
+
+    \setlist[itemize]{leftmargin=*}
+    
+
+\begin{document}
+\raggedright
+\footnotesize
+\begin{multicols}{2}
+
+	% multicol parameters
+	% These lengths are set only within the two main columns
+	%\setlength{\columnseprule}{0.25pt}
+	\setlength{\premulticols}{1pt}
+	\setlength{\postmulticols}{1pt}
+	\setlength{\multicolsep}{10pt}
+	\setlength{\columnsep}{2pt}
+
+	\begin{center}
+		\Large{\underline{Ecse 429 Final}} \\
+    \end{center}
+    
+    \begin{itemize}
+        \item People commit mistakes, which lead to defects, which execute and become failures, leading to incidents
+        \item Defects - faulty requirements, communication failure, deviation from requirements, logical design errors, coding errors, documentation errors
+        \item Software quality factors - correctness, reliability/availability, efficiency, integrity, usability, maintainability, flexibility, testability, portability, reusability, interoperability
+        \item SQA - software quality assurance - reasonable confidence that software conforms to requirements, budgetary requirements, and helps manage efficiency of development, maintenance, etc
+        \item 3 SQA principles - know: what you are doing (structure), what you should be doing (requirements, specs), how to measure the difference (\textcolor{blue}{pillars: formal methods, software testing, metrics, inspections \& reviews, SQA of external participants})
+        \item Verification - are we building product right, validation - are we building right product
+        \item Roles - moderator, recorder, reviewer, reader, producer
+        \item V \& V - requirements $>$ system design $>$ architecture design $>$ component design $>$ implementation $<$ unit testing $<$ integration testing $<$ system testing $<$ acceptance testing
+        \item SQA - defect prevention, detection, removal
+        \item Lifecycle - sequential (v-model) - deliver complete, iterative (scrum) - deliver incrementally
+        \item Continuous: integration - build per commit, deployment - release per commit, delivery - easy release mechanics for each step
+        \item White-box cannot reveal missing functionality, black-box cannot reveal unexpected functionality
+        \item TDD - test driven design - listen, create test, code, run tests, repeat 
+        \item \textcolor{blue}{MISRA C} - no unreachable code, identifiers distinct from macro names, right hand operator of \&\& or $\mid\mid$ cannot have persistent side effect, if else terminates with else
+        \item Dead code - reachable, operation does not alter behaviour
+        \item source code + (lexer + parser) $\rightarrow$ abstract syntax tree (AST); if AST fails, generate error report
+        \item Graph pattern matching (eg forbid concatenation of empty string); if no matches, no error found through SA 
+        \item Soundness - if prover says P is true, then P is true (trivial: nothing) 
+        \item Completeness - if P is true, SA says P is true (trivial: everything)
+        \item CFG - control flow graph - join nodes so long as they have at most one exiting and one entering edge; nodes cannot have mutation
+        \item Branch/edge coverage - every decision executed; condition coverage - each condition true and false at least once; modified condition/decision coverage - each condition T or F at least once, one condition changed at a time from previous tests and output must change as well, requires n + 1 cases for 1 decision, n conditions
+        \item Multiple condition $>$ modified condition/decision $>$ condition/decision $>$ condition; condition/decision $>$ branch/edge $>$ statement/node, path $>$ branch edge, path $\ngtr$ condition, branch/edge $\ngtr$ condition
+        \item Path sensitization - variable for each declaration/mutation, find ranges for original variable for desired path
+        \item DFG - data flow graph - cu (computational), pu (predicate), d (definition), k (kill), notation *(v, n), write conditions alongside pu
+        \item All-p-use some-c-use - at least one dp path for all d to reachable p, otherwise at least one dc path, all-p $>$ branch/edge
+        \item Fault based testing - modify one thing at a time, if all changes detected, mutant is dead and test set is adequate
+        \item Stillborn - killed by compiler, trivial - killed by most test cases, equivalent - always same output as original program
+        \item Unit test code smells - obscure, eager, mystery guest, general fixture, hard coded test data, test code duplication, test logic in production
+        \item Unit test behaviour smells - assertion roulette, erratic, fragile tests
+        \item Myer's test selection - equivalence classes - until all valid ECs covered, cover as many remaining ECs as possible per test; until all invalid ECs covered, cover one new EC per test
+        \item BVA - boundary view analysis - min, min+, nom, max-, max; 4n + 1 test with n vars, 6n + 1 for robust testing with min- and max+, $5^n$ for worst case, $7^n$ for robust worst case
+        \item Decision table - list of conditions, unique combination of conditions \textbackslash\textbackslash \, list of actions, list of selected actions
+        \item Test generation - all explicit, all-variants (all implicit), all-true (with outcome), all-false (without outcome)
+        \item ROBDD - reduced ordered binary decision diagram - convert BDD from L to R, canonical w.r.t. variable ordering
+        \item Cause effect modeling - label unique conditions and effects, match each effect with condition constraints (eg e2 = (c1 and c3) or (c2 and c4))
+        \item Graph: $\widetilde{\vee}$ nor, flip for nand, O exactly once, E at most one, I at least one, M mask (A implies not B), R require (A implies B); for latter two, arrow towards B 
+        \item DNF - disjunctive normal form - terms with and, joined by or 
+        \item Absorption - $A \vee (A \wedge B) = A \wedge (A \vee B) = A$
+        \item Each-condition/All-condition - for both, add variant where only one variable is true; each $\rightarrow$ or logic, all false; all $\rightarrow$ and logic, all true, note that variant includes its associated negation (eg $\not C$ is false when C is true)
+        \item Unique true points - generate tests where only one term true at a time
+        \item Near false points - invert one literal, make selected term true, make all others false given constraints from first term, result: with negation all false, with flip selected term true, so full function true
+        \item Full predicate coverage - make each predicate T or F at least once, change one predicate at a time from previous tests
+        \item System integration - bottom up (no stubs, lots of drivers, count nodes), top down (only driver for main, lots of stubs, count arrows for max, can use module directly after tested), risk driven - start with high risk node 
+        \item Stub replaces module - input module $\rightarrow$ passes test data, output module $\rightarrow$ returns test data 
+        \item Drivers - used to call test modules, eg parameter passing
+        \item \textcolor{blue}{Integration testing} strategies - big bang - everything at once, sandwich - logic top down, middle, operational bottom up, function/thread-based, top-down, bottom-up, risk-driven
+        \item Integration testing comparison criteria - fault localization, effort (stubs, drivers), degree of testing, parallel dev
+        \item OOP compared to procedural introduces classes, hidden variables, and potential problems with inheritance or attribute redefinitions
+        \item Kung - I subclass, C composition (global ref), A association
+        \item CFW - class firewall, contains all classes referencing self 
+        \item Abstract class - tested with level of subclass (eg E(A))
+        \item Kung cycles, remove associations 
+        \item Forced error test - trigger error, check if proper error message/recovery occurred, Usability - accessibility, responsiveness, efficiency, comprehensibility, Performance - stress testing, load, durability, endurance, Configuration, Compatibility - eg backwards, forwards 
+        \item Combinatorial method - find pairwise combinations one at a time, create table with full combinations while minimizing extra cases 
+        \item Security - buffer overflow 
+        \item Reliability - MTTF mean time to failure, MTTR ... repair, MBTF ... b/t failure 
+        \item Statistical testing - based on usage models, test frequent behaviour, better at reliability estimation but worse at finding defects
+        \item Other system testing - multitasking, recovery, installability, serviceability
+        \item Formal verification - can prove absence of errors and analyze all execution traces
+        \item State machine - event(arguments) [condition]/operation(arguments)
+        \item Statecharts for design - auto synthesis of executable code, check if code generator is working correctly and corresponds to model 
+        \item Statecharts for test gen - auto synthesis of test data, check if implementation corresponds to spec
+        \item Round-trip path tree - flatten state model, when adding new transitions, mark as terminal if already encountered
+        \item Conformance test cases: ID, start state, event, condition, reaction, new state
+        \item Kripke structure - flattened  synchronous statechart 
+        \item Temporal logic - X next, F future, G global, $P \cup q$ P until q, given F q
+        \item Temporal connectives - E exists, A for all
+        \item LTL - linear, CTL - computational
+    \end{itemize}
+    
+\end{multicols}
+
+\pagebreak
+
+% Due to copyright, images are gitignored from my repo
+
+\begin{figure}[ht!]
+    \begin{itemize}[label={}]
+        \item \mbox{}
+        
+        \includegraphics[width=90mm]{img/dfg.png}
+        \includegraphics[width=60mm]{img/decision_table.png}
+
+        \item \mbox{}
+
+        \includegraphics[width=60mm]{img/shannon.png}
+        \includegraphics[width=50mm]{img/brian_marick.png}
+        \includegraphics[width=50mm]{img/cause_effect.png}
+
+    \end{itemize}
+    
+\end{figure}
+
+\end{document}

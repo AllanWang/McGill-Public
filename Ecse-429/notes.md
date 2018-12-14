@@ -607,4 +607,25 @@ N+ 691
     * Ensuring compliance with license terms of reused components
         * Which source files are enabled?
         * How are they combined? Statically, dynamically?
-        * 
+
+## Exam Preparation
+
+* 10 conceptual questions (30 marks)
+* 7 practical exercises (70 marks)
+* Everything in lectures and tutorials
+* No technology specific questions
+* No multiple choice
+* Practical exercises (exclusions do not apply to conceptual questions)
+    * Similar to those in lecture slides, quizzes, assignments, projects
+    * Quality assurance & testing basics 
+        * No practical exercises
+    * Static analysis
+        * Code review
+        * Detecting anti-patterns
+        * Abstract interpretation
+    * Black-box testing
+        * Category partitioning excluded
+    * System-level & acceptance testing
+        * DREAD classification for security testing excluded
+    * Model-based testing  
+        * Sneak past test suite excluded
