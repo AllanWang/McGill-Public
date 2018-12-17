@@ -2,6 +2,8 @@
 
 > [Course Website](http://cim.mcgill.ca/~langer/558.html)
 
+> Note: A lot of the notes had a significant number of formulas, and were done on paper. Those marked as TODO will likely not be updated. The 'Main Points' section however should include points across all lectures after the midterm.
+
 ## Lecture 1 - 2018/09/04
 
 * Applications of Computer Vision
@@ -355,4 +357,47 @@ TODO
 
 * Mostly after lecture 11, registration onwards
 * Should know about gaussian scale spaces, ransac, svd
-* 
+
+## Main Points
+
+* Histogram
+  * Bhattacharya
+  * Histogram equalization (why? how?)
+  * HoG (procedure)
+  * SIFT (procedure, comparison with HoG)
+* Lucas Kanade
+  * RGB - cyan, magenta, yellow
+* Camera models
+  * Pinhole, perspective, orthographic
+  * Optical axis, image/projection plane, image position, center of projection
+  * Motion
+    * Lateral, forward
+* Vanishing points
+  * One, two, three point perspectives
+* Rotation
+  * Pan, pitch, roll
+    * Matrices, velocity equations
+* Homogeneous coordinates
+* Camera extrinsics & intrinsics
+  * World coordinate to camera coordinate
+  * <details>
+      <summary>Name and formula of matrix P</summary>
+      P = KR[I | -C] <br>
+      Known as the "finite projective camera"
+    </details>
+  * <details>
+      <summary>Name for points at infinity</summary>
+      Direction vectors
+    </details>
+  * What affects points at infinity? (translation, rotation, scale)
+* Least Squares, SVD
+  * Linear regression
+  * Pseudoinverse of A
+  * SVD
+    * formula
+  * Estimating P using least squares
+    * Minimum number of point pairs needed
+    * Frobenius norm
+    * Why is getting the eigenvector from SVD not always a good solution
+  * Homographies
+    * 
