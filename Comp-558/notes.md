@@ -4,6 +4,10 @@
 
 > Note: A lot of the notes had a significant number of formulas, and were done on paper. Those marked as TODO will likely not be updated. The 'Main Points' section however should include points across all lectures after the midterm.
 
+## Terms
+
+* Optical axis - Z axis
+
 ## Lecture 1 - 2018/09/04
 
 * Applications of Computer Vision
@@ -399,5 +403,25 @@ TODO
     * Minimum number of point pairs needed
     * Frobenius norm
     * Why is getting the eigenvector from SVD not always a good solution
-  * Homographies
-    * 
+* Homographies
+  * Definition
+  * Scene plane to image pixels
+  * Image rectification
+  * Homography between 2 images
+    * All N points
+    * 4 points only
+    * RANSAC
+* Stereo & epipolar geometry
+  * Essential matrix
+  * Fundamental matrix
+    * Eight point algorithm
+  * Binocular correspondence
+  * Rectification
+  * Disparity function
+    * Lucas-Kanade approach
+    * Global approach
+      * Data cost
+      * Smoothness cost
+* Lighting & material, photography 
+  * Lambertian shading
+    * Examples of non-Lambertian surface materials
