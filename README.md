@@ -10,7 +10,10 @@ Tester codes and public resources for CS/Software Engineering
 | Comp 360 | [Notes](Comp-360/notes.md) |
 | Comp 361 | [Midterm Review](Comp-361/midterm.md) |
 | Comp 409 | [Notes](Comp-409/notes.md) |
+| Comp 520 | [Notes](Comp-520/notes.md) |
+| Comp 529 | [Notes](Comp-529/notes.md) |
 | Comp 550 | [Notes](Comp-550/notes.md) |
+| Comp 551 | [Notes](Comp-551/notes.md) |
 | Comp 558 | [Notes](Comp-558/notes.md) |
 | Ecse 429 | [Notes](Ecse-429/notes.md) |
 | Math 223 | [Notes](https://www.allanwang.ca/notes/mcgill/math223/)* |
