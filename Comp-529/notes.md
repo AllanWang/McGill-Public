@@ -3,7 +3,7 @@
 > [Course Website](https://cs.mcgill.ca/~martin/teaching/comp529-winter-2019/)
 > [Textbook](https://www.safaribooksonline.com/library/view/software-systems-architecture/9780132906135/?ar&orpq) (Requires academic email)
 
-## Textbook Intro - Software Architecture Concepts
+## Textbook Ch 1 - Software Architecture Concepts
 
 * A software architect satisfies:
   * Stakeholders - People affected by the system. 
@@ -42,3 +42,9 @@
   * A good architecture will address such concerns, and provide a balance when they conflict
 * Architectural description (AD) - products that document an architecture such that stakeholders can understand and verify that concerns have been met
   * Note that not every system has an AD
+
+## Textbook Ch 3
+
+* 
+
+## Textbook Ch 9
