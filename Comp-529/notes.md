@@ -103,3 +103,15 @@
   * Testers - test system
   * Users - use system
 * Large stakeholder groups need to be actively managed to ensure that its size does not impede progress
+* Not always possible to identify all stakeholders until system is developed
+* Proxy stakeholder - speaks on behalf of real stakeholders to ensure their concerns are equally  addressed as other real stakeholders
+* Stakeholder responsibilities 
+  * Ensures concerns are clearly communicated to architect
+  * Make decisions in timely & authoritative manner
+  * Escalate decisions that require more authority
+  * Review AD to ensure system meets concerns
+* Checklist
+  * Identify at least one stakeholder per class
+  * Inform stakeholders of responsibilities
+  * Ensure stakeholders are aware of responsibilities
+  * Identify suitable proxy for stakeholders that don't yet exist
