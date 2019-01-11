@@ -30,4 +30,23 @@
 * Scanners
   * List of regular expressions; one per token type
   * Internally, transforms regular expressions to DFAs
-  * 
+* Algorithm is to match all DFAs against input
+  * Find the longest match
+    * If not empty, remove input and return a matching token
+    * Otherwise, return input as output
+  * If max length is the same for multiple DFAs, first one is typically used
+* Rules can use look-aheads to increase match length, even though token length remains unchanged
+  * Eg FORTRAN `363.EQ.363`; avoids mattching `363.` as float
+* Context-sensitive grammars
+  * Eg in C, `(a) * b` is either a type cast or a multiplication if `a` is a type or variable respectively
+  * Solution is to either feed semantic language to the scanner, or run multiple passes
+* Scanners should have a `.` rule at the end to match any unexpected character if no other rules match
+* Line numbers in `flex`
+  * Manually counting by matching against `\n`
+  * Use `%option yylineno` to get the updated variable
+* Scanner actions
+  * Do nothing
+  * Perform arbitrary computation
+  * Return a token
+* Scanner efficiency
+  * Reduce number of regular expressions; note that keywords are already valid identifiers
