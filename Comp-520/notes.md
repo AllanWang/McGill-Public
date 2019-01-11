@@ -24,4 +24,10 @@
   * | - alternation 
   * &centerdot; - concatenation 
   * \* - zero or more occurrences
+
+## Lecture 3 - 2019/01/11
+
+* Scanners
+  * List of regular expressions; one per token type
+  * Internally, transforms regular expressions to DFAs
   * 
