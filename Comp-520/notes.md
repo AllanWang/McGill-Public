@@ -28,6 +28,7 @@
 ## Lecture 3 - 2019/01/11
 
 * Scanners
+  * First phase of compiler
   * List of regular expressions; one per token type
   * Internally, transforms regular expressions to DFAs
 * Algorithm is to match all DFAs against input
@@ -50,3 +51,24 @@
   * Return a token
 * Scanner efficiency
   * Reduce number of regular expressions; note that keywords are already valid identifiers
+
+## Lecture 4 - 2019/01/14
+
+* Scanner error handler
+  * Eg if positive ints cannot start with 0
+  * Parser error - check for two consecutive int tokens and fail on match
+  * Lexical error - create a new rule capturing all integers (allowing `0` prefix), and throw if rule matches
+* Parsers
+  * Second phase of compiler
+  * Aka syntactic analysis
+  * Takes tokens from scanner and generates a parse tree using CFG
+  * Pushdown automata - FSM + unbounded stack
+    * Used ot recognize CFG
+  * CFG - Context-free grammar
+    * V - set of variables
+    * &Sigma; - set of terminals where V &cap; &Sigma; = &emptyset;
+    * R - set of rules, where LHS &in; V & RHS &in; V &cup; &Sigma;
+    * S - start variable where S &in; V
+    * While DFAs and NFAs are equally powerful, DPDAs do not recognize all CFGs
+    * BNF - backus-naur form
+    * EBNF
