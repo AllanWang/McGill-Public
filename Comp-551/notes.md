@@ -73,4 +73,35 @@
     * 1/(k + 1)
     * 1/2 for k = 1, ..., T
 * In non-convex functions, local minima is not always global minima
+
+## Lecture 3 - 2019/01/15
+
+> Linear Regression
+
+* Least square solution w<sub>hat</sub> = (X<sup>T</sup>X)<sup>-1</sup>X<sup>T</sup>T
+* Two main failures
+  * X<sup>T</sup>X is singular, inverse is undefined
+    * Weights may not be uniquely defined - one is linear function of the other
+    * Number of features/weights (m) exceeds the number of training examples (n)
+  * Simple linear function is a bad fit
+* Solutions for failures
+  * Pick a better function
+  * Use more features
+  * Get more data
+* Input variables
+  * Original quantitative variables
+  * Transformation of variables (eg log)
+  * Basic expansions
+  * Interaction terms (combining multiple variables)
+  * Numeric coding of qualitative variables (eg 1, 0 for `true`, `false`)
+* Coding variable (feature design)
+  * Eg for categorical variables: {blue, red, green, yellow}
+    * Cannot introduce four binary variables, as they are perfectly correlated; three false values require the other one to be true
+    * Alternative solution is to have three separate binary variables with the last colour being the intercept
+* Validation set - compare different models during development
+* Test set - evaluate final performance of model
+* Two sets must be separate of we may result in "meta"-overfitting
+* Hyperparameter - parameter that is not learned but could impact performance
+* K-fold cross validation - separate data into many training/validation sets vs just one split
+* Leave-one-out cross validation - k-fold cross validation but where each validation set is a single point from training set
 * 
