@@ -72,3 +72,20 @@
     * While DFAs and NFAs are equally powerful, DPDAs do not recognize all CFGs
     * BNF - backus-naur form
     * EBNF
+
+## Lecture 5 - 2019/01/16
+
+* Parse tree - aka concrete syntax tree
+  * Built exactly from CFG rules
+  * Parent nodes form LHS of readwrite rule
+  * Child nodes form RHS of readwrite rules
+  * Leaves form parsed input sentence
+* Ambiguous grammar
+  * Multiple parse tree results
+  * Precedence - order of operations
+  * Associativity - grouping of operations with same precedence
+  * Rewriting grammar
+    * Operands must not expand to other operations of lower precedence
+    * If left associative, only LHS may expand; if right associative, only RHS may expand
+  * Dangling else problem - ambiguous if statements without terminating token; solution in C is to match each `else` with the closest unmatched `if`
+  * 

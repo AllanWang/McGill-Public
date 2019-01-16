@@ -1,7 +1,7 @@
 # Comp 529
 
 > [Course Website](https://cs.mcgill.ca/~martin/teaching/comp529-winter-2019/) <br>
-> [Textbook](https://www.safaribooksonline.com/library/view/software-systems-architecture/9780132906135/?ar&orpq) (Requires academic email)
+> [Textbook](https://www.safaribooksonline.com/library/view/software-systems-architecture/9780132906135/?ar&orpq) (Requires academic email & McGill network)
 
 ## Textbook Ch 1 - Introduction
 
@@ -119,7 +119,6 @@
 * Perspective pitfalls
   * Solutions may conflict between perspectives
   * Concerns & priorities are different for every system
-
 
 ## Textbook Ch 9 - Identifying and Engaging Stakeholders
 
