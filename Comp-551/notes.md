@@ -104,4 +104,21 @@
 * Hyperparameter - parameter that is not learned but could impact performance
 * K-fold cross validation - separate data into many training/validation sets vs just one split
 * Leave-one-out cross validation - k-fold cross validation but where each validation set is a single point from training set
-* 
+
+## Lecture 4 - 2019/01/17
+
+* Applications of classification
+  * Text classification (spam filtering, sentiment analysis)
+  * Image classification (face detection, object recognition)
+  * Prediction of cancer recurrence 
+  * Recommendation systems
+* Binary classification - probabilistic approach
+  * Discriminative learning - estimate `P(y|x)`
+  * Generative learning - model `P(x|y)` and `P(y)`, and use Bayes' rule to estimate `P(y|x)`
+* Log-odds ratio: a = ln(P(y = 1|x)/P(y = 0|x))
+  * How much more likely is `y = 1` compared to `y = 0`?
+  * Modelled with a linear function, as we often don't know the actual values in the real world
+* Logistic function: &sigma; = 1/(1 + exp(-a))
+* Maximizing likelihood is numerically unstable, as values are extremely small; maximizing log-likelihood is preferred
+* Cross-entropy loss - measures number of bits of info required to fix model
+  * Minimizing loss = maximizing likelihood

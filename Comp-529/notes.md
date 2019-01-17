@@ -27,6 +27,7 @@
     * Can be modeled as a black box or consider internal system changes
   * Quality properties - how system does it
     * Nonfunctional properties, eg performance, security, scalability
+* **Candidate architecture** - arrangement of static & dynamic structures with the potential to exhibit required externally visible behaviours and quality properties
 * There may be multiple architectures for a given design, catering to different needs, though each should meet the system's requirements
 * **Architectural element** - fundamental piece of system that can be constructed
   * Has a set of responsibilities
@@ -35,7 +36,7 @@
 * Stakeholders
   * Note that software is not just *used*. It is also *built*, *tested*, *operated*, *repaired*, *enhanced*, and *paid for*. As a result, stakeholders involve much more than just the end users.
   * This term may also represent a class of individuals, such as developers, rather than a specific person
-  * Concern - requirement, objective, constraint, intention, or aspiration a stakeholder has for architecture
+  * **Concern** - requirement, objective, constraint, intention, or aspiration a stakeholder has for architecture
     * Some concerns are common among stakeholders, but others may even conflict
       * Example includes triangle of cost, quality, and time
   * As the system is built to serve stakeholders, the architecture is created solely to meet stakeholder needs
@@ -159,3 +160,5 @@
   * Inform stakeholders of responsibilities
   * Ensure stakeholders are aware of responsibilities
   * Identify suitable proxy for stakeholders that don't yet exist
+
+
