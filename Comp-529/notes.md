@@ -121,6 +121,34 @@
   * Solutions may conflict between perspectives
   * Concerns & priorities are different for every system
 
+## Textbook Ch 8 - Concerns, Principles, and Decisions
+
+* Scope and requirements of system define architectural solutions, and are part of the Context viewpoint.
+* **Concern** - requirement, object, constraint, intention, or aspiration stakeholder has for architecture
+  * Business & IT strategies - long-term priorities & roadmap
+  * Goals & drivers - fundamental issues & problems
+  * Standards & policies - general operations
+  * Real-world constraints - time, money, skill, technology pitfalls, etc
+* **Requirement** - specific, unambiguous, measurable concern
+* Concern categories
+  * Problem-focused concerns - why, what
+    * Influence
+      * Require a capability
+      * Clarify/shape a detail
+    * Constrain
+      * Limit behaviour in certain circumstances
+      * Prohibit actions
+    * Includes
+      * Business strategy
+      * Business goals & drivers
+        * Goal - specific aim of the organization
+        * Driver - force acting on organization requiring behaviour
+        * Often hard to translate
+      * System scope & requirements
+      * Business standards & policies
+  * Solution-focused concerns - how, with what
+    * Often derived from problem-focused concerns
+
 ## Textbook Ch 9 - Identifying and Engaging Stakeholders
 
 * High priority stakeholder groups
