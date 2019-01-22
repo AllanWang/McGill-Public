@@ -122,3 +122,24 @@
 * Maximizing likelihood is numerically unstable, as values are extremely small; maximizing log-likelihood is preferred
 * Cross-entropy loss - measures number of bits of info required to fix model
   * Minimizing loss = maximizing likelihood
+
+ ## Lecture 5 - 2019/01/22
+
+* For assignment, can use different stopping condition; error is often used
+* Descent with sum of squared errors will require a much smaller learning curve than mean error
+* Generative learning 
+  * More flexible
+    *  Eg change P(y) if spammers become more active;  other features are the same
+  * Works well with smaller datasets
+* Linear Discriminant Analysis (LDA)
+  * Assumes
+    * Multivariate gaussian, mean &mu; and covariance matrix &Sigma;
+    * Different classes have same covariance matrix, &Sigma;
+* Quadratic Discriminant Analysis (QDA)
+  * Allows different covariance matrices, &Sigma;<sub>y</sub> for each y
+  * Note that covariance is m x m, requiring O(m<sup>2</sup>) parameters. Much more costly than logistic regression
+* Naive Bayes - assume x<sub>j</sub> are conditionally independent given y
+  * P(x<sub>j</sub> | y) = P(x<sub>j</sub> | y, x<sub>k</sub>) for all j, k
+  * &Sigma; is diagonal
+* Laplace smoothing - add one count per encountered attribute in numerator, and number of attributes to denominator
+  * Allows us to give odds greater than 0 for unknown attributes
