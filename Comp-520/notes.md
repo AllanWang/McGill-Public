@@ -88,4 +88,20 @@
     * Operands must not expand to other operations of lower precedence
     * If left associative, only LHS may expand; if right associative, only RHS may expand
   * Dangling else problem - ambiguous if statements without terminating token; solution in C is to match each `else` with the closest unmatched `if`
-  * 
+
+## Lecture 6 - 2018/01/18
+
+* Missed
+
+## Lecture 7 - 2018/01/21
+
+* Shift - place token from stream to stack; more symbols are needed before applying rule
+* Reduce - replace multiple symbols on stack with single symbol according to grammar
+
+* E &rarr; T + E
+* E &rarr; T
+* T &rarr; num
+* [S &rarr; #$]
+
+* S &rarr; .E$ ?
+  * E &rarr; .T + E$
