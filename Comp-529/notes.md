@@ -140,14 +140,81 @@
       * Prohibit actions
     * Includes
       * Business strategy
+        * Overall direction for business
+        * Defines service, customers, difference between competitors, etc
+        * Includes **roadmap** describing future transformations to achieve desired state
       * Business goals & drivers
-        * Goal - specific aim of the organization
-        * Driver - force acting on organization requiring behaviour
+        * **Goal** - specific aim of the organization
+        * **Driver** - force acting on organization requiring behaviour
         * Often hard to translate
       * System scope & requirements
-      * Business standards & policies
+        * **System scope** - defines main responsibilities of system
+        * **Requirements** - more detailed, often split into *functional requirements* and *quality properties*
+      * Business standards & policies - internal mandates
+        * Eg data retention policy
   * Solution-focused concerns - how, with what
     * Often derived from problem-focused concerns
+    * IT strategy
+    * Technology goal & drivers
+    * Technology standards & policies
+      * Open standards - eg ISO, IEEE, W3C; generally accepted
+      * Proprietary standards
+      * De facto standards - widely followed but not ratified
+      * Organizational standards
+      * May need to comply with legal, statutory, regulatory standards
+    * Real world constraints
+      * Technical constraints - eg scaling, security
+      * Time
+      * Cost
+      * Skills
+      * Operational constraints - eg must maintain certain uptime
+      * Physical constraints
+      * Organizational/cultural constraints
+  * Good concerns are
+    * Quantified & measurable where possible
+    * Testable
+    * Traceable - eg justified backwards to strategy/goal, traced forward to architectural/design features
+* Architectural principles
+  * Fundamental approach that guides the definition of an architecture
+  * Help maintain consistency & transparency when addressing/rejecting concerns
+  * Good principles are
+    * Constructive
+    * Reasoned
+    * Well articulated
+    * Testable
+    * Significant
+* Architecturally significant decisions
+  * "what"
+    * Map out functional components
+    * Significant stakeholder impact
+  * "how"
+    * Define method of construction
+    * Uses standard patterns
+    * Typically impacts solution space more than problem space
+  * "with what"
+    * Technology stack to be used
+  * Architectural significance is defined by
+    * Having significant impact on functionality or quality properties
+    * Addressing significant risk
+    * Affecting time or cost 
+    * Being complex or unexpected
+    * Requiring significant time or effort to resolve
+* Principles can justify architectural elements by relating
+  * **Rationale** - why is something valuable & appropriate
+  * **Implication** - what needs to happen for principle to be reality
+* Traceability process
+  * Business drivers & goal
+  * Business principles (rationales & implications)
+  * Technology principles (rationales & implications)
+  * Architectural decisions
+* Checklist
+  * Consulted all relevant stakeholders?
+  * Documented influencing concerns? (goals & drivers)
+  * Documented constraining concerns? (standards & policies)
+  * Understood real world constraints?
+  * Documented all concerns in clear, simple, understandable language?
+  * All principles supported by rationales & implications?
+  * Stakeholders reviewed & ratified concerns & principles?
 
 ## Textbook Ch 9 - Identifying and Engaging Stakeholders
 
