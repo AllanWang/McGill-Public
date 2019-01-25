@@ -97,11 +97,35 @@
 
 * Shift - place token from stream to stack; more symbols are needed before applying rule
 * Reduce - replace multiple symbols on stack with single symbol according to grammar
+* Did example in class
 
-* E &rarr; T + E
-* E &rarr; T
-* T &rarr; num
-* [S &rarr; #$]
+## Lecture 8 - 2018/01/23
 
-* S &rarr; .E$ ?
-  * E &rarr; .T + E$
+* Parsing conflicts
+* Resolving conflicts
+  * For operations with same precedence & left associativity, prefer reducing
+  * When reduction contains operation of lower precedence than lookahead token, prefer shifting
+* Compiler architecture
+  * One-pass compiler - scans only once
+    * Prevents modularity and limits optimization
+    * Historically good as it's fast and space efficient
+  * Multi-pass compiler - 5-15 phases
+    * Requires intermediate representation of program
+* Abstract syntax tree (AST)
+  * Only important terminals kept
+  * Tree is not language dependent
+* Building IRs
+  * Extend parser & execute semantic actions
+  * Semantic actions - arbitrary actions executed during parser execution
+  * Semantic values 
+    * Terminals - provided by scanner
+    * Non-terminal - created by parser
+
+## Lecture 9 - 2018/01/25
+
+* Building IRs
+  * Extends parser
+  * Executes semantic actions during process
+  * Values are terminal (provided by scanner) or non-terminal (created by parser)
+* JOOS
+  * Subset of Java
