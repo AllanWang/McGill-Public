@@ -129,3 +129,20 @@
   * Values are terminal (provided by scanner) or non-terminal (created by parser)
 * JOOS
   * Subset of Java
+
+## Lecture 10 - 2018/01/28
+
+### Weeding 
+
+* If we wish to create certain constraints (ie avoid division by 0), updating the parser will double the code
+* Instead, we can weed out exceptions by parsing invalid code and running pass-throughs afterwards
+* Can also be used in more complicated cases, like distinguishing casting or parentheses around expressions.
+
+### Symbol Table
+
+* Semantic analysis - analyzes meaning of program
+  * Symbol table - analyzes variable definitions & uses
+    * Maps identifier to meanings
+    * 
+  * Type checking - analyzes expression types & uses
+* 
