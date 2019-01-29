@@ -256,4 +256,78 @@
   * Ensure stakeholders are aware of responsibilities
   * Identify suitable proxy for stakeholders that don't yet exist
 
+## Textbook Ch 10 - Identifying and Using Scenarios
 
+* **Architectural Scenario** - Description of interaction between external entity & system
+* Scenarios capture:
+  * Interactions that must be handled
+  * Potential peak load situations
+  * Demands made to system
+  * Responses by system to specific failures
+  * Change maintainers may need for system
+* **Functional scenarios** - sequence of external events
+  * Often documented through use case
+* **System quality** - defines system reactions towards environment (showing certain quality properties)
+* Scenarios can:
+  * Provide input to architecture definition
+  * Define & validate system scope
+  * Evaluate architecture
+  * Help communicate with stakeholders
+  * Find missing requirements - defining use case in one scenario helps think about omitted scenarios
+  * Drive testing process - by highlighting important aspects to stakeholders
+* Identify scenarios by looking at:
+  * Requirements - functional requirements suggest functional scenarios; quality requirements suggest behaviours
+  * Stakeholders - brainstorm ideas together
+  * Experience - experience may lead to more useful/informed scenarios
+* Prioritize scenarios by looking at:
+  * Importance of relevant stakeholder(s)
+    * In some cases, we may need to balance priorities, rather than just pick the most voted scenarios across the board
+  * Risk of scenario
+  * Note to avoid having a large number of scenarios (> 15-20)
+* Capturing functional scenarios
+  * Overview - brief description
+  * System state - state of system before scenario
+  * System environment - significant observations such as unavailability of external systems, time-based constraints, etc
+  * External stimulus - cause of scenario
+  * Required system response - explanation of responses from an external observer's perspective
+* Capturing system quality scenario
+  * Overview - (same as above)
+  * System state - (same as above)
+  * System environment - (same as above)
+  * Environmental changes - causes for scenarios
+    * Eg infrastructure failure, security attack, etc
+  * Required system behaviour - definition of response to change
+* Both scenarios above should have unique identifier & good name
+* A good scenario is
+  * Credible - realistic
+  * Valuable - impacts architectural process
+  * Specific - describes situation accurately
+  * Precise - scenario situation and required system response should be clear
+  * Comprehensible - understandable & unambiguous
+* Applying scenarios
+  * Paper models 
+    * Easiest, simple, inexpensive
+    * Can ve validated using walkthroughs
+  * Simulations - cheaper than full prototype 
+    * Unfortunately, usually has little carry over towards other scenarios, and may not always be an accurate reflection of real situations
+  * Prototype implementation testing 
+    * Can focus efforts on high-risk areas
+  * Full-scale live testing
+* Scenarios are rarely applied at the same level
+* Effective use of scenarios
+  * Identify focused sets - too many scenarios isn't effective
+  * Use distinct scenarios - similar scenarios is not cost effective relative to their added benefits
+  * Use scenarios early - scenarios lose their benefits when they are applied too late
+  * Include system quality scenarios 
+  * Include failure scenarios
+  * Involve stakeholders closely
+* Checklist
+  * Find suitable range of system quality
+  * Find suitable range of failure scenarios
+  * Prioritize scenarios
+  * Small number of scenarios (< 15-20)
+  * Review & agree on required responses & behaviours
+  * Include scenarios you feel will be valuable + those nominated by stakeholders
+  * Catalog & name scenarios
+  * Address mistakes/gaps identified through scenarios
+  * Likewise, revise architectural design when divergence occurs
