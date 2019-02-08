@@ -15,9 +15,9 @@
 	}
 	\author{Allan Wang} 
 	\date{Last updated: \today}
-	\title{MATH 323: Probability}
+	\title{Comp 551: Machine Learning}
 	\pagestyle{fancy}
-	\lhead{MATH 323}
+	\lhead{COMP 551}
 	\chead{\leftmark}
 	\rhead{Allan Wang}
 	\cfoot{Page \thepage \ of \pageref{LastPage}}
@@ -118,6 +118,25 @@
 	P(y = 0) = \frac{N_0}{N_0 + N_1} \\
 	\mu_0 = \sum_{i=1:n}{I(y_i = 0) \frac{x_i}{N_0}} \\
 	\Sigma = \sum_{k = 0:1} \sum_{i = 1:n} \frac{I(y_i = 0)(x_i - \mu_k)(x_i - \mu_k)^T}{N_0 + N_1 - N_k}
+\end{eqn} 
+
+LDA assumes that 
+
+\begin{eqn}
+	P(x \mid y) = \frac{e^{-\frac{1}{2}(x - \mu)^T \Sigma^{-1}(x - \mu)}}{(2 \pi)^{\frac{1}{2}} \abs{\Sigma}^{\frac{1}{2}}}
 \end{eqn}
+
+Two class case 
+
+\begin{eqn}
+	P(y = 0) &= \frac{N_0}{N_0 + N_1} \\ 
+	P(y = 1) &= \frac{N_1}{N_0 + N_1} \\
+	\mu_0 &= \Sigma_{i = 1:n} I(y_i = 0) \frac{x_i}{N_0} \\
+	\mu_1 &= \Sigma_{i = 1:n} I(y_i = 1) \frac{x_i}{N_1} \\\\
+	x = 0 &\rightarrow I(x) = 0 \\
+	x = 1 &\rightarrow I(x) = 1
+\end{eqn}
+
+\section{Linear Classification}
 
 \end{document}   

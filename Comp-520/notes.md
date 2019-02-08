@@ -145,4 +145,70 @@
     * Maps identifier to meanings
     * 
   * Type checking - analyzes expression types & uses
-* 
+
+## Lecture 11 - 2018/01/30
+
+## Lecture 12 - 2018/02/01
+
+## Lecture 13 - 2018/02/06
+
+* Assignment - code gen may require helper methods
+* Ahead of time compilation (AOT) - source code to machine code before execution
+  * Advantages
+    * Fast execution
+    * Allows optimization
+    * Intermediate languages facilitate code generation for target architectures
+  * Disadvantages
+    * Runtime information ignored
+    * Code generator must be built
+  * Virtual machines
+    * Not tied to any architecture
+    * Delays generating native code until execution time
+* Interpreted - instructions read one at a time; not compiled
+  * Advantages
+    * Easy to generate virtual machine code
+    * Code is architecture independent
+    * Bytecode can be more compact
+  * Disadvantages
+    * Poor performance
+* Just in time (JIT) - generate native code during program execution
+  * Advantages
+    * Target specific architectural details
+    * Observe program properties at runtime
+    * Efficiently allocate optimization time towards important methods
+  * Disadvantages
+    * Program performance depends on compile time
+* Abstract machine - intermediate language
+* Java virtual machine 
+  * `.class` files
+    * Magic number (`0xCAFEBABE`)
+    * Minor version/major version
+    * Constant pool
+    * Access flags
+    * This class
+    * Super class
+    * Interfaces
+    * Fields
+    * Methods
+    * Attributes
+  * Consists of
+    * Memory
+      * Stack (function call frames)
+        * Call stack (function call frames)
+          * Reference to constant pool
+          * Reference to current object if any
+          * Method arguments
+          * Local variables
+          * Local stack for intermediate results (baby stack)
+        * Baby/operand/local stack - operands & results from instructions
+      * Heap (dynamically allocated memory)
+      * Constant pool (shared constant data)
+      * Code segment (JVM instructions of currently loaded class files)
+    * Registers
+      * No general purpose registers
+      * Stack pointer (`sp`) pointing to top of stack
+      * Local stack pointer (`lsp`) points to location in current stack frame
+      * Program counter (`pc`) points to current instruction
+    * Condition codes
+    * Execution unit
+  * 

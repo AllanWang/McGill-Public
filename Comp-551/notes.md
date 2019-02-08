@@ -143,3 +143,62 @@
   * &Sigma; is diagonal
 * Laplace smoothing - add one count per encountered attribute in numerator, and number of attributes to denominator
   * Allows us to give odds greater than 0 for unknown attributes
+
+## Lecture 6 - 2019/01/24
+
+* Classification objectives
+  * Select correct model for problem
+  * Test performance of new algorithm
+  * Evaluate impact on new application
+  * Minimize errors
+* Not all real world errors are equal
+  * Predicting tumor vs passing spam through spam filter
+* Most real world data is not 'balanced'; classes are not equally distributed.
+  * Can get 99% accuracy by predicting that all emails are not spam, if 99% of emails are not spam
+* Accuracy
+  * (true positive + true negatives) / total examples
+  * (TP + TN) / (TP + FP + FN + TN)
+* Precision
+  * true positives / total number of declared positives
+  * TP / (TP + FP)
+* Recall/Sensitivity
+  * true positives / total number of actual positives
+  * TP / (TP + FN)
+* Specificity
+  * true negatives / total number of actual negatives
+  * TN / (FP + TN)
+* False positive rate
+  * FP / (FP + TN)
+* Type I - false positive (m01)
+* Type II - false negative (m10)
+* Error rate - (m01 + m10) / m
+  * m = m00 + m01 + m10 + m11
+* Accuracy alone isn't always useful
+* Confusion matrix contains TP, FP, FN, and TN
+* Receiver operating characteristic (ROC)
+  * 2 classes - blue = negative, red = positive
+  * Decision boundary - vertical line marking prediction
+  * Changing boundary defines ROC curve, plotting P(FP) to P(TP)
+  * Take convex hull to smooth curve
+  * Area under curve - AUC
+    * Perfect algorithm - AUC = 1
+    * Random algorithm - AUC = 0.5
+    * Equivalent to probability of ranking random positive example higher than random negative example
+* Regression
+  * MSE - mean squared error
+  * RMSE - root mean squared error
+  * MAE - mean absolute error
+* Minimize validation error 
+  * Simple model 
+    * High training error, high test error
+    * High bias
+  * Complex model 
+    * Low training error, high test error
+    * High variance
+## Lecture 7 - 2019/01/29
+
+## Lecture 8 - 2019/01/31
+
+## Lecture 9 - 2019/02/05
+
+
