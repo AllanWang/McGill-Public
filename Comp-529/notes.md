@@ -121,6 +121,14 @@
   * Solutions may conflict between perspectives
   * Concerns & priorities are different for every system
 
+## Textbook Ch 5 - The Role of the Software Architect
+
+* 
+
+## Textbook Ch 6
+
+## Textbook Ch 7
+
 ## Textbook Ch 8 - Concerns, Principles, and Decisions
 
 * Scope and requirements of system define architectural solutions, and are part of the Context viewpoint.
@@ -331,3 +339,7 @@
   * Catalog & name scenarios
   * Address mistakes/gaps identified through scenarios
   * Likewise, revise architectural design when divergence occurs
+
+## Textbook Ch 11
+
+## Textbook Ch 14

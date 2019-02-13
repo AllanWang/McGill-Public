@@ -195,6 +195,7 @@
   * Complex model 
     * Low training error, high test error
     * High variance
+
 ## Lecture 7 - 2019/01/29
 
 ## Lecture 8 - 2019/01/31

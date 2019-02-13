@@ -40,3 +40,33 @@
     * One node per tenant
     * One node per big tenant, shared node for multiple tenants
     * Nodes per tenant by region
+
+## Guest Lecture 2
+
+* Product standards
+  * Accessibility - eg color blind, 
+  * Business configurations - no complexity for consultants; good UI
+  * Functional correctness
+  * Globalization - eg internationalization
+  * Operations support
+  * Performance
+  * Security
+  * Software lifecycle - companies like H & M need to upgrade everything in 2 hours
+  * UX consistency
+
+---
+
+* Scalability - scale to demand
+* Loose coupling
+  * SAP allows features to be deployed with one click through a pipeline
+  * Not possible if everything were a monolithic library?
+* Composability
+* Replaceability - want to replace component without affecting collaborators
+
+---
+
+Lessons learned
+
+* Keep middleware 'dumb'
+* Failover - spend less time trying to stop the inevitable, and a bit more time in dealing with it gracefully
+* Logs - distinguish errors from various components, vs putting all logs together
