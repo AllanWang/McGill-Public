@@ -343,3 +343,49 @@
 ## Textbook Ch 11
 
 ## Textbook Ch 14
+
+---
+
+# Pattern Oriented Software Architecture
+
+## Textbook Ch 9 - From Mud to Structure
+
+* Software architecture should be meaningful
+  * Functionality & features provided by system should support concrete business
+* Models should be concerned with variability
+  * Hard to make decisions if we don't know how the domain may vary
+* **Domain model**
+  * Defines structure & workflow of application domain + variations
+  * Partition by considering
+    * How application interacts with environment
+    * How processing is organized
+    * What variations must be supported
+    * Life expectancy of application
+  * **Layers** pattern - decomposes application into subtasks, each with a particular level of abstraction or hardware-distance
+    * Subtasks can be developed independently 
+  * **Model-View-Controller** (MVC) pattern
+    * Model - functionality & data
+    * View - display information
+    * Controller - user input handlers
+    * Allows variation within one specific UI
+    * Also model view presenter, which avoids delegating all view behaviour to models; contains intermediate presenter
+  * **Presentation-Abstraction-Controller** (PAC) - cooperating agents, each with their own PAC
+    * Separates human-computer interaction from functionality and communication with other agents
+    * Supports multiple, distinct UT
+  * **Microkernel** - for systems that must adapt to changing system requirements
+    * Separates minimal functional core from custom parts
+    * Flexible in *what* functionality is provided
+    * Common in OS
+  * **Reflection** pattern - change structure & behaviour dynamically
+    * Flexible in *how* functionality is executed/used
+    * Common in service integratino
+  * **Pipes & Filters** pattern - each process is a filter component; combines into a way to process data streams
+    * Common in image processing
+  * **Shared Repository** pattern - maintains common data, which can be modified and propagated to specific components
+    * Deterministic control flow
+    * Common in telecommunication management networks
+  * **Blackboard** pattern - for problems with no deterministic solution strategies
+    * Based on heuristics
+    * Common in bio-informatics
+  * **Domain Object** pattern - self-contained entities with explicit interfaces, while hiding inner structure & implementation
+    * Allows changing specific requirements independent of other realizations
