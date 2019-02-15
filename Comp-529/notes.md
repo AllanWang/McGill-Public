@@ -342,6 +342,35 @@
 
 ## Textbook Ch 11
 
+* Design pattern types
+  * **Architectural style** - fundamental structural organization schema for software systems
+    * Provides element types, responsibilities and relationship rules & guidelines for system as a whole
+  * **Software design pattern** - captures detailed design solution
+    * Common/proven structure of interconnected elements
+    * Solves general design problem within particular context
+  * **Language idiom** - programming-language-specific design solutions
+* Design patterns have
+  * **Name** - memorable & meaningful identifier
+  * **Context** - motivation, rationale, relevant situations
+  * **Problem** - DPs are solutions to a particular problem; may describe design forces
+  * **Solution** - eg design model
+  * **Consequences** - results & tradeoffs, benefits & costs
+* DP Roles
+  * Store of knowledge
+  * Examples of proven practices - can be used directly or also to help solve different problems
+  * Language - common language for problems
+  * Standardization
+  * Source of improvement - often in public domain
+  * Encourages generality
+* See Ch 9 of POSA (below) for models
+* Architectural style benefits
+  * Solution for system design
+  * Basis for adaptation
+  * Inspiration for related solution
+  * Motivation for new styles
+* AS rarely used in isolation
+* When using multiple ASs, it's helpful to pick a dominant style with subsidiary styles added for problems the primary one can't address; experience, knowledge, and sound judgement will help
+
 ## Textbook Ch 14
 
 ---
@@ -378,7 +407,7 @@
     * Common in OS
   * **Reflection** pattern - change structure & behaviour dynamically
     * Flexible in *how* functionality is executed/used
-    * Common in service integratino
+    * Common in service integration
   * **Pipes & Filters** pattern - each process is a filter component; combines into a way to process data streams
     * Common in image processing
   * **Shared Repository** pattern - maintains common data, which can be modified and propagated to specific components
