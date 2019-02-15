@@ -211,4 +211,36 @@
       * Program counter (`pc`) points to current instruction
     * Condition codes
     * Execution unit
-  * 
+
+## Lecture 14 - 2018/02/08
+
+## Lecture 15 - 2018/02/11
+
+## Lecture 16 - 2018/02/13
+
+* No class
+
+## Lecture 17 - 2018/02/15
+
+* Bytecode verification syntax
+  * First 4 bytes should be `0xCAFEBABE`
+  * Bytecodes should be syntactically correct
+    * All instructions complete
+    * Branch targets within code segment
+    * Only legal offsets referenced
+    * Constants have appropriate types
+    * Execution must return
+  * Stack (Important)
+    * Should be same size along all execution paths
+    * Should have the same types along 
+* Resource offsets
+  * For variables that can never exist together (same scope level), we can reuse offsets and lower our limit
+  * Extra slot required for non-static method
+* Labels
+  * `if` - 1 label
+  * `ifelse` - 2 labels
+  * `while` - 2 labels
+  * `||` and `&&` - 1 label (short circuit)
+  * `==` ,`<`, `>`, `<=`, `>=`, and `!=` - 2 labels (like `ifelse` branching, as we are not saving a value in the stack)
+  * `!:` - 2 labels
+  * `toString` coercion - 2 labels
