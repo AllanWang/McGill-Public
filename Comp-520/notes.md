@@ -129,6 +129,8 @@
   * Values are terminal (provided by scanner) or non-terminal (created by parser)
 * JOOS
   * Subset of Java
+* LALR(1)
+  * Left recursion, for efficiency
 
 ## Lecture 10 - 2018/01/28
 

@@ -70,3 +70,26 @@ Lessons learned
 * Keep middleware 'dumb'
 * Failover - spend less time trying to stop the inevitable, and a bit more time in dealing with it gracefully
 * Logs - distinguish errors from various components, vs putting all logs together
+
+## Guest Lecture 3
+
+### The Need for Context in Software Engineering
+
+> Gail C. Murphy
+
+* Lot of modern software development workflow involves switching tasks
+  * 47 times per hour
+  * Sometimes to remain productive, eg waiting for builds or feedback
+* Study, definition & use of context can improve flow of software by reducing accidental complexity & allowing focus on essential complexity
+* Context types
+  * Static artifacts - eg IDE
+  * History - eg similarity of bugs
+  * Dynamic execution - eg relating runtime objects to code
+  * Individual activity - eg content assist; IDE features
+  * Team activity - eg JIRA, Travis, tools for synchronizing activity
+* Four steps
+  * Recognize
+    * Often easier in physical entities; location based, etc
+  * Explain
+  * Experiment
+  * Build
