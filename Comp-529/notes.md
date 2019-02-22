@@ -371,7 +371,100 @@
 * AS rarely used in isolation
 * When using multiple ASs, it's helpful to pick a dominant style with subsidiary styles added for problems the primary one can't address; experience, knowledge, and sound judgement will help
 
+## Textbook Ch 12
+
+* **Model** - abstract, simplified, partial representation of aspect of architecture
+  * Help *understand* situation
+  * Medium for *communication*
+  * Help *analyze* situation
+  * Help *organize* processes, teams, deliverables
+* Every architectural model is an approximation of reality; abstracts away unnecessary detail
+* Match model complexity to skill level and interests of audience
+* Ensure audience is aware of any simplifications/approximations in model
+* **Quantitative models** - illustrate structural/behavioural elements
+* **Sketch** - deliberately informal graphical model used to communicate important aspects to nontechnical audience
+* Guide to effective modelling
+  * Model purposefully
+  * Address audience
+  * Abstract carefully
+  * Focus efforts according to risks
+  * Choose descriptive names
+  * Define terms
+  * Aim for simplicity
+  * Use defined notation
+  * Beware of implied semantics 
+  * Validate models
+  * Keep models alive
+
 ## Textbook Ch 14
+
+## Textbook Ch 17 - The Functional Viewpoint
+
+* Concerns
+  * **Functional capabilities** - what system is required (and not required) to do
+  * **External interfaces** - data, event, control flows between system and others
+    * Should consider both syntax & semantics
+  * **Internal structure** - many implementations possible; pick one that best suits the needs
+    * Has a large impact on quality properties
+  * **Functional design philosophy** 
+    * **Coherence** - logical structure, elements work well
+      * Error may indicate incorrect decomposition
+    * **Cohesion** - relations between functions in element
+      * High cohesion = well grouped function = less error prone
+    * **Consistency** - are design decisions consistent across architecture?
+      * Easier to build, test, operate, evolve
+    * **Coupling** - interrelationships between elements
+      * Loose coupling = easier to support, but may also be less efficient
+    * **Extensibility** - ease of changing or adding functions to system
+      * Often result of coherence, low coupling, simplicity, consistency
+    * **Generality** 
+      * Needs to be balanced against added cost and complexity
+    * **Interdependency**
+      * Interactions between elements can be much more complex than within the same element
+    * **Simplicity**
+  * Stakeholder concerns
+    * Acquirers - functional capabilities, external interfaces
+    * Assessors - all concerns
+    * Communicators - all concerns
+    * Developers - design quality, internal structure, functional capabilities, external interfaces
+    * System administrators - design philosophy, external interfaces, internal structure
+    * Testers - design quality, internal structure, functional capabilities, external interfaces
+    * Users - functional capabilities, external interfaces
+* Models
+  * Functional structure model
+    * Functional elements - software module, data store, application package
+    * Interfaces - inputs, outputs, semantics of operations offered by elements
+    * Connectors - link elements together, separate from the semantics of the operations
+    * External entities - other systems, programs, hardware devices, or entities
+  * Notation
+    * Formal - UML, old ones: Yourdon, Jackson System Development
+    * Architecture description languages (ADL) - Unicon, Write, xADL
+      * Provide native support
+      * Lack stakeholder familiarity
+    * Boxes & line diagrams
+      * Less technical
+    * Sketches
+* Identify elements by
+  * Finding key system level responsibilities
+  * Finding functional elements that will perform those responsibilities
+  * Assessing elements against design criteria
+  * Iterating to refine structure
+* Refinements
+  * Generalization
+  * Decomposition - break large elements into smaller subelements
+  * Amalgamation - replace lots of small similar elements with a larger element
+  * Replication 
+  * Assign responsibilities to elements
+  * Design interfaces - inputs, outputs, preconditions, postconditions
+    * Interface definition languages (IDL)
+    * Data oriented - describe purely messages exchanged
+  * Design connectors
+  * Check functional traceability
+  * Walk through common scenarios
+  * Analyze interactions
+  * Analyze flexibility
+
+
 
 ---
 
