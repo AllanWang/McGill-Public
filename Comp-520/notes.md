@@ -2,7 +2,23 @@
 
 > [Course Website](https://www.cs.mcgill.ca/~cs520/2019/)
 
-## Lecture 2 - 2019/01/09
+## Acronyms
+
+| | |
+|---|---|
+| AOT | Ahead Of Time compilation |
+| AST | Abstract Syntax Tree |
+| CST | Concrete Syntax Tree |
+| IL | Intermediate Language |
+| IR | Intermediate Representation |
+| LALR | Look Ahead Left-to-right Right derivation |
+| LL | Left-to-right Left derivation |
+| LR | Left-to-right Right derivation |
+| LSP | Local Stack Pointer |
+| PC | Program Counter |
+| SP | Stack Pointer |
+
+## Intro
 
 * A compiler transforms source files (eg in Java, C) into target code (eg x86)
 * A scanner transforms source file characters into more meaningful tokens
@@ -25,7 +41,7 @@
   * &centerdot; - concatenation 
   * \* - zero or more occurrences
 
-## Lecture 3 - 2019/01/11
+## Scanners
 
 * Scanners
   * First phase of compiler
@@ -51,9 +67,6 @@
   * Return a token
 * Scanner efficiency
   * Reduce number of regular expressions; note that keywords are already valid identifiers
-
-## Lecture 4 - 2019/01/14
-
 * Scanner error handler
   * Eg if positive ints cannot start with 0
   * Parser error - check for two consecutive int tokens and fail on match
@@ -73,7 +86,7 @@
     * BNF - backus-naur form
     * EBNF
 
-## Lecture 5 - 2019/01/16
+## Parsing
 
 * Parse tree - aka concrete syntax tree
   * Built exactly from CFG rules
@@ -88,18 +101,37 @@
     * Operands must not expand to other operations of lower precedence
     * If left associative, only LHS may expand; if right associative, only RHS may expand
   * Dangling else problem - ambiguous if statements without terminating token; solution in C is to match each `else` with the closest unmatched `if`
+  * Look Ahead Left-to-right Rightmost derivation parser (LALR)
+    * Bottom up
+    * Eg yacc + bison (LALR(1)), SableCC
+  * Left-to-right Leftmost-derivation parser (LL)
+    * Top down 
+    * For LL(k), look k tokens ahead and determine when to reduce
+    * Note that not all grammars are LL(k) for any fixed k
+    * Some rules require unbounded lookahead
+    * Recursive Descent Parsers
+      * Repeatedly expand left non-terminal
+        * If one occurrence, use rule
+        * If multiple, there's a conflict
+        * If none, there's an error
+      * Problematic when rules have same prefixes of length greater than the lookahead count
+        * Resolved by factoring the grammar
+        * Eg `if then end`, `if then else end` becomes `if then ifend`, where `ifend` &rarr; `end | else end` 
+      * Left recursion also a problem. A &rarr; A &beta; | &epsilon; expands to &epsilon; | A | A &beta; | A &beta; &beta; ...
 
-## Lecture 6 - 2018/01/18
+---
 
-* Missed
+### Shift-Reduce Bottom-Up Parsing
 
-## Lecture 7 - 2018/01/21
-
+* Two token collections, one for input stream and one for stack representation
 * Shift - place token from stream to stack; more symbols are needed before applying rule
 * Reduce - replace multiple symbols on stack with single symbol according to grammar
-* Did example in class
+* Accept - when start symbol (`S'`) is on the stack
+* Using a table, effectively like LR parsing but in reverse
+* Deciding between shift and reduce
+  * Implemented as stack of states; represents top content without caring about sub contents
 
-## Lecture 8 - 2018/01/23
+## Abstract Syntax Tree
 
 * Parsing conflicts
 * Resolving conflicts
@@ -110,7 +142,7 @@
     * Prevents modularity and limits optimization
     * Historically good as it's fast and space efficient
   * Multi-pass compiler - 5-15 phases
-    * Requires intermediate representation of program
+    * Requires intermediate representation (IR) of program
 * Abstract syntax tree (AST)
   * Only important terminals kept
   * Tree is not language dependent
@@ -120,19 +152,21 @@
   * Semantic values 
     * Terminals - provided by scanner
     * Non-terminal - created by parser
-
-## Lecture 9 - 2018/01/25
-
 * Building IRs
   * Extends parser
   * Executes semantic actions during process
   * Values are terminal (provided by scanner) or non-terminal (created by parser)
-* JOOS
-  * Subset of Java
 * LALR(1)
   * Left recursion, for efficiency
 
-## Lecture 10 - 2018/01/28
+# JOOS
+
+* Subset of Java
+* Types - boolean, int, char, external (Object, Boolean, Integer, String, etc)
+* Expressions - evaluate to a value
+  * Constants, variables, binary op, unary op, class creation, expression cast, method invocation
+* Statements - no associated values
+  * Expression statements, blocks, control (if, while), return
 
 ### Weeding 
 
@@ -145,16 +179,40 @@
 * Semantic analysis - analyzes meaning of program
   * Symbol table - analyzes variable definitions & uses
     * Maps identifier to meanings
-    * 
+* Used in JOOS for
+  * Class hierarchy - what classes, inheritance
+  * Class members - what fields, what methods, signatures
+  * Identifier - when defined, when used
   * Type checking - analyzes expression types & uses
+* Previously, var declarations were done in one pass. In this case, we wouldn't be able to use elements in the global scope until they were defined
+* Identifiers in the same scope can be unique, but can shadow parent scopes
+* Dynamic scoping - uses program state to resolve symbols
+* Mutual recursion 
+  * Requires two traversals, one to collect definitions and another to collect uses
 
-## Lecture 11 - 2018/01/30
+## Type Checking
 
-## Lecture 12 - 2018/02/01
+* Type annotations are invariant about the run-time behaviour
+* Rules
+  * Declaration - introduce variables
+  * Propagation - expression type determines enclosing expression type
+  * Restrictions - expression type constrained by usage context
+  * Logical rules 
+    * (&Gamma; &vdash; P) / ( &Gamma; &vdash; C) - if P is provable under context &Gamma;, then C is provable under context &Gamma;
+    * &Gamma; &vdash; E : T - under context &Gamma;, it is provable that E is well typed with type T
+    * (&Gamma; [x &#8614; T] &vdash; S) / (&Gamma; &vdash; x; S) - modify context
+    * (&Gamma;(x) = T) / (&Gamma; &vdash; x : T) - access context
+  * L - class library
+  * C - current class
+  * M - current method
+  * V - variables
+* Type proof
+  * Internal nodes are inferences
+  * Leaves are axioms or true predicates
+  * Program is statically type correct iff it is root of some type proof
 
-## Lecture 13 - 2018/02/06
+## Virtual Machines
 
-* Assignment - code gen may require helper methods
 * Ahead of time compilation (AOT) - source code to machine code before execution
   * Advantages
     * Fast execution
@@ -193,6 +251,9 @@
     * Fields
     * Methods
     * Attributes
+  * Java class loaders
+    * Extend `java.lang.ClassLoader`
+    * Allow for loading classes from other sources & transforming classes during loading
   * Consists of
     * Memory
       * Stack (function call frames)
@@ -246,3 +307,20 @@
   * `==` ,`<`, `>`, `<=`, `>=`, and `!=` - 2 labels (like `ifelse` branching, as we are not saving a value in the stack)
   * `!:` - 2 labels
   * `toString` coercion - 2 labels
+
+## Midterm Review
+
+* Compiler phases
+  * Scan - chars to tokens
+  * Parse - tokens to syntax tree
+  * Weed - rejects invalid trees (syntax)
+  * Symbol - tracks context
+  * Type - AST to AST + types; rejects programs that are semantically correct but syntactically wrong
+  * Resource
+  * Code
+  * Optimize
+  * Emit
+* Type checking definitions
+  * a / b - if a then b
+  * a &vdash; b - if under the assumptions of a, then b is provable
+  * a : b - a has type b
