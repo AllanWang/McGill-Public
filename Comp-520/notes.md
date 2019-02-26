@@ -17,6 +17,8 @@
 | LSP | Local Stack Pointer |
 | PC | Program Counter |
 | SP | Stack Pointer |
+| VM | Virtual Machine |
+| JVM | Java Virtual Machine |
 
 ## Intro
 
@@ -239,52 +241,102 @@
   * Disadvantages
     * Program performance depends on compile time
 * Abstract machine - intermediate language
-* Java virtual machine 
-  * `.class` files
-    * Magic number (`0xCAFEBABE`)
-    * Minor version/major version
-    * Constant pool
-    * Access flags
-    * This class
-    * Super class
-    * Interfaces
-    * Fields
-    * Methods
-    * Attributes
-  * Java class loaders
-    * Extend `java.lang.ClassLoader`
-    * Allow for loading classes from other sources & transforming classes during loading
-  * Consists of
-    * Memory
-      * Stack (function call frames)
-        * Call stack (function call frames)
-          * Reference to constant pool
-          * Reference to current object if any
-          * Method arguments
-          * Local variables
-          * Local stack for intermediate results (baby stack)
-        * Baby/operand/local stack - operands & results from instructions
-      * Heap (dynamically allocated memory)
-      * Constant pool (shared constant data)
-      * Code segment (JVM instructions of currently loaded class files)
-    * Registers
-      * No general purpose registers
-      * Stack pointer (`sp`) pointing to top of stack
-      * Local stack pointer (`lsp`) points to location in current stack frame
-      * Program counter (`pc`) points to current instruction
-    * Condition codes
-    * Execution unit
 
-## Lecture 14 - 2018/02/08
+---
 
-## Lecture 15 - 2018/02/11
-
-## Lecture 16 - 2018/02/13
-
-* No class
-
-## Lecture 17 - 2018/02/15
-
+### Java Virtual Machine
+* `.class` files
+  * Magic number (`0xCAFEBABE`)
+  * Minor version/major version
+  * Constant pool
+  * Access flags
+  * This class
+  * Super class
+  * Interfaces
+  * Fields
+  * Methods
+  * Attributes
+* Java class loaders
+  * Extend `java.lang.ClassLoader`
+  * Allow for loading classes from other sources & transforming classes during loading
+* Consists of
+  * Memory
+    * Stack (function call frames)
+      * Call stack (function call frames)
+        * Reference to constant pool
+        * Reference to current object (`this`) if any
+        * Method arguments
+        * Local variables
+        * Local stack for intermediate results (baby stack)
+      * Baby/operand/local stack - operands & results from instructions
+    * Heap (dynamically allocated memory)
+    * Constant pool (shared constant data)
+    * Code segment (JVM instructions of currently loaded class files)
+  * Registers
+    * No general purpose registers
+    * Stack pointer (`sp`) pointing to top of stack
+    * Local stack pointer (`lsp`) points to location in current stack frame
+    * Program counter (`pc`) points to current instruction
+  * Condition codes
+  * Execution unit
+* Data Types
+  * Primitives - boolean, integral (byte, short, int, ...), floating, internal
+  * Reference - class, array, interface
+* Jasmin Code
+  * Z - boolean
+  * F - float
+  * I - int
+  * J - long
+  * V - void
+  * Reference types represented by fully qualified names
+  * Methods
+    * Signature - `.method <modifiers> <name>(<parameter types>) <return type>`
+    * Stack limits `.limit stack <limit>`, `.limit locals <limit>`
+    * Method body
+    * Termination line `.end method`
+* JVM contains 256 instructions for arithmetic ops, constant loading, local operations, branch operations, stack operations, class operations, and method operations
+  * Unary arithmetic ops
+    * `ineg` - negate
+    * `i2c` - to char, `% 65536`
+  * Binary arithmetic ops 
+    * `iadd`
+    * `isub`
+    * `irem`
+  * Direct ops 
+    * `iinc k a` - `local[k] += a`
+  * Constant loading
+    * `iconst_0` - load 0
+    * `aconst_null` -load `null`
+    * `ldc_int i` - load `int`
+  * Local ops 
+    * `iload k` - add `local[k]` to stack
+    * `istore k` - pop stack and store to `local[k]`
+    * `aload`, `astore`, counterparts for references
+  * Field ops
+    * `getfield f sig`, `putfield f sig`, modify fields of objects using value from stack.
+  * Branch ops
+    * `goto L` 
+    * `ifeq L`, `ifgt L`, `ifnonnull L` - reads first stack value
+    * `if_icmpeq_L` - compares top two elements
+  * Stack ops
+    * `dup` - repeat stack value
+    * `pop`
+    * `swap`
+    * `nop` - does nothing
+  * Class ops
+    * `new C` - allocate space
+    * `invokespecial C/<init>()V` - execute constructor
+    * `instance_of C` - puts 0 or 1 on stack
+    * `checkcast`
+  * Method ops
+    * `invokevirtual m sig` - calls method taking in `o` (self) plus all args
+    * `ireturn`, `return`
+* Java Class Loading
+  * `ClassLoader` finds class and checks that method exists
+  * If method not loaded, it is verified
+  * Method body is interpreted
+  * If executed multiple times, bytecode is translated to native code
+  * If method becomes hot, native code is optimized
 * Bytecode verification syntax
   * First 4 bytes should be `0xCAFEBABE`
   * Bytecodes should be syntactically correct
@@ -307,6 +359,16 @@
   * `==` ,`<`, `>`, `<=`, `>=`, and `!=` - 2 labels (like `ifelse` branching, as we are not saving a value in the stack)
   * `!:` - 2 labels
   * `toString` coercion - 2 labels
+
+## {Bite}Code Generation
+
+* Code templates allow code generation from AST, without worrying about surrounding context
+  * Simple, recursive strategy 
+
+| Template | Jasmin |
+| --- | --- |
+| if (**E**) **S** | **E** <br> ifeq stop <br> **S** <br> stop: |
+| if (**E**) **S_1** else **S_2** | **E** <br> ifeq else <br> **S_1** <br> goto stop <br> else: <br> **S_2** <br> stop: |
 
 ## Midterm Review
 
