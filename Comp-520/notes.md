@@ -370,6 +370,13 @@
 | if (**E**) **S** | **E** <br> ifeq stop <br> **S** <br> stop: |
 | if (**E**) **S_1** else **S_2** | **E** <br> ifeq else <br> **S_1** <br> goto stop <br> else: <br> **S_2** <br> stop: |
 
+## Optimization
+
+* Focus on 
+  * Reducing execution time
+  * Reducing code size
+  * Reducing power consumption
+
 ## Midterm Review
 
 * Compiler phases

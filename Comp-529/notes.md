@@ -396,7 +396,91 @@
   * Validate models
   * Keep models alive
 
-## Textbook Ch 14
+## Textbook Ch 13 - Creating the Architectural Description
+
+* ADs should be crisp, concise, and to the point
+* Properties
+  * **Correctness** - should represent & meet the needs & concerns of stakeholders
+  * **Sufficiency** - should allow stakeholders to understand key architectural decisions made
+  * **Timeliness** - follow milestones; late deliverables are not useful
+    * Focus on key risks, then update incrementally
+    * Do not leave out difficult decisions, expecting that they will get easier down the road; often times the decision will end up being made 'by default'
+  * **Conciseness** - focus on important elements, and leave out highly specific details
+    * Factors
+      * Familiarity of technology
+      * Difficulty/criticality of problem
+      * Scale of quality property requirements
+      * Time/resources available
+  * **Clarity** - consider intended readership when writing AD
+    * Tailor content to skill, knowledge, and time available 
+  * **Currency** - think about how AD will be updated throughout the life of the system
+    * Mark out of date sections as such
+  * **Precision** - ensure precision, and break details into parts if they are necessary
+    * If not careful, precision becomes the converse of conciseness
+    * Use abstraction layers to avoid writing details multiple times
+  * **Glossary** - include glossary in AD to explain ambiguous/unclear terminology
+* Contents
+  * **Document Control** - identifiers versions, date, status, changelog, etc
+  * **Table of Contents**
+  * **Introduction & Management Summary** - describes objectives, summarizes goals, scope & requirements, presents high-level overview of solution, identifies key decisions
+  * **Stakeholders** - define stakeholder groups & concerns
+  * **General Architectural Principles** - info that doesn't naturally fit into any views
+  * **Architectural Design Decisions** - decisions, rationales, alternatives considered
+  * **Viewpoints** - define viewpoints; can reference external set of definitions
+  * **Views** - details dependent on viewpoint
+  * **Quality Property Summary** - include general insights & non-view-specific artifacts
+  * **Important Scenarios** - record initial system state, external stimulus, required behaviour
+  * **Issues Awaiting Resolution** - document parts where consensus not formed
+  * **Appendices** - for detailed content
+* Presentation
+  * **Formal documents**
+    * Good when AD is complicated
+    * Harder to assemble if information changes frequently
+  * **Wiki documents**
+    * Very accessible
+    * Less strong if complicated formatting is required
+  * **Presentations**
+    * Largely used
+  * **UML models**
+    * Good de facto solution
+    * Less feasible for nontechnical stakeholders
+  * **Drawing tools**
+  * **Code**
+  * **Spreadsheets**
+
+## Textbook Ch 14 - Evaluating the Architecture
+
+* Why
+  * Validate abstractions - ensure they are reasonable & appropriate
+  * Check technical correctness - easy to create models that seem credible until implementation
+  * Sell the architecture - prove that AD meets needs
+  * Explain the architecture - interaction helps with engagement, especially with less technical stakeholders
+  * Validate assumptions - ensure that key assumptions are tested
+  * Provide management decision points
+  * Offer basis for formal agreement
+  * Ensure technical integrity
+* Evaluation techniques
+  * Presentations
+    * (+) Quick & cheap
+    * (+) Immediate feedback
+    * (-) Shallow level of analysis
+    * (-) Effectiveness dependent on engagement of attendees
+  * Formal Reviews & Structured Walkthroughs
+    * Involves moderator, presenter, & reviewers
+    * (+) Deeper analysis than presentation
+    * (-) Requires significant presentation
+  * Using Scenarios
+    * Steps
+      * Understand requirements
+      * Understand proposed architecture
+      * Identify prioritized scenarios
+      * Analyze architecture
+      * Draw conclusions
+    * (+) Provides deep analysis
+    * (+) Allows team to understand decisions
+    * (-) Complex & expensive
+    * (-) Training/preparation required to lead
+  * TODO
 
 ## Textbook Ch 17 - The Functional Viewpoint
 
