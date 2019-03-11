@@ -1,6 +1,25 @@
-# Comp 520
+# Comp 520 <!-- omit in toc -->
 
 > [Course Website](https://www.cs.mcgill.ca/~cs520/2019/)
+
+- [Acronyms](#acronyms)
+- [Intro](#intro)
+- [Scanners](#scanners)
+- [Parsing](#parsing)
+  - [Shift-Reduce Bottom-Up Parsing](#shift-reduce-bottom-up-parsing)
+- [Abstract Syntax Tree](#abstract-syntax-tree)
+- [JOOS](#joos)
+  - [Weeding](#weeding)
+  - [Symbol Table](#symbol-table)
+- [Type Checking](#type-checking)
+- [Virtual Machines](#virtual-machines)
+  - [Java Virtual Machine](#java-virtual-machine)
+- [{Bite}Code Generation](#bitecode-generation)
+- [Optimization](#optimization)
+- [Midterm Review](#midterm-review)
+- [Garbage Collection](#garbage-collection)
+  - [Reference Counting](#reference-counting)
+  - [Mark & Sweep](#mark--sweep)
 
 ## Acronyms
 
@@ -10,6 +29,7 @@
 | AST | Abstract Syntax Tree |
 | CST | Concrete Syntax Tree |
 | IL | Intermediate Language |
+| GC | Garbage Collection |
 | IR | Intermediate Representation |
 | LALR | Look Ahead Left-to-right Right derivation |
 | LL | Left-to-right Left derivation |
@@ -161,7 +181,7 @@
 * LALR(1)
   * Left recursion, for efficiency
 
-# JOOS
+## JOOS
 
 * Subset of Java
 * Types - boolean, int, char, external (Object, Boolean, Integer, String, etc)
@@ -393,3 +413,55 @@
   * a / b - if a then b
   * a &vdash; b - if under the assumptions of a, then b is provable
   * a : b - a has type b
+
+## Garbage Collection
+
+* Memory allocation
+  * In stack
+    * Function call info, local variables, return values
+    * Allocated & deallocated at beginning & end of function
+    * Contains fixed size data
+    * Contains constant pool, local vars, baby stack
+    * Memory allocation is easy
+  * In heap
+    * Dynamic - unknown size & time
+    * Requires runtime support for managing heap space
+  * Data never point from stack to heap
+  * Heap deallocation
+    * Manual - user code
+      * Advantages
+        * Reduces runtime complexity
+        * Programmer has full control
+        * May be more efficient
+      * Disadvantages
+        * Requires extensive effort
+        * Error prone
+        * Often less efficient
+          * Can free larger blocks at once
+    * Continuous - determined on the spot
+    * Periodic - interval checks
+* When are records dead?
+  * Ideally, when they are never accessed again, but this is undecidable
+  * Conservative assumption - if they are no longer used within stacks
+
+### Reference Counting
+
+* Continuous GC
+* Extra field to track pointers
+* Dead when reference count is 0
+* Disadvantage
+  * Cyclic references don't get GC'd
+
+### Mark & Sweep
+
+* Periodic GC
+* Mark - mark if encountered
+* Sweep - go through all records and reclaim unmarked once
+  * Unmark all marked records as we go
+* Assumes that
+  * We know the size of each record
+  * We know which fields are pointers
+* Can run in parallel
+* Disadvantage
+  * Scanning can be expensive
+  * Heap may become fragmented
