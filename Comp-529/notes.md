@@ -1,9 +1,31 @@
-# Comp 529
+# Comp 529 <!-- omit in toc -->
 
-> [Course Website](https://cs.mcgill.ca/~martin/teaching/comp529-winter-2019/) <br>
-> [Textbook](https://www.safaribooksonline.com/library/view/software-systems-architecture/9780132906135/?ar&orpq) (Requires academic email & McGill network)
+> [Course Website](https://cs.mcgill.ca/~martin/teaching/comp529-winter-2019/) 
 
-## Textbook Ch 1 - Introduction
+- [Software Systems Architecture](#software-systems-architecture)
+  - [Ch 1 - Introduction](#ch-1---introduction)
+  - [Ch 2 - Software Architecture Concepts](#ch-2---software-architecture-concepts)
+  - [Ch 3 - Viewpoints and Views](#ch-3---viewpoints-and-views)
+  - [Ch 4 - Architectural Perspectives](#ch-4---architectural-perspectives)
+  - [Ch 5 - The Role of the Software Architect](#ch-5---the-role-of-the-software-architect)
+  - [Ch 6](#ch-6)
+  - [Ch 7](#ch-7)
+  - [Ch 8 - Concerns, Principles, and Decisions](#ch-8---concerns-principles-and-decisions)
+  - [Ch 9 - Identifying and Engaging Stakeholders](#ch-9---identifying-and-engaging-stakeholders)
+  - [Ch 10 - Identifying and Using Scenarios](#ch-10---identifying-and-using-scenarios)
+  - [Ch 11](#ch-11)
+  - [Ch 12](#ch-12)
+  - [Ch 13 - Creating the Architectural Description](#ch-13---creating-the-architectural-description)
+  - [Ch 14 - Evaluating the Architecture](#ch-14---evaluating-the-architecture)
+  - [Ch 17 - The Functional Viewpoint](#ch-17---the-functional-viewpoint)
+- [Pattern Oriented Software Architecture](#pattern-oriented-software-architecture)
+  - [Ch 9 - From Mud to Structure](#ch-9---from-mud-to-structure)
+
+# Software Systems Architecture
+
+> [Textbook]([https://www.safaribooksonline.com/library/view/software-systems-architecture/9780132906135/?ar&orpq](https://learning.oreilly.com/library/view/software-systems-architecture/9780132906135/?ar))
+
+## Ch 1 - Introduction
 
 * A software architect satisfies:
   * **Stakeholders** - People affected by the system. 
@@ -14,7 +36,7 @@
   * **Perspectives** - Consideration of quality properties
     * Complementary to viewpoints, ensures that our structures exhibit properties we require
 
-## Textbook Ch 2 - Software Architecture Concepts
+## Ch 2 - Software Architecture Concepts
 
 * Computer systems are made up of software, data (transient of persistent) and hardware
 * The architecture of a system refers to its elements and relationships, its fundamental properties, and the principles of its design and evolution
@@ -44,7 +66,7 @@
 * **Architectural description (AD)** - products that document an architecture such that stakeholders can understand and verify that concerns have been met
   * Note that not every system has an AD
 
-## Textbook Ch 3 - Viewpoints and Views
+## Ch 3 - Viewpoints and Views
 
 * Avoid using a single overloaded model for ADs, as it becomes understandable by stakeholders when the system is sufficiently complex
 * A complex system is more effectively described by a set of interrelated views
@@ -77,7 +99,7 @@
   * Deployment - describes needed hardware environment
   * Operational - describes operation, administration, and support necessary for production environment
 
-## Textbook Ch 4 - Architectural Perspectives
+## Ch 4 - Architectural Perspectives
 
 * When creating a view, focus on issues, concerns, and solutions relevant to that view
   * Eg: data ownership is not important for concurrency view; dev environment not concern for functional view
@@ -121,15 +143,15 @@
   * Solutions may conflict between perspectives
   * Concerns & priorities are different for every system
 
-## Textbook Ch 5 - The Role of the Software Architect
+## Ch 5 - The Role of the Software Architect
 
 * 
 
-## Textbook Ch 6
+## Ch 6
 
-## Textbook Ch 7
+## Ch 7
 
-## Textbook Ch 8 - Concerns, Principles, and Decisions
+## Ch 8 - Concerns, Principles, and Decisions
 
 * Scope and requirements of system define architectural solutions, and are part of the Context viewpoint.
 * **Concern** - requirement, object, constraint, intention, or aspiration stakeholder has for architecture
@@ -224,7 +246,7 @@
   * All principles supported by rationales & implications?
   * Stakeholders reviewed & ratified concerns & principles?
 
-## Textbook Ch 9 - Identifying and Engaging Stakeholders
+## Ch 9 - Identifying and Engaging Stakeholders
 
 * High priority stakeholder groups
   * Those most affected by architectural decisions
@@ -264,7 +286,7 @@
   * Ensure stakeholders are aware of responsibilities
   * Identify suitable proxy for stakeholders that don't yet exist
 
-## Textbook Ch 10 - Identifying and Using Scenarios
+## Ch 10 - Identifying and Using Scenarios
 
 * **Architectural Scenario** - Description of interaction between external entity & system
 * Scenarios capture:
@@ -340,7 +362,7 @@
   * Address mistakes/gaps identified through scenarios
   * Likewise, revise architectural design when divergence occurs
 
-## Textbook Ch 11
+## Ch 11
 
 * Design pattern types
   * **Architectural style** - fundamental structural organization schema for software systems
@@ -371,7 +393,7 @@
 * AS rarely used in isolation
 * When using multiple ASs, it's helpful to pick a dominant style with subsidiary styles added for problems the primary one can't address; experience, knowledge, and sound judgement will help
 
-## Textbook Ch 12
+## Ch 12
 
 * **Model** - abstract, simplified, partial representation of aspect of architecture
   * Help *understand* situation
@@ -396,7 +418,7 @@
   * Validate models
   * Keep models alive
 
-## Textbook Ch 13 - Creating the Architectural Description
+## Ch 13 - Creating the Architectural Description
 
 * ADs should be crisp, concise, and to the point
 * Properties
@@ -448,7 +470,7 @@
   * **Code**
   * **Spreadsheets**
 
-## Textbook Ch 14 - Evaluating the Architecture
+## Ch 14 - Evaluating the Architecture
 
 * Why
   * Validate abstractions - ensure they are reasonable & appropriate
@@ -482,7 +504,7 @@
     * (-) Training/preparation required to lead
   * TODO
 
-## Textbook Ch 17 - The Functional Viewpoint
+## Ch 17 - The Functional Viewpoint
 
 * Concerns
   * **Functional capabilities** - what system is required (and not required) to do
@@ -548,13 +570,11 @@
   * Analyze interactions
   * Analyze flexibility
 
-
-
----
-
 # Pattern Oriented Software Architecture
 
-## Textbook Ch 9 - From Mud to Structure
+> [Textbook](https://learning.oreilly.com/library/view/pattern-oriented-software-architecture/9780470059029/?ar)
+
+## Ch 9 - From Mud to Structure
 
 * Software architecture should be meaningful
   * Functionality & features provided by system should support concrete business

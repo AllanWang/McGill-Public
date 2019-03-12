@@ -1,6 +1,17 @@
-# Comp 551
+# Comp 551 <!-- omit in toc -->
 
 > [Course Website](https://www.cs.mcgill.ca/~wlh/comp551/)
+
+- [Lecture 1 - 2019/01/08](#lecture-1---20190108)
+- [Reading](#reading)
+- [Lecture 2 - 2019/01/10](#lecture-2---20190110)
+- [Lecture 3 - 2019/01/15](#lecture-3---20190115)
+- [Lecture 4 - 2019/01/17](#lecture-4---20190117)
+- [Lecture 6 - 2019/01/24](#lecture-6---20190124)
+- [Lecture 7 - 2019/01/29](#lecture-7---20190129)
+- [Lecture 8 - 2019/01/31](#lecture-8---20190131)
+- [Lecture 9 - 2019/02/05](#lecture-9---20190205)
+- [Neural Networks](#neural-networks)
 
 ## Lecture 1 - 2019/01/08
 
@@ -201,5 +212,7 @@
 ## Lecture 8 - 2019/01/31
 
 ## Lecture 9 - 2019/02/05
+
+## Neural Networks
 
 
