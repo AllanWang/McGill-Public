@@ -20,6 +20,7 @@
 - [Garbage Collection](#garbage-collection)
   - [Reference Counting](#reference-counting)
   - [Mark & Sweep](#mark--sweep)
+- [Runtime Deallocation](#runtime-deallocation)
 
 ## Acronyms
 
@@ -442,7 +443,7 @@
     * Periodic - interval checks
 * When are records dead?
   * Ideally, when they are never accessed again, but this is undecidable
-  * Conservative assumption - if they are no longer used within stacks
+  * Conservative assumption - if they are no longer used within stacks; dead records may still be referenced from other dead records
 
 ### Reference Counting
 
@@ -465,3 +466,7 @@
 * Disadvantage
   * Scanning can be expensive
   * Heap may become fragmented
+
+## Runtime Deallocation 
+
+* 

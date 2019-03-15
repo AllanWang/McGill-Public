@@ -18,6 +18,7 @@
   - [Ch 13 - Creating the Architectural Description](#ch-13---creating-the-architectural-description)
   - [Ch 14 - Evaluating the Architecture](#ch-14---evaluating-the-architecture)
   - [Ch 17 - The Functional Viewpoint](#ch-17---the-functional-viewpoint)
+  - [Ch 28 - The Evolution Perspective](#ch-28---the-evolution-perspective)
 - [Pattern Oriented Software Architecture](#pattern-oriented-software-architecture)
   - [Ch 9 - From Mud to Structure](#ch-9---from-mud-to-structure)
 
@@ -569,6 +570,59 @@
   * Walk through common scenarios
   * Analyze interactions
   * Analyze flexibility
+
+## Ch 28 - The Evolution Perspective
+
+* Concerns
+  * Product management
+  * Magnitude of Change
+  * Dimensions of Change
+    * Functional
+    * Platform
+    * Integration
+    * Growth
+  * Likelihood of Change
+  * Timescale for Change
+  * When to Pay for Change
+    * Flexible design - more work early on
+    * Simplest design possible - more work later on
+  * Changes Driven by External Factors
+  * Development Complexity
+  * Preservation of Knowledge
+  * Reliability of Change
+* Design Techniques
+  * Metamodel
+    * Break down data until building blocks and use runtime configurations to create functional components
+    * Faster to iterate as we just change configurations
+    * Harder to build and less efficient 
+  * Variation Points
+    * Identify points that should support change and make them replaceable/configurable
+    * Separate physical & logical processing
+    * Break down processing into steps
+  * Standard Extension Points
+    * Mainstream variation points
+  * Ensure Reliable Change
+    * Configuration management
+    * Automated build process
+    * Dependency analysis
+    * Automated release process
+    * Easy rollback
+    * Automated testing
+    * Continuous integration
+  * Preserve Development Environments
+* Problems
+  * Prioritizing wrong dimensions
+    * Analyze beforehand to be confident of large changes
+  * Changes that never happen
+    * Provide support for change only if confident that it is needed
+  * Evolution of critical quality properties
+    * Maintain balance between flexibility & other important quality properties
+  * Overreliance on specific hardware/software
+    * Create abstractions and be wary of roadmaps
+  * Lost development environments 
+    * Save environment info so you can test against it again
+  * Ad hoc release management
+    * Use automated processes to improve reliability & repeatability
 
 # Pattern Oriented Software Architecture
 
