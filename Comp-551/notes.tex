@@ -135,7 +135,8 @@
 \subsection{Gradient Descent}
 
 \begin{eqn}
-	w_{k + 1} = w_k - \alpha_k \frac{\partial Err(w_k)}{\partial w_k}
+	w_{k + 1} &= w_k - \alpha_k \frac{\partial Err(w_k)}{\partial w_k} \\
+	\frac{\partial Err(w)}{\partial w} &= 2(X^T Xw - X^T Y)
 \end{eqn}
 \begin{itemize}
 	\item Less expensive approach; weights calculated through iterations
@@ -185,18 +186,17 @@
 \subsection{Binary Classification}
 
 \begin{itemize}
-	\item High level
+	\item Probabilistic - estimate conditional probability $P(y | x)$ given feature data
+	\item Decision boundaries - partition feature spaces into different regions
+\end{itemize}
+
+\subsection{Discriminative Models}
+
+\begin{itemize}
+	\item Directly estimate $P(y | x)$
 	\begin{itemize}
-		\item Probabilistic - estimate conditional probability $P(y | x)$ given feature data
-		\item Decision boundaries - partition feature spaces into different regions
-	\end{itemize}
-	\item Approaches
-	\begin{itemize}
-		\item Discriminative - directly estimate $P(y | x)$
-		\item Generative - use Bayes' rule to estimate
-		\begin{eqn}
-			P(y = 1 | x) = \frac{P(x | y = 1) P(y = 1)}{P(x)}
-		\end{eqn}
+		\item Answers what what the features tell us about the class
+		\item Difficult to estimate
 	\end{itemize}
 	\item Log-odds ratio
 	\begin{eqn}
@@ -208,58 +208,161 @@
 	\end{itemize}
 	\item Logistic function - predicted probability for $y = 1$
 	\begin{eqn}
-		\sigma = \frac{1}{1 + e^{-a}}
+		\sigma(w^T x) = \frac{1}{1 + e^{-w^T x}}
 	\end{eqn}
 	\item Likelihood
 	\begin{eqn}
 		L(D) &= P(y_1, y_2, ..., y_n | x_1, x_2, ..., x_n, w) \\
 		&= \prod_{i = 1}^n \sigma(w^T x_i)^{y_i} (1 - \sigma(w^T x_i))^{1 - y_i}
 	\end{eqn}
+	\begin{itemize}
+		\item Numerically unstable for lots of small numbers
+	\end{itemize}
+	\item Log-Likelihood
+	\begin{eqn}
+		l(D) &= ln(L(D)) \\
+		&= \Sigma_{i=1}^n y_i ln(\sigma(w^T x_i)) + (1 - y_i)ln(1 - \sigma(w^T x_i))
+	\end{eqn}
+	\begin{itemize}
+		\item Easier to optimize
+		\item Negative log-likelihood = cross-entropy loss \\
+		Maximizing log-likelihood = minimizing cross-entropy loss
+	\end{itemize}
+	\item Many kinds of losses exist, eg absolute error, or binary; 
+	however, these losses are not always easy to optimize (not differentiable)
+	\item Gradient descent update rule
+	\begin{eqn}
+		w_{k + 1} = w_k + \alpha_k \Sigma_{i = 1:n} x_i(y_i - \sigma(w_k^T x_k))
+	\end{eqn}
 \end{itemize}
 
-\newpage
-
-\divider
-
-\section{Formulas}
+\subsection{Generative Models}
 
 \begin{itemize}
-	\item Least squares 
+	\item Use Bayes' rule to estimate
 	\begin{eqn}
-		f_w = argmin \Sigma_{i=1:n}(y_i - w^T x_i)^2 \\
-		\hat{w} = (X^T X)^{-1} X^T Y
+		P(y = 1 | x) = \frac{P(x | y = 1) P(y = 1)}{P(x)}
 	\end{eqn}
-	\item Bayes' rule 
+	\begin{itemize}
+		\item Finds the marginal probability of a class
+		\item Easy to estimate
+	\end{itemize}
+	\item Linear Discriminant Analysis (LDA)
 	\begin{eqn}
-		P(y = 1 \mid x) = \frac{P(x \mid y = 1)P(y = 1)}{P(x)}
+		P(x | y) = \frac{e^{-\frac{1}{2} (x - \mu)^T \Sigma^{-1}(x - \mu)}}{(2 \pi)^{\frac{1}{2}} \abs{\Sigma}^{\frac{1}{2}}}
+	\end{eqn}
+	\begin{itemize}
+		\item Every class assumed to be Gaussian/normally distributed
+		\item Both classes have same covariance matrix $\Sigma$, but different means $\mu$
+		\item Estimations
+		\begin{eqn}
+			P(y = 0) &= \frac{N_0}{N_0 + N_1} \\
+			P(y = 1) &= \frac{N_1}{N_0 + N_1} \\\\
+			\mu_0 &= \frac{\Sigma_{i=1:n} I(y_i = 0) x_i}{N_0} \\
+			\mu_1 &= \frac{\Sigma_{i=1:n} I(y_i = 1) x_i}{N_1} \\\\
+			\Sigma &= \frac{\Sigma_{k=0:1} \Sigma_{i=1:n} I(y_i = k) (x_i - \mu_i)(x_i - \mu_k)^T}{N_0 + N_1 - 2}
+		\end{eqn}
+		\begin{itemize}
+			\item $N_0$ and $N_1$ are the \# of training samples from classes 1 and 0 respectively
+			\item $I(x)$ is an indicator function: $I(x) = 0$ if $x = 0$, $I(x) = 1$ if $x = 1$
+		\end{itemize}
+		\item Cost is $O(m^2)$ for $m$ classes
+	\end{itemize}
+	\item Quadratic Discriminant Analysis (QDA)
+	\begin{itemize}
+		\item Allows different covariance matrices, $\Sigma_y$ for each class $y$
+		\item Cost is $O(nm^2)$ for $m$ classes and $n$ features
+	\end{itemize}
+	\item Naïve Bayes 
+	\begin{itemize}
+		\item Assumes $x_j$ is conditionally independent given $y$ 
+		\begin{eqn}
+			P(x_j | y) = P(x_j | y, x_k) \forall j, k
+		\end{eqn}
+		\item Still one $\Sigma_y$ per class, but they are diagonal
+		\item Cost is $O(nm)$ for $m$ classes and $n$ features
+	\end{itemize}
+	\item Laplace smoothing
+	\begin{itemize}
+		\item Replace maximum likelihood estimator:
+		\begin{eqn}
+			&\text{Before:} \\
+			&Pr(x_j | y = 1) = \frac{(\text{number of instances with } x_j = 1 \text{ and } y = 1)}{(\text{number of examples with } y = 1)} \\
+			&\text{After:} \\
+			&Pr(x_j | y = 1) = \frac{(\text{number of instances with } x_j = 1 \text{ and } y = 1) + 1}{(\text{number of examples with } y = 1) + 2}
+		\end{eqn}
+		\item Allows data we previously did not encounter to have a probability greater than 0
+	\end{itemize}
+\end{itemize}
+
+\section{Evaluation}
+
+\subsection{Evaluating Classification}
+
+\begin{itemize}
+	\item True positive (m11) - expect 1, predict 1
+	\item False positive (m01) - expect 0, predict 1; type I error
+	\item True negative (m00) - expect 0, predict 0
+	\item False negative (m10) - expect 1, predict 0; type II error
+	\item
+	\begin{eqn}
+		&\text{Error rate} &&\frac{m01 + m10}{m} \\
+		&\text{Accuracy} &&\frac{TP + TN}{ALL} \\
+		&\text{Precision/Sensitivity} \qquad &&\frac{TP}{TP + FP} \\
+		&\text{Recall} &&\frac{TP}{TP + FN} \\
+		&\text{Specificity} &&\frac{TN}{FP + TN} \\
+		&\text{False positive rate} &&\frac{FP}{FP + TN} \\ 
+		&\text{F1 measure} &&F = 2 \cdot \frac{precision \cdot recall}{precision + recall}
+	\end{eqn}
+
+	\item Receiver operating characteristic (ROC)
+	\begin{itemize}
+		\item Plot true negative and true positive prediction rates based on a moving boundary 
+		\item Comparison done by looking at area under ROC curve (AUC)
+		\item In a perfect algorithm, $AUC = 1$; for random algorithms, $AUC = 0.5$
+	\end{itemize}
+\end{itemize}
+
+\subsection{Evaluating Regression}
+
+\begin{itemize}
+	\item Mean Square Error 
+	\begin{eqn}
+		MSE = \frac{1}{n} \Sigma_{i=1}^n (\hat{y}_i - y_i)^2
+	\end{eqn}
+	\item Root Mean Square Error 
+	\begin{eqn}
+		RMSE = \sqrt{\frac{1}{n} \Sigma_{i=1}^n (\hat{y}_i - y_i)^2}
+	\end{eqn}
+	\item Mean Absolute Error
+	\begin{eqn}
+		MAE = \frac{1}{n} \Sigma_{i=1}^n \abs{\hat{y}_i - y_i}
 	\end{eqn}
 \end{itemize}
 
-\subsection{LDA}
+\section{Regularization}
 
-\begin{eqn}
-	P(y = 0) = \frac{N_0}{N_0 + N_1} \\
-	\mu_0 = \sum_{i=1:n}{I(y_i = 0) \frac{x_i}{N_0}} \\
-	\Sigma = \sum_{k = 0:1} \sum_{i = 1:n} \frac{I(y_i = 0)(x_i - \mu_k)(x_i - \mu_k)^T}{N_0 + N_1 - N_k}
-\end{eqn} 
-
-LDA assumes that 
-
-\begin{eqn}
-	P(x \mid y) = \frac{e^{-\frac{1}{2}(x - \mu)^T \Sigma^{-1}(x - \mu)}}{(2 \pi)^{\frac{1}{2}} \abs{\Sigma}^{\frac{1}{2}}}
-\end{eqn}
-
-Two class case 
-
-\begin{eqn}
-	P(y = 0) &= \frac{N_0}{N_0 + N_1} \\ 
-	P(y = 1) &= \frac{N_1}{N_0 + N_1} \\
-	\mu_0 &= \Sigma_{i = 1:n} I(y_i = 0) \frac{x_i}{N_0} \\
-	\mu_1 &= \Sigma_{i = 1:n} I(y_i = 1) \frac{x_i}{N_1} \\\\
-	x = 0 &\rightarrow I(x) = 0 \\
-	x = 1 &\rightarrow I(x) = 1
-\end{eqn}
-
-\section{Linear Classification}
+\begin{itemize}
+	\item High bias - simple model
+	\item High variance - overly complex model
+	\item Regularization 
+	\begin{itemize}
+		\item Reduce overfitting 
+		\item Reduce variance at the cost of bias
+	\end{itemize}
+	\item Ridge Regression (L2-regularization)
+	\begin{eqn}
+		\hat{w}^{ridge} &= argmin_w (\Sigma_{i=1:n}(y_i - w^T x_i)^2 + \lambda \Sigma_{j=0:m} w_j^2) \\
+		&= (X^T X + \lambda I)^{-1} X^T Y
+	\end{eqn}
+	\begin{itemize}
+		\item $\lambda$ can be selected manually or by cross validation
+		\item Not equivariant under scaling of data; typically need to normalize inputs first
+		\item Can also modify penalty by adding penalty term $2\lambda w$
+		\begin{eqn}
+			\frac{\partial Err(w)}{\partial w} &= 2(X^T Xw - X^T Y) + \underline{2 \lambda w}
+		\end{eqn}
+	\end{itemize}
+\end{itemize}
 
 \end{document}   
