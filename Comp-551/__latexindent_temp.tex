@@ -32,18 +32,46 @@
 	\SetNewAudience{notes}
 	\SetNewAudience{full}
 	
-	\setlist[enumerate]{itemsep=0mm}
+	\setlist[enumerate]{itemsep=0m	m}
 	\setlist[itemize]{itemsep=0mm}
 
-	% \newcommand{\tab}[1]{\hspace{.2\textwidth}\rlap{#1}}
+	\newcommand{\tab}[1]{\hspace{.2\textwidth}\rlap{#1}}
 	
 	\newcommand{\comment}[1]{}
 
 	\newcommand{\mathcomment}[0]{\quad\color{blue}}
+
+	\newcommand{\bigsum}[2]{\sum\limits_{#1}^{#2}}
+
+	\newcommand{\ddef}[1]{\textcolor{blue}{#1}}
 	
 	\newcommand{\real}[0]{\mathbb{R}}
 	
 	\newcommand{\uu}[1]{\underbracket{#1}}
+
+	\newkeycommand{\ccup}[sub=i=1, sup=\infty, base=A_i] {
+		\bigcup_{\commandkey{sub}}^{\commandkey{sup}}\commandkey{base}
+	}
+
+	\newkeycommand{\ccap}[sub=i=1, sup=\infty, base=A_i] {
+		\bigcap_{\commandkey{sub}}^{\commandkey{sup}}\commandkey{base}
+	}
+
+	\newkeycommand{\llim}[sub=n \rightarrow \infty, base=A_n] {
+		\lim_{\commandkey{sub}}\commandkey{base}
+	}
+
+	\newkeycommand{\ssum}[sub=i=1, sup=k] {
+		\sum_{\commandkey{sub}}^{\commandkey{sup}}	
+	}
+
+	\newenvironment{block}[1][Label]{\underline{#1}\par}{}
+%	\newenvironment{proof}{\block[Proof]}{\endblock}
+	\newenvironment{proposition}{\block[Proposition]}{\endblock}
+	\newenvironment{lemma}{\block[Lemma]}{\endblock}
+%	\newenvironment{theorem}{\block[Theorem]}{\endblock}
+	\newenvironment{remark}{\block[Remark]}{\endblock}
+	\newenvironment{definition}{\block[Definition]}{\endblock}
 
 	\newcommand{\bb}[1]{\left\{#1\right\}}
 	\newcommand{\bbb}[1]{\left[#1\right]}
@@ -52,10 +80,23 @@
 
 	\newcommand{\divider}[0]{\par\textcolor{lightgray}{\rule{\textwidth}{0.1pt}}}
 	
+	\newenvironment{claim}{\textit{Claim:}}{\hfill $\square$}
+	
+	\newenvironment{remarks}{\underline{Remarks}\par}{}
+	
+	\newenvironment{example}{\shownto{-,notes}\underline{Example}\par}{\par\divider\endshownto}
+	
 	\newenvironment{eqn}{\equation\alignedat{3}}{\endalignedat\endequation}
 	
 	\newcommand{\todo}[0]{\textcolor{red}{\textbackslash\textbackslash TODO \ }}
 	
+	\newcounter{theorem}
+	\newcommand{\theorem}[1]{\refstepcounter{theorem}\par\medskip
+		\underline{Theorem~\thetheorem. #1}}
+	
+	\let\oldperp\perp
+	\renewcommand{\perp}[0]{\oldperp\!\!\!\oldperp}
+
 \begin{document}
 \onehalfspacing
 \maketitle
@@ -365,18 +406,11 @@
 	\item Leaf nodes include set of training examples satisfying all tests along the branch
 	\item Can express every boolean function; goal is to encode functions compactly
 	\item Typically constructed sing recursive top-down procedure + pruning to avoid overfitting
-	\item Advantages: fast, easy to interpret, accurate 
-	\item Disadvantages: sensitive to outliers, bad for learning functions with smooth, curvilinear boundaries
 	\item Approach
-	\begin{enumerate}
-		\item If training instances have same class, create leaf with that class label and exit 
-		\item Else, pick best test to split on 
-		\item Split training data 
-		\item Recurse on 1-3 for each subset
-	\end{enumerate}
 \end{itemize}
 
-\subsection{Finding Best Test}
+
+\subsection{Finding Best Tests}
 
 \begin{itemize}
 	\item If event $E$ with probability $P(E)$ has occurred with certainty, we received $I(E)$ bits of information, where
@@ -407,24 +441,7 @@
 			H(D | T) = \frac{22}{40}\left[ -\frac{15}{22} log_2 \frac{15}{22} - \frac{7}{22} log_2 \frac{7}{22} \right] + \frac{18}{40} \left[ -\frac{15}{18} log_2 \frac{15}{18} - \frac{3}{18} log_2 \frac{3}{18} \right] = 0.788
 		\end{eqn}
 	\end{itemize}
-	\item For classification, choose test with highest information gain 
-	\item For regression, choose test with lowest MSE
-	\item For real-valued features, can select possible thresholds based on midpoints of data values
-\end{itemize}
-
-\subsection{Avoiding Overfitting}
-
-\begin{itemize}
-	\item Remove some nodes for better generalization 
-	\item Early stopping - stop growing tree if splits do not improve information gain of validation step 
-	\item Post pruning - grow full tree then remove lower nodes with low information gain on validation set (generally better)
-	\begin{itemize}
-		\item For each node:
-		\item Evaluate validation set accuracy if subtree is pruned 
-		\item Greedily remove nodes that most improve validation set accuracy 
-		\item Replace removed node by leaf with majority class of corresponding examples 
-		\item Stop when pruning hurts validation set accuracy
-	\end{itemize}
+	\item Find best tests by selecting ones with highest information gain 
 \end{itemize}
 
 \end{document}   
