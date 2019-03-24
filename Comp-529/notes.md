@@ -114,10 +114,10 @@
     * Information - system must have control of read, insert, update, delete at multiple levels
     * Operational - maintaining and distributing secret information
 * **Architectural perspective**, aka perspective
-  * Collection of architectural activities, tactics, guidelines to ensure that system exhibits certain quality properties across architectural views
+  * Collection of architectural *activities, tactics, guidelines* to ensure that system exhibits certain quality properties across architectural views
   * Orthogonal model to viewpoints; applied to views
   * Issues addressed are referred to as *cross-cutting concerns* or *nonfunctional requirements*
-* **Architectural tactic** - established & proven approach to help achieve particular quality property
+* **Architectural tactic** - *established & proven* approach to help achieve particular quality property
   * Eg priority-based process schedule to improve system performance
   * More general than a design pattern
 * Important perspectives

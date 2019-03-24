@@ -21,6 +21,8 @@
   - [Reference Counting](#reference-counting)
   - [Mark & Sweep](#mark--sweep)
 - [Runtime Deallocation](#runtime-deallocation)
+- [Virtual Machines (VirtualRISC)](#virtual-machines-virtualrisc)
+- [Native Code Generation](#native-code-generation)
 
 ## Acronyms
 
@@ -29,9 +31,11 @@
 | AOT | Ahead Of Time compilation |
 | AST | Abstract Syntax Tree |
 | CST | Concrete Syntax Tree |
-| IL | Intermediate Language |
 | GC | Garbage Collection |
+| IL | Intermediate Language |
 | IR | Intermediate Representation |
+| JIT | Just In Time compilation |
+| JVM | Java Virtual Machine |
 | LALR | Look Ahead Left-to-right Right derivation |
 | LL | Left-to-right Left derivation |
 | LR | Left-to-right Right derivation |
@@ -39,7 +43,6 @@
 | PC | Program Counter |
 | SP | Stack Pointer |
 | VM | Virtual Machine |
-| JVM | Java Virtual Machine |
 
 ## Intro
 
@@ -469,4 +472,44 @@
 
 ## Runtime Deallocation 
 
-* 
+<b>TODO</b>
+
+## Virtual Machines (VirtualRISC)
+
+<b>TODO (Slides 1-20)</b>
+
+* JOOS Code executes through
+  * Interpreter
+  * Ahead-of-time compiler
+    * Translate directly to native code
+    * Not as useful for Java/JOOS
+      * Method code fetched as needed
+      * Needs to allow code across internet
+      * Should support different native code sets
+  * Just-in-time compiler
+    * Merge interpreters with traditional compilation techniques
+    * When method is invoked for the first time
+      * Bytecode fetched
+      * Translated into native code
+      * Control given to generated code
+    * Needs to be fast to be useful
+
+## Native Code Generation
+
+* Important problems
+  * Instruction selection - choose correct instructions from native code instruction set
+  * Memory modelling - decide where to store variables & allocate registers
+  * Method calling - determine calling conventions
+  * Branch handling - allocate branch targets
+* Map locals/stacks to frame
+  * Stack memory can be arbitrarily large, but is limited by hardware `ulimit -a`
+  * Registers are very limited, usually much less than number of program variables
+  * Want to allocate as many variables in register as possible
+  * Liveness analysis
+    * Variable is live if it can be read in the future
+    * Undecidable, but can be approximated
+
+---
+
+* 8 questions on final
+* Graph colouring heuristic
