@@ -12,6 +12,7 @@
 - [Lecture 8 - 2019/01/31](#lecture-8---20190131)
 - [Lecture 9 - 2019/02/05](#lecture-9---20190205)
 - [Neural Networks](#neural-networks)
+- [Linear Regression](#linear-regression)
 
 ## Lecture 1 - 2019/01/08
 
@@ -214,5 +215,4 @@
 ## Lecture 9 - 2019/02/05
 
 ## Neural Networks
-
 

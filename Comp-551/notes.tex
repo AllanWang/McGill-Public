@@ -103,9 +103,132 @@
 \tableofcontents
 \pagebreak
 
+\section{Linear Regression}
+
+\begin{itemize}
+	\item Classification - discrete set output
+	\item Regression - continuous output
+	\item Supervised learning - given training examples with labels, find model to predict labels given input
+	\item i.i.d assumption - training set is assumed to be \textit{independently} and \textit{identically distributed}
+	\item Linear hypothesis - find weights to minimize
+	\begin{eqn}
+		Err() = \Sigma_{i = 1:n} (y_i - w^T x_i)^2
+	\end{eqn}
+\end{itemize}
+
+\subsection{Least-Squares Error}
+
+\begin{eqn}
+	f_w &= argmin \Sigma_{i=1:n}(y_i - w^T x_i)^2 \\
+	\hat{w} &= (X^T X)^{-1} X^T Y
+\end{eqn}
+\begin{itemize}
+	\item Note that both w and x vectors have an extra dimension (m + 1) for a dummy/intercept term (all 1s for x)
+	\item Computational cost is $O(m^3 + nm^2)$ for n inputs and m features
+	\item Only works if $X^T X$ is nonsingular (no correlation between features)
+	\begin{itemize}
+		\item If a feature is a linear function of others, you can drop it
+		\item If the number of features exceeds number of training examples, you can reduce the number of features
+	\end{itemize}
+\end{itemize}
+
+\subsection{Gradient Descent}
+
+\begin{eqn}
+	w_{k + 1} = w_k - \alpha_k \frac{\partial Err(w_k)}{\partial w_k}
+\end{eqn}
+\begin{itemize}
+	\item Less expensive approach; weights calculated through iterations
+	\item Goal is to reduce the weight errors from the previous iteration
+	\item Repeat until $\abs{w_{k + 1} - w_k} < \epsilon$
+	\item $a_k > 0$ is the learning rate for iteration $k$
+	\begin{itemize}
+		\item If too large, oscillates forever
+		\item If too small, takes longer to reach local minimum
+	\end{itemize}
+	\item Robbins-Monroe conditions prove convergence:
+	\begin{eqn}
+		\Sigma_{k = 0:\infty} \alpha_k &= \infty  \\
+		\Sigma_{k = 0:\infty} \alpha_k^2 &< \infty
+	\end{eqn}
+	\item Not that convergence is to local minimum only, not always global
+\end{itemize}
+
+\divider
+
+\begin{itemize}
+	\item Feature design - if features cannot fully represent a model, we can transform them using non linear functions (eg powers, binary thresholds, etc) into new features. Note that the weights are still linear combinations.
+	\item Overfitting - hypothesis explains training data well, but does not generalize to new data
+	\item Simple model - high training error, high test error 
+	\item Complex model - low training error, high test error 
+	\item Training error always goes down with complexity, but at some point in between, test error will be at its lowest
+\end{itemize}
+
+\subsection{Validation}
+
+\begin{itemize}
+	\item Validation set should be separate from training data 
+	\item K-Fold cross validation
+	\begin{itemize}
+		\item Create $k$ partitions for available data 
+		\item For each iteration, train with $k - 1$ subsets, then validate on remaining subset. Repeat $k$ times
+		\item Return average prediction error
+	\end{itemize}
+	\item Leave-One-Out Cross Validation
+	\begin{itemize}
+		\item K-fold where $k = n$
+	\end{itemize}
+\end{itemize}
+
+\section{Linear Classification}
+
+\subsection{Binary Classification}
+
+\begin{itemize}
+	\item High level
+	\begin{itemize}
+		\item Probabilistic - estimate conditional probability $P(y | x)$ given feature data
+		\item Decision boundaries - partition feature spaces into different regions
+	\end{itemize}
+	\item Approaches
+	\begin{itemize}
+		\item Discriminative - directly estimate $P(y | x)$
+		\item Generative - use Bayes' rule to estimate
+		\begin{eqn}
+			P(y = 1 | x) = \frac{P(x | y = 1) P(y = 1)}{P(x)}
+		\end{eqn}
+	\end{itemize}
+	\item Log-odds ratio
+	\begin{eqn}
+		a = ln \frac{P(y = 1 | x)}{P(y = 0 | x)}
+	\end{eqn}
+	\begin{itemize}
+		\item Outputs likelihood of $y = 1$ vs $y = 0$
+		\item Decision boundary is set of points for which $a = 0$
+	\end{itemize}
+	\item Logistic function - predicted probability for $y = 1$
+	\begin{eqn}
+		\sigma = \frac{1}{1 + e^{-a}}
+	\end{eqn}
+	\item Likelihood
+	\begin{eqn}
+		L(D) &= P(y_1, y_2, ..., y_n | x_1, x_2, ..., x_n, w) \\
+		&= \prod_{i = 1}^n \sigma(w^T x_i)^{y_i} (1 - \sigma(w^T x_i))^{1 - y_i}
+	\end{eqn}
+\end{itemize}
+
+\newpage
+
+\divider
+
 \section{Formulas}
 
 \begin{itemize}
+	\item Least squares 
+	\begin{eqn}
+		f_w = argmin \Sigma_{i=1:n}(y_i - w^T x_i)^2 \\
+		\hat{w} = (X^T X)^{-1} X^T Y
+	\end{eqn}
 	\item Bayes' rule 
 	\begin{eqn}
 		P(y = 1 \mid x) = \frac{P(x \mid y = 1)P(y = 1)}{P(x)}
