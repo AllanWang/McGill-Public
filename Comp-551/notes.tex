@@ -40,6 +40,8 @@
 	\newcommand{\comment}[1]{}
 
 	\newcommand{\mathcomment}[0]{\quad\color{blue}}
+
+	\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
 	
 	\newcommand{\real}[0]{\mathbb{R}}
 	
@@ -426,5 +428,477 @@
 		\item Stop when pruning hurts validation set accuracy
 	\end{itemize}
 \end{itemize}
+
+\section{Features}
+
+\begin{itemize}
+	\item Strategies
+	\begin{itemize}
+		\item Domain knowledge to construct ``add hoc'' features 
+		\item Normalization 
+		\item Non-linear expansions 
+		\item Regularization
+	\end{itemize}
+	\item NLP Features
+	\begin{itemize}
+		\item Words (binary, absolute frequency, relative frequency)
+		\item TF-IDF 
+		\item N-grams
+		\item Syntactic features
+		\item Word embeddings
+		\item Stopwords (common words that may not provide much information)
+		\item Lemmatization (inflectional morphology)
+	\end{itemize}
+	\item Approaches
+	\begin{itemize}
+		\item Wrapper \& filter - applied during preprocessing
+		\item Embedded - integrated in optimization method (eg regularization)
+	\end{itemize}
+\end{itemize}
+
+\subsection{Principal Component Analysis (PCA)}
+
+\begin{itemize}
+	\item Project data into lower-dimensional sub-spaces
+	\item Solves
+	\begin{eqn}
+		argmin_{W, U} \Sigma_{i=1:n} \norm{X - XWU^T}^2
+	\end{eqn}
+	\item Solution $W$ given by eigen-decomposition of $X^T X$; columns are orthogonal
+\end{itemize}
+
+\subsection{Variable Ranking}
+
+\begin{itemize}
+	\item Rank features using scoring features; select the highest ranked features
+	\item Simple \& fast, but requires a scoring function
+	\item Scoring functions 
+	\begin{itemize}
+		\item Correlation
+		\item Mutual information (finds  nonlinear relationships)
+	\end{itemize}
+\end{itemize}
+
+\section{Instance Learning}
+
+\begin{itemize}
+	\item Parametric supervised learning 
+	\begin{itemize}
+		\item Assumes we have labelled examples
+		\item Learns parameter vector of fixed size
+	\end{itemize}
+	\item Non-parametric learning
+	\begin{itemize}
+		\item Store all training examples $\langle x_i, y_i \rangle$
+		\item With new query, compute value based on most similar points
+		\item Requires distance function (eg euclidian distance)
+		\begin{itemize}
+			\item Often domain specific 
+			\item May require feature preprocessing 
+			\item Can sometimes be learned
+		\end{itemize}
+	\end{itemize}
+\end{itemize}
+
+\subsection{One-Nearest Neighbour}
+
+\begin{itemize}
+	\item Lazy learning - generalization upon query
+	\item Requires no learning (just store data)
+	\item For new point $x_{new}$, find nearest sample $x_{i^*} = argmin_i d(x_i, x)$ and predict $y_{new} = y_{i^*}$
+	\item Essentially results in a decision boundary where each boundary is equidistance between two points of opposite classes
+\end{itemize}
+
+\subsection{K-Nearest Neighbour (KNN)}
+
+\begin{itemize}
+	\item Requires no learning (just store data)
+	\item For new point $x_{new}$, find $k$ nearest training samples 
+	\item For regression, predict mean/median of neighbouring $y$ values 
+	\item For classification, predict majority or empirical probability of each class
+	\item Low k results in low bias and high variance 
+	\item High k results in high bias and low variance 
+	\item Sensitive to small variations
+\end{itemize}
+
+\subsection{Distance-Weighted (kernel-based) NN}
+
+\begin{itemize}
+	\item For new point $x_{new}$, compute $w_i = w(d(x_i, x_{new}))$ for all $x_i$ in training data, where $d$ is a weighting function and predict $y = \dfrac{\Sigma_i w_i y_i}{\Sigma_i w_i}$
+	\item Example of a weighting function is the inverse euclidean distance
+\end{itemize}
+
+\divider
+
+\begin{itemize}
+	\item Instance based learning is useful when
+	\begin{itemize}
+		\item A good distance metric exists 
+		\item There aren't too many attributes per instance (otherwise distances will be similar, leading to noise)
+	\end{itemize}
+\end{itemize}
+
+\section{Support Vector Machines (SVM)}
+
+\subsection{Perceptron}
+
+\begin{eqn}
+	h_w(x) = sign(w^T x)
+\end{eqn}
+
+\begin{itemize}
+	\item Outputs +1 if $w^T x \ge 0$, -1 otherwise
+	\item Decision boundary is $w^T x = 0$
+	\item Gradient-descent learning
+	\begin{eqn}
+		Err(w) = \Sigma_{i=1:n} \left\{ 0 \text{ if } y_i w^T x_i \ge 0; -y_i w^T x \text{ otherwise} \right\}
+	\end{eqn}
+	\begin{itemize}
+		\item Error is 0 for correctly classified example
+		\item Error shows how much to shift for incorrectly classified example
+		\item Error is 0 if all examples are classified correctly
+	\end{itemize}
+	\item Learning converges within finite number of updates for linearly separable datasets; otherwise, there will be oscillation
+	\item Dual representation
+	\begin{eqn}
+		w = \Sigma_{i=1:n} \alpha_i y_i x_i
+	\end{eqn}
+	\begin{itemize}
+		\item $\alpha_i$ is sum of step sizes used for all updates applied to example $i$
+	\end{itemize}
+	\item Solution often non-unique; depends on order of updates
+\end{itemize}
+
+\subsection{Linear SVM}
+
+\begin{itemize}
+	\item Choose $w$ such that margin is maximized
+	\item Margin is twice the Euclidean distance from hyper-plane to nearest training example
+	\item Let $\gamma_i$ be the distance from $x_i$ to decision boundary, connected at point $x_i^0$. Let $w$ be the normal to the decision boundary. We can define:
+	\begin{eqn}
+		x_i^0 = x_i - \frac{\gamma_i w}{\norm{w}}
+	\end{eqn}
+	\begin{itemize}
+		\item $\dfrac{w}{\norm{w}}$ is the unit normal 
+		\item $\gamma_i$ is the scalar distance from $x_i$ to $x_i^0$
+	\end{itemize}
+	\item Goal is to minimize $\frac{1}{2} \norm{w}^2$ with respect to $w$ such that $y_i w^T x_i \ge 1$ 
+	\item \todo{Lagrangian optimization; 439}
+	\item Support vectors - points lying on edge of margin, affecting the decision boundary
+	\item \todo{Hinge loss; 461}
+	\item Multiple classes 
+	\begin{itemize}
+		\item One-vs-all - learn K separate binary classifiers
+		\begin{itemize}
+			\item Can be inconsistent
+			\item Training sets are imbalanced
+		\end{itemize}
+		\item Multi-class SVM
+	\end{itemize}
+\end{itemize}
+
+\section{Ensembles}
+
+Run base algorithms multiple times, then combine predictions for a final prediction
+
+\subsection{Bagging}
+
+\begin{itemize}
+	\item Create K independent models by training same base algorithm on different subsets of training data
+	\item Reduces variance, increases bias
+	\item Good for ``reasonable'' classifiers
+	\item Bootstrapping - cross-validation but using random sampling with replacement
+	\begin{itemize}
+		\item For new dataset, randomly select value from full dataset with replacement until size is sufficient
+	\end{itemize}
+	\item Incremental construction
+	\begin{itemize}
+		\item Hypotheses should not be constructed independently
+		\item New hypotheses should focus on problematic instances
+	\end{itemize}
+	\item Random forest
+	\begin{itemize}
+		\item Use K bootstrap replicates to train K different trees
+		\item For each node, pick $m$ variables at random (where $m < M$, $M$ being the total number of features)
+		\item Determine best test using normalized information gain
+		\item Recurse until depth is reached without pruning
+		\item Resulting trees have high variance, but ensemble uses average, which reduces variance
+		\item Fast \& can handle lots of data 
+		\item Can circumvent difficulties in optimization
+		\item Low interpretability
+		\item New predictions may be more expensive (need to go through all trees)
+	\end{itemize}
+\end{itemize}
+
+\subsection{Boosting}
+
+\begin{itemize}
+	\item Incrementally train K models, where each successive model tries to fix mistakes of previous models
+	\item Reduces bias \& increases classification margin
+	\item Tends not to overfit 
+	\item Good for very simple classifiers
+	\item Problematic if lots of data is mislabelled
+	\item Algorithm 
+	\begin{itemize}
+		\item Train simple predictor
+		\item Re-weight training examples, putting more weight on those that were not properly classified 
+		\item Repeat n times
+	\end{itemize}
+	\item Adaboost adapts error rate to reduce training error exponentially fast
+\end{itemize}
+
+\subsection{Stacking}
+
+\begin{itemize}
+	\item Stacking - train K different models and combine their output
+	\item Predictions from base models become features of new meta-model
+	\item Works well when base models have complimentary strengths and weaknesses
+\end{itemize}
+
+\section{Neural Networks}
+
+\begin{itemize}
+	\item A single perceptron can represent linear boundaries, but cannot represent non-linearly separated functions like XOR. 
+	However, stacking perceptrons to create new datasets allows more functions to become linearly separable
+	\item Sigmoid function provides ``soft threshold'', whereas perceptron provides ``hard threshold''
+	\item Feed-forward neural network
+	\begin{itemize}
+		\item Connections from one layer to the next in one direction; no connections between units of the same layer
+		\item Hidden units are $h_i = \sigma(w_i^T x + b_i), \forall i$
+		\item Unlike stacking, we jointly train the entire network
+		\item Can have multiple output units
+		\item Depth - number of layers
+		\item Fully-connected - if all units in layer $j$ provide input to all units in layer $j + 1$
+	\end{itemize}
+	\item Neural network with two hidden layers can approximate any function to arbitrary accuracy
+	\item Activation function can be an arbitrary non-linear function, not just limited to sigmoid
+\end{itemize}
+
+\subsection{Gradient Descent}
+
+\begin{itemize}
+	\item Used to minimize errors, as hypothesis is differentiable and too complex to compute optimal weights directly 
+	\item Stochastic gradient descent
+	\begin{enumerate}
+		\item Initialize weights to small random numbers 
+		\item Pick single training example $x$
+		\item Feed example then compute correction
+		\item Compute correction for output unit
+		\begin{eqn}
+			\frac{\partial J}{\partial w_{out}} = \delta_{out} x
+		\end{eqn}
+		\item Compute correction for each hidden unit $j$ 
+		\begin{eqn}
+			\frac{\partial J}{\partial w_j} = \delta_{out} w_{out, j} \sigma(w_j^T x + b)(1 - \sigma(w_j^T x + b))x
+		\end{eqn}
+		\item Update each network weight
+		\begin{eqn}
+			w_j &= w_j - \alpha \frac{\partial J}{\partial w_j} \forall j \\ 
+			w_{out} &= w_{out} - \alpha \frac{\partial J}{\partial w_{out}}
+		\end{eqn}
+		\item Repeat from step 2 until convergence
+	\end{enumerate}
+	\item Batch gradient descent
+	\begin{itemize}
+		\item Compute error on all examples 
+		\item Loop through training data, accumulating weight changes 
+		\item Update all weights and repeat
+	\end{itemize}
+	\item Mini-batch gradient descent
+	\begin{itemize}
+		\item Compute error on randomly selected subset
+	\end{itemize}
+\end{itemize}
+
+\section{Backpropagation}
+
+\subsection{Activation Functions}
+
+\begin{itemize}
+	\item Sigmoid
+	\begin{eqn}
+		\phi(z) = \frac{1}{1 + e^{-z}}
+	\end{eqn}
+	\begin{itemize}
+		\item Easy to differentiate 
+		\item Easily saturates; inputs outside of [-4, 4] remain essentially constant, making it hard to train
+	\end{itemize}
+	\item Tanh 
+	\begin{eqn}
+		\phi(z) = tanh z = \frac{e^z - e^{-z}}{e^z + e^{-z}}
+	\end{eqn}
+	\begin{itemize}
+		\item Easy to differentiate ($1 - tanh^2(z)$)
+		\item Slightly less prone to saturation than sigmoid
+	\end{itemize}
+	\item ReLU 
+	\begin{eqn}
+		ReLU(z) = max(z, 0)
+	\end{eqn}
+	\begin{itemize}
+		\item Unbounded range; never saturates 
+	\item De facto standard
+	\end{itemize}
+	\item Softplus
+	\begin{eqn}
+		softplus(z) = ln(1 + e^x)
+	\end{eqn}
+	\begin{itemize}
+		\item Similar to ReLU but smoother
+		\item Expensive derivative compared to ReLU
+	\end{itemize}
+\end{itemize} 
+
+\subsection{Derivatives}
+
+\begin{itemize}
+	\item Tell us how much we impact another node if we change one node by one unit
+	\item For non-neighbouring nodes, sum over all possible paths from one node to the other, multiplying derivatives on each edge of the path
+	\item Computationally intensive, so we can instead factor paths by summing derivatives of all inputs to a node first
+	\item Forward mode - start from source, and at each node, sum all incoming edges/derivatives
+	\item Reverse mode - start from sink, and at each node, sum all outgoing edges/derivatives
+	\item Both only touch each edge once, but since we want derivatives of the output/loss with respect to all previous layers, reverse mode is better 
+	\item Reverse-mode automatic differentiation (RV-AD) = backpropagation
+\end{itemize}
+
+\divider
+
+\begin{itemize}
+	\item Guaranteed convergence to local minimum 
+	\item Use random restarts to find better minimum 
+	\item Overtraining occurs if weights take on large magnitudes; \# of training updates is also a hyper-parameter 
+	\item Adaptive optimization algorithms change learning rates for each parameter based on history of gradient updates
+\end{itemize}
+
+\subsection{Momentum}
+
+On $i^{th}$ gradient descent, add momentum (second term)
+	
+\begin{eqn}
+	\Delta_i w = \alpha \frac{\partial J}{\partial w} + \beta \Delta_{i-1}w
+\end{eqn}
+
+\begin{itemize}
+	\item Allows us to pass small local minima 
+	\item Keeps weights moving if error is flat
+	\item However, can get out of a global maximum 
+	\item Is tunable, increasing chance of divergence
+\end{itemize}
+
+\section{Convolutional Neural Network (CNN)}
+
+\begin{itemize}
+	\item Often used in computer vision
+	\item Input usually 3D tensor for 2D RGB image
+	\item Local receptive fields
+	\begin{itemize}
+		\item Hidden unit connected to patch of input image
+		\item Unit connected to all 3 colours channels
+	\end{itemize}
+	\item Share matrix of parameters across units
+	\begin{itemize}
+		\item Units within depth slice at all positions have same weights 
+		\item Feature map computed via discrete convolution with kernel matrix
+	\end{itemize}
+	\item Pooling/subsampling of hidden units in same neighbourhood
+	\begin{itemize}
+		\item Dimensionality reduced, making features more high-level \& abstract
+	\end{itemize}
+	\item Convolutional ``kernels'' aim to extract useful information (eg blurring/edge detection)
+	\item Can have multiple layers, vary width/size of receptive fields, and vary stride (spacing between receptive fields)
+	\item Pooling layers often added between convolutional layers; takes max of inputs in receptive fields
+	\item Dropout regularization
+	\begin{itemize}
+		\item Helps generalize better \& reduce overfitting
+		\item Independently set each hidden unit to zero with probability $p$ (often $p = 0.5$)
+	\end{itemize}
+	\item Batch normalization
+	\begin{itemize}
+		\item Compute mean \& variance independently for each dimension and normalize each input 
+		\item Usually done already at input layer, but this extends it to other layers 
+		\item Results in more stable gradient estimates
+	\end{itemize}
+	\item Can use softmax instead of sigmoid for multi-class classification (not the same as multi-output classification)
+\end{itemize}
+
+\subsection{Recurrent Neural Network (RNN)}
+
+\begin{itemize}
+	\item Often used in text \& speech
+	\item Allows us to retain temporal information in sequences
+	\item Add cycles with time delay (affects next step, to avoid infinite loops); see recurrence below [\ref{sec:recurrence}]
+	\item Output types
+	\begin{itemize}
+		\item One at the end of the sequence (eg sentiment classification)
+		\item One at each time step (eg language generation)
+		\begin{itemize}
+			\item Use softmax 
+			\item Usually add an ``end of sentence'' token for stopping
+		\end{itemize}
+	\end{itemize}
+	\item One-hot vectors
+	\begin{itemize}
+		\item Map each value to column of a weight matrix 
+		\item Removes bias associated with categorical value
+	\end{itemize}
+	\item Train using backpropagation through time (BPTT)
+	\begin{itemize}
+		\item Same as regular backpropagation, but we unroll the computation graphto find the flow through all layers 
+		\item Can truncate flow by using only last k time steps
+	\end{itemize}
+\end{itemize}
+
+\subsection{Recurrence}
+\label{sec:recurrence}
+
+Elman RNN 
+
+\begin{eqn}
+	h_t = \sigma(Wh_{t-1} + Ux_t + b) \\ 
+	o_t = \phi(Vh_t + c)
+\end{eqn}
+
+Jordan RNN
+
+\begin{eqn}
+	h_t = \sigma(Wo_{t-1} + Ux_t + b) \\ 
+	o_t = \phi(Vh_t + c)
+\end{eqn}
+
+\begin{itemize}
+	\item Elman usually better, as output is often constrained, resulting in information loss
+\end{itemize}
+
+\subsection{Long Short-Term Memory (LSTM)}
+
+\begin{itemize}
+	\item Long-term dependencies are hard to learn. Given that the transition matrix $W$ is the same for each step, a small offset from 1 will cause gradients to explode or vanish
+	\item Can avoid exploding gradients through gradient clipping. If gradient magnitude is better than threshold, set it to $threshold * sign(gradient)$
+	\item Can also use non-multiplicative interactions like LSTM (additive)
+	\item LSTM has a hidden state (past info for next prediction) and cell state (past info for future predictions)
+	\item Uses gates to control information flow 
+	\item Input gate - what info from current input \& previous hidden state do we want to transfer to cell state?
+	\begin{eqn}
+		i_t &= \sigma(W_i \cdot \left[ h_{t-1}, x_t \right] + b_i) \\ 
+		\tilde{C}_t &= tanh(W_C \cdot \left[ h_{t-1}, x_t \right] + b_C)
+	\end{eqn}
+	\item Cell update - additive linear combination of old cell state \& processed input 
+	\begin{eqn}
+		C_t = f_t * C_{t-1} + i_t * \tilde{C}_t
+	\end{eqn}
+	\item Output gate - what information from cell state do we need for next prediction? 
+	\begin{eqn}
+		o_t &= \sigma(W_o \left[ h_{t-1}, x_t \right] + b_o) \\
+		h_t &= o_t * tanh(C_t)
+	\end{eqn}
+\end{itemize}
+
+\divider 
+
+\begin{itemize}
+	\item To produce output of a different length from input, use two RNNs. `Encoder' RNN transforms input to vector. `Decoder' RNN generates sequence from vector. Vector is often referred to as the ``context'' vector, and as used as input to the decoder at every timestep, along with the output at the previous timestep.
+\end{itemize}
+
+749
 
 \end{document}   
