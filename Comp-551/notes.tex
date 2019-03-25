@@ -891,14 +891,15 @@ Jordan RNN
 		o_t &= \sigma(W_o \left[ h_{t-1}, x_t \right] + b_o) \\
 		h_t &= o_t * tanh(C_t)
 	\end{eqn}
+	\item Use bidirectional LSTMs to increase expressiveness; apply both left-ro-right and right-to-left 
+	\item Can also add attention by adding connections from encoder hidden states to context vector
 \end{itemize}
 
 \divider 
 
 \begin{itemize}
 	\item To produce output of a different length from input, use two RNNs. `Encoder' RNN transforms input to vector. `Decoder' RNN generates sequence from vector. Vector is often referred to as the ``context'' vector, and as used as input to the decoder at every timestep, along with the output at the previous timestep.
+	\item Teacher forcing - train model by inputting ground-truth instead of input from previous iteration. No change done for testing as we don't have labels.
 \end{itemize}
-
-749
 
 \end{document}   
