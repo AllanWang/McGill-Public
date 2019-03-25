@@ -17,7 +17,7 @@ Tester codes and public resources for CS/Software Engineering
 | Comp 558 | [Notes](Comp-558/notes.md) |
 | Ecse 429 | [Notes](Ecse-429/notes.md) |
 | Math 223 | [Notes](https://www.allanwang.ca/notes/mcgill/math223/)* |
-| Math 323 | [Notes](Math-323/notes.md) |
+| Math 323 | [Notes](Math-323/final.pdf) |
 
 <sub>* Marks external content</sub>
 
