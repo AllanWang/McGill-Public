@@ -25,12 +25,7 @@
 	% Only number for sections
 	\setcounter{secnumdepth}{1}
 	
-	\newcommand\mm[1]{\begin{pmatrix}#1\end{pmatrix}}
-
 	\setlength{\parindent}{0pt}
-	
-	\SetNewAudience{notes}
-	\SetNewAudience{full}
 	
 	\setlist[enumerate]{itemsep=0mm}
 	\setlist[itemize]{itemsep=0mm}
@@ -120,7 +115,8 @@
 
 \begin{itemize}
 	\item Feature design - if features cannot fully represent a model, we can transform them using non linear functions (eg powers, binary thresholds, etc) into new features. Note that the weights are still linear combinations.
-	\item Overfitting - hypothesis explains training data well, but does not generalize to new data
+	\item Overfitting - hypothesis explains training data well, but does not generalize to new data; high variance, low bias 
+	\item Underfitting - does not capture trend; low variance, high bias
 	\item Simple model - high training error, high test error 
 	\item Complex model - low training error, high test error 
 	\item Training error always goes down with complexity, but at some point in between, test error will be at its lowest
@@ -526,6 +522,7 @@
 \begin{itemize}
 	\item For new point $x_{new}$, compute $w_i = w(d(x_i, x_{new}))$ for all $x_i$ in training data, where $d$ is a weighting function and predict $y = \dfrac{\Sigma_i w_i y_i}{\Sigma_i w_i}$
 	\item Example of a weighting function is the inverse euclidean distance
+	\item For gaussian weighting, bigger $\sigma$ results in more variance
 \end{itemize}
 
 \divider
@@ -725,7 +722,7 @@ Run base algorithms multiple times, then combine predictions for a final predict
 	\end{itemize}
 	\item Tanh 
 	\begin{eqn}
-		\phi(z) = tanh z = \frac{e^z - e^{-z}}{e^z + e^{-z}}
+		\phi(z) = tanh(z) = \frac{e^z - e^{-z}}{e^z + e^{-z}}
 	\end{eqn}
 	\begin{itemize}
 		\item Easy to differentiate ($1 - tanh^2(z)$)
