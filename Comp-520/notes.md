@@ -508,8 +508,12 @@
   * Liveness analysis
     * Variable is live if it can be read in the future
     * Undecidable, but can be approximated
-
----
-
-* 8 questions on final
-* Graph colouring heuristic
+* TODO
+* Fixed register allocation
+  * m registers to first m locals
+  * n registers to first n stack locations
+  * k scratch registers
+  * Spill remaining locals & locations into memory
+  * Registers allocated once, and does not change
+  * No difficult control flow paths
+  * Wastes registers, and assumes first locals/stack locations are more important
