@@ -1,5 +1,4 @@
 # Comp 529 <!-- omit in toc -->
-
 > [Course Website](https://cs.mcgill.ca/~martin/teaching/comp529-winter-2019/) 
 
 - [Software Systems Architecture](#software-systems-architecture)
@@ -592,7 +591,7 @@
   * Reliability of Change
 * Design Techniques
   * Metamodel
-    * Break down data until building blocks and use runtime configurations to create functional components
+    * Break down data into building blocks and use runtime configurations to create functional components
     * Faster to iterate as we just change configurations
     * Harder to build and less efficient 
   * Variation Points

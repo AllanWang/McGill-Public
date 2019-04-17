@@ -23,6 +23,8 @@
 - [Runtime Deallocation](#runtime-deallocation)
 - [Virtual Machines (VirtualRISC)](#virtual-machines-virtualrisc)
 - [Native Code Generation](#native-code-generation)
+- [GPU](#gpu)
+- [Final Exam](#final-exam)
 
 ## Acronyms
 
@@ -400,6 +402,32 @@
   * Reducing execution time
   * Reducing code size
   * Reducing power consumption
+* Duff's Device - For loop unrolling for any count
+  ```
+  register count;
+  {
+      register n = (count + 7) / 8;
+      switch (count % 8) {
+        case 0: do { *to = *from++;
+        case 7:      *to = *from++;
+        case 6:      *to = *from++;
+        case 5:      *to = *from++;
+        case 4:      *to = *from++;
+        case 3:      *to = *from++;
+        case 2:      *to = *from++;
+        case 1:      *to = *from++;
+        } while (--n > 0);
+      }
+  }
+  ```
+* Peephole optimization focuses on a small window at a time, without program context
+  * We can look at the instruction at the current and following positions
+  * We can check if a label is alive
+  * We can modify the current instruction, or delete a label
+* When writing peephole patterns, ensure that it is sound
+  * Local variables have same values
+  * Stack height changes by same amount
+  * All paths yield same outcome
 
 ## Midterm Review
 
@@ -517,3 +545,50 @@
   * Registers allocated once, and does not change
   * No difficult control flow paths
   * Wastes registers, and assumes first locals/stack locations are more important
+
+## GPU
+
+* Optimized for throughput
+  * Slow cores
+  * Larger number of hardware threads
+* SIMT - Single Instruction, Multiple Thread
+  * Program specifies behaviour of single thread
+* SIMD - Single Instruction, Multiple Data 
+  * Program specifies behaviour of all threads in width
+* Thread groups
+  * Collection of threads
+  * May work together
+  * Can be synchronized and share data
+* Thread hierarchy
+  * Thread identifier - unique per thread
+  * Group identifier - unique per thread group
+* Memory hierarchy
+  * Each thread has private memory
+  * Each thread group has shared memory
+    * Requires synchronization
+    * Cannot be accessed by other groups
+
+## Final Exam
+
+* Scanner & Parser
+  * How to implement scanner in `flex` or `SableCC`
+  * DFA's/NFA's, CFGs
+  * Parser ambiguity
+  * No precedence directives
+  * Scanner tokens
+    * Keywords
+    * Syntax elements
+    * Literals
+    * Identifier
+    * Comments
+    * Errors (.)
+  * Parsing
+    * Lists (empty, nonempty)
+    * Recursion
+    * Expressions
+* Typechecking
+  * Can specify multiple rules
+* Bytecode Generation
+  * Review both midterm and final
+  * Jasmin syntax
+  * * `dup`, `swap`, `putfield Class`
