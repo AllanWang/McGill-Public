@@ -23,8 +23,12 @@
   - [Stop & Copy](#stop--copy)
   - [Further Optimization](#further-optimization)
 - [Virtual Machines (VirtualRISC)](#virtual-machines-virtualrisc)
-- [Native Codegen](#native-codegen)
 - [Native Code Generation](#native-code-generation)
+  - [Naïve Allocation](#naïve-allocation)
+  - [Fixed Register Allocation](#fixed-register-allocation)
+  - [Basic Block Register Allocation](#basic-block-register-allocation)
+  - [Branching](#branching)
+- [Web Assembly](#web-assembly)
 - [GPU](#gpu)
 - [Final Exam](#final-exam)
 
@@ -577,7 +581,7 @@
     * Use any general purpose register
     * May use memory; convention is `fp = 4k`, where k is a non-negative integer (in class, starts at `[fp = 12]`)
 
-## Native Codegen
+## Native Code Generation
 
 * JOOS Code executes through
   * Interpreter
@@ -594,9 +598,6 @@
       * Translated into native code
       * Control given to generated code
     * Needs to be fast to be useful
-
-## Native Code Generation
-
 * Important problems
   * Instruction selection - choose correct instructions from native code instruction set
   * Memory modelling - decide where to store variables & allocate registers
@@ -609,15 +610,60 @@
   * Liveness analysis
     * Variable is live if it can be read in the future
     * Undecidable, but can be approximated
-* TODO
-* Fixed register allocation
-  * m registers to first m locals
-  * n registers to first n stack locations
-  * k scratch registers
-  * Spill remaining locals & locations into memory
-  * Registers allocated once, and does not change
-  * No difficult control flow paths
-  * Wastes registers, and assumes first locals/stack locations are more important
+
+### Naïve Allocation
+
+* No assumptions between instructions; each must load respective contents to proper register
+  * Eg: loading and adding requires loading to registers, storing to stack, then loading from stack (to registers) and adding; optimal is to use registers directly
+
+### Fixed Register Allocation
+
+* m registers to first m locals
+* n registers to first n stack locations
+* k scratch registers
+* Spill remaining locals & locations into memory
+* Registers allocated once, and does not change
+* No difficult control flow paths
+* Wastes registers, and assumes first locals/stack locations are more important
+
+### Basic Block Register Allocation
+
+* Registers allocated on demand
+* Slots kept in registers within basic block
+* Registers not wasted
+* Less spill code
+* Much more complex
+* Spill occurs at end of basic block
+
+### Branching
+
+* When branching forward in native code, target address is not yet known
+* Unresolved branches are kept in a table, then patched when the code is generated
+
+## Web Assembly
+
+* ASM - LLVM to JS static compiler (2011)
+* Load store consistently - ensuring that stored value and loaded value are of the same size
+  * For instance, setting an int and loading as a char breaks the consistency
+  * ASM assumes the program respects it, and does not make verification; can therefore store single int in one value of the stack
+* Still no parallelism, and no garbage collection
+* To support more features, JS must also grow
+
+---
+
+* WebAssembly aims to bridge the gap in performance
+  * Supports integers & float types natively
+  * Increased loading speed via binary decoding
+  * Parallelism via SIMD
+  * Garbage collector for main memory
+  * Code validation
+  * Hardware-independent
+* Pipeline - decode &rarr; validate &rarr; instantiate & invoke
+* Decoding/encoding
+  * Bytes as is
+  * Type map; eg `0x7F` &rarr; `i32`
+* Validation
+  * Decoded values must be within limit (no overflow)
 
 ## GPU
 
@@ -640,6 +686,7 @@
   * Each thread group has shared memory
     * Requires synchronization
     * Cannot be accessed by other groups
+* Coalescing - based on transaction size, we can minimize the number of accesses by retrieving a larger contiguous block of values
 
 ## Final Exam
 
