@@ -23,6 +23,7 @@
   - [Stop & Copy](#stop--copy)
   - [Further Optimization](#further-optimization)
 - [Virtual Machines (VirtualRISC)](#virtual-machines-virtualrisc)
+- [Native Codegen](#native-codegen)
 - [Native Code Generation](#native-code-generation)
 - [GPU](#gpu)
 - [Final Exam](#final-exam)
@@ -529,7 +530,54 @@
 
 ## Virtual Machines (VirtualRISC)
 
-<b>TODO (Slides 1-20)</b>
+* Register-based IR
+  * Stack - for function call frames
+  * Heap - for dynamically allocated memory
+  * Global pool - for global variables
+  * Code segment - for VirtualRISC instructions
+* Registers
+  * `Ri` - unbounded general purpose registers
+  * `sp` - stack pointer to top of stack
+  * `fp` - frame pointer to current stack frame
+  * `pc` - program counter to current instruction
+    * Automatically incremented per instruction execution
+    * May also be changed by function calls & branches
+* Instructions
+  * Movement
+    * `[..]` indicates memory location store in register
+    * Store - `st <src>, <dst>`
+      * `st Ri, [Rj]`; `[Rj] := Ri`
+    * Load - `ld <src>, <dst>`
+      * `ld [Ri + C], Rj`; `Rj := [Ri + C]`
+    * Move - `mov <src>, <dst>`
+      * `mov Ri, Rj`; `Rj := Ri`
+  * Math Ops
+    * `op <src1>, <src2>, <dst>`
+    * `add Ri, Rj, Rk`; `Rk := Ri + Rj`; (`sub`, `mul`, `div`)
+  * Branching
+    * `b L`; (`bg`, `bge`, `bl`, `ble`, `bne`)
+    * `if R1 <= 0 goto L1` &rarr; `cmp R1, 0; ble L1`
+  * Special
+    * `call L`; `R15 := pc; pc := L`
+    * `save sp, -C, sp`; save registers, allocating C bytes on stack
+    * `restore`; restore registers
+    * `ret`; `pc := R15 + 8`
+    * `nop`; do nothing
+* Stack Frame
+  * Created by function call; `push fp; fp := sp; sp := sp + C`
+  * Popped by function return `sp := fp; fp = pop`
+  * Local variables stored relative to `fp`
+* Calling
+  * Function starts by `save sp, -C, sp`, where C is arbitrarily large (eg 112; multiple of 4)
+  * Function ends by `restore`, then `ret`, where the value is `R0`
+  * Parameters
+    * Passed in registers `R0`, `R1`, etc
+    * If in memory, convention is `fp = 68 + 4k`, where k is a non-negative integer; this is stored in the callers frame
+  * Local variables
+    * Use any general purpose register
+    * May use memory; convention is `fp = 4k`, where k is a non-negative integer (in class, starts at `[fp = 12]`)
+
+## Native Codegen
 
 * JOOS Code executes through
   * Interpreter
