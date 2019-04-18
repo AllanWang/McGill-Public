@@ -232,10 +232,13 @@
   * Propagation - expression type determines enclosing expression type
   * Restrictions - expression type constrained by usage context
   * Logical rules 
-    * (&Gamma; &vdash; P) / ( &Gamma; &vdash; C) - if P is provable under context &Gamma;, then C is provable under context &Gamma;
-    * &Gamma; &vdash; E : T - under context &Gamma;, it is provable that E is well typed with type T
-    * (&Gamma; [x &#8614; T] &vdash; S) / (&Gamma; &vdash; x; S) - modify context
-    * (&Gamma;(x) = T) / (&Gamma; &vdash; x : T) - access context
+    * (&Gamma; &#x22A2; P) / ( &Gamma; &#x22A2; C) - if P is provable under context &Gamma;, then C is provable under context &Gamma;
+    * &Gamma; &#x22A2; E : T - under context &Gamma;, it is provable that E is well typed with type T
+    * (&Gamma; [x &#8614; T] &#x22A2; S) / (&Gamma; &#x22A2; x; S) - modify context
+      * x maps to T within context &Gamma;, and S typechecks with x added to the symbol table
+    * (&Gamma;(x) = T) / (&Gamma; &#x22A2; x : T) - access context
+    * x := T - x is assignable to a value oof type T
+    * a &vee; b - or conditions
   * L - class library
   * C - current class
   * M - current method
@@ -449,7 +452,7 @@
   * Emit
 * Type checking definitions
   * a / b - if a then b
-  * a &vdash; b - if under the assumptions of a, then b is provable
+  * a &#x22A2; b - if under the assumptions of a, then b is provable
   * a : b - a has type b
 
 ## Garbage Collection
