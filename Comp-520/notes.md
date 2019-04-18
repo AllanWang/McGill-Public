@@ -20,7 +20,8 @@
 - [Garbage Collection](#garbage-collection)
   - [Reference Counting](#reference-counting)
   - [Mark & Sweep](#mark--sweep)
-- [Runtime Deallocation](#runtime-deallocation)
+  - [Stop & Copy](#stop--copy)
+  - [Further Optimization](#further-optimization)
 - [Virtual Machines (VirtualRISC)](#virtual-machines-virtualrisc)
 - [Native Code Generation](#native-code-generation)
 - [GPU](#gpu)
@@ -480,14 +481,20 @@
 
 * Continuous GC
 * Extra field to track pointers
+* Increment on creation, decrement on destruction
 * Dead when reference count is 0
 * Disadvantage
   * Cyclic references don't get GC'd
+  * Incremental; continuous slow down
+* Automatic Reference Counting (ARC)
+  * For objective-C & Swift
+  * `retain` and `release` inserted at compile time
+  * Unnecessary updates are optimized
 
 ### Mark & Sweep
 
 * Periodic GC
-* Mark - mark if encountered
+* Mark - starting from root (eg stack), if not marked, mark and apply dfs
 * Sweep - go through all records and reclaim unmarked once
   * Unmark all marked records as we go
 * Assumes that
@@ -497,10 +504,28 @@
 * Disadvantage
   * Scanning can be expensive
   * Heap may become fragmented
+    * Can be resolved using compaction, where we collect all live objects and reorganize them to be contiguous
 
-## Runtime Deallocation 
+### Stop & Copy
 
-<b>TODO</b>
+* Periodic GC
+* Divides heap into two, only uses one at a time
+* Runs fully copy of live record to other allocation, then switches roles of two parts
+* Copy is done using BFS, and invokes `Forward` to ensure that all reference go to the to-space (before the switch)
+* Avoids fragmentation
+* Avoids stack & pointer reversal
+* Disadvantage
+  * Wastes half the memory
+
+### Further Optimization
+
+* Generational Collection
+  * The young die quickly; those that remain live for a long time will likely continue to remain live
+  * Divide heap into generations, and check GC more frequently for younger generations; promote if record survives several collections
+* Incremental collection
+  * Interweave GC with program execution, to reduce undesirable pauses
+* Two-player access
+  * Use mutator and collector 
 
 ## Virtual Machines (VirtualRISC)
 
