@@ -237,7 +237,7 @@
     * (&Gamma; [x &#8614; T] &#x22A2; S) / (&Gamma; &#x22A2; x; S) - modify context
       * x maps to T within context &Gamma;, and S typechecks with x added to the symbol table
     * (&Gamma;(x) = T) / (&Gamma; &#x22A2; x : T) - access context
-    * x := T - x is assignable to a value oof type T
+    * x := T - x is assignable to a value of type T
     * a &vee; b - or conditions
   * L - class library
   * C - current class
