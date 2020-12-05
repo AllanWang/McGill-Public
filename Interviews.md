@@ -10,8 +10,8 @@ This page is meant to house a collection of interview tips, based on my experien
 > Based on Google
 
 As an intern, you'll get one or more phone interviews, followed by host matching. Host matching is more around seeing if you'll fit with the team, rather than being a technical interview.
-For full time, you'll have ~5 back to back in person interviews. These range from technical or specialized to your field.
-FOr conversion, you'll have the same interviews as full time, minus 2 for every internship you've had. If you've had 2 internships, there's a chance you don't need to interview.
+For full time, you'll have ~5 back to back in person interviews. These interviews can be technical, specialized to your field, or based around the people you'll work with.
+For conversion, you'll have the same interviews as full time, minus 2 for every internship you've had. If you've had 2 internships, there's a chance you don't need to interview.
 
 An interview typically goes on as follows:
 * Interviewer introduces themselves and sets the itinerary
