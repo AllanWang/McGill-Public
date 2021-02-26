@@ -741,9 +741,10 @@ enter:
 
 exit:
     if me.next == null
-        if CAS(tail, me, null)
+        if CAS(tail, me, null) // try set tail back to null
             return
-        while me.next == null   // spin
+        while me.next == null   // someone have just set the tail
+        //spin until you see the new node.
     me.next.lock = false
     me.next = null
 ```
@@ -774,15 +775,20 @@ class Thread {
 
 enter:
     me.locked = true        // signifies to others that they should be locked
+    myPred = TS(tail,me)    // set the tail to my node
     while (myPred.locked)   // spin
 
 exit:
     me.locked = false
     me = myPred
 ```
-
-* Notice that nodes get moved around, and there's no spin on exit
+Property
+* Notice that nodes get moved around
+* No spin on exit
 * Still FCFS
+* Cache Friendly
+* Space Efficient
+* Only require test and set (TS)
 
 ---
 
