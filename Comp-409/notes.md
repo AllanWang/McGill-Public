@@ -744,7 +744,7 @@ exit:
         if CAS(tail, me, null) // try set tail back to null
             return
         while me.next == null   // someone has just set the tail
-        //spin until you see the new node.
+        // spin until you see the new node.
     me.next.lock = false
     me.next = null
 ```
@@ -755,7 +755,7 @@ MCS Cont
 * (+) FCFS
 * (+) Cache friendly
 * (+) Space efficient
-    * Every thread needs one node
+* Every thread needs one node
 * (-) Needs both TS & CAS
 * (-) Can spin on exit
 
