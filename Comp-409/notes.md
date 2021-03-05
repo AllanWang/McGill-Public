@@ -743,7 +743,7 @@ exit:
     if me.next == null
         if CAS(tail, me, null) // try set tail back to null
             return
-        while me.next == null   // someone have just set the tail
+        while me.next == null   // someone has just set the tail
         //spin until you see the new node.
     me.next.lock = false
     me.next = null
@@ -775,7 +775,7 @@ class Thread {
 
 enter:
     me.locked = true        // signifies to others that they should be locked
-    myPred = TS(tail,me)    // set the tail to my node
+    myPred = TS(tail, me)   // set the tail to my node
     while (myPred.locked)   // spin
 
 exit:
@@ -783,12 +783,12 @@ exit:
     me = myPred
 ```
 Property
-* Notice that nodes get moved around
+* Notices that nodes get moved around
 * No spin on exit
 * Still FCFS
 * Cache Friendly
 * Space Efficient
-* Only require test and set (TS)
+* Only requires TS
 
 ---
 
@@ -945,7 +945,7 @@ notifyAll cvq:
     move all threads from cvq to mq
 ```
 
-* Notice that we wake one thread with `notify()`
+* Notices that we wake one thread with `notify()`
 * Upon being woken up, conditions may not hold; hence conditions should be checked again (typically with while loop)
 * Spurious wakeups - may be woken up without being notified
     * Also solved by waiting in a while loop
