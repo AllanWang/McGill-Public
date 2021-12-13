@@ -47,15 +47,15 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
 
 # Lecture 1 • 2017/01/10
 * *** A significant portion of the lecture overlaps with comp 250, so I did not add much about it here ***
-* f(n) is O(g(n)) iff there exists a point n0 beyond which f(n) is less than some fixed constant times g(n) → for all n ≥ n0, f(n) ≤ c * g(n) (for some c > 0)
-* Let T1(n) = O(f(n)) & T2(n) = O(f(n))
-  * T1(n) + T2(n) = O(f(n))
-  * T1(n) / T2(n) is not necessarily O(1); big O is not necessarily the tightest upper bound.
-  T1(n) = 3n & T2(n) = 2n is an example.
+* `f(n)` is `O(g(n))` iff there exists a point n0 beyond which `f(n)` is less than some fixed constant times `g(n)` → for all `n ≥ n0`, `f(n) ≤ c * g(n)` (for some `c > 0`)
+* Let `T1(n) = O(f(n))` & `T2(n) = O(f(n))`
+  * `T1(n) + T2(n) = O(f(n))`
+  * `T1(n) / T2(n)` is not necessarily `O(1)`; big O is not necessarily the tightest upper bound.
+  `T1(n) = 3n & T2(n) = 2n` is an example.
 * Heap – binary tree such that
-  * For any node n other than the root, key(n) ≥ key(parent(n))
+  * For any node n other than the root, `key(n) ≥ key(parent(n))`
   * Let h be the height of the heap
-    * First h – 1 levels are full
+    * First `h – 1` levels are full
     * At depth h, leaves are packed on the left side of the tree
 
 # Lecture 2 • 2017/01/12
@@ -87,10 +87,10 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
   * 1 + α/2 + α/(2n)
 * Hash functions
   * A good hash function should uniformly distribute the keys into slots, and should not be affected by patterns in keys
-  * Division method – h(k) = kmod d
+  * Division method – `h(k) = kmod d`
     * D must be d chosen carefully, usually 2<sup>r</sup> where r is a prime not too close to a power of 2 or 10
     * Easy to implement, but division is slow
-  * Multiplication method – h(k) = (A kmod2<sup>w</sup>) >> (w – r)
+  * Multiplication method – <code>h(k) = (A kmod2<sup>w</sup>) >> (w – r)</code>
     * Extracted bits are in the middle of the binary key
 * Open addressing
   * No chaining; if slot is not empty, try another has function
@@ -100,21 +100,21 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
   * Deletion is difficult
 * Goal is uniform hashing – each key is equally likely to have any permutation as its probe sequence
 * Theorems
-  * Expected # of probes in unsuccessful search is at most 1/(1 - α)
-  * Expected # of probes in successful search is at most 1/α * log(1/(1 - α))
+  * Expected # of probes in unsuccessful search is at most `1/(1 - α)`
+  * Expected # of probes in successful search is at most `1/α * log(1/(1 - α))`
 * Probing
   * Linear – h(k, i) = (h’(k) + i)mod m
     * If slot is full, check next slot; tendency to create clusters
-  * Quadratic probing – h(k, i) = (h’(k) + c<sub>1</sub>i + c<sub>2</sub>i<sup>2</sup>)mod m
+  * Quadratic probing – <code>h(k, i) = (h’(k) + c<sub>1</sub>i + c<sub>2</sub>i<sup>2</sup>)mod m</code>
     * Must ensure we have full permutation of <0, …, m – 1>
     * Secondary clustering – 2 distinct keys have same h’ value if they have same probe sequence
-* Double hashing – h(k, i) = (h<sub>1</sub>(k) + i * h<sub>2</sub>(k)) mod m
-  * h<sub>2</sub>(k) should be “relatively” prime to m to guarantee full permutation
+* Double hashing – <code>h(k, i) = (h<sub>1</sub>(k) + i * h<sub>2</sub>(k)) mod m</code>
+  * <code>h<sub>2</sub>(k)</code> should be “relatively” prime to m to guarantee full permutation
 
 # Lecture 3 • 2017/01/17
 * Max heap – largest element stored at root; all children are smaller
 * Min heap – smallest element stored at root; all children are bigger
-* Heaps as array – root = A[1], left[i] = A[2i], right[i] = A[2i + 1], parent[i] = A[i/2]
+* Heaps as array – `root = A[1], left[i] = A[2i], right[i] = A[2i + 1], parent[i] = A[i/2]`
 * Height - # of edges on longest simple path from node to leaf
 * Height of heap = height of root = Θ(log n)
 * Basic operations are O(log n)
@@ -290,12 +290,12 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
     * bh(x) = # of black nodes from x to leaf, not counting x and counting the leaf
     * Black height of RBT = bh(root)
   * Note
-    * h(x)/2 ≤ bh(x) ≤ h(x) ≤ 2bh(x)
-    * A subtree rooted at any node x has ≥ 2<sup>bh(x)</sup> – 1 internal nodes
-    * A RBT with n internal nodes has height ≤ 2lg(n+1) (proof by previous point)
+    * `h(x)/2 ≤ bh(x) ≤ h(x) ≤ 2bh(x)`
+    * A subtree rooted at any node x has <code>≥ 2<sup>bh(x)</sup> – 1</code> internal nodes
+    * A RBT with n internal nodes has height `≤ 2lg(n+1)` (proof by previous point)
 * <details>
   <summary>Pseudocode</summary>
-  
+
   ```java
   /*
   * Red Black Tree Implementation
