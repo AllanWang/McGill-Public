@@ -123,15 +123,15 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
   
   ```java
   /*
-  * Priority Queues - each node is smaller than all of its descendents
-  *      root is therefore the smallest element
-  * Complete Binary Tree - binary tree with all levels above the lowest one full
-  *      and with all elements in the lowest level as left as possible
-  * Heaps can be visualized as trees, but can also be represented with arrays
-  *      if we number the nodes 1 through n, starting from the root and travelling breadth first,
-  *      the numbers will represent their indices in the array (0 is not used for convenience)
-  *      the left child of node k is therefore at 2k, and the right child is at 2k + 1
-  */
+   * Priority Queues - each node is smaller than all of its descendents
+   *      root is therefore the smallest element
+   * Complete Binary Tree - binary tree with all levels above the lowest one full
+   *      and with all elements in the lowest level as left as possible
+   * Heaps can be visualized as trees, but can also be represented with arrays
+   *      if we number the nodes 1 through n, starting from the root and travelling breadth first,
+   *      the numbers will represent their indices in the array (0 is not used for convenience)
+   *      the left child of node k is therefore at 2k, and the right child is at 2k + 1
+   */
 
   public class Heap {
 
@@ -164,8 +164,8 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
       }
 
       /*
-      * Equivalent methods but in an array implementation
-      */
+       * Equivalent methods but in an array implementation
+       */
       void add(E element) {
           size++ //it is assumed the array can fit this size
           heap[size] = element //size matches last index as 0 is not used
@@ -177,10 +177,10 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
       }
 
       /*
-      * Create heap from unsorted list
-      * Best case is O(n) -> already a heap
-      * Worst case is O(nlogn) -> move every item at k floor(logk) steps up
-      */
+       * Create heap from unsorted list
+       * Best case is O(n) -> already a heap
+       * Worst case is O(nlogn) -> move every item at k floor(logk) steps up
+       */
       Heap buildHeap(list) {
           heap = new Heap(list.size)
           for (E element : list)
@@ -198,8 +198,8 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
       }
 
       /*
-      * Moves element at index i to appropriate position within the heap
-      */
+       * Moves element at index i to appropriate position within the heap
+       */
       void downHeap(i, size) {
           while (2 * i <= size) { //left child exists
               child = 2 * i
@@ -298,16 +298,16 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
 
   ```java
   /*
-  * Red Black Tree Implementation
-  */
+   * Red Black Tree Implementation
+   */
   public class RedBlackTree {
 
       /**
-      * Inserts a node at its proper position and makes it red
-      *
-      * @param tree the red black tree
-      * @param z    the node to insert
-      */
+       * Inserts a node at its proper position and makes it red
+       *
+       * @param tree the red black tree
+       * @param z    the node to insert
+       */
       void insert(tree, z) {
           y = nil[tree] //initialize reference
           x = tree.root
@@ -323,23 +323,23 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
           else y.rightChild = z
 
           /*
-          * Node is now added
-          * Proceed to check the three cases below
-          * and continue "fixing" until the root is reached
-          * Grandparent of x is x.parent.parent
-          * Uncle of x is sibling of x.parent (other child of grandparent)
-          */
+           * Node is now added
+           * Proceed to check the three cases below
+           * and continue "fixing" until the root is reached
+           * Grandparent of x is x.parent.parent
+           * Uncle of x is sibling of x.parent (other child of grandparent)
+           */
       }
 
       /**
-      * Uncle is red;
-      * we will swap the colors of the parent, uncle, and grandparent,
-      * which brings the conflict one level higher
-      * we will assume that the grandparent exists
-      *
-      * @param z the node to insert
-      * @return new potential conflict node
-      */
+       * Uncle is red;
+       * we will swap the colors of the parent, uncle, and grandparent,
+       * which brings the conflict one level higher
+       * we will assume that the grandparent exists
+       *
+       * @param z the node to insert
+       * @return new potential conflict node
+       */
       Node case1(tree, z) {
           //by properties, the grandparent must be black -> swap
           z.parent.parent.color = red
@@ -351,16 +351,16 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
       }
 
       /**
-      * Uncle is black, so we cannot swap it to red
-      * We will also assume that z, z.parent, and z.parent.parent are not inline (one is left child, one is right)
-      * We will now align them through rotation and proceed to case 3)
-      * In this case, we shall assume that the
-      * z.parent.parent.leftChild z.parent
-      * And z.parent.rightChild = z
-      *
-      * @param z the node to insert
-      * @return new potential conflict node
-      */
+       * Uncle is black, so we cannot swap it to red
+       * We will also assume that z, z.parent, and z.parent.parent are not inline (one is left child, one is right)
+       * We will now align them through rotation and proceed to case 3)
+       * In this case, we shall assume that the
+       * z.parent.parent.leftChild z.parent
+       * And z.parent.rightChild = z
+       *
+       * @param z the node to insert
+       * @return new potential conflict node
+       */
       Node case2(z) {
           //this is simply a generic rotation
           p = z.parent
@@ -373,12 +373,12 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
       }
 
       /**
-      * Uncle is black, z is inline with parent and grandparent
-      * We shall assume that z and its parent are both left children to their respective parents
-      *
-      * @param z the node to insert
-      * @return new potential conflict node
-      */
+       * Uncle is black, z is inline with parent and grandparent
+       * We shall assume that z and its parent are both left children to their respective parents
+       *
+       * @param z the node to insert
+       * @return new potential conflict node
+       */
       Node case3(z) {
           //swap colors for parent and grandparent
           z.parent = black
@@ -391,3 +391,57 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
   }
   ```
   </details>
+
+# Lecture 6 • 2017/01/26
+* Disjoint Sets
+* Connected components – set of nodes connected by a path
+  * Every node in the set can be reached by every other node (path itself is irrelevant)
+* Partition – set of objects split into disjoint subsets
+  * The union of all sets will produce the original set
+  * No two sets share a common node unless those sets are the same set; every set is disjoint from all the other sets
+* Map vs Relation
+  * Maps lay out a unidirectional property from elements in one set to the other
+  * Relation defines a bidirectional connection (ie boolean matrix)
+* Equivalence – i is equivalent to j if they belong to the same set (are connected)
+* Reflexivity - `∀ a ∈ S, (a, a) ∈ R`
+  * For all `u ∈ V`, there is a path of length 0 from u to u
+* Symmetry - `∀ a, b ∈ S, (a, b) ∈ R ⇒ (b, a) ∈ R`
+  * For al `u, v ∈ V`, there is a path from u to v iff there is a path from v to u
+* Transitivity - `∀ a, b, c ∈ S, (a, b) ∈ R ∩ (b, c) ∈ R ⇒ (a, c) ∈ R`
+  * For all `u, v, w ∈ V`, if there is a path from u to v and a path from v to w, there is a path from u to w
+* ADT (abstract data type)
+  * find(i) - returns representative of set that contains i 
+  * sameset(i, j) - returns find(i) == find(j) 
+  * union (i, j) - merges sets containing I and j 
+    * Does nothing if they are already in the same set
+* When merging trees, smaller tree should be merged below root of larger tree to minimize height; height will therefore only increase when the trees initially have the same height
+  * Rank – upper bound on height of nodes
+* Path Compression – make all nodes in find path direct children of root
+* <details>
+  <summary>Disjoint Set Pseudocode</summary>
+
+  ```java
+  /*
+   * Pseudocode for Disjoint Set Optimization
+   */
+  public class Disjoint {
+
+      /**
+       * Finds root node of a subset containing i
+       * Also undergoes path compression, where the nodes will become
+       * direct children of the root
+       *
+       * Worst case is O(logn) (we can prove that the height is at most logn)
+       *
+       * @param i node contained in subset
+       *
+       * @return root node
+       */
+      Node find(i) {
+          if (i.parent == i) return i //i is the root
+          return i.parent = find(i.parent) //set parent of i to root & return the root
+      }
+  }
+  ```
+  </details>
+
