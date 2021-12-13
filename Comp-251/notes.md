@@ -253,7 +253,7 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
   * Recursively fix until there are no more offenses
 * Running time of buildMaxHeap is O(n)
   * maxHeapify = O(log n); heap height = log n;
-  O(n∑⌊logn⌋h=0h2h) // TODO Add katex?
+  $$O \left( n \sum_{h=0}^{\lfloor log n \rfloor}\dfrac{h}{2^h} \right)$$
 * HeapSort is O(n logn)
 
 # Lecture 4 • 2017/01/19
