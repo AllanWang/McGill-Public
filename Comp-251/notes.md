@@ -1064,3 +1064,37 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
   * General complexity if O(C * |E|)	C = &Sigma;c(s, u)
   * If |A| = |B| = n, C = |A| = n, |E’| = |E| + 2n = m + 2n
   * Given m > n, O(n * (m + 2n)) = O(nm)
+
+# Midterm Review • 2017/03/07 
+* Focus on direct application of concepts
+* 1 proof in the midterm
+* Nothing on probability
+* Be comfortable with running time
+* Proofs
+  * Contradiction – assume opposite and prove that it is false
+  * Cut & paste – used with graphs & greedy algorithms
+    * Assume sub-problem is not optimal, and replace with optimal solution to show contradiction
+  * Loop invariants – prove that loop structure is doing what it is intended to do
+    * Must specify loop invariant property, initialization, maintenance (conserving property), termination (loop stops)
+* Hashing
+  * Different types
+  * Conflict resolution
+  * Open addressing
+  * Linear & quadratic probing
+* BST
+  * Rotation
+  * Self-balanced trees (AVL, RBT)
+    * How to do operations (insertion)
+* Greedy algorithms
+  * Activity-selection problem
+* Graph algorithms
+  * Topological sort – get total order from partial order
+    * Can be found from DAG
+  * BFS, DFS
+  * **MST, Kruskal, Ford-Fulkerson, Dijkstra**
+  * Cut (respect, light, cross)
+  * Safe edge
+* Bipartite graphs
+  * Stable pairs
+* Network flow
+  * Positive flow, capacity constraint, flow conservation
