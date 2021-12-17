@@ -252,8 +252,8 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
   * Fix offending node by exchanging value at node with larger of the values at its children
   * Recursively fix until there are no more offenses
 * Running time of buildMaxHeap is O(n)
-  * maxHeapify = O(log n); heap height = log n;
-  $$O \left( n \sum_{h=0}^{\lfloor log n \rfloor}\dfrac{h}{2^h} \right)$$
+  * maxHeapify = O(log n); heap height = log n; <br/>
+  $O \left( n \sum_{h=0}^{\lfloor log n \rfloor}\dfrac{h}{2^h} \right)$
 * HeapSort is O(n logn)
 
 # Lecture 4 • 2017/01/19
@@ -754,6 +754,7 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
     Sort E | O(E logE)
     Second for loop | O(E) FIND-SETs and UNIONs
     Total | O(E logV)
+    
     * \* Notice that |E| &le; |V|<sup>2</sup> &rArr; O(logE) = O(2logV) = O(logV)
 * Prim’s Algorithm
   * Builds one tree, so A is always a tree
