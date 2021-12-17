@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Digital by H.Neemann -->
+<!-- created: Tue Feb 07 13:28:44 EST 2017 -->
+
+<svg
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   width="15.0mm"
+   height="9.0mm"
+   viewBox="400 230 100 60">
+<g>
+<path d="M 400,240 L 420,240" stroke="#0000b2" stroke-width="2.8" fill="none"/>
+<path d="M 480,260 L 500,260" stroke="#0000b2" stroke-width="2.8" fill="none"/>
+<path d="M 400,280 L 420,280" stroke="#0000b2" stroke-width="2.8" fill="none"/>
+<g>
+</g>
+<g>
+<path d="M 450,290 L 421,290 L 421,230 L 450,230 C 460,230 480,240 479,260 C 479,280 460,290 450,290 Z" stroke="#000000" stroke-width="2.8" fill="none"/>
+<circle cx="420" cy="240" r="2.0" stroke="#0000b2" stroke-width="2.8" fill="#0000b2" />
+<circle cx="420" cy="280" r="2.0" stroke="#0000b2" stroke-width="2.8" fill="#0000b2" />
+<circle cx="480" cy="260" r="2.0" stroke="#b20000" stroke-width="2.8" fill="#b20000" />
+</g>
+</g>
+</svg>
