@@ -2,7 +2,7 @@
 
 > [Rola Harmouche](mailto:rola.harmouche@mcgill.ca?Subject=Comp%20310)
 
-# Lecture 1 • 2017/09/06
+## Lecture 1 • 2017/09/06
 * Midterm – Wed Oct 18 1:05PM – 2:25PM
 * Office hours: Mondays 3:30 – 4:30, Wednesdays 2:35 – 3:35
 * Topics – processes, inter-process communication, scheduling, memory managemet, virtual memory, storage management, network management, security
@@ -34,7 +34,7 @@
   * Applications/utilities run in untrusted mode
 * System call process – system service requested (call) → switch mode; verify args & service → branch to service function via call table → return from service function; switch mode → return from system call
 
-# Lecture 2 • 2017/09/11
+## Lecture 2 • 2017/09/11
 * Tutorials are requested for Thursday 5:30 – 6:30
 * Processor time – primary resource managed by OS
   * Depends on batch vs time-sharing; uniprogramming vs multiprogramming
@@ -98,7 +98,7 @@
 * Virtual machines emulate another machine on top of a physical machine
   * Multiple kernels on one machine
 
-# Lecture 3 • 2017/09/13
+## Lecture 3 • 2017/09/13
 * Process – abstraction of running program; allows for pseudo concurrent operation
   * Eg Web Server
   * Once request is made, check cache, or disk if not found
@@ -154,7 +154,7 @@
   * Alarm clock is better as we can't trust the process to relinquish the CPU on its own
   * Alarm event is handled by saving the state of the active process and restoring the state of the interrupt service routine. The CPU switches to supervisory mode, and all other interrupts are disabled.
 
-# Lecture 4 • 2017/09/18
+## Lecture 4 • 2017/09/18
 * Simple I/O example – write until num of bytes written = num of bytes read, else throw error
 * Process I/O Handles – file descriptors – array structure maintained and held xby kernel for each process
 * Address Spaces – instead of sharing memory space, give each process the full address space
@@ -199,7 +199,7 @@
   * Asynchronous – terminate target thread immediately
   * Deferred – default; target thread periodically checks if it should be cancelled
 
-# Lecture 5 • 2017/09/20
+## Lecture 5 • 2017/09/20
 * Review from last class
 * Dup – duplicates existing file descriptor
   * Descriptor returned is the lowest numbered descriptor currently not in use by process
@@ -220,7 +220,7 @@
     * pthread_mutex_lock/pthread_mutex_unlock – prevent multiple threads from modifying the same variable during concurrent executions
 * In concurrent programming, we want to avoid a sequence of interruptible and mutable operations. For instance, i++ involves 3 operations (load, add, save), which may be interrupted from another thread. We may address this by saving i locally first, incrementing the new value, then saving it. That way, other threads that read i in the process will still get the old value. One example of this implementation is Atomic integers
 
-# Lecture 6 • 2017/09/25
+## Lecture 6 • 2017/09/25
 * Competing processes
   * Do not affect execution of each other, but compete for devices & resources
   * Deterministic & reproducible – can stop & restart without side effects
@@ -303,7 +303,7 @@
   ```
   </summary>
 
-# Lecture 7 • 2017/09/27
+## Lecture 7 • 2017/09/27
 * Algorithms above are software solutions for alternations
 * Microprocesses have hardware instructions supporting mutual exclusion
 * Test & Lock – TSL RX, LOCK
@@ -319,7 +319,7 @@
 * Priority Inversion Problem – high priority process pauses, allowing a low priority process to run. High priority process then resumes and needs a resource taken up by the priority process and wait, effectively treating itself as a lower priority process.
 * Semaphores
 
-# Lecture 8 • 2017/10/02
+## Lecture 8 • 2017/10/02
 * Deadlock – permanent blocking of set of processes that compete for system resources
 * Resource Classification I
   * Reusable – something that can be used by one process at a time without depletion (CPU, memory, files
@@ -361,7 +361,7 @@
         * Let [Need<sub>ij</sub>] represent remaining R<sub>j</sub> needed by P<sub>i</sub>
       * Need<sub>ij</sub> = Max<sub>ij</sub> – Hold<sub>ij</sub> for all i & j
 
-# Lecture 9 • 2017/10/04
+## Lecture 9 • 2017/10/04
 * Deadlock Detection
   * Does not prevent deadlocks, but periodically checks for circular waits and resolves them if found
   * Request resources are granted wherever possible
@@ -379,7 +379,7 @@
   * UNIX uses DAG (directed acyclic graphs) structure
 * File Operations – create, write, read, delete, reposition r/w pointer (seek), truncate
 
-# Lecture 10 • 2017/10/11
+## Lecture 10 • 2017/10/11
 * (Oct 9 was Thanksgiving; no class)
 * File Access Methods
   * Sequential – in order (eg magnetic tape)
@@ -437,7 +437,7 @@
       * Only moves in one direction until last track is reached before reversing
       * No starvation, but biased against most recently used area on disk
 
-# Lecture 11 • 2017/10/16
+## Lecture 11 • 2017/10/16
 * 13 short answers (definitions & problem solving
 * 2 long answers (algorithms, pseudocode)
 * Know steps to algorithms & be able to modify them
@@ -456,10 +456,10 @@
   * Starvation, live lock, etc
   * Deadlocks (cycles, knots, Banker's algorithm)
 
-# Lecture 12 • 2017/10/18
+## Lecture 12 • 2017/10/18
 * Midterm
 
-# Lecture 14 • 2017/10/25
+## Lecture 14 • 2017/10/25
 * Review previous class
 * Scheduling Approaches
   * Non-preemptive
@@ -496,7 +496,7 @@
     * Depends on system & interactive workstations
     * Interactive jobs tend to be IO bound
 
-# Lecture 15 • 2017/10/30
+## Lecture 15 • 2017/10/30
 * Memory Management
 * Memory contains both program & data
 * Multiprogramming systems can store more than one program + data in memory at same time

@@ -4,7 +4,7 @@
 
 [Terms & Concept Cards Here](https://www.allanwang.ca/notes/mcgill/comp273/practice/) <!-- TODO update>
 
-# Circuits
+## Circuits
 
 The following diagrams were drawn with [Digital](https://github.com/hneemann/Digital). Feel free to download it to test the [circuits](circuits) directly.
 
@@ -96,7 +96,7 @@ Full Adder
 
 Adds three bits (includes carry) together and produces a sum and carry; can be strung together to add numbers with many digits.
 
-# Lecture 0 • 2017/01/06
+## Lecture 0 • 2017/01/06
 * System board parts
   * Power Supply – Converts AC/DC from home into steady current needed in PC
   * CPU – Central Processing Unit – Math, logic, data, movement, loops
@@ -110,7 +110,7 @@ Adds three bits (includes carry) together and produces a sum and carry; can be s
   * Slot – Connects devices external to motherboard through cards
   * ISA – Instruction Set Architecture – provides commands to processor to tell it what it needs to do (eg ADD, COMPARE, LOAD, OUT)
 
-# Lecture 1 • 2017/01/09
+## Lecture 1 • 2017/01/09
 * Traditional system board schematic has one bus connecting cache, CLK, CPU, ROM to RAM
 * Having more buses allows for multithreading
 * Slots allow connections to external devices
@@ -162,7 +162,7 @@ Adds three bits (includes carry) together and produces a sum and carry; can be s
   * All gates close
   * Increment to next instruction
 
-# Lecture 2 • 2017/01/11
+## Lecture 2 • 2017/01/11
 * Bit – machine 5V ≡ 1, 2V ≡ 0, 0V ≡ OFF
 * Pathway – voltages can be passed through wire; whole wire becomes given voltage
 * Bus ≡ n-wires ≡ one “unit” of Data
@@ -204,7 +204,7 @@ bulletTablePair("Real Data &rarr; Numbers", "Encoded Data &rarr; everything else
     * Bigger zero page &rarr; more stuff pluggable into machine
 * CPU Boundary Register – keeps track of addresses used; addresses requested must never be greater than boundary address
 
-# Lecture 3 • 2017/01/16
+## Lecture 3 • 2017/01/16
 * Claude E. Shannon
   * Entropy – how much work does it take to communicate one letter to someone?
   * Medium – how can we transmit that single letter?
@@ -229,7 +229,7 @@ bulletTablePair("Real Data &rarr; Numbers", "Encoded Data &rarr; everything else
   * Having the leftmost bit hold the sign reduces the space for the actual numbers by two
   * A way to “double” the max integer would be to keep it unsigned
 
-# Lecture 4 • 2017/01/18
+## Lecture 4 • 2017/01/18
 * ASCII/UNICODE – unsigned bit (no sign bit), 8-bits long
 * Char x = ‘A’	00100001
 * Strings – contiguous sequence of characters terminated by NULL or contiguous sequence of chars proceeded (example had count in the front?) by a byte count
@@ -255,7 +255,7 @@ bulletTablePair("Real Data &rarr; Numbers", "Encoded Data &rarr; everything else
     Double | 1 | 11 | 52 | 64 | 1023
     Quad | 1 | 15 | 111 | 128 | 16383
 
-# Lecture 5 • 2017/01/23
+## Lecture 5 • 2017/01/23
 * Logic circuits
   * Circle &rarr; not
   * Extra line &rarr; exclusive
@@ -276,7 +276,7 @@ bulletTablePair("Real Data &rarr; Numbers", "Encoded Data &rarr; everything else
     * When C is 0, and gates used to pass inputs are 0, so no change occurs and Q holds its values
     * When C is 1, D value is passed through and set
 
-# Lecture 6 • 2017/01/25
+## Lecture 6 • 2017/01/25
 * End goal is addres &harr; read/write &harr; sync
   * Solution is gate/lock, eg and gates around SR flip flop
 * To retrieve/send to correct address, use and gates with negations to check for matches.
@@ -294,7 +294,7 @@ bulletTablePair("Real Data &rarr; Numbers", "Encoded Data &rarr; everything else
 * ALU has its V like shape because there are 2’s complement holders for L & R followed by operation section
 * Reminder: 2’s complement – invert all bits and add 1
 
-# Lecture 7 • 2017/01/30
+## Lecture 7 • 2017/01/30
 * Making a calculator: get method to check which digit you need, then turn on appropriate sections accordingly.
 * Multiplexers 2<sup>a</sup>-to-1 mux has 2<sup>a</sup> inputs x<sub>0</sub>, … x<sub>n-1</sub> & single output z. 
   * Selector address ‘a’ composed of input signals y<sub>0</sub>, …, y<sub>a-1</sub> selects which x<sub>i</sub> signal passes through z
@@ -319,7 +319,7 @@ bulletTablePair("Real Data &rarr; Numbers", "Encoded Data &rarr; everything else
   * Individual lines and or gates forming a hash
   * Both arrays programmable
 
-# Lecture 8 • 2017/02/01
+## Lecture 8 • 2017/02/01
 * Encoder/Decoder (see previous lecture)
 * Von Neumann Machine – traditional computer model based on Turing’s theoretical ideas
   * Model: RAM (input) &rarr; Processor (Get instruction) &rarr; Execution with control unit &rarr; RAM (output)
@@ -344,7 +344,7 @@ bulletTablePair("Real Data &rarr; Numbers", "Encoded Data &rarr; everything else
 * BUS – Address, R/W, Data
   * 1 bit/wire, bottle neck, duality of operation (modes)
 
-# Lecture 9 • 2017/02/06
+## Lecture 9 • 2017/02/06
 * An instruction can be any size (ie 8, 16, 32 bits) depending on the CPU
 * Bite – flip flop
 * Byte – 8 flip flops – standard size for RAM
@@ -384,7 +384,7 @@ bulletTablePair("Real Data &rarr; Numbers", "Encoded Data &rarr; everything else
     * A &larr; ALU(L,R)
     * D1 &larr; A
 
-# Lecture 10 • 2017/02/08
+## Lecture 10 • 2017/02/08
 * Midterm – definitions, circuit drawing/interpreting, data conversions & representation, RAM, adder, addressing, bus, IR, IP, classical & pipeline CPU, off the shelf circuits, mathematical problems as seen in assignment
 * Pipeline as optimized architecture – clock tick sharing
   * CU needs to make sure it goes through all the right loops
@@ -404,7 +404,7 @@ bulletTablePair("Real Data &rarr; Numbers", "Encoded Data &rarr; everything else
   * OP code goes to CU, other parts of instruction go to registers, some portions skip register altogether
   * Multiple address registers exist so you can fetch and load from multiple addresses at the same time (unlike in RAM where it’s synchronous)
 
-# Lecture 11 • 2017/02/15
+## Lecture 11 • 2017/02/15
 * No restrictions in classical CPU relative to pipeline CPU
 * Since bus goes in one direction, we must impose restrictions on the language
   * All instructions are 32 bits, all instructions pass all of pipeline, even if not needed
@@ -425,7 +425,7 @@ bulletTablePair("Real Data &rarr; Numbers", "Encoded Data &rarr; everything else
 * In code, conditions are associated with jumps
   * Save, load, add &rarr; complex conditions & jumps &rarr; cont.
 
-# Lecture 12 • 2017/02/20
+## Lecture 12 • 2017/02/20
 * We have to pretend that there are multiple IRs, even though there is only one
 * Imagine a bunch of commands, each with its own shape (if you look at table, families of commands have similar shapes)
 * Example
@@ -463,7 +463,7 @@ bulletTablePair("Real Data &rarr; Numbers", "Encoded Data &rarr; everything else
   * Pipeline – 1+ instruction at a time
   * Cores – parallel execution
 
-# Lecture 13 • 2017/02/22
+## Lecture 13 • 2017/02/22
 * Hazard – danger to keep watch for
   * Structural – CPU cannot support combination of instructions in pipeline (eg single instruction store/load crash)
     * Illegal instruction or illegal result (like divide by zero)
@@ -515,7 +515,7 @@ bulletTablePair("Real Data &rarr; Numbers", "Encoded Data &rarr; everything else
   * Clock cycle time
   * In other words, # instr/program * # ticks/instr * # s/tick
 
-# Lecture 14 • 2017/03/06
+## Lecture 14 • 2017/03/06
 * Sending address
   * Tick from PC to MAR
   * Tick from MAR to AR
@@ -554,7 +554,7 @@ bulletTablePair("Real Data &rarr; Numbers", "Encoded Data &rarr; everything else
   * Co-processor’s ALU – floating point operations: + – * /
 * Grade school multiplication – multiply first number by each digit in the second number, and shifting them and adding them (just like how you normally multiply)
 
-# Lecture 15 • 2017/03/08
+## Lecture 15 • 2017/03/08
 * When typing on a keyboard, each key is mapped with a wire to a certain value. To make the values universal regardless of the wiring, a ROM can be used to convert it into ASCII. It is then passed to a register, then to the RAM/CPU. The ROM would be part of the chip set
 * Notes about grade school multiplication (with binary values)
   * We do not need to wait to do the sum; product result shifts left naturally
@@ -649,7 +649,7 @@ bulletTablePair("Real Data &rarr; Numbers", "Encoded Data &rarr; everything else
     * Invalidation – core writes to cache &rarr; other copies flagged invalid
     * Snooping – cores monitor write operations
 
-# Lecture 16 • 2017/03/13
+## Lecture 16 • 2017/03/13
 * [MARS download](http://courses.missouristate.edu/KenVollmar/MARS/download.htm)
 * Some instructions go directly through zero page or special pathways (eg to co-processor)
 * CPU has protection schemes
@@ -690,7 +690,7 @@ bulletTablePair("Real Data &rarr; Numbers", "Encoded Data &rarr; everything else
   * Branch – breq 4 (31-26), rs (25-21), rt (20-16), address (15-0)
   * Jump instruction – 2, address
 
-# Lecture 17 • 2017/03/20
+## Lecture 17 • 2017/03/20
 * Virtual memory usage
   * MIPS uses byte addresses
   * Words are 4 bytes
@@ -721,7 +721,7 @@ bulletTablePair("Real Data &rarr; Numbers", "Encoded Data &rarr; everything else
     * Assume 32-bit addressing
     * Eg jal 2500 or jal label
 
-# Lecture 18 • 2017/03/22
+## Lecture 18 • 2017/03/22
 * # Much of this lecture was talked about in the previous lecture
 * While(save[i] == k) i += j
   * Need to compute index i each time; use temp reg and add; for integers, go 4 bytes forward, or add to itself and do it again.
@@ -732,7 +732,7 @@ bulletTablePair("Real Data &rarr; Numbers", "Encoded Data &rarr; everything else
 '-slt $t0, $s0, $s1 – $s0 < $s1 ? $t0 = 1 : $t0 = 0',
   * bne for conditions
 
-# Lecture 19 • 2017/03/27
+## Lecture 19 • 2017/03/27
 * Register based
   * Fast & easy, but limited # of registers & no local variable simulation
 * Run-time stack
@@ -750,7 +750,7 @@ bulletTablePair("Real Data &rarr; Numbers", "Encoded Data &rarr; everything else
 '$fp refers to where $sp was before',
 '-Do not let variables refer past $f0'
 
-# Lecture 20 • 2017/03/29
+## Lecture 20 • 2017/03/29
 * Floating point instructions
   * Add.s (single precision), add.d (double precision)
 * Buffers
@@ -782,7 +782,7 @@ bulletTablePair("Real Data &rarr; Numbers", "Encoded Data &rarr; everything else
 * Polling code
   * Continue checking for a condition and branching to recheck until that condition is met before continuing. Stalls the program
 
-# Lecture 21 • 2017/04/03
+## Lecture 21 • 2017/04/03
 * Devices generally have a cmd, data, & status register
 * Devices that are always connected, eg a keyboard/display, have their own constant connections
 * Machines with a different clock speed will interact with RAM in parallel, how do we synchronize the ticks?
@@ -810,7 +810,7 @@ bulletTablePair("Real Data &rarr; Numbers", "Encoded Data &rarr; everything else
   * Allows for multiprocessing
   * Since interrupts require time to send the correct data and address, if the interrupt cycles is very small, it may be more efficient to use polling
 
-# Lecture 22 • 2017/04/05
+## Lecture 22 • 2017/04/05
 * RAM is too big to be inside CPU, so we have it separate. The RAM clock is slow, so we have a cache in the CPU
 * Cache size is less than RAM. To map it we can use modulo
 * Locality
@@ -848,7 +848,7 @@ bulletTablePair("Real Data &rarr; Numbers", "Encoded Data &rarr; everything else
   * Polling = 4MB/16bytes = 250K times &rarr; 250K * 400 = 100 000 000
   * Processor = 100 000 000/500 000 000 = 20%
 
-# Lecture 23 • 2017/04/10
+## Lecture 23 • 2017/04/10
 * Independent device with clock & rom – waits for signal and executes instruction depending on input
 * Connected to a register/buffer (with cmd, status, data, port)
 * Connected to RAM which is connected to CPU

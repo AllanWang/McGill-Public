@@ -2,7 +2,7 @@
 
 > [Course Email](mailto:cs330@cs.mcgill.ca?Subject=Comp%20330) &bull; [Course Webpage](http://crypto.cs.mcgill.ca/~crepeau/COMP330/) &bull; [Facebook Group](https://www.facebook.com/groups/mycomp330/)
 
-# Lecture 1 • 2017/09/05
+## Lecture 1 • 2017/09/05
 * A <b>language</b> <i>L</i> is any subset of <i>&Sigma;<sup>*</sup></i>, which represents all sequences of elements from a finite set <i>&Sigma;</i>
 * An algorithm <i>A</i> <u>decides</u> a language <i>L</i> by answering if x &isin; L
 * Languages that we can <u>decide</u> = languages that we can <u>describe</u> – <u>all</u> languages
@@ -15,7 +15,7 @@
   * Algorithms can be fed an input matching their algorithm to return an incorrect response; no algorithm can be always correct
 * <b>Syracuse Conjecture</b> – For any integer n > 0, where S<sub>1</sub> = n, S<sub>i+1</sub> = if (S<sub>i</sub> % 2 == 0) S<sub>i</sub>/2 else 3S<sub>i</sub> + 1, Syracuse(n) = lease i such that S<sub>i</sub> = 0 if S<sub>k</sub> > 1 for all k in [1, i)
 
-# Lecture 2 • 2017/09/07
+## Lecture 2 • 2017/09/07
 * Syracuse Conjecture – &forall;n[n > 0 &rArr; Syracuse(n) > 0]
 * Not all simple looking problems can  be easily solved; for instance: x/(y + z) + y/(x + z) + z(y + z)
 * <b>NP-Complete</b> Problems
@@ -43,7 +43,7 @@
   * Start state – special state representing entry point, q<sub>0</sub> &isin; Q (arrow to state)
   * Accept states – decision making state, F &sube; Q (double circle)
 
-# Lecture 3 • 2017/09/12
+## Lecture 3 • 2017/09/12
 * Next tuesday's class is cancelled
 * Prof. Cr&eacute;peau's office hours are cancelled next week
 * Regular Languages
@@ -58,7 +58,7 @@
 * [Went through example proof by induction]
 * &epsilon; represents an empty string
 
-# Lecture 4 • 2017/09/14
+## Lecture 4 • 2017/09/14
 * 
   Regular Operations | | |
   ---|---|---
@@ -71,7 +71,7 @@
     * Alphabet – also includes an empty string &epsilon;
 "--Transition function returns P(Q), which is a subset (partition) of Q that meets the requirements"  
 
-# Lecture 5 • 2017/09/21
+## Lecture 5 • 2017/09/21
 * (No class on 19<sup>th</sup>)
 * Minimization of DFA
   * Lumping (quotient by an equivalence relation) – if two states lead to the same state(s) at all times, and are the same 'state' themselves, they may be merged together as their difference is forgotten after the next step.
@@ -108,13 +108,13 @@
   * &hArr; x &isin; L(M) &#8718;
 * 41:29
 
-# Lecture 6 • 2017/09/21
+## Lecture 6 • 2017/09/21
 * Reflexive, symmetric, transitive
 * S~ represents an equivalence class, where S is the set & ~ represent equal
 * &delta;(s, a) – state you went to after reading alphabet a at state s
 * &delta;*(s, w) – state you went to after reading all letters in word w, starting at state s
 
-# Lecture 7 • 2017/09/26
+## Lecture 7 • 2017/09/26
 * Every NFA can be done with a DFA
 * E(R) = { q &#124; q can be reached from R by traveling along 0 or more &epsilon; arrows }
 * R is a regular expression if
@@ -123,7 +123,7 @@
 * &empty;
 * Union, concatenation, and star of regular expressions are regular expressions
 
-# Lecture 8 • 2017/09/28
+## Lecture 8 • 2017/09/28
 * Lemma – if a language is regular, then it is described by a regular expression
 * Generalized NFA
   * Start state has transition arrows to every other state, but no arrows coming in from any other state
@@ -133,7 +133,7 @@
 * GNFA &rarr; regex
   * Basis – if GNFA has 2 states, the states are a start & accept state with a single transition to the accept state
 
-# Lecture 9 • 2017/10/03
+## Lecture 9 • 2017/10/03
 * Reduction
   * Given B = { 0<sup>n</sup>1<sup>n</sup> &#124; n &ge; 0 }
   * Given C = { w &#124; w contains an equal number of 0s & 1s }
@@ -151,7 +151,7 @@
     * For A' = (A &compfn; R) &cap; (A<sup>C</sup> &compfn; R')
     * If A' is nonregular, then so is A
 
-# Lecture 10 • 2017/10/05
+## Lecture 10 • 2017/10/05
 * Myhill-Nerode Theorem
 * A set of strings (X) is pairwise distinguishable by language L is every two elements in X are distinguishable by L (&forall;x, x' in X, x &nequiv;<sub>L</sub> x')
 * Define an index of L to be the size of a maximum set X that is pairwise disinguishable by L. L is regular iff the index is finite.
@@ -159,7 +159,7 @@
   * If DFA has more states than the index, then there must be some x, y in X such that &delta;(q<sub>0</sub>, x) = &delta;(q<sub>0</sub>, y). However, this is not distinguishable, hence contradiction
 * Minimal DFAs can be discovered using the Myhill-Nerode Theorem by first discovering the pairwise distinguishable set, then by creating a DFA whose states matches the distinguished set values.
 
-# Lecture 11 • 2017/10/10
+## Lecture 11 • 2017/10/10
 * Context-Free Grammar
 * Derivation – conversion of word from start variable (typically first symbol in grammar)
   * Eg. Let grammar G<sub>1</sub> = A &rarr; 0A1, A &rarr; B, B &rarr; #
@@ -172,7 +172,7 @@
   Start Variable | A (LHS of first substitution rule)
 * u derives v (u &rArr;<sup>*</sup> v if u = v or if u &rArr; u<sub>1</sub> &rArr; u<sub>2</sub> &hellip; u<sub>k</sub> = v, k &ge; 0.
 
-# Lecture 12 • 2017/10/12
+## Lecture 12 • 2017/10/12
 * Chomsky Normal Form
   * Context-free grammar notation for which every rule is of the form A &rarr; BC or A &rarr; &epsilon;
     * B and C must not be start variables
@@ -190,7 +190,7 @@
     * b,&epsilon; A means to push A to stack if input is b (popping &epsilon;, which is nothing)
   * Note that stack usage means that we can only see the top item of the stack. There is no notion of moving through the stack
 
-# Lecture 13 • 2017/10/17
+## Lecture 13 • 2017/10/17
 * Gave more examples on PDA
 * Theorem – a language is context free iff some PDA recognizes it
 * CFG to PDA
@@ -200,7 +200,7 @@
     * If top stack is terminal symbol &alpha; read next symbol from input & compare to &alpha;. If match, repeat, otherwise reject
     * If top stack is symbol $, enter accept state. This will accept the input if it has been completely read
 
-# Lecture 14 • 2017/10/19
+## Lecture 14 • 2017/10/19
 * If x can bring P from <i>p</i> with empty stack to <i>q</i> with empty stack, A<sub>pq</sub> generates x
   * If computation has 0 steps, x is already the empty string
   * Induction - assume true for length k, prove for k + 1

@@ -2,7 +2,7 @@
 
 > Jérôme Waldispühl &bull; [Course Webpage](https://www.cs.mcgill.ca/~jeromew/comp251.html) &bull; [Online Forum](https://osqa.cs.mcgill.ca/) &bull; [Algorithm Sorting Practice Questions](https://www.allanwang.ca/notes/mcgill/comp251/practice/)
 
-# Big O
+## Big O
 
 | | | | |
 --- | --- | --- | --- 
@@ -38,14 +38,14 @@ Bellman-Ford | Total | O(VE)
 Knapsack Problem | Possible | Θ(nW) | W is integer weight
 | | Space | Θ(nW) 
 
-# Lecture 0 • 2017/01/05
+## Lecture 0 • 2017/01/05
 * Office Hours Tues/Thu 1-2pm
 * 40% for 5 assignments, 15% for midterm, 45% for final exam
 * Midterm March 9 (one crib sheet permitted), during class time
 * End of class April 11
 * Final exam TBD
 
-# Lecture 1 • 2017/01/10
+## Lecture 1 • 2017/01/10
 * *** A significant portion of the lecture overlaps with comp 250, so I did not add much about it here ***
 * `f(n)` is `O(g(n))` iff there exists a point n0 beyond which `f(n)` is less than some fixed constant times `g(n)` → for all `n ≥ n0`, `f(n) ≤ c * g(n)` (for some `c > 0`)
 * Let `T1(n) = O(f(n))` & `T2(n) = O(f(n))`
@@ -58,7 +58,7 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
     * First `h – 1` levels are full
     * At depth h, leaves are packed on the left side of the tree
 
-# Lecture 2 • 2017/01/12
+## Lecture 2 • 2017/01/12
 * Table S with n records of x
   * X is key, key[x] → satellite data
   * Insert(S, x): S ← S ∪ {x}
@@ -111,7 +111,7 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
 * Double hashing – <code>h(k, i) = (h<sub>1</sub>(k) + i * h<sub>2</sub>(k)) mod m</code>
   * <code>h<sub>2</sub>(k)</code> should be “relatively” prime to m to guarantee full permutation
 
-# Lecture 3 • 2017/01/17
+## Lecture 3 • 2017/01/17
 * Max heap – largest element stored at root; all children are smaller
 * Min heap – smallest element stored at root; all children are bigger
 * Heaps as array – `root = A[1], left[i] = A[2i], right[i] = A[2i + 1], parent[i] = A[i/2]`
@@ -256,7 +256,7 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
   $O \left( n \sum_{h=0}^{\lfloor log n \rfloor}\dfrac{h}{2^h} \right)$
 * HeapSort is O(n logn)
 
-# Lecture 4 • 2017/01/19
+## Lecture 4 • 2017/01/19
 * BST search, insert, delete are Θ(h); h = height of BST
 * Height(x) = 1 + max(height(x.left), height(x.right))
 * A good BST is balanced, height = Θ(log n)
@@ -274,7 +274,7 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
     * Result: b.right = a, a.right = e, b.left = c
     * Reattach middle child (d) to right child or local root → a.left = d
 
-# Lecture 5 • 2017/01/24
+## Lecture 5 • 2017/01/24
 * Recursive equation for best case running time of function heapify on heap size of n? Ω(1)
 * Red Black Trees
   * Always balanced height is O(logn) worst case operations are O(logn)
@@ -392,7 +392,7 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
   ```
   </details>
 
-# Lecture 6 • 2017/01/26
+## Lecture 6 • 2017/01/26
 * Disjoint Sets
 * Connected components – set of nodes connected by a path
   * Every node in the set can be reached by every other node (path itself is irrelevant)
@@ -445,7 +445,7 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
   ```
   </details>
 
-# Lecture 7 • 2017/01/31
+## Lecture 7 • 2017/01/31
 
 * Greedy Strategy – when offered a choice, pick the one that seems best at the moment in hopes of optimizing the overall solution
   * Prove that when given a choice, one of the optimal choices is the greedy choice; it is therefore always safe to make the greedy choice
@@ -594,7 +594,7 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
 
   </details>
 
-# Lecture 8 • 2017/02/02
+## Lecture 8 • 2017/02/02
 
 * Graph G = (V, E)
   * V – set of vertices
@@ -677,7 +677,7 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
 * And u is a descendant of v
   * `d[u] < d[v] < f[u] < f[v]` cannot happen
 
-# Lecture 9 • 2017/02/07
+## Lecture 9 • 2017/02/07
 * White-path Theorem
   * Theorem 2 – v is a descendant of u iff at time d[u], there is a path u → v consisting of only white vertices (except for u, which was just colored gray)
   * Classification of Edges | |
@@ -727,7 +727,7 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
   * Lemma 3 – let C & C’ be distinct SCC’s in G = (V, E); if (u, v) &isin; E &cap; u &isin; C &cap; v &isin; C’, then f(C) > f(C’)
     * Corollary – if (u, v) &isin; E<sup>T</sup>, f(C) < f(C’)
 
-# Lecture 10 • 2017/02/09
+## Lecture 10 • 2017/02/09
 * MST – Minimum Spanning Tree
   * Has |V| –  edges
   * Has no cycles
@@ -812,7 +812,7 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
     ```
     </details>
 
-# Lecture 11 • 2017/02/14
+## Lecture 11 • 2017/02/14
 * Shortest path u to v contains the smallest weight sum of all the edges in that path (compared to any other valid path from u to v)
 * Variants
   * Single-source – shortest path from given source vertex to every other vertex &isin; V
@@ -928,7 +928,7 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
     ```
     </details>
 
-# Lecture 12 • 2017/02/16
+## Lecture 12 • 2017/02/16
 * Bipartite graph – graph where vertices can be partitioned into 2 sets (A & B), where all edges cross the sets (no edges are from one set to the same set)
   * If made into a DFS tree, can be coloured in 2 colours where every edge spans from one colour to the other colour
   * Is bipartite iff it does not contain an odd cycle
@@ -983,7 +983,7 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
     ```
     </details>  
 
-# Lecture 13 • 2017/02/21 
+## Lecture 13 • 2017/02/21 
 * Flow Network
 * G = (V, E) directed
 * Each edge (u, v) has capacity c(u, v) &ge; 0
@@ -1036,7 +1036,7 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
     * Flow increases by at least 1 at each iteration
     * Algorithm runs in O(C * |E|)
 
-# Lecture 14 • 2017/02/23
+## Lecture 14 • 2017/02/23
 * s-t cut of flow network is cut(A, B) such that s &isin; A and t &isin; B
   * capacity is the &Sigma;c(e) for all edges e the cut crosses
   * flow is |f| = f<sup>out</sup>(A) – f<sup>in</sup>(A)
@@ -1066,7 +1066,7 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
   * If |A| = |B| = n, C = |A| = n, |E’| = |E| + 2n = m + 2n
   * Given m > n, O(n * (m + 2n)) = O(nm)
 
-# Midterm Review • 2017/03/07 
+## Midterm Review • 2017/03/07 
 * Focus on direct application of concepts
 * 1 proof in the midterm
 * Nothing on probability
@@ -1100,7 +1100,7 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
 * Network flow
   * Positive flow, capacity constraint, flow conservation
 
-# Lecture 15 • 2017/03/14
+## Lecture 15 • 2017/03/14
 * Algorithm paradigms
   * Greedy – decompose & reduce problem – top-down approach
   * Dynamic programming – solve all possible sub-problems and use solutions to solve larger problems – bottom-up approach
@@ -1185,7 +1185,7 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
 <br/><br/>![dynamic_activity](images/dynamic-activity.svg)
   * Reconstruction yields a<sub>2</sub> & a<sub>4</sub>
 
-# Lecture 16 • 2017/03/16
+## Lecture 16 • 2017/03/16
 * Pairwise Sequence Alignment
   * Goal: Map letters between two strings (a & b) such that the “distance” (see below) between the strings are minimized
   * Letters must remain in order, but spaces can be added between them
@@ -1280,7 +1280,7 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
   ```
   </details>
 
-# Lecture 17 • 2017/03/21
+## Lecture 17 • 2017/03/21
 * To add onto the pairwise sequencing from last lectures, the approach may be modified with different weightings to provide different results, eg 1 and -1 for delta in bioinformatics
 * Dijkstra’s algorithm & negative weights
   * Weighted version of BFS – priority queue rather than FIFO queue
@@ -1331,7 +1331,7 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
     i ≠ s & j = 0 | &infin;
     j > 0 | 	min(d(k, j – 1) + w(k, i): i ∈ Adj(k), d(i, j – 1)) <br/> Either a valid predecessor's weight + current weight, or no change (achieved with fewer hops)
 
-# Lecture 18 • 2017/03/23
+## Lecture 18 • 2017/03/23
 * Divide & Conquer
   * Divide – split problems into smaller sub-problems
   * Conquer – solve sub-problems recursively, or use base cases
@@ -1372,7 +1372,7 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
   * T(n) = &Theta;(f(n))
   * Eg T(n) = 3T(n/4) + n<sup>5</sup> &rarr; T(n) = &Theta;(n<sup>5</sup>)
 
-# Lecture 20 • 2017/03/30
+## Lecture 20 • 2017/03/30
 * Amortized analysis – analyzing run time through average cases
 * Show that although some operations may be expensive, the average cost is small
 * Methods
@@ -1421,7 +1421,7 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
   * For the case of multipop, we may define an amortized cost of 2 for push; 1 is for pushing the object, and 1 is for eventually removing it. Given that we can only pop or multipop values we’ve previously pushed, this extra cost will always cover any future actions, resulting in a total amortized cost of O(n)
   * For the binary counter, we may charge 2 to set a bit to 1; 1 is for actually changing it, and 1 is for changing it back to a 0 in the future. We may see from our pseudocode that for every increment, at most one 0 bit is changed into 1, so this amortized cost covers all future actions, resulting in O(n).
 
-# Lecture 21 • 2017/04/04
+## Lecture 21 • 2017/04/04
 * Global min cut – given connected undirected graph, find cut with minimum cardinality
   * Applications – partitioning items, identify clusters of related content, network reliability, TSP solver
   * Network solution – replace every edge (u, v) with 2 (directed) antiparallel edges (u, v) & (v, u)
@@ -1454,7 +1454,7 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
   * Ex randomized quicksort, Max-3-sat algorithm
 * Can always convert Las Vegas algorithm into Monte Carlo (stop algorithm after certain point), but no known method in general to convert the other way
 
-# Lecture 22 • 2017/04/06
+## Lecture 22 • 2017/04/06
 * Problem with quicksort is that if each split results in arrays of size 0 and n – 1, the worst case runtime is &Theta;(n<sup>2</sup>)
 * Quicksort is inefficient for small lists, so we may use insertion sort on small problems or nearing the end of a quicksort
 * Notice that even if partitions are not even, eg 9n/10 & n/10, the runtime is still &Theta;(n logn)
@@ -1526,7 +1526,7 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
 * Deterministic algorithm – identical behaviour for different runs for given input – need to analyze average case and worst-case
 * Randomized algorithm – behaviour is generally different for different runs for given input – focus on average running time
 
-# Lecture 23 • 2017/04/11
+## Lecture 23 • 2017/04/11
 * Final exam prep & midterm review
 * Final exam overview
   * 11 questions; 200 points + 30 bonus
