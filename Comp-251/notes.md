@@ -1013,7 +1013,6 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
     * If f(e) < c(e), add forward edge (u, v) in E<sub>f</sub> with residual capacity c<sub>f</sub>(e) = c(e) – f(e)
     * If f(e) > 0, add backward edge (v, u) in E<sub>f</sub> with residual capacity c<sub>f</sub>(e) = f(e)
     * Example (note that sometimes one edge can result in both a forward and a backward edge)
-    
       | | | | |
       ---|---|---|---
       f(e) | c(e) | forward | backward
@@ -1176,7 +1175,6 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
   ```
   </details>
 * Example
-
   | | | | | | |
   ---|---|---|---|---|---
   activity | 1 | 2 | 3 | 4 | 5
@@ -1184,7 +1182,8 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
   Best weight M | 2 | 3 | 4 | 9 | 9
   V<sub>j</sub> + M[p(j)] | 2 | 3 | 4 | 9 | 8
   M[j - 1] | 0 | 2 | 3 | 4 | 9
-<br/><br/>![dynamic_activity](images/dynamic-activity.svg)
+
+  ![dynamic_activity](images/dynamic-activity.svg)
   * Reconstruction yields a<sub>2</sub> & a<sub>4</sub>
 
 ## Lecture 16 • 2017/03/16
@@ -1224,7 +1223,6 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
   * Comparing two strings of length m & n is &Omega;(mn) time and &Omega;(mn) space
   * It’s easy to save space and compute values in &Omega;(m + n) space by computing OPT(i, *) from OPT(i – 1, *); however, recovering alignment is harder
 * Example
-  
   | | | | | | |
   ---|---|---|---|---|---
   \* | - | A | T | T | G

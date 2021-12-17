@@ -155,7 +155,7 @@ $$Cap(A, B) = \sum_{x \in T} (M - P_x) + \text{number of matches } xy \text{ wit
 
 * Certifier
     * Takes in input `<w, t>`
-    * |t| &le; O(|w|<sup>c</sup>) where c is a fixed constant
+    * \|t\| &le; O(\|w\|<sup>c</sup>) where c is a fixed constant
     * w is a yes input &hArr; &exist; t for which our certifier accepts `<w, t>`
 
 * Polynomial Time Reductions
