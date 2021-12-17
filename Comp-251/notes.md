@@ -1452,3 +1452,75 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
 * Las Vegas – guaranteed to find correct answer, likely to run in poly-time
   * Ex randomized quicksort, Max-3-sat algorithm
 * Can always convert Las Vegas algorithm into Monte Carlo (stop algorithm after certain point), but no known method in general to convert the other way
+
+# Lecture 22 • 2017/04/06
+* Problem with quicksort is that if each split results in arrays of size 0 and n – 1, the worst case runtime is &Theta;(n<sup>2</sup>)
+* Quicksort is inefficient for small lists, so we may use insertion sort on small problems or nearing the end of a quicksort
+* Notice that even if partitions are not even, eg 9n/10 & n/10, the runtime is still &Theta;(n logn)
+* If bad splits are alternated with good splits, the extra cost is negligible, since it is essentially one extra step each time resulting in the same splits.
+* To prevent bad splits, we want to choose a good pivot point
+  * We can randomly select a pivot point
+  * We can use the median of the first, middle & last pivot
+* <details>
+  <summary>Quicksort pseudocode and randomized variant</summary>
+
+  ```java
+  public class QuickSort {
+  
+      void quickSort(A, p, r) {
+          if (p < r) {
+              q = partition(A, p, r)
+              quickSort(A, p, q - 1)
+              quickSort(A, q + 1, r)
+          }
+      }
+  
+      int partition(A, p, r) {
+          x = A[r]
+          i = p - 1
+          for (j = p, j < r; j +=)
+              if (A[j] <= x) {
+                  i++
+                  A.swap(i, j)
+              }
+          A.swap(++i, r)
+          return i
+      }
+  
+      void randomizedQuickSort(A, p, r) {
+          if (p < r) {
+              q = randomizedPartition(A, p, r)
+              randomizedQuickSort(A, p, q - 1)
+              randomizedQuickSort(A, q + 1, r)
+          }
+      }
+  
+      int randomizedPartition(A, p, r) {
+          i = random(p, r)
+          A.swap(r, i)
+          return partition(A, p, r)
+      }
+  }
+  ```
+  </details>
+* Expectation
+  * Mean expected value is the sum of every possible value multiplied by their respective odds of happening
+  * Linearity of expectation
+    * E[X + Y] = E[X] + E[Y] &forall; X, Y
+    * E[&alpha;X + Y] = &alpha;E[X] + E[Y], for constant &alpha; &forall; X, Y
+* Indicator random variables
+  * Convenient method for converting between probabilities & expectations
+  * Only two options, 1 (if X occurs) or 0 if it doesn’t
+  * E[X] = sum of E[X<sub>i</sub>] for all valid i
+  * Ex how many heads to we expect when flipping n coins
+    * Rather than computing the odds of every possible head count from 1 to n, note that for every index, the odds of a head is 1/2. Therefore, the total expectation is the sum of all halves, resulting in n/2
+* Average case analysis of randomized quicksort
+  * Let random variable X = # of comparison over all calls to partition
+  * X<sub>ij</sub> = 1 if z<sub>i</sub> is compared to z<sub>j</sub> and 0 otherwise
+  * X therefore equals the sum of all X<sub>ij</sub> for i in [1, n – 1] and j in [i + 1, n]
+  * Since we are using indicator random variables (two options), expectations = probability, so we find probability that a given element is compared to another element
+    * Two elements are compared iff one of those elements is chosen as first pivot
+    * P[z<sub>i</sub> is first pivot from Z<sub>ij</sub>] + P[z<sub>j</sub> is first pivot from Z<sub>ij</sub>] = 1/(j – i + 1) + 1/(j – i +1) = 2/(j – i + 1)
+    * Given that k = j – i, we may substitute to find that E[X] = O(n logn)
+* Deterministic algorithm – identical behaviour for different runs for given input – need to analyze average case and worst-case
+* Randomized algorithm – behaviour is generally different for different runs for given input – focus on average running time
