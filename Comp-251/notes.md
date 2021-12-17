@@ -1034,3 +1034,33 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
     * Finding s-t path takes O(|E|) (eg BFS or DFS)
     * Flow increases by at least 1 at each iteration
     * Algorithm runs in O(C * |E|)
+
+# Lecture 14 • 2017/02/23
+* s-t cut of flow network is cut(A, B) such that s &isin; A and t &isin; B
+  * capacity is the &Sigma;c(e) for all edges e the cut crosses
+  * flow is |f| = f<sup>out</sup>(A) – f<sup>in</sup>(A)
+    * |f| is bounded by &Sigma;c(e) for all e &isin; cut(A, B)
+* Observations
+  * Every flow must be &le; capacity of every s-t cut
+  * Value of maximum flow is less than capacity of minimum cut
+* Flow in Ford-Fulkerson
+  * Terminates when no augmenting path in residual graph G<sub>f</sub>
+  * |f| = &Sigma;c(e)
+    * In particular, f<sup>out</sup>(A) = &Sigma;c(e) and f<sup>in</sup>(A) = 0
+    * Since v cannot be reacahable from s in G<sub>f</sub>, there cannot be any resulting forward or backward edges
+  * For any e = (u, v) &isin; cut(A, B), f(e) = c(e)
+* Computing min cut
+  * Find G<sub>f</sub> with Ford-Fulkerson
+  * Run BFS or DFS of s
+  * Reachable vertices define set A for the cut
+  * Recall that min cut is minimum number of cuts needed to stop all flow from s to t
+* Bipartite matching with network flows
+  * With bipartite with sets A and B
+  * Connect s to every vertex in A
+  * Keep directed edges from A to B
+  * Connect every vertex in B to t
+  * Get max flow with Ford-Fulkerson &rArr; max matching
+* Running time
+  * General complexity if O(C * |E|)	C = &Sigma;c(s, u)
+  * If |A| = |B| = n, C = |A| = n, |E’| = |E| + 2n = m + 2n
+  * Given m > n, O(n * (m + 2n)) = O(nm)
