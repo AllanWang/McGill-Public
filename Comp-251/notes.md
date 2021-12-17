@@ -1183,3 +1183,98 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
   M[j - 1] | 0 | 2 | 3 | 4 | 9
 <br/><br/>![dynamic_activity](images/dynamic-activity.svg)
   * Reconstruction yields a<sub>2</sub> & a<sub>4</sub>
+
+# Lecture 16 • 2017/03/16
+* Pairwise Sequence Alignment
+  * Goal: Map letters between two strings (a & b) such that the “distance” (see below) between the strings are minimized
+  * Letters must remain in order, but spaces can be added between them
+* Definitions
+  * Match – letters are identical
+  * Substitution – letters are different
+  * Insertion – letter of b is mapped to empty character
+  * Deletion – letter of a is mapped to empty character
+  * Indels – group covering insertions & deletions
+* Can be used to find similarities in amino acid sequences
+* Counting alignments
+  * We may observe that the alignments of a and b must end by (a, -), (a, b), or (-, b) (deletion, match/substitution, insertion)
+  * If we define c(m, n) as the # of alignments formed between them, we see that c(m, n) = min(c(m – 1, n), c(m – 1, n – 1), c(m, n – 1))
+  * Base case – f(0, n) = f(m, 0) = f(0, 0) = 1
+* Levenshtein Distance
+  * Minimal # of substitutions, insertions & deletions to transform one into the other
+  * Each of those actions adds one to the total distance
+* Edit distance
+  * If every edit operation has a positive cost & an inverse operation with equal cost, the edit distance is metric
+  * d(x, y) &ge; 0 (separate axiom)
+  * d(x, y) = 0 iff x = y (coincidence axiom)
+  * d(x, y) = d(y, x) (symmetry)
+  * d(x, y) &le; d(x, z) + d(z, y) (triangle inequality)
+* Optimal sub-structure – sub-alignment of optimal alignments are also optimal
+  * Cut-and-paste proof
+* Backtracking 
+  * Each move associated with one edit operation
+    * Vertical – insertion 
+    * Diagonal – match/substitution
+    * Horizontal –deletion
+  * Find move that was used to find the value of the cell
+  * Apply recursively
+* Analysis
+  * Comparing two strings of length m & n is &Omega;(mn) time and &Omega;(mn) space
+  * It’s easy to save space and compute values in &Omega;(m + n) space by computing OPT(i, *) from OPT(i – 1, *); however, recovering alignment is harder
+* Example
+  | | | | | | |
+  ---|---|---|---|---|---
+  \* | - | A | T | T | G
+  \- | 0 | 1 | 2 | 3 | 4
+  C | 1 | 1 | 2 | 3 | 4
+  T | 2 | 2 | 1 | 2 | 3
+* <details>
+  <summary>Pseudocode</summary>
+
+  ```java
+  /**
+   * Algorithm for finding the optimal sequence alignment for two strings
+   */
+  public class NeedlemanWunsch {
+  
+      String a, b //two strings to compare; for our sake, both string start with '-'
+      //and the first real letter is at index 1
+      int[][] d //matrix holding minimum distance up to two characters
+  
+      //get cost for two characters
+      int delta(m, n) {
+          return m == n ? 0 : 1
+      }
+  
+      /*
+       * Compute lowest distance and store values for backtracking
+       */
+      int getLowestDistance() {
+          //map the borders (base case; assumption that one of the strings is empty)
+          //therefore, distances will increase by one each time
+          for (int i = 0; i < a.length(); i++)
+              d[i][0] = i
+          for (int j = 0; j < b.length(); j++)
+              d[0][j] = j
+          for (int i = 1; i < a.length(); i++)
+              for (int j = 1; j < b.length(); j++)
+                  d[i][j] = min(d[i - 1][j] + delta(a[i], '-'), //deletion
+                          d[i - 1][j - 1] + delta(a[i], b[j]), //match/substitution
+                          d[i][j - 1] + delta('-', b[j])) //insertion
+          return d[a.length() - 1][b.length() - 1]
+      }
+  
+      /*
+       * Find match pairs between the two strings; set i & j to last index initially
+       */
+      Pair[] getSolution(i, j) {
+          if (i == 0 || j == 0) return []
+          delta = delta(a[i], b[j])
+          if (d[i - 1][j] + delta(a[i], '-') == d[i][j])
+              return [Pair(a[i], '-')] + getSolution(i - 1, j) //deletion occurred
+          if (d[i - 1][j - 1] + delta(a[i], b[j] == d[i][j])
+              return [Pair(a[i], b[j])] + getSolution(i - 1, j - 1) //match/substitution occurred
+          return [Pair('-', b[j])] + getSolution(i, j - 1) //insertion occurred
+      }
+  }
+  ```
+  </details>
