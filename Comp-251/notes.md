@@ -1329,3 +1329,16 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
     i = s & j = 0 | 0
     i ≠ s & j = 0 | &infin;
     j > 0 | 	min(d(k, j – 1) + w(k, i): i ∈ Adj(k), d(i, j – 1)) <br/> Either a valid predecessor's weight + current weight, or no change (achieved with fewer hops)
+
+# Lecture 18 • 2017/03/23
+* Divide & Conquer
+  * Divide – split problems into smaller sub-problems
+  * Conquer – solve sub-problems recursively, or use base cases
+  * Combine – merge two sub-problems and eventually reach the original problem again
+* Example – Merge Sort
+  * Divide – split n-elements to subsequences of n/2 elements
+  * Conquer – sort recursively using merge sort; once array has size 1, simply return that array
+  * Combine – merge two sorted subsequences to produce sorted answer
+* Multiplication – Divide & Conquer
+  * For value x with n digits, let x<sub>L</sub> = x / 2<sup>n/2</sup>, and let x<sub>R</sub> = x % 2<sup>n/2</sup>
+  * Instead of using grade school multiplication (O(n<sup>2</sup>)), we may compute x * y through their components <br/> <code>x * y = 2<sup>n</sup>x<sub>L</sub>y<sub>L</sub> + 2<sup>n/2</sup>(x<sub>L</sub>y<sub>R</sub> + x<sub>R</sub>y<sub>L</sub>) + x<sub>R</sub>y<sub>R</sub></code>
