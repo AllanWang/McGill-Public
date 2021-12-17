@@ -1278,3 +1278,54 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
   }
   ```
   </details>
+
+# Lecture 17 • 2017/03/21
+* To add onto the pairwise sequencing from last lectures, the approach may be modified with different weightings to provide different results, eg 1 and -1 for delta in bioinformatics
+* Dijkstra’s algorithm & negative weights
+  * Weighted version of BFS – priority queue rather than FIFO queue
+  * Greedy choice – picks lightest edge at each step
+  * How do we deal with negative weight edges?
+    * Re-insertion in queue leads to exponential running time
+    * Adding constants to each edge to make them positive changes the question, because paths with different numbers of edges are incremented with different values
+* Bellman-Ford algorithm
+  * Allows negative-weights
+  * Computer d[v] (shortest-path weights) and &pi;[v] (predecessors) for all v &isin; V
+  * Return true if no negative-weight cycles are reachable form source, false otherwise
+  * If Bellman-Ford has not converged after V(G) – 1 iterations, there cannot be a shortest path tree, so there must be a negative weight cycle (longest path w/o cycles is V(G) – 1 in length)
+* <details>
+  <summary>Pseudocode</summary>
+
+  ```java
+  /**
+   * Find shortest path between two nodes in a graph
+   * Allows for negative-weight edges and will catch negative cycles if they occur
+   *
+   * Time Complexity O(VE)
+   */
+  public class BellmanFord {
+  
+      /**
+       * Check if shortest path exists
+       *
+       * @param G the graph
+       * @param s source node
+       * @return true if path exists, false otherwise (negative cycle)
+       */
+      boolean initialize(G, s) {
+          for (int i = 0; i < G.size() - 1; i++)
+              for (u, v in G.edges)
+                  relax(u, v, w(u, v)) //set d[v] as min(d[v], d[u] + w(u, v))
+          for (u, v in G.edges)
+              if (d[v] > d[u] + w(u, v)) return false //mismatch found
+          return true
+      }
+  }
+  ```
+  </details>
+* Dynamic Programming in Bellman-Ford
+  * Let d(i, j) = cost of shortest path from s to i with at most j hops
+  * | Cases | |
+    ---|---
+    i = s & j = 0 | 0
+    i ≠ s & j = 0 | &infin;
+    j > 0 | 	min(d(k, j – 1) + w(k, i): i ∈ Adj(k), d(i, j – 1)) <br/> Either a valid predecessor's weight + current weight, or no change (achieved with fewer hops)
