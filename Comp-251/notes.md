@@ -603,25 +603,25 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
   * Undirected – edge (u, v) = (v, u) & there are no self loops
   * Directed – (u, v) is edge from u to v, or u &rarr; v; self loops allowed
   * Weighted – each edge has associated weight, given as a function w: E &rarr; R
-  * Dense – |E| &asymp; |V|<sup>2</sup>
-  * Sparse – |E| << |V|<sup>2</sup>
-* |E| = O(|V|<sup>2</sup>|)
+  * Dense – \|E\| &asymp; \|V\|<sup>2</sup>
+  * Sparse – \|E\| << \|V\|<sup>2</sup>
+* \|E\| = O(\|V\|<sup>2</sup>)
 * Properties
   * If (u, v) &isin; E, then vertex v is adjacent to vertex u
     * Symmetric (reverse applies) if G is undirected
     * Not necessarily true if G is directed
   * If G is connected
     * There is a path between every pair of vertices
-    * |E| &ge; |V| – 1
-    * If |E| = |V| – 1, G is a tree
+    * \|E\| &ge; \|V\| – 1
+    * If \|E\| = \|V\| – 1, G is a tree
 * Vocabulary
   * Ingoing edges of u: { (v, u) &isin; E }	edges pointing directly to u
   * Outgoing edges of u: { (u, v) &isin; E }	edges pointing directly out from u
-  * In-degree(u): |in(u)|
-  * Out-degree(u): |out(u)|
+  * In-degree(u): \|in(u)\|
+  * Out-degree(u): \|out(u)\|
 * Representations
   * Adjacency Lists
-    * Array Adj of |V| lists
+    * Array Adj of \|V\| lists
     * Every vertex has a list of adjacent vertices
     * If weighted, store weights within the adjacency lists
     * Space efficient when graph is sparse
@@ -629,7 +629,7 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
       * Needs to search in u’s adjacency list. &Theta;(degree(u)) time
       * &Theta;(V) in worst case
   * Adjacency Matrix
-    * |V| x |V| matrix A
+    * \|V\| x \|V\| matrix A
     * A[i, j] = a<sub>ij</sub> = (i, j) &isin; E ? 1 : 0
 * Can store weights instead of bits for weighted graphs
     * A = A<sup>T</sup> for undirected graphs
@@ -659,7 +659,7 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
   * Continue until all reachable vertices from original source are discovered
     * If any undiscovered vertices remain, pick one as a new source and repeat DFS
   * Result (given the graph G = (V, E) and source vertex s &isin; V)
-    * 2 timestamps on each vertex, with integer values b/t 1 & 2|V|
+    * 2 timestamps on each vertex, with integer values b/t 1 & 2\|V\|
     * d[v] = discovery tie (v turns from white to gray)
     * f[v] = finishing time (v turns from gray to black)
     * &pi;[v] = predecessor of v = u, such that v was discovered during scan of u’s adjacency list
@@ -729,7 +729,7 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
 
 ## Lecture 10 • 2017/02/09
 * MST – Minimum Spanning Tree
-  * Has |V| –  edges
+  * Has \|V\| –  edges
   * Has no cycles
   * Might not be unique
 * Generic algorithm
@@ -750,12 +750,12 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
   * Time Complexity | |
     ---|---
     Initialize A | O(1)
-    First for loop | |V| MAKE-SETs
+    First for loop | \|V\| MAKE-SETs
     Sort E | O(E logE)
     Second for loop | O(E) FIND-SETs and UNIONs
     Total | O(E logV)
     
-    * \* Notice that |E| &le; |V|<sup>2</sup> &rArr; O(logE) = O(2logV) = O(logV)
+    * \* Notice that \|E\| &le; \|V\|<sup>2</sup> &rArr; O(logE) = O(2logV) = O(logV)
 * Prim’s Algorithm
   * Builds one tree, so A is always a tree
   * Start from arbitrary "root" r
@@ -999,7 +999,7 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
   * Without loss of generality, we can say positive flow goes either from u to v or from v to u, but not both
   * Eg if p(u, v) = 5 & p(v, u) = 3, it is equivalent to a flow of 2 from u to v
   * We denote this as f(u, v) = p(u, v) – p(v, u) &ensp;&ensp;p(u, v) &ge; 0
-* Total flow of graph (|f|) is sum of all flows from source or all flows to sink
+* Total flow of graph (\|f\|) is sum of all flows from source or all flows to sink
   * All vertices in between satisfy flow conservation
 * Naïve algorithm for maximal flow
   * Find a path and add the maximum flow for that path
@@ -1032,21 +1032,21 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
   * Algorithm terminates because bottleneck &beta; is strictly positive and flow is bounded (flow will not surpass bound)
   * Time Complexity
     * Let C = &Sigma;c(e) &emsp;&emsp;&emsp;&emsp;e &isin; E outgoing from s
-    * Finding s-t path takes O(|E|) (eg BFS or DFS)
+    * Finding s-t path takes O(\|E\|) (eg BFS or DFS)
     * Flow increases by at least 1 at each iteration
-    * Algorithm runs in O(C * |E|)
+    * Algorithm runs in O(C * \|E\|)
 
 ## Lecture 14 • 2017/02/23
 * s-t cut of flow network is cut(A, B) such that s &isin; A and t &isin; B
   * capacity is the &Sigma;c(e) for all edges e the cut crosses
-  * flow is |f| = f<sup>out</sup>(A) – f<sup>in</sup>(A)
-    * |f| is bounded by &Sigma;c(e) for all e &isin; cut(A, B)
+  * flow is \|f\| = f<sup>out</sup>(A) – f<sup>in</sup>(A)
+    * \|f\| is bounded by &Sigma;c(e) for all e &isin; cut(A, B)
 * Observations
   * Every flow must be &le; capacity of every s-t cut
   * Value of maximum flow is less than capacity of minimum cut
 * Flow in Ford-Fulkerson
   * Terminates when no augmenting path in residual graph G<sub>f</sub>
-  * |f| = &Sigma;c(e)
+  * \|f\| = &Sigma;c(e)
     * In particular, f<sup>out</sup>(A) = &Sigma;c(e) and f<sup>in</sup>(A) = 0
     * Since v cannot be reacahable from s in G<sub>f</sub>, there cannot be any resulting forward or backward edges
   * For any e = (u, v) &isin; cut(A, B), f(e) = c(e)
@@ -1062,8 +1062,8 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
   * Connect every vertex in B to t
   * Get max flow with Ford-Fulkerson &rArr; max matching
 * Running time
-  * General complexity if O(C * |E|)	C = &Sigma;c(s, u)
-  * If |A| = |B| = n, C = |A| = n, |E’| = |E| + 2n = m + 2n
+  * General complexity if O(C * \|E\|)	C = &Sigma;c(s, u)
+  * If \|A\| = \|B\| = n, C = \|A\| = n, \|E’\| = \|E\| + 2n = m + 2n
   * Given m > n, O(n * (m + 2n)) = O(nm)
 
 ## Midterm Review • 2017/03/07 
@@ -1105,7 +1105,7 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
   * Greedy – decompose & reduce problem – top-down approach
   * Dynamic programming – solve all possible sub-problems and use solutions to solve larger problems – bottom-up approach
 * Going back to the activity selection problem: given activities, find subset with greatest total activity duration, where no two activity intervals overlap
-  * Greedy algorithm ([Lecture 7](#Lecture-7-•-2017/01/31)) doesn’t always work, eg activities (0, 2), (1, 8), (7, 9)
+  * Greedy algorithm ([Lecture 7](#lecture-7--20170131)) doesn’t always work, eg activities (0, 2), (1, 8), (7, 9)
     * Greedy would pick (0, 2) & (7, 9) whereas the best solution is (1, 8)
   * Binary choice
     * Let OPT(j) denote the best solution for activities 1 to j
@@ -1268,7 +1268,7 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
        * Find match pairs between the two strings; set i & j to last index initially
        */
       Pair[] getSolution(i, j) {
-          if (i == 0 || j == 0) return []
+          if (i == 0 \|\| j == 0) return []
           delta = delta(a[i], b[j])
           if (d[i - 1][j] + delta(a[i], '-') == d[i][j])
               return [Pair(a[i], '-')] + getSolution(i - 1, j) //deletion occurred
@@ -1435,8 +1435,8 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
   * Repeat until graph has two nodes u<sub>1</sub> & v<sub>1</sub>
   * Return cut (all nodes that were contracted to form v<sub>1</sub>)
   * Notice that the cardinality of the cut is the number of edges connecting u<sub>1</sub> & v<sub>1</sub> at the last step
-  * Claim – contraction algorithm returns min cut with a probability &ge; 2/n<sup>2</sup> (n = |V|)
-    * At every step, |E’| &ge; 1/2 kn’, otherwise our min cut is not truly a min cut
+  * Claim – contraction algorithm returns min cut with a probability &ge; 2/n<sup>2</sup> (n = \|V\|)
+    * At every step, \|E’\| &ge; 1/2 kn’, otherwise our min cut is not truly a min cut
     * Algorithm contracts edge in our min cut with probability &le; 2/n’
     * Combined, the probability that no edge in min cut is contracted is (1 – 2/n)(1 – 2/(n – 1)) * &hellip; * (1 – 2/4)(1 – 2/3) &ge; 2/n<sup>2</sup>
   * Amplification – increase odds of success by running contraction many times
