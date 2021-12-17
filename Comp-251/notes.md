@@ -926,3 +926,58 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
     }
     ```
     </details>
+
+# Lecture 12 • 2017/02/16
+* Bipartite graph – graph where vertices can be partitioned into 2 sets (A & B), where all edges cross the sets (no edges are from one set to the same set)
+  * If made into a DFS tree, can be coloured in 2 colours where every edge spans from one colour to the other colour
+  * Is bipartite iff it does not contain an odd cycle
+  * [From Math 240](https://www.allanwang.ca/pdf/MATH-240.pdf#page=36) <!-- TODO relink -->
+* Matching – subset of edges such that no two edges share a vertex
+* Perfect matching – every vertex in subset A has a matching in subset B and vice versa
+* Complete bipartite graph – every vertex in A is connected to every vertex in B and vice versa
+* Stable marriage problem
+  * Goal is to find perfect matching
+  * Pair is unstable if for an unmatched pair &alpha;-&beta;, &alpha; prefers &beta; to current match, and &beta; prefers &alpha; to current match
+  * Matchings are stable if there are no unstable pairs
+  * <details>
+    <summary>Pseudocode</summary>
+
+    ```java
+    /**
+     * Gale-Shapley Algorithm for finding stable marriage solution
+     */
+    public class GaleShapley {
+    
+        /**
+         * find stable matches
+         * sets contain items that have an ordered preference
+         * for the items in the other set
+         *
+         * O(n^2)
+         * Best case Omega(n)
+         *
+         * @param A set A
+         * @param B set B
+         * @return matching pairs
+         */
+        Matching findMatches(A, B) {
+            M = new Matching()
+            while (A.hasUnmatched()) {
+                a = A.getFirstUnmatched() //get an unmatched item
+                b = a.orderedPrefs.removeFirst() //get first preference of that item
+                if (!b.isMatched()) {
+                    M.add(a, b) //unmatched, add the matches
+                } else {
+                    c = b.match //get b's current match
+                    if (b.prefers(a, c)) {
+                        //a is preferred, remove old matching
+                        M.remove(c, b).add(a, b)
+                    }
+                }
+            }
+            return M
+        }
+    
+    }
+    ```
+    </details>  
