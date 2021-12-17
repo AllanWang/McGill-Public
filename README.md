@@ -3,8 +3,9 @@ Tester codes and public resources for CS/Software Engineering
 
 | Course | Contents |
 |---|---|
-| Comp 202 | Misc. |
+| Comp 202 | Misc. &bull; [Practice](https://www.allanwang.ca/notes/mcgill/comp202/)* |
 | Comp 251 | [Notes](Comp-251/notes.md) |
+| Comp 273 | [Notes](Comp-273/notes.md) &bull; [Practice](https://www.allanwang.ca/notes/mcgill/comp273/practice/)* |
 | Comp 302 | [Notes](Comp-302/notes.md) &bull; [Crib Sheet](Comp-302/final/final.pdf)* |
 | Comp 303 | [Review](Comp-303/final.md) &bull; [Design Patterns](https://github.com/AllanWang/Design-Patterns/blob/master/java.md)* |
 | Comp 310 | [Notes](https://www.allanwang.ca/notes/mcgill/comp310/0.php)* &bull; [Review](Comp-310/final.md) |

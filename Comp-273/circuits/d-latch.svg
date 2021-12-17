@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Digital by H.Neemann -->
+<!-- created: Tue Feb 07 13:13:01 EST 2017 -->
+
+<svg
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   width="58.05mm"
+   height="13.5mm"
+   viewBox="418 225 387 90">
+<g>
+<path d="M 480,240 L 520,240 L 600,240" stroke="#0000b2" stroke-width="2.8" fill="none"/>
+<path d="M 660,240 L 700,240" stroke="#0000b2" stroke-width="2.8" fill="none"/>
+<path d="M 660,260 L 680,260 L 680,280 L 700,280" stroke="#0000b2" stroke-width="2.8" fill="none"/>
+<path d="M 520,240 L 520,280 L 540,280" stroke="#0000b2" stroke-width="2.8" fill="none"/>
+<path d="M 580,280 L 600,280" stroke="#0000b2" stroke-width="2.8" fill="none"/>
+<path d="M 480,300 L 500,300 L 500,260 L 600,260" stroke="#0000b2" stroke-width="2.8" fill="none"/>
+<g>
+<circle cx="520" cy="240" r="4.0" stroke="#0000b2" stroke-width="2.8" fill="#0000b2" />
+</g>
+<g>
+<path d="M 601,230 L 659,230 L 659,290 L 601,290 Z" stroke="#000000" stroke-width="2.8" fill="none"/>
+<text text-anchor="start" x="604" y="247" fill="#808080" style="font-size:18">S</text>
+<text text-anchor="start" x="604" y="267" fill="#808080" style="font-size:18">C</text>
+<text text-anchor="start" x="604" y="287" fill="#808080" style="font-size:18">R</text>
+<text text-anchor="end" x="656" y="247" fill="#808080" style="font-size:18">Q</text>
+<text text-anchor="end" x="656" y="267" fill="#808080" style="font-size:18">¬Q</text>
+<text text-anchor="middle" x="630" y="307" fill="#808080" style="font-size:18">RS</text>
+<circle cx="600" cy="240" r="2.0" stroke="#0000b2" stroke-width="2.8" fill="#0000b2" />
+<circle cx="600" cy="260" r="2.0" stroke="#0000b2" stroke-width="2.8" fill="#0000b2" />
+<circle cx="600" cy="280" r="2.0" stroke="#0000b2" stroke-width="2.8" fill="#0000b2" />
+<circle cx="660" cy="240" r="2.0" stroke="#b20000" stroke-width="2.8" fill="#b20000" />
+<circle cx="660" cy="260" r="2.0" stroke="#b20000" stroke-width="2.8" fill="#b20000" />
+</g>
+<g>
+<circle cx="464" cy="240" r="9.0" stroke="#000000" stroke-width="2.8" fill="none" />
+<path d="M 449,225 L 479,225 L 479,255 L 449,255 Z" stroke="#000000" stroke-width="2.8" fill="none"/>
+<text text-anchor="end" x="435" y="249" fill="#000000" style="font-size:24">D</text>
+<circle cx="480" cy="240" r="2.0" stroke="#b20000" stroke-width="2.8" fill="#b20000" />
+</g>
+<g>
+<path d="M 449,285 L 479,285 L 479,315 L 449,315 Z" stroke="#000000" stroke-width="2.8" fill="none"/>
+<path d="M 455,305 L 460,305 L 460,295 L 465,295 L 465,305 L 470,305 L 470,295 L 475,295" stroke="#000000" stroke-width="1.4" fill="none"/>
+<text text-anchor="end" x="435" y="309" fill="#000000" style="font-size:24">E</text>
+<circle cx="480" cy="300" r="2.0" stroke="#b20000" stroke-width="2.8" fill="#b20000" />
+</g>
+<g>
+<path d="M 541,268 L 559,280 L 541,292 Z" stroke="#000000" stroke-width="2.8" fill="none"/>
+<circle cx="570" cy="280" r="9.0" stroke="#000000" stroke-width="2.8" fill="none" />
+<circle cx="540" cy="280" r="2.0" stroke="#0000b2" stroke-width="2.8" fill="#0000b2" />
+<circle cx="580" cy="280" r="2.0" stroke="#b20000" stroke-width="2.8" fill="#b20000" />
+</g>
+<g>
+<circle cx="716" cy="240" r="9.0" stroke="#000000" stroke-width="2.8" fill="none" />
+<circle cx="716" cy="240" r="15.0" stroke="#000000" stroke-width="2.8" fill="none" />
+<text text-anchor="start" x="745" y="249" fill="#000000" style="font-size:24">Q</text>
+<circle cx="700" cy="240" r="2.0" stroke="#0000b2" stroke-width="2.8" fill="#0000b2" />
+</g>
+<g>
+<circle cx="716" cy="280" r="9.0" stroke="#000000" stroke-width="2.8" fill="none" />
+<circle cx="716" cy="280" r="15.0" stroke="#000000" stroke-width="2.8" fill="none" />
+<text text-anchor="start" x="745" y="289" fill="#000000" style="font-size:24">Q not</text>
+<circle cx="700" cy="280" r="2.0" stroke="#0000b2" stroke-width="2.8" fill="#0000b2" />
+</g>
+</g>
+</svg>
