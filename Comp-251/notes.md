@@ -724,5 +724,89 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
   * Works because we are visiting vertices of component graph in topologically sorted order
     * Running DFS on G<sup>T</sup> means we will not visit any v from u where v & u are in different components
     * Can only reach vertices in its SCC and vertices in SCC's already visited in second DFS
-  * Lemma 3 – let C & C’ be distinct SCC’s in G = (V, E); if (u, v) &isn; E &cap; u &isin; C &cap; v &isin; C’, then f(C) > f(C’)
-"--Corollary – if (u, v) &isin; E<sup>T</sup>, f(C) < f(C’)"
+  * Lemma 3 – let C & C’ be distinct SCC’s in G = (V, E); if (u, v) &isin; E &cap; u &isin; C &cap; v &isin; C’, then f(C) > f(C’)
+    * Corollary – if (u, v) &isin; E<sup>T</sup>, f(C) < f(C’)
+
+# Lecture 10 • 2017/02/09
+* MST – Minimum Spanning Tree
+  * Has |V| –  edges
+  * Has no cycles
+  * Might not be unique
+* Generic algorithm
+  * Start with empty set
+  * While A is not a spanning tree, find a safe edge (u, v) and add it to A
+  * Results in A, which is a subset of some MST
+* Definitions
+  * A <i>cut</i> partitions vertices into disjoint sets, S & V – S
+  * An edge <i>crosses</i> a cut if one endpoint is in S & the other is in V – S
+  * A <i>light</i> edge is the cross edge with minimal weight (may not be unique)
+  * A cut <i>respects</i> A iff no edge in A crosses cut
+* Theorem 1 – safe edge – let (S, V – S) be any cut that respects A; the light edge (u, v) crossing the cut is safe for A
+* Kruskal’s Algorithm
+  * Starts with each vertex in its own component
+  * Repeatedly merge two components into one by connecting them through a light edge
+  * Scans set of edges in monotonically increasing order by weight
+  * Uses disjoint-set data structure to determine whether an edge connects vertices in different components
+  * Time Complexity | |
+    ---|---
+    Initialize A | O(1)
+    First for loop | |V| MAKE-SETs
+    Sort E | O(E logE)
+    Second for loop | O(E) FIND-SETs and UNIONs
+    Total | O(E logV)
+    * \* Notice that |E| &le; |V|<sup>2</sup> &rArr; O(logE) = O(2logV) = O(logV)
+* Prim’s Algorithm
+  * Builds one tree, so A is always a tree
+  * Start from arbitrary "root" r
+  * For each step, add light edge crossing cut (V<sub>A</sub>, V – V<sub>A</sub>) to A
+    * V<sub>A</sub> = vertices A is incident on
+* Finding light edge
+  * Use priority queue Q (which supports the following in O(log n)
+    * Insert(Q, u, key) – insert u with key value <i>key</i> in Q
+    * u = extractMin(Q) – extract item with minimum key value in Q
+    * decreaseKey(Q, u, newKey) – decrease u’s key value to newKey
+  * Each object in Q is vertex in V – V<sub>A</sub>
+  * Key of v has minimum weight of any edge (u, v) where u &isin; V<sub>A</sub>
+  * Vertex returned is v where (u, v) is light edge crossing (V<sub>A</sub>, V – V<sub>A</sub>) where u &isin; V
+  * If such a v does not exist, the weight is infinity
+  * <details>
+    <summary>Pseudocode</summary>
+
+    ```java
+    /**
+     * Prim's Algorithm for finding MST (minimum spanning tree)
+     * Complexity
+     * Using binary heaps       O(E logV)
+     * Initialization           O(V)
+     * Building initial queue   O(V)
+     * V extractMin             O(V logV)
+     * E decreaseKey            O(E logV)
+     * Fibonacci heaps          O(E + V logV)
+     */
+    public class Prim {
+    
+        MST findMST(graph, root) {
+            MST mst = new MST()
+            Q = new Queue(graph) //create queue with every vertex in graph
+            //set keys to infinity for all nodes
+            for (Node u : Q) {
+                u.key = INFINITY //key of vertex
+                u.pi = NIL //no predecessor yet
+                insert(Q, u) //add to queue
+            }
+            decreaseKey(Q, root, 0) //start with arbitrary root; weight is 0
+            while (!Q.isEmpty()) { //loop until Q is empty
+                u = extractMin(Q)
+                for (Vertex v : u.adjacentVertices) {
+                    if (v.isin(Q) && weight(u, v) < v.key) { //update adjacent nodes
+                        v.pi = u //set predecessor of v
+                        decreaseKey(Q, v, weight(u, v)) //set new weight for v
+                    }
+                }
+                mst.add(u) //add lowest weight to mst
+            }
+            return mst
+        }
+    }
+    ```
+    </details>
