@@ -151,3 +151,101 @@
 # Lecture 10 • 2017/10/03
 * Currying
 * Methods in languages like JavaScript are uncurried. (such as test(a, b, c)). All values need to be passed in at once, or the function cannot be called. The process of currying involves separating such inputs so that any number of them can be called to return a function needing only the remaining inputs ('a -> 'b -> 'c)
+
+# Lecture 11 • 2017/10/05
+* Lambda Calculus
+  * Simple language consisting of variables, functions (&lambda;x.t) & function application
+  * Can define all computable functions
+  * Boolean encoding
+    * T = &lambda;x.&lambda;y.x (keep first arg)
+    * F = &lambda;x.&lambda;y.y (keep second arg)
+* Recall currying: let curry f = (fun x y -> f (x,y))
+* let deriv (f, dx) = fun x -> f(x +. dx) -. f x) /. dx
+
+# Lecture 12 • 2017/10/06
+* Midterm review
+
+# Lecture 13 • 2017/10/12
+* Midterm review
+
+# Lecture 14 • 2017/10/13
+* Expressions in OCaml have types, and evaluates to a value or diverges
+* Today, we'll see that expressions may also have an <i>effect</i>
+* <details>
+  <summary>In class code</summary>
+
+  ```ocaml
+  let x = ref 0 (* Allocate reference x with initial value 0 *)
+  
+  a == b (* Compare by reference *)
+  a = b (* Compare by content *)
+  
+  !x (* Read value *)
+  x := 3 (* Update value *)
+  
+  let imperative_fact n =
+      begin
+          let result = ref 1 in
+          let i  ref 0 in
+          let rec loop () =
+              if !i = n then ()
+              else (i := !i + 1; result := !result * !i; loop ())
+          in
+          (loop (); !result)
+      end
+  ```
+  </details>
+
+# Lecture 15 • 2017/10/17
+* <details>
+  <summary>Types, values, & effects</summary>
+
+  ```ocaml
+  (* Types *)
+  
+  3 + 2
+  (* int; 5; no effect *)
+  
+  55
+  (* int; 55; no effect *)
+  
+  fun x -> x + 3 * 2
+  (* int -> int; <fun> or fun x -> x + 2 * 3 *)
+  
+  ((fun x -> match x with [] -> true | y::ys -> false), 2.3 *. 2.0)
+  (* ('a list -> bool) * float; (<fun>, 6.4); no effect *)
+  
+  let x = ref 3 in x := !x * 2
+  (* unit = (); no effect; x is disposed (removed from stack after evaluation) *)
+  
+  
+  fun x -> x := 3
+  (* int ref -> unit; <fun>; effect: updated x to 3 *)
+  
+  (fun x -> x := 3) y
+  (* unit = (); updates y : int ref to 3 *)
+  
+  fun x -> (x := 3; x)
+  (* int ref -> int ref; updates x & returns reference *)
+  
+  fun x -> (x := 3; !x)
+  (* int ref  int; updates x & returns value *)
+  
+  let x = 3 in print_string (string_of_int x)
+  (* unit = (); prints 3 to screen *)
+  
+  (* --------------------
+  Linked List Demo
+  -------------------- *)
+  
+  type 'a rlist = Empty | RCons of 'a * ('a rlist) ref;;
+  let l1 = ref (RCons (4, ref Empty));;
+  let l2 = ref (RCons (5, l1));;
+  (* The 'a rlist ref of l2 is l1, same address *)
+  
+  l1 := !l2;;
+  (* We've created a circular list *)
+  !l1;;
+  (* int rlist = RCons(5, {contents = <cycle>}) *)
+  ```
+  </details>
