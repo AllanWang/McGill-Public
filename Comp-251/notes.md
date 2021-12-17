@@ -1404,7 +1404,7 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
     ```
     </details>
   * One might assume that incrementing takes O(nk) time, since there are n calls at up to k bits may be flipped, but that is an overshoot. All numbers ending with a 0, for example, only require one bit flip on the rightmost digit. We may find the following trend for the counters: 
-  
+
     Bit | Flips how often
     ---|---
     0 | Every time
@@ -1419,3 +1419,36 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
   * In other words, for every cost summation from i to n, the net amortized cost must be at least the sum of the actual costs.
   * For the case of multipop, we may define an amortized cost of 2 for push; 1 is for pushing the object, and 1 is for eventually removing it. Given that we can only pop or multipop values we’ve previously pushed, this extra cost will always cover any future actions, resulting in a total amortized cost of O(n)
   * For the binary counter, we may charge 2 to set a bit to 1; 1 is for actually changing it, and 1 is for changing it back to a 0 in the future. We may see from our pseudocode that for every increment, at most one 0 bit is changed into 1, so this amortized cost covers all future actions, resulting in O(n).
+
+# Lecture 21 • 2017/04/04
+* Global min cut – given connected undirected graph, find cut with minimum cardinality
+  * Applications – partitioning items, identify clusters of related content, network reliability, TSP solver
+  * Network solution – replace every edge (u, v) with 2 (directed) antiparallel edges (u, v) & (v, u)
+    * Pick some vertex s, & compute min s-v cut for every other vertex v
+* Contraction algorithm [Karger 1995]
+  * Pick edge e = (u, v) randomly
+  * Contract edge e
+    * Replace u & v by single super-node w
+    * Preserve edges, updating endpoints u & v to w
+    * Delete self-loops
+  * Repeat until graph has two nodes u<sub>1</sub> & v<sub>1</sub>
+  * Return cut (all nodes that were contracted to form v<sub>1</sub>)
+  * Notice that the cardinality of the cut is the number of edges connecting u<sub>1</sub> & v<sub>1</sub> at the last step
+  * Claim – contraction algorithm returns min cut with a probability &ge; 2/n<sup>2</sup> (n = |V|)
+    * At every step, |E’| &ge; 1/2 kn’, otherwise our min cut is not truly a min cut
+    * Algorithm contracts edge in our min cut with probability &le; 2/n’
+    * Combined, the probability that no edge in min cut is contracted is (1 – 2/n)(1 – 2/(n – 1)) * &hellip; * (1 – 2/4)(1 – 2/3) &ge; 2/n<sup>2</sup>
+  * Amplification – increase odds of success by running contraction many times
+  * Claim – if we repeat n<sup>2</sup>ln n times, probability of failing to find global min-cut &le; 1/n<sup>2</sup>
+  * Slow running time, but we may notice that the odds of contracting a min edge is greater in the last iterations than the early ones; we can run the contraction algorithm twice when n/&radic;2 nodes remain and pick the best of the two cuts
+  * Best known running time is O(mlog<sup>3</sup>n) [Karger 2000]
+* Maximum 3-satisfiability
+  * Given k 3-SAT formulas (eac formula has 3 distinct literals joined by or operators), find truth assignment that satisfies as many clauses as possible
+  * NP-complete; simple idea is to flip a coin and set each variable to true with 1/2 probability
+  * Claim – with k clauses, expected number of clauses satisfied by random assignment is 7k/8 (as long as one variable is actually true, clause is true &rarr; 1 – 1/8)
+  * Lemma – probability that random assignment satisfies &ge; 7k/8 clauses is at least 1/(8k)
+* Monte Carlo – guaranteed to run in poly-time, likely to find correct answer
+  * Ex contraction algorithm for global min cut
+* Las Vegas – guaranteed to find correct answer, likely to run in poly-time
+  * Ex randomized quicksort, Max-3-sat algorithm
+* Can always convert Las Vegas algorithm into Monte Carlo (stop algorithm after certain point), but no known method in general to convert the other way
