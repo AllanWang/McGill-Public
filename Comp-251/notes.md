@@ -1524,3 +1524,25 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
     * Given that k = j – i, we may substitute to find that E[X] = O(n logn)
 * Deterministic algorithm – identical behaviour for different runs for given input – need to analyze average case and worst-case
 * Randomized algorithm – behaviour is generally different for different runs for given input – focus on average running time
+
+# Lecture 23 • 2017/04/11
+* Final exam prep & midterm review
+* Final exam overview
+  * 11 questions; 200 points + 30 bonus
+  * 20 points True/False (-1 penalty for wrong answer)
+  * 20 points MC
+  * 28 points short answers (no justifications)
+  * 97 points questions/applications
+  * 35 points + 30 bonus
+  * No electronics; 2 crib sheets
+* Knapsack problem – given n objects with weights w<sub>i</sub> > 0 & value v<sub>i</sub>, and a knapsack with a capacity W, fill the knapsack so as to maximize the total value without exceeding the limit.
+  * Greedy by value – add items with maximum value
+  * Greedy by weight – add item with minimum weight
+  * Greedy by ratio – add items with maximum v<sub>i</sub>/w<sub>i</sub> ratio
+  * However, we can see that none of the greedy algorithms guarantee optimal solutions
+* Dynamic table – if we have a table of a certain starting size, but we don’t know in advance how many objects will be stored in it, when and by how much should we allocate more size, or reduce the size once the unused space/total size reaches a certain ratio?
+  * Goals O(1) amortized time/op & unused space &ge; constant fraction of allocated space at all time
+  * One option is to double the table size whenever it is full, so &alpha; is always > 1/2
+  * Using aggregate analysis, we see that the cost is i if i – 1 is a power of 2, and 1 otherwise; the average cost is 3
+  * Using the accounting method, we can assign a charge of 3 for every insertion. 1 pays for the insertion; 1 pays for it to be moved; 1 pays for some other item
+  * If we’ve reached capacity m, it will cost the 2m we just had to move our initial data and add m more, and by that time the same expansion occurs
