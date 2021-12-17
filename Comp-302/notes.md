@@ -2,7 +2,7 @@
 
 > [Brigitte Pientka](mailto:bpientka@cs.mcgill.ca?Subject=Comp%20302) &bull; [OCaml](http://ocaml.org/) &bull; [Prof's Website](http://www.cs.mcgill.ca/~bpientka/)
 
-# Lecture 1 • 2017/09/12
+# Lecture 1 • 2017/09/12
 * 5 hw (25%), midterm (10%), final (65%)
 * Office hours – McConnell Eng. 107N – Tue, Thu 11:30am – 12:30pm; Thu 4:00pm – 5:30pm
 * Goals
@@ -13,7 +13,7 @@
   * Expose students to different way of thinking about problems
 * Thorough notes for this class will be up on MyCourses each week
 
-# Lecture 2 • 2017/09/14
+# Lecture 2 • 2017/09/14
 * Statically typed programs approximate runtime behaviour & analyze programs before executing them; help find & fix bugs before testing
 * Functional languages are primarily expressed via functions They are first-class (you may pass & return functions)
   * Pure functional languages (eg Haskell) don't allow any modifications for variables, and do not provide exceptions
@@ -26,7 +26,7 @@
 * in – keyword for using a variable locally
   * When  the same variable is recreated, it overshadows the previous one. It does not update the previous binding
 
-# Lecture 3 • 2017/09/15
+# Lecture 3 • 2017/09/15
 * Tail-recursive functions are ones with nothing to do except return the final value. For such functions, saving its stack frame is redundant.
 * User defined data types: type suit= Clubs | Spades | Hearts | Diamonds
   * Set; order doesn't matter
@@ -40,7 +40,7 @@
 * Pattern matching is of the syntax `match [expr] with | [pattern] -> [expr] ...`
   * An underscore (wild card) may be used as a pattern that accepts all inputs
 
-# Lecture 4 • 2017/09/19
+# Lecture 4 • 2017/09/19
 * Recursive Data-Type
   * type card = rank * suit
   * type hand = Empty | Hand of card * hand
@@ -48,18 +48,18 @@
     * A type 'hand' is either 'Empty' or a combination a card to an existing hand
 * Types are defined with lower case, and constructors are capitalized
 
-# Lecture 5 • 2017/09/21
+# Lecture 5 • 2017/09/21
 * Talked about lists. Up until now, the majority of our content is on syntax. I have made a page detailing some components [here](https://www.allanwang.ca/coding/ocaml/) <!-- TODO update -->
 
-# Lecture 6 • 2017/09/22
+# Lecture 6 • 2017/09/22
 * Worked on list recursion; see [notes](https://www.allanwang.ca/coding/ocaml/) <!-- TODO update -->
 * Induction
   * Proof by structural induction on the list 'l'
 
-# Lecture 7 • 2017/09/26
+# Lecture 7 • 2017/09/26
 * Recursion examples; see next class
 
-# Lecture 8 • 2017/09/28
+# Lecture 8 • 2017/09/28
 * Binary Tree
   * type 'a tree = Empty | Node of 'a * 'a tree * 'a tree
   * Exercise – implement a function to verify that a tree is a binary search tree
@@ -114,7 +114,7 @@
       * Induction Hypothesis 2 – For all x, dx, lookup x (insert (x, dx) r) &rArr;* Some dx
       * Show that insertion and lookup lead to the IH in all cases
 
-# Lecture 9 • 2017/09/29
+# Lecture 9 • 2017/09/29
 * Higher order functions
   * Programs can be short & compact
   * Programs are reusable
@@ -148,11 +148,11 @@
   </details>
 * We can define functions on the fly without naming them by using anonymous functions
 
-# Lecture 10 • 2017/10/03
+# Lecture 10 • 2017/10/03
 * Currying
 * Methods in languages like JavaScript are uncurried. (such as test(a, b, c)). All values need to be passed in at once, or the function cannot be called. The process of currying involves separating such inputs so that any number of them can be called to return a function needing only the remaining inputs ('a -> 'b -> 'c)
 
-# Lecture 11 • 2017/10/05
+# Lecture 11 • 2017/10/05
 * Lambda Calculus
   * Simple language consisting of variables, functions (&lambda;x.t) & function application
   * Can define all computable functions
@@ -162,13 +162,13 @@
 * Recall currying: let curry f = (fun x y -> f (x,y))
 * let deriv (f, dx) = fun x -> f(x +. dx) -. f x) /. dx
 
-# Lecture 12 • 2017/10/06
+# Lecture 12 • 2017/10/06
 * Midterm review
 
-# Lecture 13 • 2017/10/12
+# Lecture 13 • 2017/10/12
 * Midterm review
 
-# Lecture 14 • 2017/10/13
+# Lecture 14 • 2017/10/13
 * Expressions in OCaml have types, and evaluates to a value or diverges
 * Today, we'll see that expressions may also have an <i>effect</i>
 * <details>
@@ -196,7 +196,7 @@
   ```
   </details>
 
-# Lecture 15 • 2017/10/17
+# Lecture 15 • 2017/10/17
 * <details>
   <summary>Types, values, & effects</summary>
 
@@ -250,7 +250,7 @@
   ```
   </details>
 
-# Lecture 16 • 2017/10/19
+# Lecture 16 • 2017/10/19
 * <details>
   <summary>Object & closures</summary>
 
@@ -326,14 +326,14 @@
   ```
   </details>
 
-# Lecture 17 • 2017/10/20
+# Lecture 17 • 2017/10/20
 * Exceptions...
   * Force you to consider exceptional cases
   * Allows you to segregate special cases from other cases (avoids clutter)
   * Diverts control flow
   * Eg 3/0 raises an exception Division_by_zero
 
-# Lecture 18 • 2017/10/24
+# Lecture 18 • 2017/10/24
 * Backtracking
   * Algorithm that finds solutions incrementing, abandoning partial candidates as soon as it deems it cannot lead to a successful solution
   * Important tool to solve constraint satisfaction problems such as cross-words, puzzles, Sudoku, etc
@@ -369,7 +369,7 @@
   ```
   </details>
 
-# Lecture 19 • 2017/10/26
+# Lecture 19 • 2017/10/26
 * Modules
   * Control complexity of developing & maintaining software
   * Split large programs into separate piece
@@ -424,5 +424,27 @@
   ```
   </details>
 
-# Lecture 20 • 2017/10/27
+# Lecture 20 • 2017/10/27
 * More on modules
+
+# Lecture 21 • 2017/10/31
+* Continuation
+  * Representation of execution state of program at certain point in time
+  * Save current state of execution into object & restore state from object later on to resume execution
+  * Base case – called continuation
+  * Recursive case – build up computation that still needs to be done
+* <details>
+  <summary>Code</summary>
+
+  ```ocaml
+  (* append: 'a list -> 'a list -> 'a list *)
+  let rec append l k = match l with
+      | [] -> k
+      | h :: t -> h :: (append t k)
+  
+  (* Tail Recursive *)
+  let rec app_tl l k c = match l with
+      | [] -> c k (* Call continuation with stack k *)
+      | h :: t -> app_tl t k (fun r -> c (h :: r))  
+  ```
+  </details>
