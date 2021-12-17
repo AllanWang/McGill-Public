@@ -593,3 +593,86 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
   ```
 
   </details>
+
+# Lecture 8 • 2017/02/02
+
+* Graph G = (V, E)
+  * V – set of vertices
+  * E – set of edges &sube; (V x V)
+* Types
+  * Undirected – edge (u, v) = (v, u) & there are no self loops
+  * Directed – (u, v) is edge from u to v, or u &rarr; v; self loops allowed
+  * Weighted – each edge has associated weight, given as a function w: E &rarr; R
+  * Dense – |E| &asymp; |V|<sup>2</sup>
+  * Sparse – |E| << |V|<sup>2</sup>
+* |E| = O(|V|<sup>2</sup>|)
+* Properties
+  * If (u, v) &isin; E, then vertex v is adjacent to vertex u
+    * Symmetric (reverse applies) if G is undirected
+    * Not necessarily true if G is directed
+  * If G is connected
+    * There is a path between every pair of vertices
+    * |E| &ge; |V| – 1
+    * If |E| = |V| – 1, G is a tree
+* Vocabulary
+  * Ingoing edges of u: { (v, u) &isin; E }	edges pointing directly to u
+  * Outgoing edges of u: { (u, v) &isin; E }	edges pointing directly out from u
+  * In-degree(u): |in(u)|
+  * Out-degree(u): |out(u)|
+* Representations
+  * Adjacency Lists
+    * Array Adj of |V| lists
+    * Every vertex has a list of adjacent vertices
+    * If weighted, store weights within the adjacency lists
+    * Space efficient when graph is sparse
+    * Determine if edge (u, v) &isin; E is not efficient
+      * Needs to search in u’s adjacency list. &Theta;(degree(u)) time
+      * &Theta;(V) in worst case
+  * Adjacency Matrix
+    * |V| x |V| matrix A
+    * A[i, j] = a<sub>ij</sub> = (i, j) &isin; E ? 1 : 0
+* Can store weights instead of bits for weighted graphs
+    * A = A<sup>T</sup> for undirected graphs
+    * Space is &Theta;(V<sup>2</sup>) – not efficient for sparse graphs
+    * Time to list all vertices adjacent to u: &Theta;(V)
+    * //bigo
+* [BFS DFS Pseudocode (Comp 250)](https://www.allanwang.ca/notes/comp/?scroll_to=tree-traversal) <!-- TODO update link? -->
+* BFS – breadth-first search
+  * Find all vertices on level n before proceeding to n + 1
+  * Vertex is <i>discovered</i> the first time it is encountered during search
+  * Vertex is <i>finished</i> if all vertices adjacent to it have been discovered
+  * Colours
+    * White – undiscovered	Gray – discovered & not finished	Black – finished
+  * Result (given the graph G = (V, E) and source vertex s &isin; V)
+    * d[v] = smallest # of edges from s to v for all v &isin; V
+    * &infin; if v is not reachable from S
+    * &pi;[v]  = u such that (u, v) is last edge on shortest path s to v
+* u is v’s predecessor
+  * breadth first tree with root s containing all reachable vertices
+  * Time Complexity | |
+    --- | ---
+    Initialization	| Θ(V)
+    Enqueue/Dequeue	| O(1)
+    Total Runtime	| O(V + E)
+* DFS – depth-first search
+  * Explore all edges out of most recent vertex v before backtracking and exploring other vertices
+  * Continue until all reachable vertices from original source are discovered
+    * If any undiscovered vertices remain, pick one as a new source and repeat DFS
+  * Result (given the graph G = (V, E) and source vertex s &isin; V)
+    * 2 timestamps on each vertex, with integer values b/t 1 & 2|V|
+    * d[v] = discovery tie (v turns from white to gray)
+    * f[v] = finishing time (v turns from gray to black)
+    * &pi;[v] = predecessor of v = u, such that v was discovered during scan of u’s adjacency list
+  * Time Complexity | |
+    --- | ---
+    Loops	| Θ(V)
+    Total Runtime	| Θ(V + E)
+* Parenthesis Theorem
+  * Theorem 1 – for all u, v, exactly one of the following holds
+    * `d[u] < f[u] < d[v] < f[v] or d[v] < f[v] < d[u] < f[u]`
+* And neither u nor v is a descendant of the other
+    * `d[u] < d[v] < f[v] < f[u]`
+* And v is a descendant of u
+    * `d[v] < d[u] < f[u] < f[v]`
+* And u is a descendant of v
+  * `d[u] < d[v] < f[u] < f[v]` cannot happen
