@@ -249,3 +249,180 @@
   (* int rlist = RCons(5, {contents = <cycle>}) *)
   ```
   </details>
+
+# Lecture 16 • 2017/10/19
+* <details>
+  <summary>Object & closures</summary>
+
+  ```ocaml
+  (* Code transcript taken from Julian Lore
+  https://github.com/julianlore/McGill-Resources/blob/master/COMP302/C302.pdf *)
+  
+  type 'a rlist = Empty | RCons of 'a * ('a rlist) ref
+  
+  let l1 = ref (RCons (4, ref Empty))
+  let l2 = ref (RCons (5, l1));;
+  
+  l1 := !l2;;
+  (* Value is (), effect is changing link to itself *)
+  
+  (* Append for regular lists *)
+  let rec append l1 l2 = match l1 with
+      | [] -> l2
+      | x::xs -> x::(append xs l2)
+  
+  (* Append for rlist *)
+  type 'a refList = ('a rlist) ref
+  (* Return unit, as the "result" is the effect *)
+  (* 'a refList -> 'a refList -> unit *)
+  let rec rapp (r1 : 'a refList) (r2 : 'a refList) = match r1 with
+      | {contents = Empty} -> r1 := !r2
+      | {contents = RCons (x, xs)} -> rapp xs r2
+  
+  (* 'a refList -> 'a refList -> 'a rlist *)
+  let rec rapp' (r1 : 'a refList) (r2 : 'a refList) = match r1 with
+      | {contents = Empty} -> {contents = r2}
+      | {contents = RCons (x, xs)} -> rapp' xs r2
+  
+  let r = ref (RCons (2, ref Empty))
+  let r2 = ref (RCons(5, ref Empty));;
+  
+  let r3 = rapp' r r2;;
+  r3;;
+  rapp r r2;;
+  r;;
+  
+  let (tick, reset) =
+      let counter = ref 0 in
+      (* Input is unit, always true. Not the same as void *)
+      let tick () = (counter := !counter + 1 ; !counter) in
+      let reset () = counter := 0 in
+      (tick, reset);;
+  
+  (* Now we have 2 functions, tick and reset *)
+  tick ();;
+  tick ();;
+  type counter_obj = {tick : unit -> int ; reset : unit -> unit}
+  
+  let makeCounter () =
+      let counter = ref 0 in
+      {tick = (fun () -> counter := !counter + 1 ; !counter);
+      reset = (fun () -> counter := 0)};;
+  
+  (* global variable *)
+  let global_counter = ref 0
+  let makeCounter' () =
+      let counter = ref 0 in
+      {tick = (fun () -> counter := !counter + 1 ; global_counter := !counter ; !counter);
+      reset = (fun () -> counter := 0)};;
+  
+  let c = makeCounter ();;
+  c.tick ();;
+  c.tick ();;
+  let d = makeCounter ();;
+  d.tick ();;
+  c.tick ();;
+  d.reset ();;
+  ```
+  </details>
+
+# Lecture 17 • 2017/10/20
+* Exceptions...
+  * Force you to consider exceptional cases
+  * Allows you to segregate special cases from other cases (avoids clutter)
+  * Diverts control flow
+  * Eg 3/0 raises an exception Division_by_zero
+
+# Lecture 18 • 2017/10/24
+* Backtracking
+  * Algorithm that finds solutions incrementing, abandoning partial candidates as soon as it deems it cannot lead to a successful solution
+  * Important tool to solve constraint satisfaction problems such as cross-words, puzzles, Sudoku, etc
+* <details>
+  <summary>Code</summary>
+
+  ```ocaml
+  (* Warm up; printing int list *)
+  let listToString l = match l with
+      | [] -> ""
+      | l -> let rec toString l' = match l' with
+          | [h] -> string_of_int h
+          | h::t -> string_of_int h ^ ", " ^ toString t
+          in
+          toString l
+  
+  (* With backtracking, given list of coins (in descending order) and amount, see if we can return exact change*)
+  exception Change
+  
+  let rec change coins amt =
+      if amt = 0 then []
+      else (match coins with
+              | [] -> raise Change
+              | coin :: cs ->
+                  (* skip coin as it is too big *)
+                  if coin > amt then change cs amt
+                  (* try to include current coin, and skip if fail *)
+                  else try coin :: (change coins (amt - coin)) with Change -> change cs amt
+      )
+  
+  let change' coins amt =
+      try Some (change coins amt) | with Change -> None
+  ```
+  </details>
+
+# Lecture 19 • 2017/10/26
+* Modules
+  * Control complexity of developing & maintaining software
+  * Split large programs into separate piece
+  * Name space separation
+  * Allows for separate compilation
+  * Incremental development
+  * Clear specifications at module boundaries
+  * Programs are easier to maintain & reuse
+  * Enforces abstractions
+  * Isolates bugs
+* Module Types
+  * Allows you to hide information
+  * Implementations can be more specific than the actual module type
+* May use the open keyword to use module methods without specifying module name
+* <details>
+  <summary>Code</summary>
+
+  ```ocaml
+  module type STACK =
+      sig
+          type stack
+          type el
+          val empty : unit -> stack
+          val is_empty : stack -> bool
+          val pop : stack -> stack option
+          val push : el -> stack -> stack
+          (* val push : int -> stack -> stack *)
+          (* cannot be el -> stack -> stack as 1 isn't a Stack.el *)
+          (* May use further abstractions through creation functions, but that wasn't covered in class *)
+      end
+  
+  (* Implementation *)
+  module Stack : (STACK with type el = int) =
+      struct
+          type el = int
+          type stack = int list
+          let empty () : stack = []
+          let push i ( s : stack) = i :: s
+          let is_empty s = match s with
+              | [] -> true
+              | _::_ -> false
+          let pop s = match s with
+              | [] -> None
+              | _::t -> Some t
+          let top s = match s with
+              | [] -> None
+              | h :: _ -> Some h
+          let rec length s acc = match s with
+              | [] -> acc
+              | x::t -> length t 1 + acc
+      end
+  ```
+  </details>
+
+# Lecture 20 • 2017/10/27
+* More on modules
