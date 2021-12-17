@@ -1098,3 +1098,88 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
   * Stable pairs
 * Network flow
   * Positive flow, capacity constraint, flow conservation
+
+# Lecture 15 • 2017/03/14
+* Algorithm paradigms
+  * Greedy – decompose & reduce problem – top-down approach
+  * Dynamic programming – solve all possible sub-problems and use solutions to solve larger problems – bottom-up approach
+* Going back to the activity selection problem: given activities, find subset with greatest total activity duration, where no two activity intervals overlap
+  * Greedy algorithm ([Lecture 7](#Lecture-7-•-2017/01/31)) doesn’t always work, eg activities (0, 2), (1, 8), (7, 9)
+    * Greedy would pick (0, 2) & (7, 9) whereas the best solution is (1, 8)
+  * Binary choice
+    * Let OPT(j) denote the best solution for activities 1 to j
+    * Let p(j) denote the largest index i < j such that activity i is compatible with activity j
+    * Case 1: j is in the optimal solution
+      * Compute weight<sub>j</sub> + OPT(p(j))
+    * Case 2: j is not in optimal solution
+      * Compute OPT(j – 1)
+    * The maximum of the two cases denotes the optimal solution up to j
+    * If we draw out the recursive calls, we’ll notice that we often compute values of OPT(i), where i < j, multiple times. Instead, we can compute those values once, store them, and reuse them next time.
+    * Also notice that every OPT(j) depends only on OPT values at indices < j
+* Memoization – cache results of each subproblem; lookup as needed
+* Running time – O(n logn)
+  * Sort by finishing time O(n logn)
+  * Compute p(*) O(n logn)
+  * Compute OPT once O(1) (either return existing value or existing value and one sum)
+    * At most 2n recursive calls, O(n)
+* Note that running time is O(n) for jobs presorted by start & finishing times
+* Dynamic programming goal – solve sub-problems in order so that once you reach larger problems, the sub-solutions are already computed
+* However, after the call, the algorithm computes the optimal value, not the activity set
+  * We may find the solution by backtracking
+  * For every potential j, if weight<sub>j</sub> + OPT(p(j)) > OPT(j – 1), j is included in the set
+  * Keep checking previous activities to find full set
+* <details>
+  <summary>Pseudocode</summary>
+
+  ```java
+  /**
+   * Pseudocode for finding max weight activity set
+   */
+  public class DynamicProgramming {
+  
+      int[] M //holds OPT
+      int[] w //holds weight of activity
+      int[] p //holds latest valid predecessor
+  
+      /**
+       * Finds the max possible weight;
+       * fills arrays above in the process
+       *
+       * @return max weight
+       */
+      int findMaxWeight() {
+          M.setAllValueTo(EMPTY)
+          M[0] = 0
+          return findMaxWeight(M.length - 1)
+      }
+  
+      int findMaxWeight(j) {
+          if (M[j] == EMPTY)
+              M[j] = max(v[j] + findMaxWeight(p[j]), findMaxWeight(j - 1))
+          return M[j]
+      }
+  
+      /**
+       * Find the activity set given the completion of the arrays above
+       *
+       * @param j index of activity in question (start at last index)
+       * @return optimal set
+       */
+      int[] findSolution(j) {
+          if (j == 0) return []
+          if (w[j] + M[p[j]] > M[j - 1]) return findSolution(p[j]) + [j]
+          return findSolution(p[j - 1]) //j is not in solution set
+      }
+  }
+  ```
+  </details>
+* Example
+  | | | | | | |
+  ---|---|---|---|---|---
+  activity | 1 | 2 | 3 | 4 | 5
+  predecessor | 0 | 0 | 2 | 2 | 3
+  Best weight M | 2 | 3 | 4 | 9 | 9
+  V<sub>j</sub> + M[p(j)] | 2 | 3 | 4 | 9 | 8
+  M[j - 1] | 0 | 2 | 3 | 4 | 9
+<br/><br/>![dynamic_activity](images/dynamic-activity.svg)
+  * Reconstruction yields a<sub>2</sub> & a<sub>4</sub>
