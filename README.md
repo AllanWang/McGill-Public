@@ -9,6 +9,7 @@ Tester codes and public resources for CS/Software Engineering
 | Comp 302 | [Notes](Comp-302/notes.md) &bull; [Crib Sheet](Comp-302/final/final.pdf)* |
 | Comp 303 | [Notes](Comp-303/notes.md) &bull; [Review](Comp-303/final.md) &bull; [Design Patterns](https://github.com/AllanWang/Design-Patterns/blob/master/java.md)* |
 | Comp 310 | [Notes](Comp-310/notes.md) &bull; [Review](Comp-310/final.md) |
+| Comp 330 | [Notes](Comp-330/notes.md) |
 | Comp 360 | [Notes](Comp-360/notes.md) |
 | Comp 361 | [Midterm Review](Comp-361/midterm.md) |
 | Comp 409 | [Notes](Comp-409/notes.md) |
