@@ -392,7 +392,7 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
   ```
   </details>
 
-# Lecture 6 • 2017/01/26
+# Lecture 6 • 2017/01/26
 * Disjoint Sets
 * Connected components – set of nodes connected by a path
   * Every node in the set can be reached by every other node (path itself is irrelevant)
@@ -445,3 +445,151 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
   ```
   </details>
 
+# Lecture 7 • 2017/01/31
+
+* Greedy Strategy – when offered a choice, pick the one that seems best at the moment in hopes of optimizing the overall solution
+  * Prove that when given a choice, one of the optimal choices is the greedy choice; it is therefore always safe to make the greedy choice
+  * Show all but one of the sub-problems resulting from the greedy choice are empty
+* Activity Selection Problem
+  * Given a set S of n activities, a<sub>1</sub>, a<sub>2</sub>, …, a<sub>n</sub>
+    * With s<sub>i</sub> = start time of activity i
+    * And f<sub>i</sub> = finish time of activity i
+    * What is the maximum number of “compatible activities”?
+      * 2 activities are compatible if their intervals do not overlap
+      * We wish to return the biggest valid subset (there may be multiple solutions, but we’ll find one of them)
+* Optimal Substructure
+  * Let S<sub>ij</sub> = subset of activities in S that start after a<sub>i</sub> finished and finish before a<sub>j</sub> starts
+    * <code>S<sub>ij</sub> = { a<sub>k</sub> ∈ S: ∀ i, j &nbsp; f<sub>i</sub> ≤ s<sub>k</sub> < f<sub>k</sub>, ≤ s<sub>j</sub> }</code>
+  * <code>A<sub>ij</sub> =</code> optimal solution <code>= A<sub>ik</sub> ∪ {a<sub>k</sub>} ∪ A<sub>kj</sub></code>
+* Greedy Choice
+  * Let <code>S<sub>ij</sub> ≠ ∅</code>
+  * Let am be an activity in <code>S<sub>ij</sub></code> where <code>f<sub>m</sub> = min{ f<sub>k</sub>: a<sub>k</sub> ∈ S<sub>ij</sub> }</code>
+  * We know that a<sub>m</sub> is used in one of the optimal solutions
+    * Take any optimal solution without am and replace the first activity with it; it is still a valid solution since f<sub>m</sub> ≤ all other finish times
+  * S<sub>im</sub> = ∅, so choosing a<sub>m</sub> leaves S<sub>mj</sub> as the only nonempty subproblem
+* Greedy Solution
+  * Take the activity with the earliest finishing time and add it to the set. Continue with the remaining time frame (after the current finishing time) and repeat until there are no other valid activities.
+* <details>
+  <summary>Pseudocode</summary>
+
+  ```java
+  /**
+   * Algorithm to select a subset containing the greatest number
+   * of compatible activities, where two activities are compatible
+   * when there are no time conflicts
+   */
+  public class MaxCountActivitySelector {
+
+      /**
+       * Recursively get a valid solution
+       * called through recursiveSelector(S, 0, n+1)
+       *
+       * @param S set of all activities, in order of finish time
+       * @param i index of latest added activity
+       * @return set containing the activities in our solution
+       */
+      Set<Activity> recursiveSelector(S, i) {
+          m = i + 1 //get index of next activity
+          while (m < S.size && S[m].start < S[i].finish)
+              m++ //find first activity in S with an index within (i, n+1]
+          if (m < S.size) return S[m] + recursiveSelector(S, m) //got first element; find rest
+          return null //no more valid activities, close off set
+      }
+
+      /**
+       * Iteratively get a valid solution
+       *
+       * @param S set of all activities, in order of finish time
+       * @return set containing the activities in our solution
+       */
+      Set<Activity> iterativeSelector(S) {
+          result = emptySet
+          currentFinish = -1 //at first we accept the very first activity with the first finish
+          for (i = 0; i < S.size; i++) {
+              if (S[i].start >= currentFinish) {//valid activity, add to set
+                  Result += S[i]
+                  currentFinish = S[i].finish //set new finish
+              }
+              //otherwise, activity starts before last one in set ends
+              //cannot be added to the set, so continue searching
+          }
+          return result
+      }
+  }
+  ```
+  <details>
+* Typical Steps
+  * Cast optimization problem as one in which we make a choice resulting in a subproblem
+  * Prove that there is always an optimal solution that makes the greedy choice
+  * Show that greedy choice & optimal solution to subproblem &rArr; optimal solution
+  * Make greedy choice & solve top-down
+  * May preprocess input (eg sorting activities by finish time)
+* Text Compression
+  * Given a string X, efficiently encode X into a smaller string Y
+    * Saves memory and/or bandwidth
+  * Huffman encoding
+    * Computer frequency f(c) for each character c
+    * Encode high-frequency chars with short code words
+    * No code word is a prefix for another code
+    * Use optimal encoding tree to determine code words
+  * Terms
+    * Code – mapping of char to binary
+    * Prefix code – binary code such that no code-word is prefix of another code-word
+    * Encoding tree – tree representing prefix code
+      * Each leaf stores a character (other nodes do not have chars)
+      * Code word given by path from root to external node
+        * Left child = 0, right child = 1
+* <details>
+  <summary>Pseudocode</summary>
+
+  ```java
+  /**
+   * Huffman's Algorithm for encoding Strings
+   *
+   * Runs in O(n + d logd)
+   * Where
+   *  n   size of X
+   *  d   # of distinct characters X
+   *
+   * Uses heap-based priority queue
+   */
+  public class Huffman {
+  
+      /**
+       * Generate trie representing encoding
+       *
+       * Basic procedure:
+       * Get the two chars with the smallest frequencies
+       * Make a node with those two chars as children
+       * & with its valud being the summation of the two frequencies
+       * Repeat with the remaining chars and the new node(s)
+       * Once there is one node with all the chars mapped out,
+       * you have found your trie
+       *
+       * @param X string input to encode
+       * @return generated trie
+       */
+      Trie generateEncodingHeap(X) {
+          Q = new Heap //empty max heap
+          freq = distinctCharactersWithFrequencies(X)
+          //maps each distinct char in X with its frequency in X
+  
+          for (CharFreq c : freq) { //for every unique char
+              T = new Node(c.char) //make node storing the char
+              Q.insert(c.frequency) //insert node at position relative to frequency
+          }
+          while (Q.size > 1) {
+              f1 = Q.minKey() //get smallest frequency
+              t1 = Q.removeMin() //get char with that frequency & remove it
+              f2 = Q.minKey() //get next smallest frequency
+              t2 = Q.removeMin() //get char with that frequency & remove it
+              T = join(t1, t2) //combine two into one node
+              Q.insert(f1 + f2, T) //add back to heap at their combined frequency location
+          }
+          return Q.removeMin() //return the resulting data
+      }
+  
+  }
+  ```
+
+  </details>
