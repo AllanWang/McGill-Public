@@ -981,3 +981,56 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
     }
     ```
     </details>  
+
+# Lecture 13 • 2017/02/21 
+* Flow Network
+* G = (V, E) directed
+* Each edge (u, v) has capacity c(u, v) &ge; 0
+* Edges are also known as arcs
+* If (u, v) &notin; E, c(u, v) = 0
+* Source vertex s, sink vertex t, s &rarrw; v &rarrw; t for all v &isin; V
+* Positive flow p(u, v)
+  * When annotated, an edge is given the values p(u, v) / c(u, v) (eg 1/2)
+* Capacity constraint – 0 &ge; p(u, v) &ge; c(u, v)
+* Skew symmetry – c(u, v) = -c(u, v)
+* Flow conservation – positive flow into vertex = positive flow out of vertex
+* Cancellation with positive flows
+  * Without loss of generality, we can say positive flow goes either from u to v or from v to u, but not both
+  * Eg if p(u, v) = 5 & p(v, u) = 3, it is equivalent to a flow of 2 from u to v
+  * We denote this as f(u, v) = p(u, v) – p(v, u) &ensp;&ensp;p(u, v) &ge; 0
+* Total flow of graph (|f|) is sum of all flows from source or all flows to sink
+  * All vertices in between satisfy flow conservation
+* Naïve algorithm for maximal flow
+  * Find a path and add the maximum flow for that path
+  * Repeat until no path can have additional flow
+  * Not good because our result depends on which path we fill first; not always correct
+* Residual graphs – used to find maximal flow
+  * Given G = (V, E) with edge capacities c & flow f, we define residual graph G<sub>f</sub> as
+    * Having the same vertices as G
+    * Having edges E<sub>f</sub> with residual capacities c<sub>f</sub> where we can add or subtract flow from edges e &isin; E
+  * For each edge e = (u, v) &isin; E
+    * If f(e) < c(e), add forward edge (u, v) in E<sub>f</sub> with residual capacity c<sub>f</sub>(e) = c(e) – f(e)
+    * If f(e) > 0, add backward edge (v, u) in E<sub>f</sub> with residual capacity c<sub>f</sub>(e) = f(e)
+    * Example (note that sometimes one edge can result in both a forward and a backward edge)
+      | | | | |
+      ---|---|---|---
+      f(e) | c(e) | forward | backward
+      0 | 1 | 1 | 0
+      1 | 1 | 0 | 1
+      2 | 3 | 1 | 2
+* Augmenting path – path from source s to sink t in residual graph G<sub>f</sub> that allows us to increase flow
+* To use residual graphs to find maximal flow
+  * Compute residual graph G<sub>f</sub>
+  * Find a path P
+  * Augment flow f along path P
+  * Let &beta; be bottleneck; add to f(e) on edge of P
+    * Add if forward edge, subtract if backward edge
+* Ford-Fulkerson algorithm
+  * While there is still a s-t path in G<sub>f</sub>, augment f to P (see above)
+  * Update G<sub>f</sub> and continue
+  * Algorithm terminates because bottleneck &beta; is strictly positive and flow is bounded (flow will not surpass bound)
+  * Time Complexity
+    * Let C = &Sigma;c(e) &emsp;&emsp;&emsp;&emsp;e &isin; E outgoing from s
+    * Finding s-t path takes O(|E|) (eg BFS or DFS)
+    * Flow increases by at least 1 at each iteration
+    * Algorithm runs in O(C * |E|)
