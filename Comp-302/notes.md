@@ -44,9 +44,110 @@
 * Recursive Data-Type
   * type card = rank * suit
   * type hand = Empty | Hand of card * hand
-  * -Hand is a constructor defined within hand through the keyword 'of'
-  * -A type 'hand' is either 'Empty' or a combination a card to an existing hand
+    * Hand is a constructor defined within hand through the keyword 'of'
+    * A type 'hand' is either 'Empty' or a combination a card to an existing hand
 * Types are defined with lower case, and constructors are capitalized
 
 # Lecture 5 • 2017/09/21
 * Talked about lists. Up until now, the majority of our content is on syntax. I have made a page detailing some components [here](https://www.allanwang.ca/coding/ocaml/) <!-- TODO update -->
+
+# Lecture 6 • 2017/09/22
+* Worked on list recursion; see [notes](https://www.allanwang.ca/coding/ocaml/) <!-- TODO update -->
+* Induction
+  * Proof by structural induction on the list 'l'
+
+# Lecture 7 • 2017/09/26
+* Recursion examples; see next class
+
+# Lecture 8 • 2017/09/28
+* Binary Tree
+  * type 'a tree = Empty | Node of 'a * 'a tree * 'a tree
+  * Exercise – implement a function to verify that a tree is a binary search tree
+* <details>
+  <summary>In class code</summary>
+
+  ```ocaml
+  (* Tree definition *)
+  type tree = Empty | Node of 'a * 'a tree * 'a tree
+  
+  
+  (*
+    Element insertion in a Binary Search Tree
+    Note that elements are Nodes containing a key-value pair
+    ('a * 'b) -> ('a * 'b) tree -> ('a * 'b) tree
+   *)
+  
+  let rec insert ((x, dx) as e) t = match t with
+    | Empty -> Node (e, Empty, Empty)
+    | Node (((y, dy) as f), l, r) ->
+      if x = y then Node (e, l, r)
+      else if x < y then Node (f, insert e l, r)
+      else Node (f, l, insert e r)
+  
+  (*
+    Element lookup in a BST
+    Takes in the key and a tree, and returns the value if it exists
+    'a -> '('a * 'b) tree -> 'b option'
+   *)
+  
+  let rec lookup x t = match t with
+    | Empty -> None
+    | Node ((y, dy), l, r) ->
+      if x = y then Some dy
+      else lookup x (if x < y then l else r)
+  
+  
+  (*
+    Collection function to convert a tree into a list with infix ordering
+   *)
+  let rec collect t = match t with
+    | Empty = []
+    | Node (x, l, r) -> (collect l) @ [x] @ (collect r)
+  ```
+  <details>
+* Theorem: For all trees t, keys x, and data dx, lookup x (insert (x, dx) t) &rArr;* Some dx
+  * Proof by structural induction
+    * Case t = Empty
+      * lookup x (insert (x, dx) Empty) &rArr; lookup x (Node ((x, dx), Empty, Empty) &rArr; Some dx
+    * Case t = Node ((y, dy), l, r)
+      * Induction Hypothesis 1 – For all x, dx, lookup x (insert (x, dx) l) &rArr;* Some dx
+      * Induction Hypothesis 2 – For all x, dx, lookup x (insert (x, dx) r) &rArr;* Some dx
+      * Show that insertion and lookup lead to the IH in all cases
+
+# Lecture 9 • 2017/09/29
+* Higher order functions
+  * Programs can be short & compact
+  * Programs are reusable
+* Functions are first class – can be passed as parameters and returned as a result
+* <details>
+  <summary>In class code</summary>
+
+  ```ocaml
+  (*
+      Given function and range,
+      compute sum of given function applied to each number in given range
+   *)
+  
+  let rec sum f (a, b) =
+    if a > b then 0
+    else f(a) + sum f(a + 1, b)
+  
+  let sumInts (a, b) =
+    let id x = x in
+    sum id (a, b)
+  
+  (* We may use anonymous functions *)
+  let sunSquare (a, b) = sum (fun x -> x * x) (a b)
+  
+  (* We may also declare functions outside and use pattern matching
+     functions take only one argument *)
+  (function 0 -> 0 | n -> n + 1)
+  (* Which is equivalent to *)
+  (fun x -> match x with 0 -> 0 | n -> n + 1)
+  ```
+  </details>
+* We can define functions on the fly without naming them by using anonymous functions
+
+# Lecture 10 • 2017/10/03
+* Currying
+* Methods in languages like JavaScript are uncurried. (such as test(a, b, c)). All values need to be passed in at once, or the function cannot be called. The process of currying involves separating such inputs so that any number of them can be called to return a function needing only the remaining inputs ('a -> 'b -> 'c)
