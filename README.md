@@ -8,7 +8,7 @@ Tester codes and public resources for CS/Software Engineering
 | Comp 273 | [Notes](Comp-273/notes.md) &bull; [Practice](https://www.allanwang.ca/notes/mcgill/comp273/practice/)* |
 | Comp 302 | [Notes](Comp-302/notes.md) &bull; [Crib Sheet](Comp-302/final/final.pdf)* |
 | Comp 303 | [Notes](Comp-303/notes.md) &bull; [Review](Comp-303/final.md) &bull; [Design Patterns](https://github.com/AllanWang/Design-Patterns/blob/master/java.md)* |
-| Comp 310 | [Notes](https://www.allanwang.ca/notes/mcgill/comp310/0.php)* &bull; [Review](Comp-310/final.md) |
+| Comp 310 | [Notes](Comp-310/notes.md) &bull; [Review](Comp-310/final.md) |
 | Comp 360 | [Notes](Comp-360/notes.md) |
 | Comp 361 | [Midterm Review](Comp-361/midterm.md) |
 | Comp 409 | [Notes](Comp-409/notes.md) |
