@@ -676,3 +676,53 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
     * `d[v] < d[u] < f[u] < f[v]`
 * And u is a descendant of v
   * `d[u] < d[v] < f[u] < f[v]` cannot happen
+
+# Lecture 9 • 2017/02/07
+* White-path Theorem
+  * Theorem 2 – v is a descendant of u iff at time d[u], there is a path u → v consisting of only white vertices (except for u, which was just colored gray)
+  * Classification of Edges | |
+    ---|---
+    Tree Edge |	In depth-first forest (paths taken in DFS); found by exploring (u, v) <br/> white
+    Back Edge | (u, v), where u is descendant of v (in depth-first tree); forms cycles w/ tree edges; self loops are back edges <br/> grey
+    Forward Edge | (u, v), where v is descendant of u, but not tree edge <br/> black
+    Cross Edge | Any other edge; can go between vertices in same or different depth-first tree(s) <br/> black
+  * Theorem 3 – in DFS of undirected graph, we get only tree & back edges; no forward or cross edges
+* DAG – Directed Acyclic Graph
+  * Graph without cycles
+  * Good for modeling processes & structures with partial order
+    * `a > b & b > c &rArr; a > c`
+    * Not all orders are in graph
+  * Can always make total order (valid comparison for all unique item pairs) from partial order (may not be unique; but is existing)
+  * Lemma 1 – directed graph G is acyclic iff a DFS of G yields no back edges
+* DAG to list – finding valid total order
+  * Use DFS with timestamps (starting from any node)
+  * Add item to the front of the list when it is finished
+  * You will notice that the finishing time is strictly decreasing
+  * Correctness proof – if (u, v) &isin; E, then f[v] < f[u]
+* SCC – Strongly Connected Components
+  * G is strongly connected if every pair (u, v) &isin; G is reachable from one another
+  * Is a maximal set of vertices C &sube; V such that &forall; u, v &isin; C, u &rarrw; v & v &rarrw; u exist
+* Component Graph
+  * G<sup>SCC</sup> = (V<sup>SCC</sup>, E<sup>SCC</sup>)
+  * V<sup>SCC</sup> has one vertex for each SCC in G
+  * E<sup>SCC</sup> has an edge if there is an edge between the corresponding SCC’s in G
+* G<sup>SCC</sup> is a DAG
+* Lemma 2 – for two distinct SCC’s in G, if there is a path connecting SCC<sub>1</sub> to SCC<sub>2</sub>, there cannot be a path connecting SCC<sub>2</sub> to SCC<sub>1</sub><br>Otherwise, they will not be separate SCC’s
+* Transpose of Directed Graph
+  * G<sup>T</sup> = transpose of directed G
+    * G<sup>T</sup> = (V, E<sup>T</sup>), E<sup>T</sup> = {(u, v): (v, u) &isin; E}
+    * G<sup>T</sup> is G with all edges reversed
+  * Creation time of &Theta;(V + E) using adjacency lists
+  * G & G<sup>T</sup> have same SCC’s
+* SCC Algorithm
+  * SCC(G) – &Theta;(V + E)
+  * Call DFS(G) to find f[u] for all u
+  * Compute G<sup>T</sup>
+  * Call DFS(G<sup>T</sup>) using decreasing f[u] order (found in first DFS)
+    * Start with some x &isin; C such that f(C) is maximum
+  * Output vertices in each tree of the depth-first forest formed in second DFS as separate SCC
+  * Works because we are visiting vertices of component graph in topologically sorted order
+    * Running DFS on G<sup>T</sup> means we will not visit any v from u where v & u are in different components
+    * Can only reach vertices in its SCC and vertices in SCC's already visited in second DFS
+  * Lemma 3 – let C & C’ be distinct SCC’s in G = (V, E); if (u, v) &isn; E &cap; u &isin; C &cap; v &isin; C’, then f(C) > f(C’)
+"--Corollary – if (u, v) &isin; E<sup>T</sup>, f(C) < f(C’)"
