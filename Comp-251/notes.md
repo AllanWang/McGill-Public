@@ -1342,3 +1342,31 @@ Knapsack Problem | Possible | Θ(nW) | W is integer weight
 * Multiplication – Divide & Conquer
   * For value x with n digits, let x<sub>L</sub> = x / 2<sup>n/2</sup>, and let x<sub>R</sub> = x % 2<sup>n/2</sup>
   * Instead of using grade school multiplication (O(n<sup>2</sup>)), we may compute x * y through their components <br/> <code>x * y = 2<sup>n</sup>x<sub>L</sub>y<sub>L</sub> + 2<sup>n/2</sup>(x<sub>L</sub>y<sub>R</sub> + x<sub>R</sub>y<sub>L</sub>) + x<sub>R</sub>y<sub>R</sub></code>
+
+  # Lecture 19 • 2017/03/28
+* Merge sort running time
+  * T(n) = execution time for size n = 2 * T(n/2) + n (2 sub calls + merge time)
+  * Binary Search T(n) = T(n/2) + 1
+  * Karatsuba T(n) = 3 * T(n/2) + n
+* Master Theorem – solves commond divide and conquer runtimes
+  * General: T(n) = a(Tn/b) + f(n)
+  * a &ge; 1: # of subproblems
+  * b > 0: factor by which the subproblem size decreases
+  * f(n): work to divide/merge subproblems
+* Recursion tree
+  * k: log<sub>b</sub>a
+  * log<sub>b</sub>n: # of levels
+  * a<sup>i</sup>: # of subproblems at level i
+  * n/b<sup>i</sup>: size of subproblem at  level i
+* Case 1 – cost dominated by cost of leaves
+  * If f(n) = O(n<sup>k – &epsilon;</sup>) for some &epsilon; > 0
+  * T(n) = &Theta;(n<sup>k</sup>)
+  * Eg T(n) = 3T(n/2) + n &rarr; T(n) = &Theta;(n<sup>log<sub>2</sub>3</sup>)
+* Case 2 – cost evenly distributed among levels
+  * If f(n) = &Theta;(n<sup>k</sup>log<sup>p</sup>n)
+  * T(n) = &Theta;(n<sup>k</sup>log<sup>p + 1</sup>n)
+  * Eg T(n) = 2T(n/2) + &Theta;(n logn) &rarr; T(n) = &Theta;(n log<sup>2</sup>n)
+* Case 3 – cost dominated by cost of root
+  * If f(n) = &Omega;(n<sup>k + &epsilon;</sup>) for some &epsilon; > 0) and if a * f(n/b) &le; c * f(n) for some c < 1 &forall; sufficiently large n (holds if f(n) = &Theta; (n<sup>k + &epsilon;</sup>))
+  * T(n) = &Theta;(f(n))
+  * Eg T(n) = 3T(n/4) + n<sup>5</sup> &rarr; T(n) = &Theta;(n<sup>5</sup>)
